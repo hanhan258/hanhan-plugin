@@ -60,7 +60,7 @@ export class jiami extends plugin {
  }
  //兽语加密
   async shouyu(e) {
-	let msg = e.msg.replace("兽语加密", "");
+	let msg = e.msg.replace(/^#?兽语加密/, "").trim();
 	let encode = encodeURIComponent(msg)//将文本转成url编码
 	let url = `http://ovooa.muban.plus/API/sho_u/?type=text&msg=${encode}`
 	let response = await fetch(url); //调用接口获取数据
@@ -95,7 +95,7 @@ export class jiami extends plugin {
   }
   //ping网站或ip
   async ping(e) {
-	let msg = e.msg.replace("ping ", "");
+	let msg = e.msg.replace(/^#?ping/, "").trim();
 	let encode = encodeURIComponent(msg)//将文本转成url编码
 	let url = `https://xian.txma.cn/API/sping.php?url=${encode}`
 	let response = await fetch(url); //调用接口获取数据
