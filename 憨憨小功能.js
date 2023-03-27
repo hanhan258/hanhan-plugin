@@ -42,10 +42,10 @@ export class jiami extends plugin {
 				},
 				{
 					/** 命令正则匹配 */
-          			reg: '^#?ping',
+          			reg: '^#?ping ',
           			/** 执行方法 */
           			fnc: 'ping'
-				}
+				},
 			]
 		});
   } 
@@ -95,7 +95,7 @@ export class jiami extends plugin {
   }
   //ping网站或ip
   async ping(e) {
-	let msg = e.msg.replace("ping", "");
+	let msg = e.msg.replace("ping ", "");
 	let encode = encodeURIComponent(msg)//将文本转成url编码
 	let url = `https://xian.txma.cn/API/sping.php?url=${encode}`
 	let response = await fetch(url); //调用接口获取数据
@@ -106,5 +106,4 @@ export class jiami extends plugin {
      sendmsg.push(res)
      e.reply(sendmsg)
   }
-  
 }
