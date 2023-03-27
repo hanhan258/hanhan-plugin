@@ -66,8 +66,10 @@ export class jiami extends plugin {
 	let response = await fetch(url); //调用接口获取数据
      let res = await response.text();
      let sendmsg = []
-     sendmsg.push(segment.at(e.user_id))
-     sendmsg.push(`\n`)
+     if (!this.e.isPrivate){
+		sendmsg.push(segment.at(e.user_id))
+		sendmsg.push(`\n`)
+	}
      sendmsg.push(res)
      e.reply(sendmsg)
   }
@@ -77,8 +79,10 @@ export class jiami extends plugin {
 	let response = await fetch(url); //调用接口获取数据
      let res = await response.text();
      let sendmsg = []
-     sendmsg.push(segment.at(e.user_id))
-     sendmsg.push(`\n`)
+     if (!this.e.isPrivate){
+		sendmsg.push(segment.at(e.user_id))
+		sendmsg.push(`\n`)
+	}
      sendmsg.push(res)
      e.reply(sendmsg)
   }
@@ -88,8 +92,10 @@ export class jiami extends plugin {
 	let response = await fetch(url); //调用接口获取数据
      let res = await response.text();
      let sendmsg = []
-     sendmsg.push(segment.at(e.user_id))
-     sendmsg.push(`\n`)
+     if (!this.e.isPrivate){
+		sendmsg.push(segment.at(e.user_id))
+		sendmsg.push(`\n`)
+	}
      sendmsg.push(res)
      e.reply(sendmsg)
   }
@@ -100,9 +106,11 @@ export class jiami extends plugin {
 	let url = `https://xian.txma.cn/API/sping.php?url=${encode}`
 	let response = await fetch(url); //调用接口获取数据
      let res = await response.text();
-     let sendmsg = []
-     sendmsg.push(segment.at(e.user_id))
-     sendmsg.push(`\n`)
+	 let sendmsg = []
+     if (!this.e.isPrivate){
+		sendmsg.push(segment.at(e.user_id))
+		sendmsg.push(`\n`)
+	}
      sendmsg.push(res)
      e.reply(sendmsg)
   }
