@@ -24,9 +24,21 @@ export class jiami extends plugin {
 				},
 				{
 					/** 命令正则匹配 */
-          			reg: '^#?兽语加密',
+          			reg: '^#?买家秀',
           			/** 执行方法 */
-          			fnc: 'shouyu'
+          			fnc: 'buyerShow'
+				},
+				{
+					/** 命令正则匹配 */
+          			reg: '^#?(兽语|猫语|喵语|狗语|动物语)加密',
+          			/** 执行方法 */
+          			fnc: 'shouyuEn'
+				},
+				{
+					/** 命令正则匹配 */
+          			reg: '^#?(兽语|猫语|喵语|狗语|动物语)解密',
+          			/** 执行方法 */
+          			fnc: 'shouyuDe'
 				},
 				{
 					/** 命令正则匹配 */
@@ -93,21 +105,89 @@ export class jiami extends plugin {
   } 
   //憨憨功能
   async hanhanHelp (e) {
-	  e.reply(`憨憨小功能：\n(#)兽语加密\n(#)兽语帮助\n(#)今天是几号\n(#)历史上的今天\n(#)ping (ip/域名)\n(#)摩斯加(解)密\n(#)url编(解)码\n(#)base64编(解)码`)
+	  e.reply(`憨憨小功能：\n(#)(兽语|猫语|喵语|狗语|动物语)加(解)密\n(#)兽语帮助\n(#)今天是几号\n(#)历史上的今天\n(#)ping (ip/域名)\n(#)摩斯加(解)密\n(#)url编(解)码\n(#)base64编(解)码`)
   }
   //兽语帮助
   async shouyuHelp (e) {
-    e.reply(`请发送：#兽语加密+要加密的文字\n或兽语加密+要加密的文字
-    例如：#兽语加密你好、兽语加密你好`)
+    e.reply(`请发送：\n#(兽语|猫语|喵语|狗语|动物语)加(解)密+要加(解)密的文字\n或(兽语|猫语|狗语|动物语)加(解)密+要加(解)密的文字\n例如：#(兽语|猫语|喵语|狗语|动物语)加密你好\n(兽语|猫语|喵语|狗语|动物语)加密你好`)
   }
  //兽语加密
-  async shouyu(e) {
-	 let msg = e.msg.replace(/^#?兽语加密/, "").trim();
-	 let encode = encodeURIComponent(msg)//将文本转成url编码
-	 let url = `http://ovooa.muban.plus/API/sho_u/?type=text&msg=${encode}`
-	 let response = await fetch(url); //调用接口获取数据
-     let res = await response.text();
-     let sendmsg = []
+  async shouyuEn(e) {
+	  let msg = e.msg;
+	  let encode;
+	  let url;
+	  let response;
+	  let res;
+	  let sendmsg = []
+	 if(msg.includes('兽语')){
+		 msg = e.msg.replace(/^#?兽语加密/, "").trim();;
+		 encode = encodeURIComponent(msg)//将文本转成url编码
+		 url = `https://www.sgtap.tk/API/shouyu.php?act=jm&content=${encode}&miyu=sy&type=text`
+		 response = await fetch(url); //调用接口获取数据
+		 res = await response.text();
+	 }
+	 if(msg.includes("猫语")||msg.includes("喵语")){
+		 msg = e.msg.replace(/^#?(猫语|喵语)加密/, "").trim();
+		 encode = encodeURIComponent(msg)//将文本转成url编码
+		 url = `https://www.sgtap.tk/API/shouyu.php?act=jm&content=${encode}&miyu=my&type=text`
+		 response = await fetch(url); //调用接口获取数据
+		 res = await response.text();
+	 }
+	 if(msg.includes("狗语")){
+		 msg = e.msg.replace(/^#?狗语加密/, "").trim();
+		 encode = encodeURIComponent(msg)//将文本转成url编码
+		 url = `https://www.sgtap.tk/API/shouyu.php?act=jm&content=${encode}&miyu=gy&type=text`
+		 response = await fetch(url); //调用接口获取数据
+		 res = await response.text();
+	 }
+	 if(msg.includes("动物语")){
+		 msg = e.msg.replace(/^#?动物语加密/, "").trim();
+		 encode = encodeURIComponent(msg)//将文本转成url编码
+		 url = `https://www.sgtap.tk/API/shouyu.php?act=jm&content=${encode}&miyu=dw&type=text`
+		 response = await fetch(url); //调用接口获取数据
+		 res = await response.text();
+	 }
+	 
+     sendmsg.push(res)
+     await this.reply(sendmsg, true)
+  }
+   //兽语解密
+  async shouyuDe(e) {
+	  let msg = e.msg;
+	  let encode;
+	  let url;
+	  let response;
+	  let res;
+	  let sendmsg = []
+	 if(msg.includes("兽语")){
+		 msg = e.msg.replace(/^#?兽语解密/, "").trim();
+		 encode = encodeURIComponent(msg)//将文本转成url编码
+		 url = `https://www.sgtap.tk/API/shouyu.php?act=py&content=${encode}&miyu=sy&type=text`
+		 response = await fetch(url); //调用接口获取数据
+		 res = await response.text();
+	 }
+	 if(msg.includes("猫语")||msg.includes("喵语")){
+		 msg = e.msg.replace(/^#?(猫语|喵语)解密/, "").trim();
+		 encode = encodeURIComponent(msg)//将文本转成url编码
+		 url = `https://www.sgtap.tk/API/shouyu.php?act=py&content=${encode}&miyu=my&type=text`
+		 response = await fetch(url); //调用接口获取数据
+		 res = await response.text();
+	 }
+	 if(msg.includes("狗语")){
+		 msg = e.msg.replace(/^#?狗语解密/, "").trim();
+		 encode = encodeURIComponent(msg)//将文本转成url编码
+		 url = `https://www.sgtap.tk/API/shouyu.php?act=py&content=${encode}&miyu=gy&type=text`
+		 response = await fetch(url); //调用接口获取数据
+		 res = await response.text();
+	 }
+	 if(msg.includes("动物语")){
+		 msg = e.msg.replace(/^#?动物语解密/, "").trim();
+		 encode = encodeURIComponent(msg)//将文本转成url编码
+		 url = `https://www.sgtap.tk/API/shouyu.php?act=py&content=${encode}&miyu=dw&type=text`
+		 response = await fetch(url); //调用接口获取数据
+		 res = await response.text();
+	 }
+	 
      sendmsg.push(res)
      await this.reply(sendmsg, true)
   }
