@@ -1,6 +1,7 @@
 import plugin from '../../lib/plugins/plugin.js'
 import fetch from 'node-fetch'
 import { segment } from 'oicq'
+import axios from "axios";
 
 
 //const reply = true
@@ -111,6 +112,22 @@ export class jiami extends plugin {
   async shouyuHelp (e) {
     e.reply(`请发送：\n#(兽语|猫语|喵语|狗语|动物语)加(解)密+要加(解)密的文字\n或(兽语|猫语|狗语|动物语)加(解)密+要加(解)密的文字\n例如：#(兽语|猫语|喵语|狗语|动物语)加密你好\n(兽语|猫语|喵语|狗语|动物语)加密你好`)
   }
+  //买家秀
+  async buyerShow(e){
+	  //接口地址
+	  let url = "https://wenxin110.top/api/seller_show";
+	  let msg = [];
+	  try {
+    		let response = await axios.get(url);
+    		msg.push(segment.image(response.data.imgurl));
+    		//发送消息
+    		this.reply(msg);
+  	  } catch (error) {
+    		console.error(error);
+  	  } 
+      
+      return true; //返回true 阻挡消息不再往下
+  }
  //兽语加密
   async shouyuEn(e) {
 	  let msg = e.msg;
@@ -193,7 +210,7 @@ export class jiami extends plugin {
   }
   //今天是几号
   async today(e) {
-	 let url = `https://ovooa.muban.plus/API/rl/api.php?type=text`
+	 let url = `https://ovooa.ybapi.cn/API/rl/api.php?type=text`
 	 let response = await fetch(url); //调用接口获取数据
      let res = await response.text();
      let sendmsg = []
@@ -202,7 +219,7 @@ export class jiami extends plugin {
   }
   //历史上的今天
   async history(e) {
-	 let url = `http://ovooa.muban.plus/API/lishi/api.php?n=10`
+	 let url = `https://ovooa.ybapi.cn/API/lishi/api.php?n=10`
 	 let response = await fetch(url); //调用接口获取数据
      let res = await response.text();
      let sendmsg = []
@@ -224,7 +241,9 @@ export class jiami extends plugin {
   async morseEn(e) {
 	let sendmsg = [];
 	let encode = e.msg.replace(/^#?(莫斯|摩斯)加密/, "").trim();
-	let url = `https://xiaobapi.top/api/xb/api/mesdm.php?type=en&msg=${encode}`
+	//下面接口二选一
+	//https://xiaobapi.top/api/xb/api/mesdm.php?type=en&msg=${encode}
+	let url = `http://www.plapi.tk/api/mesdm.php?type=%E5%8A%A0%E5%AF%86&msg=${encode}`
 	let response = await fetch(url); //调用接口获取数据
 	let res = await response.text();
 	sendmsg.push(res)
@@ -234,7 +253,9 @@ export class jiami extends plugin {
   async morseDe(e) {
 	let sendmsg = [];
 	let	encode = e.msg.replace(/^#?(莫斯|摩斯)解密/, "").trim();
-	let	url = `https://xiaobapi.top/api/xb/api/mesdm.php?type=de&msg=${encode}`
+	//下面接口二选一
+	//https://xiaobapi.top/api/xb/api/mesdm.php?type=de&msg=${encode}
+	let	url = `http://www.plapi.tk/api/mesdm.php?type=%E8%A7%A3%E5%AF%86&msg=${encode}`
 	let response = await fetch(url); //调用接口获取数据
 	let res = await response.text();
 	sendmsg.push(res)
