@@ -23,6 +23,12 @@ export class RussiaRoundPlatePlugin extends plugin {
           reg: '^#?开枪$',
           /** 执行方法 */
           fnc: 'shoot'
+        },
+        {
+          /** 命令正则匹配 */
+          reg: '^#?开枪$',
+          /** 执行方法 */
+          fnc: 'shoot'
         }
       ]
     })
@@ -51,14 +57,17 @@ export class RussiaRoundPlatePlugin extends plugin {
     let groupId = e.group_id
     let leftBullets = await redis.get(`HANHAN:ELS:${groupId}`)
     if (!leftBullets) {
-      return false
+      await this.start(e)
+      leftBullets = await redis.get(`HANHAN:ELS:${groupId}`)
     }
     let username = e.sender.card || e.sender.nickname
     leftBullets = parseInt(leftBullets)
     leftBullets--
     if (leftBullets <= 0 || Math.random() < 1 / leftBullets) {
       let group = await Bot.pickGroup(groupId)
-      let time = Math.floor(Math.random() * 30) * 60
+      let max = 300
+      let min = 60
+      let time = Math.floor(Math.random() * (max - min + 1)) + min
       await group.muteMember(e.sender.user_id, time)
       await e.reply(`【${username}】开了一枪，枪响了。\n恭喜【${username}】被禁言${time}秒\n本轮游戏结束。请使用#开盘 开启新一轮游戏`)
       await redis.del(`HANHAN:ELS:${groupId}`)
