@@ -3,7 +3,8 @@ import fetch from 'node-fetch'
 import { segment } from 'oicq'
 import axios from "axios";
 
-
+// token of https://ipinfo.io
+const token = ''
 //const reply = true
 export class jiami extends plugin {
   constructor () {	
@@ -229,10 +230,42 @@ export class jiami extends plugin {
   //ping网站或ip
   async ping(e) {
 	 let msg = e.msg.replace(/^#?ping/, "").trim();
+	 if (msg.match(/^(([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,6}:|([0-9a-fA-F]{1,4}:){1,5}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,4}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,5}|:)|:((:[0-9a-fA-F]{1,4}){1,6}|:))%?([0-9a-zA-Z]{1,})?$/)) {
+		 if (token) {
+			 let ipInfoRes = await fetch(`https://ipinfo.io/${msg}?token=${token}`)
+			 let ipInfo = await ipInfoRes.json()
+			 let res = `国家代码：${ipInfo.country}\n地区：${ipInfo.region}\n城市：${ipInfo.city}\n经纬度：${ipInfo.loc}\n运营商：${ipInfo.org}\n时区：${ipInfo.timezone}`
+			 await e.reply(res)
+			 return true
+		 } else {
+			 await e.reply('ping目前不支持ipv6地址，且未配置ip信息API')
+		 }
+	 }
 	 let encode = encodeURIComponent(msg)//将文本转成url编码
 	 let url = `https://xian.txma.cn/API/sping.php?url=${encode}`
 	 let response = await fetch(url); //调用接口获取数据
      let res = await response.text();
+	 if (token) {
+		 try {
+			 let ipLines = res.split('\n')
+			 let ipLine = ipLines[1]
+			 let ipAddr = ipLine.split('：')
+			 if (ipAddr.length > 1) {
+				 ipAddr = ipAddr[1]
+			 } else {
+				 ipAddr = ''
+			 }
+			 if (ipAddr) {
+				 let ipInfoRes = await fetch(`https://ipinfo.io/${ipAddr}?token=${token}`)
+				 let ipInfo = await ipInfoRes.json()
+				 ipLines[2] = `国家代码：${ipInfo.country}\n地区：${ipInfo.region}\n城市：${ipInfo.city}\n经纬度：${ipInfo.loc}\n运营商：${ipInfo.org}\n时区：${ipInfo.timezone}`
+				 res = ipLines.join('\n')
+			 }
+		 } catch (err) {
+			 logger.error(err)
+		 }
+	 }
+
 	 let sendmsg = []
      sendmsg.push(res)
      await this.reply(sendmsg, true)
