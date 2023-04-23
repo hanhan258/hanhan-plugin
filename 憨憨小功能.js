@@ -32,6 +32,12 @@ export class jiami extends plugin {
 				},
 				{
 					/** 命令正则匹配 */
+          			reg: '^#?mt',
+          			/** 执行方法 */
+          			fnc: 'mt'
+				},
+				{
+					/** 命令正则匹配 */
           			reg: '^#?(兽语|猫语|喵语|狗语|动物语)加密',
           			/** 执行方法 */
           			fnc: 'shouyuEn'
@@ -113,10 +119,19 @@ export class jiami extends plugin {
   async shouyuHelp (e) {
     e.reply(`请发送：\n#(兽语|猫语|喵语|狗语|动物语)加(解)密+要加(解)密的文字\n或(兽语|猫语|狗语|动物语)加(解)密+要加(解)密的文字\n例如：#(兽语|猫语|喵语|狗语|动物语)加密你好\n(兽语|猫语|喵语|狗语|动物语)加密你好`)
   }
+  //美腿
+   async mt(e){
+	  //接口地址
+	  
+    		//发送消息
+    		this.reply(segment.image(`http://cf228e76e6.hk02.hoomoon.cn/0/`));
+      
+      return true; //返回true 阻挡消息不再往下
+  }
   //买家秀
   async buyerShow(e){
 	  //接口地址
-	  let url = "https://wenxin110.top/api/seller_show";
+	  let url = "https://api.dzzui.com/api/imgtaobao?format=json";
 	  let msg = [];
 	  try {
     		let response = await axios.get(url);
