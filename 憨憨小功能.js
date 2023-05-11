@@ -4,7 +4,7 @@ import { segment } from 'oicq'
 import axios from "axios";
 
 // token of https://ipinfo.io
-const token = 'd557341e6cfb56'
+const token = ''
 //const reply = true
 export class jiami extends plugin {
   constructor () {	
@@ -35,6 +35,12 @@ export class jiami extends plugin {
           			reg: '^#?mt',
           			/** 执行方法 */
           			fnc: 'mt'
+				},
+				{
+					/** 命令正则匹配 */
+          			reg: '^#?随机(ai|AI)',
+          			/** 执行方法 */
+          			fnc: 'sjai'
 				},
 				{
 					/** 命令正则匹配 */
@@ -124,7 +130,15 @@ export class jiami extends plugin {
 	  //接口地址
 	  
     		//发送消息
-    		this.reply(segment.image(`http://cf228e76e6.hk02.hoomoon.cn/0/`));
+    		this.reply(segment.image(`http://lx.linxi.icu/0/`));
+      
+      return true; //返回true 阻挡消息不再往下
+  }
+  //随机ai
+   async sjai(e){
+	  //接口地址
+    		//发送消息
+    		this.reply(segment.image(`http://lx.linxi.icu/0/ai/`));
       
       return true; //返回true 阻挡消息不再往下
   }
