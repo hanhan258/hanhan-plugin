@@ -20,7 +20,7 @@ export class jiami extends plugin {
 			rule: [
 				{
 					/** 命令正则匹配 */
-          			reg: '^#?nav',
+          			reg: '#(nav|憨憨帮助)',
           			/** 执行方法 */
           			fnc: 'hanhanHelp'
 				},
