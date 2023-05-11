@@ -119,7 +119,7 @@ export class jiami extends plugin {
   } 
   //憨憨功能
   async hanhanHelp (e) {
-	  e.reply(`憨憨小功能：\n(#)(兽语|猫语|喵语|狗语|动物语)加(解)密\n(#)mt\n(#)买家秀\n(#)兽语帮助\n(#)今天是几号\n(#)历史上的今天\n(#)ping (ip/域名)\n(#)摩斯加(解)密\n(#)url编(解)码\n(#)base64编(解)码`)
+	  e.reply(`憨憨小功能：\n(#)(兽语|猫语|喵语|狗语|动物语)加(解)密\n(#)mt\n(#)买家秀\n(#)随机ai\n(#)兽语帮助\n(#)今天是几号\n(#)历史上的今天\n(#)ping (ip/域名)\n(#)摩斯加(解)密\n(#)url编(解)码\n(#)base64编(解)码`)
   }
   //兽语帮助
   async shouyuHelp (e) {
