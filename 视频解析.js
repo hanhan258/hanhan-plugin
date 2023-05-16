@@ -7,7 +7,7 @@ if (!global.segment) {
 }
 
 /**
- * 可有可无的，没啥意义的功能，像极了人生。另外，这个插件没有任何技术水平，完全是体力活。
+ * 可有可无的，没啥意义的功能，像极了人生。另外，这个插件没有任何技术含量，完全是体力活。
  * 超过100M的视频可能会发送失败，这似乎不是插件的问题。
  */
 
@@ -29,7 +29,7 @@ const baseUrl = 'https://douyin.vme50.vip'
  * @param e oicq传递的事件参数e
  */
 Bot.on("message", async (e) => {
-    //检查消息类型,text为文本消息类型，json为小程序或者卡片消息类型。如果是图片等其他消息，则返回主线程。
+    //检查消息类型,text为文本消息类型，json为小程序或者卡片消息类型。
     //console.log('debug', e.message)
     let msg
     e.message.forEach(element => {
@@ -43,8 +43,6 @@ Bot.on("message", async (e) => {
                 console.log('似乎解析不到需要的json对象的属性，注意json对象的属性名是否正确哦')
                 return false
             }
-        } else {
-            return false
         }
     })
     let matchUrl = msg?.match(/(https?:\/\/[^\s]+)/)
@@ -97,7 +95,7 @@ async function kuaishou(e, matchUrl) {
     console.log('[视频解析]快手视频', matchUrl)
     const d = Math.ceil(Math.random() * 255)
     const randomIp = '114.80.166.' + d
-    //带上cookie防滑块验证，或许能吧。
+    //带上cookie防止弹出滑块验证，或许能吧。
     const options = {
         headers: {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36",
@@ -109,40 +107,31 @@ async function kuaishou(e, matchUrl) {
         }
     }
     //直接跳转会404，既然url上有视频id，那么简单拼接一下吧。
-    let throwUserId
     if (matchUrl.includes('v.kuaishou.com')) {
         let againRes = (await fetch(matchUrl)).url
         let photoID = againRes.match(/\b\w{15}\b/)[0]
         matchUrl = 'https://www.kuaishou.com/short-video/' + photoID
-        //不想遍历json找作者id了，也从Url中挖了个过来......
-        throwUserId = againRes.match(/userId=(\w+)/)[1]
     }
-    //无法从这个链接中获得作者id，不想处理了，后面直接替换为Not found
+    //处理一下特殊的短链
     if (matchUrl.includes('www.kuaishou.com/f/')) {
         matchUrl = (await fetch(matchUrl)).url
-        //console.log(matchUrl)
     }
-    let response = await fetch(matchUrl, options)
+    let jsonObject, authorPropertyName, photoPropertyName
+    await fetch(matchUrl, options)
         .then(response => response.text())
-    //如果你觉得爬虫没水平，不要觉得，确实没水平。
-    const regex = /<script>window\.__APOLLO_STATE__=(.+?);\(function/s
-    const match = regex.exec(response)
-    if (!match) {
-        throw new Error('在响应内容中找不到正则匹配数据，可能触发了网站的反爬虫机制')
-    }
-    let jsonObject
-    try {
-        jsonObject = JSON.parse(match[1])
-        //console.log(jsonObject)
-    } catch (err) {
-        throw new Error('转换成json对象时发生错误，可能未获取到正确的网页数据')
-    }
-    const authorID = matchUrl.match(/authorId=(\w+)/)?.[1] || matchUrl.match(/userId=(\w+)/)?.[1] || throwUserId
-    const photoID = matchUrl.match(/\b\w{15}\b/) //作品id
-    const authorPropertyName = `VisionVideoDetailAuthor:${authorID}`
-    const photoPropertyName = `VisionVideoDetailPhoto:${photoID}`
-    const { photoUrl, caption, coverUrl, realLikeCount, viewCount, timestamp } = jsonObject.defaultClient[photoPropertyName]
-    const name = jsonObject.defaultClient[authorPropertyName]?.name
+        .then(response => {
+            try {
+                const jsonRegex = /<script>window\.__APOLLO_STATE__=(.+?);\(function/s
+                const matchJsonStr = response.match(jsonRegex)[1]
+                authorPropertyName = matchJsonStr.match(/VisionVideoDetailAuthor:\w{15}/)[0]    //包含作者id的属性名
+                photoPropertyName = matchJsonStr.match(/VisionVideoDetailPhoto:\w{15}/)[0]  //包含作品id的属性名
+                jsonObject = JSON.parse(matchJsonStr)
+            } catch (err) {
+                throw new Error('json字符串数据存在问题，可能触发了网站的反爬虫机制或者cookie失效。')
+            }
+        })
+    const { photoUrl, caption, coverUrl, realLikeCount, viewCount, timestamp, id } = jsonObject.defaultClient[photoPropertyName]
+    const name = jsonObject.defaultClient[authorPropertyName].name
     const pubdate = timesTamp(timestamp.toString().substring(0, 10))
     const titleStr = `标题：${caption.match(/^[^#\[\n]+/)}\n`
     const authorStr = `作者：${name ? name : 'Not found'}${' '.repeat(30 - (name ? name.toString() : 'Not found').length)}上传时间：${pubdate}\n`
@@ -156,7 +145,7 @@ async function kuaishou(e, matchUrl) {
         likeStr
     ])
     const dirPath = 'resources/videoRealUrl/kuaishou'
-    const filePath = await download(photoUrl, photoID, dirPath, matchUrl)
+    const filePath = await download(photoUrl, id, dirPath, matchUrl)
     return filePath
 }
 
@@ -208,9 +197,9 @@ async function bilibili(e, matchUrl) {
  * @returns 对象字面量
  */
 async function bilibiliRes(resUrl) {
-    console.log('[哔哩哔哩视频处理]', resUrl)
+    console.log('[哔哩哔哩视频解析]', resUrl)
     let response = await fetch(resUrl)
-    if (response.status == 404) {
+    if (response.status === 404) {
         throw new Error('Resource not found')
     } else {
         response = await response.json()
@@ -220,6 +209,7 @@ async function bilibiliRes(resUrl) {
     const aid = response.data.aid
     const cid = response.data.cid
     const newUrl = `https://api.bilibili.com/x/player/playurl?avid=${aid}&cid=${cid}&qn=16&type=mp4&platform=html5`
+    console.log(newUrl)
     let res = await fetch(newUrl)
     res = await res.json()
     const realUrl = res.data.durl[0].url
@@ -238,13 +228,12 @@ async function bilibiliRes(resUrl) {
  */
 async function littleWorld(e, matchUrl) {
     const initialState = await littleWorldRes(matchUrl)
-    const { createTime, content, poster, likeInfo, share, commentCount, musicInfo, cover } = initialState.feeds[0]
+    const { createTime, content, poster, likeInfo, share, commentCount, cover } = initialState.feeds[0]
     const pubdate = timesTamp(createTime.low)
     const titleStr = `标题：${content.match(/^[^#\[\n]+/)}\n`
     const authorStr = `作者：${poster.nick}${' '.repeat(32 - poster.nick.toString().length)}上传时间：${pubdate}\n`
     const likeStr = `喜欢：${likeInfo.count}${' '.repeat(32 - likeInfo.count.toString().length)}分享：${share.sharedCount}\n`
     const shareStr = `评论：${commentCount}`
-
     e.reply([
         segment.image(cover.picUrl),
         '\n',
@@ -277,21 +266,28 @@ async function littleWorldRes(resUrl) {
     const regex = /<script>window\.__INITIAL_STATE__=(.+?)<\/script>/s
     const match = regex.exec(textData)
     if (!match) {
-        throw new Error('未能从请求的响应中获得匹配数据')
+        throw new Error('未能从请求的响应内容中获得匹配数据')
     }
     const initialState = JSON.parse(match[1])
     return initialState
 }
 
 /**
- * 抖音视频处理
+ * 抖音视频
  * @param e oicq传递的事件参数e
  * @param {string} matchUrl 从消息中匹配到的Url
  * @returns 文件的下载路径
  */
 async function douyin(e, matchUrl) {
     let resUrl = baseUrl + '/api?url=' + matchUrl + '&minimal=false'
-    let data = await douyinRes(resUrl)
+    let data = await fetch(resUrl)
+        .then(response => {
+            if (response.status === 200) {
+                return response.json()
+            } else {
+                throw new Error('[抖音解析]解析失败，错误代码：', response.status)
+            }
+        })
     const pubdate = timesTamp(data.create_time)
     const { collect_count, comment_count, digg_count, share_count } = data.statistics
     const cover = data.cover_data.cover.url_list[0]
@@ -314,21 +310,6 @@ async function douyin(e, matchUrl) {
     const referer = 'https://www.douyin.com/'
     let filePath = await download(realUrl, videoID, dirPath, referer)
     return filePath
-}
-
-/**
- * 抖音视频解析
- * @param resUrl 需要解析的Url
- */
-async function douyinRes(resUrl) {
-    console.log('[抖音视频解析]', resUrl)
-    let response = await fetch(resUrl)
-    if (response.status === 200) {
-        response = await response.json()
-        return response
-    } else {
-        throw new Error('[抖音解析]解析失败，错误代码：', response.status)
-    }
 }
 
 /**
@@ -396,7 +377,7 @@ async function download(realUrl, videoID, dirPath, referer) {
     // const fileType = videoResponse.headers.get('Content-Type').split('/')[1] //文件类型
     // const fileLength = videoResponse.headers.get('Content-Length') //文件大小
     // if (fileLength > 104857600) {
-    //     console.log('[视频解析]文件大小超过100M，拒绝下载。防止出现死锁等问题。')
+    //     console.log('[视频解析]文件大小超过100M，拒绝下载。防止出现死锁或者内存溢出等问题。可能会造成死锁的测试视频：https://v.douyin.com/DoqMa43/')
     //     return false
     // }
     // const resultBlob = await videoResponse.blob()
