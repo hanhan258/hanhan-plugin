@@ -7,13 +7,13 @@ if (!global.segment) {
 }
 
 /**
- * 可有可无的，没啥意义的功能，像极了人生。另外，这个插件没有任何技术含量，完全是体力活。
- * 超过100M的视频可能会发送失败，这似乎不是插件的问题。
+ * 可有可无的，没啥意义的功能，像极了人生。
+ * 视频文件下载在resources/videoRealUrl，发送完毕后会自动删除。
  */
 
 /**
  * 快手解析Cookie。Cookie失效会爬取失败，记得及时更换。
- * 打开快手官网，按F12，点击Console/控制台，复制下一行代码进去，然后按回车。执行完毕后您的剪切板应该就存储了快手cookie。
+ * 打开快手官网，按F12，点击Console/控制台，复制下面这行代码进去，然后按回车。执行完毕后您的剪切板应该就存储了快手cookie。
  * copy(document.cookie.split(";").reduce((str, cookie) => (["didv", "did"].includes(cookie.split("=")[0].trim()) ? `${str}${cookie.trim()};` : str), '').slice(0, -1));
  */
 const Cookie = 'did=web_e76305cc2ec94709996662208eae31b8; didv=1682408511000'
@@ -26,6 +26,7 @@ const baseUrl = 'https://douyin.vme50.vip'
 
 /**
  * 视频解析
+ * 超过100M的视频可能会发送失败，这似乎不是插件的问题。
  * @param e oicq传递的事件参数e
  */
 Bot.on("message", async (e) => {
@@ -40,8 +41,7 @@ Bot.on("message", async (e) => {
                 const jsonObject = JSON.parse(element.data)
                 msg = jsonObject.meta.detail_1?.qqdocurl ?? jsonObject.meta.data?.feedInfo?.jumpUrl ?? jsonObject.meta.news?.jumpUrl ?? null
             } catch (err) {
-                console.log('似乎解析不到需要的json对象的属性，注意json对象的属性名是否正确哦')
-                return false
+                throw new Error('似乎解析不到需要的json对象的属性，注意json对象的属性名是否正确哦')
             }
         }
     })
@@ -51,39 +51,39 @@ Bot.on("message", async (e) => {
     } else {
         return false
     }
-    let filePath
     const bilibilUrls = ['b23.tv', 'www.bilibili.com', 'm.bilibili.com']
     const littleWorldUrls = ['xsj.qq.com']
     const douyinUrls = ['www.douyin.com', 'v.douyin.com', 'www.tiktok.com']
     const kuaishouUrls = ['www.kuaishou.com', 'v.kuaishou.com']
     if (bilibilUrls.some(url => matchUrl.includes(url))) {
-        filePath = await bilibili(e, matchUrl)
+        await bilibili(e, matchUrl)
     } else if (littleWorldUrls.some(url => matchUrl.includes(url))) {
-        filePath = await littleWorld(e, matchUrl)
+        await littleWorld(e, matchUrl)
     } else if (douyinUrls.some(url => matchUrl.includes(url))) {
-        filePath = await douyin(e, matchUrl)
+        await douyin(e, matchUrl)
     } else if (kuaishouUrls.some(url => matchUrl.includes(url))) {
-        filePath = await kuaishou(e, matchUrl)
+        await kuaishou(e, matchUrl)
     } else {
         return false
     }
-    if (!filePath) {
-        return false
-    }
-    // 停1秒再发送
-    setTimeout(async () => {
-        try {
-            await e.reply(segment.video(filePath))
-        } catch (error) {
-            delFile(filePath)
-            return true
-        }
-        // 停10秒再删除
-        setTimeout(async () => {
-            delFile(filePath)
-            return true
-        }, 10000)
-    }, 1000)
+    // 优化这个框架设计的大问题。因为可能存在需要发送视频以外的消息类型的情况，filePath的值为true时不好处理。
+    // if (!filePath) {
+    //     return false
+    // }
+    // // 停1秒再发送
+    // setTimeout(async () => {
+    //     try {
+    //         await e.reply(segment.video(filePath))
+    //     } catch (error) {
+    //         delFile(filePath)
+    //         return true
+    //     }
+    //     // 停10秒再删除
+    //     setTimeout(async () => {
+    //         delFile(filePath)
+    //         return true
+    //     }, 10000)
+    // }, 1000)
 })
 
 /**
@@ -109,7 +109,7 @@ async function kuaishou(e, matchUrl) {
     //直接跳转会404，既然url上有视频id，那么简单拼接一下吧。
     if (matchUrl.includes('v.kuaishou.com')) {
         let againRes = (await fetch(matchUrl)).url
-        let photoID = againRes.match(/\b\w{15}\b/)[0]
+        const photoID = againRes.match(/\b\w{15}\b/)[0]
         matchUrl = 'https://www.kuaishou.com/short-video/' + photoID
     }
     //处理一下特殊的短链
@@ -122,10 +122,10 @@ async function kuaishou(e, matchUrl) {
         .then(response => {
             try {
                 const jsonRegex = /<script>window\.__APOLLO_STATE__=(.+?);\(function/s
-                const matchJsonStr = response.match(jsonRegex)[1]
+                const matchJsonStr = response.match(jsonRegex)[1]   //匹配json字符串
                 authorPropertyName = matchJsonStr.match(/VisionVideoDetailAuthor:\w{15}/)[0]    //包含作者id的属性名
                 photoPropertyName = matchJsonStr.match(/VisionVideoDetailPhoto:\w{15}/)[0]  //包含作品id的属性名
-                jsonObject = JSON.parse(matchJsonStr)
+                jsonObject = JSON.parse(matchJsonStr)   //将json字符串转换成对象
             } catch (err) {
                 throw new Error('json字符串数据存在问题，可能触发了网站的反爬虫机制或者cookie失效。')
             }
@@ -133,8 +133,8 @@ async function kuaishou(e, matchUrl) {
     const { photoUrl, caption, coverUrl, realLikeCount, viewCount, timestamp, id } = jsonObject.defaultClient[photoPropertyName]
     const name = jsonObject.defaultClient[authorPropertyName].name
     const pubdate = timesTamp(timestamp.toString().substring(0, 10))
-    const titleStr = `标题：${caption.match(/^[^#\[\n]+/)}\n`
-    const authorStr = `作者：${name ? name : 'Not found'}${' '.repeat(30 - (name ? name.toString() : 'Not found').length)}上传时间：${pubdate}\n`
+    const titleStr = `标题：${caption}\n`
+    const authorStr = `作者：${name}${' '.repeat(30 - name.toString().length)}上传时间：${pubdate}\n`
     const likeStr = `喜欢：${realLikeCount}${' '.repeat(30 - realLikeCount.toString().length)}播放：${viewCount}`
     e.reply([
         segment.image(coverUrl),
@@ -146,7 +146,7 @@ async function kuaishou(e, matchUrl) {
     ])
     const dirPath = 'resources/videoRealUrl/kuaishou'
     const filePath = await download(photoUrl, id, dirPath, matchUrl)
-    return filePath
+    await sendVideo(e, filePath)
 }
 
 /**
@@ -159,7 +159,7 @@ async function bilibili(e, matchUrl) {
     let bvid = matchUrl.match(/BV\w{10}/)
     //兼容小程序
     if (!bvid) {
-        const againRes = (await fetch(matchUrl)).url
+        let againRes = (await fetch(matchUrl)).url
         bvid = againRes.match(/BV\w{10}/)
     }
     const resUrl = 'https://api.bilibili.com/x/web-interface/view?bvid=' + bvid
@@ -188,7 +188,7 @@ async function bilibili(e, matchUrl) {
     const dirPath = 'resources/videoRealUrl/bilibili'
     const referer = 'https://www.bilibili.com/'
     const filePath = await download(res.realUrl, bvid, dirPath, referer)
-    return filePath
+    await sendVideo(e, filePath)
 }
 
 /**
@@ -248,7 +248,7 @@ async function littleWorld(e, matchUrl) {
     const dirPath = 'resources/videoRealUrl/littleWorld'
     const referer = 'https://xsj.qq.com/'
     const filePath = await download(realUrl, videoID, dirPath, referer)
-    return filePath
+    await sendVideo(e, filePath)
 }
 
 /**
@@ -258,7 +258,7 @@ async function littleWorld(e, matchUrl) {
  */
 async function littleWorldRes(resUrl) {
     console.log('[微视视频解析]', resUrl)
-    const response = await fetch(resUrl)
+    let response = await fetch(resUrl)
     if (!response.ok) {
         throw new Error(`获取数据失败，状态代码: ${response.status}`)
     }
@@ -279,13 +279,14 @@ async function littleWorldRes(resUrl) {
  * @returns 文件的下载路径
  */
 async function douyin(e, matchUrl) {
-    let resUrl = baseUrl + '/api?url=' + matchUrl + '&minimal=false'
+    const resUrl = baseUrl + '/api?url=' + matchUrl + '&minimal=false'
+    console.log('抖音视频解析', resUrl)
     let data = await fetch(resUrl)
         .then(response => {
             if (response.status === 200) {
                 return response.json()
             } else {
-                throw new Error('[抖音解析]解析失败，错误代码：', response.status)
+                throw new Error(`[抖音解析]解析失败，错误代码：${response.status}`)
             }
         })
     const pubdate = timesTamp(data.create_time)
@@ -295,21 +296,38 @@ async function douyin(e, matchUrl) {
     const authorStr = `作者：${data.author.nickname}${' '.repeat(32 - data.author.nickname.toString().length)}上传时间：${pubdate}\n`
     const likeStr = `喜欢：${digg_count}${' '.repeat(32 - digg_count.toString().length)}分享：${share_count}\n`
     const favoriteStr = `收藏：${collect_count}${' '.repeat(32 - collect_count.toString().length)}评论：${comment_count}`
+    let mediaType
+    if (!data.video_data?.nwm_video_url_HQ) {
+        mediaType = '抖音短笺\n'
+    } else {
+        mediaType = '抖音视频\n'
+    }
     e.reply([
         segment.image(cover),
         '\n',
-        '抖音视频\n',
+        mediaType,
         titleStr,
         authorStr,
         likeStr,
         favoriteStr
     ])
+    //简单的兼容一下抖音短笺，然后跑路。
+    if (!data.video_data?.nwm_video_url_HQ) {
+        let array = []
+        const imageArray = data.image_data.no_watermark_image_list
+        for (const img of imageArray) {
+            array.push(segment.image(img));
+        }
+        await e.reply(array)
+        //为了这个函数的调用者能够处理这个true，我不得不重构部分逻辑。
+        return true
+    }
     const dirPath = 'resources/videoRealUrl/douyin'
     const realUrl = data.video_data.nwm_video_url_HQ
     const videoID = data.aweme_id
     const referer = 'https://www.douyin.com/'
     let filePath = await download(realUrl, videoID, dirPath, referer)
-    return filePath
+    await sendVideo(e, filePath)
 }
 
 /**
@@ -377,7 +395,7 @@ async function download(realUrl, videoID, dirPath, referer) {
     // const fileType = videoResponse.headers.get('Content-Type').split('/')[1] //文件类型
     // const fileLength = videoResponse.headers.get('Content-Length') //文件大小
     // if (fileLength > 104857600) {
-    //     console.log('[视频解析]文件大小超过100M，拒绝下载。防止出现死锁或者内存溢出等问题。可能会造成死锁的测试视频：https://v.douyin.com/DoqMa43/')
+    //     console.log('[视频解析]文件大小超过100M，拒绝下载。防止出现死锁或者内存溢出等问题。')
     //     return false
     // }
     // const resultBlob = await videoResponse.blob()
@@ -430,4 +448,27 @@ function timesTamp(pubdate) {
     const seconds = dateObj.getSeconds(); // 获取秒数
     const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}` // 将时间转换为字符串格式
     return formattedDate
+}
+
+/**
+ * 发送视频
+ * @param e oicq的事件传递参数e。
+ * @param filePath 视频文件的路径
+ * @returns 布尔值
+ */
+async function sendVideo(e, filePath) {
+    try {
+        await e.reply(segment.video(filePath))
+    } catch (error) {
+        delFile(filePath)
+        throw new Error(`${error}\n视频发送失败，可能是视频文件太大，总之不可能是本插件的问题！你可以注释掉delFile(filePath)debug一下看看。`)
+    }
+    delFile(filePath)
+    return true
+
+    // 停1秒再删除。
+    // setTimeout(async () => {
+    //     delFile(filePath)
+    //     return true
+    // }, 1000)
 }
