@@ -32,6 +32,12 @@ export class jiami extends plugin {
 				},
 				{
 					/** 命令正则匹配 */
+          			reg: '^#?发癫',
+          			/** 执行方法 */
+          			fnc: 'fd'
+				},
+				{
+					/** 命令正则匹配 */
           			reg: '^#?mt',
           			/** 执行方法 */
           			fnc: 'mt'
@@ -119,7 +125,7 @@ export class jiami extends plugin {
   } 
   //憨憨功能
   async hanhanHelp (e) {
-	  e.reply(`憨憨小功能：\n(#)(兽语|猫语|喵语|狗语|动物语)加(解)密\n(#)mt\n(#)买家秀\n(#)随机ai\n(#)兽语帮助\n(#)今天是几号\n(#)历史上的今天\n(#)ping (ip/域名)\n(#)摩斯加(解)密\n(#)url编(解)码\n(#)base64编(解)码`)
+	  e.reply(`憨憨小功能：\n(#)(兽语|猫语|喵语|狗语|动物语)加(解)密\n(#)mt\n(#)买家秀\n(#)随机ai\n(#)兽语帮助\n(#)发癫(名字)\n(#)今天是几号\n(#)历史上的今天\n(#)ping (ip/域名)\n(#)摩斯加(解)密\n(#)url编(解)码\n(#)base64编(解)码`)
   }
   //兽语帮助
   async shouyuHelp (e) {
@@ -141,6 +147,19 @@ export class jiami extends plugin {
     		this.reply(segment.image(`http://lx.linxi.icu/0/ai/`));
       
       return true; //返回true 阻挡消息不再往下
+  }
+    //发癫
+   async fd(e){
+	let sendmsg = [];
+	let encode = e.msg.replace(/^#?发癫/, "").trim();
+
+	let url = `https://ybapi.cn/API/fd.php?name=${encode}`
+	let response = await fetch(url); //调用接口获取数据
+	let res = await response.text();
+	let result1 = res.replace(/\\|，/g, ',');
+	let result2 = result1.replace(/n/g, "");
+	sendmsg.push(result2)
+	await this.reply(sendmsg, true)
   }
   //买家秀
   async buyerShow(e){
