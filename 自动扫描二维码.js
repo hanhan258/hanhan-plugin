@@ -47,10 +47,10 @@ export class qrcode extends plugin {
     for (let y = 0; y < height; y++) {
       for (let x = 0; x < width; x++) {
         const rgba = Jimp.intToRGBA(image.getPixelColor(x, y))
-        imageData[index++] = rgba.r
-        imageData[index++] = rgba.g
-        imageData[index++] = rgba.b
-        imageData[index++] = rgba.a
+        imageData[index++] = rgba.r // 红色通道
+        imageData[index++] = rgba.g // 绿色通道
+        imageData[index++] = rgba.b // 蓝色通道
+        imageData[index++] = rgba.a // 透明度通道
       }
     }
     //console.log(imageData)
