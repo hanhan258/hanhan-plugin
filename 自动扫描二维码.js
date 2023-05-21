@@ -42,15 +42,15 @@ export class qrcode extends plugin {
     const height = image.getHeight()
     //创建一个数组来存储像素数据，根据JSQR文档 The length of this array should be 4 * width * height
     const imageData = new Uint8ClampedArray(4 * width * height)
-    //操作像素
+    //操作像素。像素通道的位置是连续的，且按照约定的顺序依次存储在数组中。
     let index = 0
     for (let y = 0; y < height; y++) {
       for (let x = 0; x < width; x++) {
         const rgba = Jimp.intToRGBA(image.getPixelColor(x, y))
-        imageData[index++] = rgba.r // 红色通道
-        imageData[index++] = rgba.g // 绿色通道
-        imageData[index++] = rgba.b // 蓝色通道
-        imageData[index++] = rgba.a // 透明度通道
+        imageData[index++] = rgba.r
+        imageData[index++] = rgba.g
+        imageData[index++] = rgba.b
+        imageData[index++] = rgba.a
       }
     }
     //console.log(imageData)
