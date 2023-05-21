@@ -2,13 +2,13 @@ import Jimp from "jimp"
 import jsQR from "jsqr"
 
 /**
- * 又一个使用率极低的插件，没什么技术含量，只会用轮子，代码全靠cv，有手就行，没手也行。
- * 建议不要使用这个插件。如果您在使用过程中有任何不适，请立即卸载本插件。
+ * 同样是可有可无的功能，没什么技术含量，只会用轮子。代码全靠cv，有手就行，没手也行。
+ * 如果您在使用过程中有任何不适，请立即卸载本插件。
  */
 export class qrcode extends plugin {
   constructor() {
     super({
-      name: '二维码扫描',
+      name: '自动扫描二维码',
       dsc: '简单开发示例',
       event: 'message',
       priority: 5000,
@@ -31,8 +31,9 @@ export class qrcode extends plugin {
     //获取哈希值
     const regex = /-(\w{32})\//
     const hash = imageUrl.match(regex)[1]
-    if (await redis.get(`二维码扫描失败${hash}`)) {
-      //console.log(`二维码扫描失败${hash}`)
+    if (await redis.get(`Yz:qrcode${hash}`)) {
+      //console.log('[二维码扫描]重置缓存时间')
+      await redis.set(`Yz:qrcode${hash}`, '0', 'EX', 24 * 60 * 60)
       return false
     }
     //cv from https://www.npmjs.com/package/jimp
@@ -59,7 +60,7 @@ export class qrcode extends plugin {
       //console.log("Found QR code", code)
       this.e.reply(`二维码扫描：${code.data}`)
     } else {
-      await redis.set(`二维码扫描失败${hash}`, 'unreadable')
+      await redis.set(`Yz:qrcode${hash}`, '0', 'EX', 24 * 60 * 60)
     }
   }
 }
