@@ -3,8 +3,7 @@ import Jimp from "jimp"
 import jsQR from "jsqr"
 
 /**
- * 同样是可有可无的功能，没什么技术含量，只会用轮子。代码全靠cv，有手就行，没手也行。
- * 如果您在使用过程中有任何不适，请立即卸载本插件。
+ * 一个很简单的插件，一看就知道作者很菜对吧。
  */
 export class qrcode extends plugin {
   constructor() {
@@ -56,7 +55,7 @@ export class qrcode extends plugin {
     //console.log(imageData)
     //cv from https://www.npmjs.com/package/jsqr
     const code = jsQR(imageData, width, height)
-    if (code) {
+    if (code?.data) {
       //console.log("Found QR code", code)
       this.e.reply(`二维码扫描：${code.data}`)
     } else {
