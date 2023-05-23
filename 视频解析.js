@@ -44,6 +44,7 @@ Bot.on("message", async (e) => {
                 break
             } catch (err) {
                 console.log('似乎解析不到需要的json对象的属性，注意json对象的属性名是否正确哦')
+                break
             }
         }
     }
@@ -160,6 +161,11 @@ async function bilibili(e, matchUrl) {
     if (!bvid) {
         const againRes = (await fetch(matchUrl)).url
         bvid = againRes.match(/BV\w{10}/)
+        //适配av号
+        if(!bvid){
+            const res =  await (await fetch(`https://api.bilibili.com/x/web-interface/archive/stat?aid=${againRes.match(/av(\d{9})/)[1]}`)).json()
+            bvid = res.data.bvid
+        }
     }
     const resUrl = 'https://api.bilibili.com/x/web-interface/view?bvid=' + bvid
     const res = await bilibiliRes(resUrl)
@@ -207,7 +213,7 @@ async function bilibiliRes(resUrl) {
     //get API
     const aid = response.data.aid
     const cid = response.data.cid
-    const newUrl = `https://api.bilibili.com/x/player/playurl?avid=${aid}&cid=${cid}&qn=16&type=mp4&platform=html5`
+    const newUrl = `https://api.bilibili.com/x/player/playurl?avid=${aid}&cid=${cid}`
     console.log(newUrl)
     let res = await fetch(newUrl)
     res = await res.json()
@@ -352,36 +358,36 @@ async function download(realUrl, videoID, dirPath, referer) {
             .get(realUrl, options, (res) => {
                 if (res.statusCode === 302) {
                     if (redirectCount >= 5) {
-                        reject(new Error('重定向次数过多，下载失败'));
+                        reject(new Error('重定向次数过多，下载失败'))
                     }
-                    redirectCount++;
-                    const redirectUrl = res.headers.location;
-                    resolve(download(redirectUrl, videoID, dirPath, referer));
+                    redirectCount++
+                    const redirectUrl = res.headers.location
+                    resolve(download(redirectUrl, videoID, dirPath, referer))
                 } else if (res.statusCode === 200) {
-                    const fileType = res.headers['content-type'].split('/')[1]; //文件类型
+                    const fileType = res.headers['content-type'].split('/')[1] //文件类型
                     if (fileType === 'json') {
-                        reject(new Error('解析到一个json文件'));
+                        reject(new Error('解析到一个json文件'))
                     }
-                    const filePath = path.join(dirPath, `${videoID}.${fileType}`);
+                    const filePath = path.join(dirPath, `${videoID}.${fileType}`)
                     // 创建可写流并写入文件
-                    const fileStream = fs.createWriteStream(filePath);
-                    res.pipe(fileStream);
+                    const fileStream = fs.createWriteStream(filePath)
+                    res.pipe(fileStream)
                     fileStream
                         .on('finish', () => {
-                            console.log('文件下载完成');
-                            resolve(filePath);
+                            console.log('文件下载完成')
+                            resolve(filePath)
                         })
                         .on('error', (err) => {
-                            reject(new Error(`下载发生错误：${err.message}`));
-                        });
+                            reject(new Error(`下载发生错误：${err.message}`))
+                        })
                 } else {
-                    reject(new Error(`下载失败，错误代码：${res.statusCode}`));
+                    reject(new Error(`下载失败，错误代码：${res.statusCode}`))
                 }
             })
             .on('error', (err) => {
-                reject(new Error(`下载发生错误：${err.message}`));
-            });
-    });
+                reject(new Error(`下载发生错误：${err.message}`))
+            })
+    })
 
     // let videoResponse = await fetch(realUrl, {
     //     headers: {
