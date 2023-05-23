@@ -153,12 +153,10 @@ export class jiami extends plugin {
 	let sendmsg = [];
 	let encode = e.msg.replace(/^#?发癫/, "").trim();
 
-	let url = `https://ybapi.cn/API/fd.php?name=${encode}`
-	let response = await fetch(url); //调用接口获取数据
-	let res = await response.text();
-	let result1 = res.replace(/\\|，/g, ',');
-	let result2 = result1.replace(/n/g, "");
-	sendmsg.push(result2)
+	let url = `https://xiaobapi.top/api/xb/api/onset.php?name=${encode}`
+	let response = await axios.get(url); //调用接口获取数据
+	let res =response.data.data;
+	sendmsg.push(res)
 	await this.reply(sendmsg, true)
   }
   //买家秀
