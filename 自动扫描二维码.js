@@ -4,6 +4,8 @@ import jsQR from "jsqr"
 
 /**
  * 一个很简单的插件，一看就知道作者很菜对吧。
+ * 实测使用本插件可能很容易超出PM2默认512M内存限制，主要原因可能在于jimp库处理图片时的内存占用。您可以尝试将config/pm2/pm2.json里面的max_memory_restart字段的值改成1G，例如"max_memory_restart": "1G"。
+ * 如果您对系统稳定性要求特别高，不建议使用本插件。本插件属于娱乐性质，给Bot增加一些没用的功能，不应当投入于生产力环境使用。
  */
 export class qrcode extends plugin {
   constructor() {
@@ -54,12 +56,14 @@ export class qrcode extends plugin {
     }
     //console.log(imageData)
     //cv from https://www.npmjs.com/package/jsqr
-    const code = jsQR(imageData, width, height)
+    const code = await jsQR(imageData, width, height, { dontInvert: true })
     if (code?.data) {
       //console.log("Found QR code", code)
       this.e.reply(`二维码扫描：${code.data}`)
+      return true
     } else {
       await redis.set(`Yz:qrcode${hash}`, '0', 24 * 60 * 60)
+      return false
     }
   }
 }
