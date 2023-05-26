@@ -162,8 +162,8 @@ async function bilibili(e, matchUrl) {
         const againRes = (await fetch(matchUrl)).url
         bvid = againRes.match(/BV\w{10}/)
         //适配av号
-        if(!bvid){
-            const res =  await (await fetch(`https://api.bilibili.com/x/web-interface/archive/stat?aid=${againRes.match(/av(\d{9})/)[1]}`)).json()
+        if (!bvid) {
+            const res = await (await fetch(`https://api.bilibili.com/x/web-interface/archive/stat?aid=${againRes.match(/av(\d{9})/)[1]}`)).json()
             bvid = res.data.bvid
         }
     }

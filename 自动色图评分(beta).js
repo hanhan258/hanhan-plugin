@@ -19,7 +19,6 @@ export class nsfwImageCheck extends plugin {
       dsc: '简单开发示例',
       event: 'message',
       priority: 5050,
-      logs: false,
       rule: [
         {
           fnc: 'nsfwImageCheck'
@@ -43,8 +42,8 @@ export class nsfwImageCheck extends plugin {
       return false
     }
 
-    const picBuffer = await getImageBuffer(imageUrl)
-    const uint8Array = new Uint8Array(picBuffer)
+    const buffer = await getImageBuffer(imageUrl)
+    const uint8Array = new Uint8Array(buffer)
 
     // const pic = await axios.get(imageUrl, {
     //   responseType: 'arraybuffer',
