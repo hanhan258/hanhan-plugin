@@ -3,12 +3,16 @@
 ## 安装
 
 > 下载插件或者复制插件里面的代码，然后放在example文件夹内，然后安装依赖
+> 
+> 如果条件允许，建议将 config/pm2/pm2.json `max_memory_restart` 字段的值改为`1G`，实测自动扫描二维码功能和自动色图评分功能会占用较高内存。
 
 ## 安装依赖
 
 因为买家秀用到了`axios`，所以要安装这个依赖，在云崽根目录执行`pnpm install axios -w`，如果你之前装过，可以跳过
 
 自动扫描二维码功能用到了`jimp`和`jsqr`这两个库，请在云崽根目录执行`pnpm i jimp jsqr -w`安装依赖
+
+自动色图评分（beta）需要`@tensorflow/tfjs-node`和`nsfwjs`这两个库，请在云崽根目录执行`pnpm i @tensorflow/tfjs-node nsfwjs -w`安装依赖。装不上的话就别折腾了，这个插件对服务器性能要求比较高。
 
 安装完依赖之后，重启机器人，就可以食用了
 
