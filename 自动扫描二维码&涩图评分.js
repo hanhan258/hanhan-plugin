@@ -77,6 +77,7 @@ export class autoCheck extends plugin {
 
   async nsfwImageCheck(buffer, imageUrl) {
     // const uint8Array = new Uint8Array(buffer)
+    //load()是从nsfwjs的S3对象存储中加载的模型（只是加载模型，推演还是用你的CPU），是否稳定我也不知道，可以自己研究一下本地部署。
     const model = await nsfw.load()
     const image = await tf.node.decodeImage(buffer, 3)
     const predictions = await model.classify(image)
