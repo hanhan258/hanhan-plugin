@@ -20,7 +20,7 @@ const recallQR = false
 
 //涩图转发，监听到nsfw图片后转发给预设QQ号或者群号。postMethod可选的值为private和group，前者表示私聊发送，后者群聊发送。postNum填需要通知的QQ号或者群号，留空则关闭此功能。
 const postMethod = 'group'
-const postNum = [825788326] //虽然用的是数组，但是最多只能输入一个号码
+const postNum = [] //虽然用的是数组，但是最多只能输入一个号码
 
 export class autoCheck extends plugin {
   constructor() {
