@@ -10,7 +10,7 @@ import https from 'https'
  * 这里提供了两种操作思路，一种是官方示例使用的axios方法，另一种是nodejs内置https.get方法。我认为https.get()的操作思路与自动扫描二维码类似，所以使用了https.get()
  * 详见https://www.npmjs.com/package/nsfwjs#node-js-app
  * 如果同时使用自动扫描二维码和自动色图评分，或许你应该在图片处理上共用一套逻辑。
- * 实测bot内存占用多次超过1G，这是pm2默认的512M分分钟自动重启的节奏。
+ * 实测明确存在内存泄漏现象，您应该自己思考是否使用这个插件。可以尝试将config/pm2/pm2.json文件的max_memory_restart字段的值改成1G，例如"max_memory_restart": "1G"，小鸡可能还需要修改一下内核参数。或许我们应该白嫖huggingface的算力。
  */
 export class nsfwImageCheck extends plugin {
   constructor() {
@@ -30,10 +30,15 @@ export class nsfwImageCheck extends plugin {
   async nsfwImageCheck() {
     // 检查消息类型
     // console.log('debug', this.e.message)
-    if (this.e.message[0].type !== 'image' || !this.e.message[0].url) {
+    // if (this.e.message[0].type !== 'image' || !this.e.message[0].url) {
+    //   return false
+    // }
+    // const imageUrl = this.e.message[0].url
+
+    const imageUrl = this.e.message.find(msg => msg.type === 'image')?.url || null
+    if (!imageUrl) {
       return false
     }
-    const imageUrl = this.e.message[0].url
     const regex = /-(\w{32})\//
     const hash = imageUrl.match(regex)[1]
     if (await redis.exists(`Yz:nsfwCheck:${hash}`)) {
@@ -52,8 +57,6 @@ export class nsfwImageCheck extends plugin {
     const model = await nsfw.load()
 
     const image = await tf.node.decodeImage(uint8Array, 3)
-
-    // const image = await tf.node.decodeImage(pic.data,3)
 
     const predictions = await model.classify(image)
     image.dispose() // 张量的内存必须显式地进行管理（仅仅使 tf.Tensor 超出范围不足以释放其内存）。意思是别删掉这一行！
