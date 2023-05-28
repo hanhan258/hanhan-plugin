@@ -19,8 +19,8 @@ const recall = false
 const recallQR = false
 
 //涩图转发，监听到nsfw图片后转发给预设QQ号或者群号。postMethod可选的值为private和group，前者表示私聊发送，后者群聊发送。postNum填需要通知的QQ号或者群号，留空则关闭此功能。
-const postMethod = 'private'
-const postNum = [] //虽然用的是数组，但是最多只能输入一个号码
+const postMethod = 'group'
+const postNum = [825788326] //虽然用的是数组，但是最多只能输入一个号码
 
 export class autoCheck extends plugin {
   constructor() {
@@ -31,10 +31,29 @@ export class autoCheck extends plugin {
       priority: 5000,
       rule: [
         {
+          reg: '^#?图片安全$',
+          fnc: 'isSafety'
+        },
+        {
           fnc: 'autoCheck'
         }
       ]
     })
+  }
+
+  async isSafety() {
+    console.log('debug', this.e.message)
+    const imageUrl = this.e.message.find(msg => msg.type === 'image')?.url || null
+    if (!imageUrl) {
+      // 主要是不想处理历史对话的逻辑了
+      await this.e.reply('请在消息中带上图片，不要引用回复。')
+      return true
+    }
+    const regex = /-(\w{32})\//
+    const hash = imageUrl.match(regex)[1]
+    await redis.set(`Yz:autoCheck:${hash}`, '0')
+    await this.e.reply('done!')
+    return true
   }
 
   async autoCheck() {
