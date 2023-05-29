@@ -12,9 +12,7 @@
 
 自动扫描二维码功能用到了`jimp`和`jsqr`这两个库，请在云崽根目录执行`pnpm i jimp jsqr -w`安装依赖
 
-自动色图评分（beta）需要`@tensorflow/tfjs-node`和`nsfwjs`这两个库，请在云崽根目录执行`pnpm i @tensorflow/tfjs-node nsfwjs -w`安装依赖。装不上的话就别折腾了，这个插件对服务器性能要求比较高。明确存在内存泄露现象，不建议小白使用。
-
-图片审查是自动扫描二维码和自动色图评分的合体，需要安装多个依赖，请在云崽根目录执行`pnpm i jimp jsqr @tensorflow/tfjs-node nsfwjs -w`实机测试2C2G小鸡在群聊高峰期不太稳定，明确存在内存泄露现象，不建议小白使用。
+自动色图评分（beta）需要`@tensorflow/tfjs-node`和`nsfwjs`这两个库，请在云崽根目录执行`pnpm i @tensorflow/tfjs-node nsfwjs -w`安装依赖。装不上的话就别折腾了，这个插件对服务器性能要求比较高。
 
 安装完依赖之后，重启机器人，就可以食用了
 
