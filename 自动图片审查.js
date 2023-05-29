@@ -4,6 +4,7 @@ import jsQR from "jsqr"
 import tf from "@tensorflow/tfjs-node"
 import nsfw from "nsfwjs"
 import https from 'https'
+import fs from "fs"
 
 /**
  * 需要安装依赖``` pnpm i jimp jsqr @tensorflow/tfjs-node nsfwjs -w ```
@@ -20,6 +21,13 @@ const recallQR = false
 //涩图转发，监听到nsfw图片后转发给预设QQ号或者群号。postMethod可选的值为private或者group，前者表示私聊发送，后者群聊发送。postNum填需要通知的QQ号或者群号，留空则关闭此功能。
 const postMethod = 'group'
 const postNum = [] //虽然用的是数组，但是最多只能输入一个号码
+
+/**
+ * nsfw检测模型路径，模型不存在则加载联网模型，“.”表示云崽根目录。一个文件夹内应包含一个model.json文件和若干个二进制文件。
+ * 模型下载地址：https://github.com/GantMan/nsfw_model/releases，经过少量样本对照，Mar 4, 2020 的 nsfw_mobilenet_v2_140_224.zip 135 MB 版本审查的准确率更高，
+ * 你只需要选择其中一个二进制模型使用即可，参考下方路径。
+ */
+const modelPath = './web_model_quantized/model.json'
 
 let loadedModel = null
 export class autoCheck extends plugin {
@@ -206,8 +214,21 @@ async function getImageBuffer(imageUrl) {
 
 async function loadModel() {
   if (!loadedModel) {
-    // load()是从nsfwjs的S3对象存储中加载的模型，是否稳定我也不知道，可以自己研究一下从本地加载模型。实测node18从本地加载模型失败。
-    loadedModel = await nsfw.load()
+    const modelExists = fs.existsSync(modelPath)
+    if (modelExists) {
+      // 如果模型已存在，则加载本地模型
+      logger.info('[图片审查]模型存在，尝试载入本地模型。')
+      const ioHandler = tf.io.fileSystem(modelPath)
+      loadedModel = await nsfw.load(ioHandler, { type: 'graph' })
+    } else {
+      // 如果模型不存在，则从网络加载模型
+      logger.info('[图片审查]模型不存在，尝试加载联网模型。')
+      loadedModel = await nsfw.load()
+      // 保存模型到本地，不知道怎么保存权重数据，不想处理了
+      // const modelData = loadedModel.model.toJSON()
+      // const modelJSON = JSON.stringify(modelData)
+      // fs.writeFileSync(modelPath, modelJSON)
+    }
   }
   return loadedModel
 }
