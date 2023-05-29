@@ -7,9 +7,7 @@ import https from 'https'
 
 /**
  * 需要安装依赖``` pnpm i jimp jsqr @tensorflow/tfjs-node nsfwjs -w ```
- * 一个很简单的插件，一看就有手就行，没手也行。
- * 实测使用本插件可能很容易超出PM2默认512M内存限制，您应该自己思考是否使用本插件。
- * 可以尝试将config/pm2/pm2.json里面的max_memory_restart字段的值改成1G，例如"max_memory_restart": "1G"，小鸡可能还需要修改一下内核参数。
+ * 一个很简单的插件，是在无聊的生活中增加的一个无意义的功能。
  */
 
 //是否自动撤回nsfw图片，true为真，false为假，默认不撤回主人。
@@ -18,18 +16,22 @@ const recall = false
 //是否自动撤回二维码图片，true为真，false为假，默认不撤回主人。开启后默认不会发送解码内容哦。
 const recallQR = false
 
-//涩图转发，监听到nsfw图片后转发给预设QQ号或者群号。postMethod可选的值为private和group，前者表示私聊发送，后者群聊发送。postNum填需要通知的QQ号或者群号，留空则关闭此功能。
-const postMethod = 'private'
+//涩图转发，监听到nsfw图片后转发给预设QQ号或者群号。postMethod可选的值为private或者group，前者表示私聊发送，后者群聊发送。postNum填需要通知的QQ号或者群号，留空则关闭此功能。
+const postMethod = 'group'
 const postNum = [] //虽然用的是数组，但是最多只能输入一个号码
 
 export class autoCheck extends plugin {
   constructor() {
     super({
-      name: '自动扫描&评分',
+      name: '自动图片审查',
       dsc: '简单开发示例',
       event: 'message',
       priority: 5000,
       rule: [
+        {
+          reg: '^#?图片安全$',
+          fnc: 'isSafety'
+        },
         {
           fnc: 'autoCheck'
         }
@@ -37,27 +39,43 @@ export class autoCheck extends plugin {
     })
   }
 
+  async isSafety() {
+    console.log('debug', this.e.message)
+    const imageUrl = this.e.message.find(msg => msg.type === 'image')?.url || null
+    if (!imageUrl) {
+      // 主要是不想处理历史对话的逻辑了
+      await this.e.reply('请在消息中带上图片，不要引用回复。')
+      return true
+    }
+    const regex = /-(\w{32})\//
+    const hash = imageUrl.match(regex)[1]
+    await redis.set(`Yz:autoCheck:${hash}`, '0')
+    await this.e.reply('done!')
+    return true
+  }
+
   async autoCheck() {
     //检查消息类型
-    //console.log('debug', this.e.message)
+    console.log('debug', this.e.message)
     // if (this.e.message[0].type !== 'image' || !this.e.message[0].url) {
     //   return false
     // }
     // const imageUrl = this.e.message[0].url
 
-    const imageUrl = this.e.message.find(msg => msg.type === 'image')?.url || null
-    if (!imageUrl) {
+    const image = this.e.message.find(msg => msg.type === 'image') || null
+    if (!image?.url || image.file.endsWith('.gif')) {
       return false
     }
+    const imageUrl = image.url
     const regex = /-(\w{32})\//
     const hash = imageUrl.match(regex)[1]
 
     if (await redis.exists(`Yz:autoCheck:${hash}`)) {
-      //console.log('[二维码扫描]重置缓存时间')
-      await redis.expire(`Yz:autoCheck:${hash}`, 48 * 60 * 60)
+      logger.info('[图片审查]图片安全，重置缓存时间')
+      await redis.expire(`Yz:autoCheck:${hash}`, 72 * 60 * 60)
       return false
     } else if (await redis.exists('Yz:autoCheckLock')) {
-      //console.log('[自动扫描&评分]当前队列存在待处理图片')
+      logger.info('[图片审查]当前队列存在待处理图片')
       return false
     }
 
@@ -69,17 +87,21 @@ export class autoCheck extends plugin {
       await redis.del('Yz:autoCheckLock')
       return true
     } else {
+      logger.info('[图片审查]图片安全')
       await redis.del('Yz:autoCheckLock')
-      await redis.set(`Yz:autoCheck:${hash}`, '0', { EX: 36 * 60 * 60 })
+      await redis.set(`Yz:autoCheck:${hash}`, '0', { EX: 48 * 60 * 60 })
       return false
     }
   }
 
   async nsfwImageCheck(buffer, imageUrl) {
-    // const uint8Array = new Uint8Array(buffer)
-    //load()是从nsfwjs的S3对象存储中加载的模型（只是加载模型，推演还是用你的CPU），是否稳定我也不知道，可以自己研究一下本地部署。
+    logger.info('[图片审查]开始nsfw审查')
+    await tf.enableProdMode()
+    //测试中使用uint8Array似乎比buffer更稳定
+    const uint8Array = new Uint8Array(buffer)
+    //load()是从nsfwjs的S3对象存储中加载的模型，是否稳定我也不知道，可以自己研究一下从本地加载模型。实测node18从本地加载模型失败。
     const model = await nsfw.load()
-    const image = await tf.node.decodeImage(buffer, 3)
+    const image = await tf.node.decodeImage(uint8Array, 3)
     const predictions = await model.classify(image)
     image.dispose()
     console.log(predictions)
@@ -95,11 +117,15 @@ export class autoCheck extends plugin {
       return false
     }
 
-    //涩图转发
-    if (postNum.length > 0 && postMethod === 'group') {
-      await Bot.pickGroup(postNum).sendMsg(segment.image(imageUrl))
-    } else if (postNum.length > 0 && postMethod === 'private') {
-      await Bot.pickUser(postNum).sendMsg(segment.image(imageUrl))
+    try {
+      if (postNum.length > 0 && postMethod === 'group') {
+        await Bot.pickGroup(postNum).sendMsg(segment.image(imageUrl))
+      } else if (postNum.length > 0 && postMethod === 'private') {
+        await Bot.pickUser(postNum).sendMsg(segment.image(imageUrl))
+      }
+    } catch (error) {
+      // logger.error(`涩图转发出现错误：${error}`)
+      console.log('涩图转发出现错误：', error)
     }
 
     //涩图撤回
