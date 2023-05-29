@@ -10,8 +10,10 @@ import https from 'https'
  * 这里提供了两种操作思路，一种是官方示例使用的axios方法，另一种是nodejs内置https.get方法。我认为https.get()的操作思路与自动扫描二维码类似，所以使用了https.get()
  * 详见https://www.npmjs.com/package/nsfwjs#node-js-app
  * 如果同时使用自动扫描二维码和自动色图评分，或许你应该在图片处理上共用一套逻辑。
- * 实测明确存在内存泄漏现象，您应该自己思考是否使用这个插件。可以尝试将config/pm2/pm2.json文件的max_memory_restart字段的值改成1G，例如"max_memory_restart": "1G"，小鸡可能还需要修改一下内核参数。或许我们应该白嫖huggingface的算力。
+ * 加载模型后内存占用较高，您可以尝试将config/pm2/pm2.json里面的max_memory_restart字段的值改成1G，例如"max_memory_restart": "1G"
  */
+
+let loadedModel = null
 export class nsfwImageCheck extends plugin {
   constructor() {
     super({
@@ -35,10 +37,11 @@ export class nsfwImageCheck extends plugin {
     // }
     // const imageUrl = this.e.message[0].url
 
-    const imageUrl = this.e.message.find(msg => msg.type === 'image')?.url || null
-    if (!imageUrl) {
+    const imageMsg = this.e.message.find(msg => msg.type === 'image') || null
+    if (!imageMsg?.url || imageMsg.file.endsWith('.gif')) {
       return false
     }
+    const imageUrl = imageMsg.url
     const regex = /-(\w{32})\//
     const hash = imageUrl.match(regex)[1]
     if (await redis.exists(`Yz:nsfwCheck:${hash}`)) {
@@ -53,13 +56,13 @@ export class nsfwImageCheck extends plugin {
     // const pic = await axios.get(imageUrl, {
     //   responseType: 'arraybuffer',
     // })
+    //const model = await nsfw.load()
 
-    const model = await nsfw.load()
-
+    // 将await nsfw.load()作为一个独立的方法或者模块，可以防止每次运行脚本都加载一次模型，解决了内存泄露问题
+    const model = await loadModel()
     const image = await tf.node.decodeImage(uint8Array, 3)
-
     const predictions = await model.classify(image)
-    image.dispose() // 张量的内存必须显式地进行管理（仅仅使 tf.Tensor 超出范围不足以释放其内存）。意思是别删掉这一行！
+    image.dispose() // 张量的内存必须显式地进行管理（仅仅使 tf.Tensor 超出范围不足以释放其内存）。
 
     console.log(predictions)
 
@@ -101,4 +104,12 @@ async function getImageBuffer(imageUrl) {
       })
     })
   })
+}
+
+async function loadModel() {
+  if (!loadedModel) {
+    // 模型加载逻辑
+    loadedModel = await nsfw.load()
+  }
+  return loadedModel
 }

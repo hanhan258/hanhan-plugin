@@ -8,6 +8,7 @@ import https from 'https'
 /**
  * 需要安装依赖``` pnpm i jimp jsqr @tensorflow/tfjs-node nsfwjs -w ```
  * 一个很简单的插件，是在无聊的生活中增加的一个无意义的功能。
+ * 加载模型后内存占用较高，您可以尝试将config/pm2/pm2.json里面的max_memory_restart字段的值改成1G，例如"max_memory_restart": "1G"
  */
 
 //是否自动撤回nsfw图片，true为真，false为假，默认不撤回主人。
@@ -20,6 +21,7 @@ const recallQR = false
 const postMethod = 'group'
 const postNum = [] //虽然用的是数组，但是最多只能输入一个号码
 
+let loadedModel = null
 export class autoCheck extends plugin {
   constructor() {
     super({
@@ -30,7 +32,8 @@ export class autoCheck extends plugin {
       rule: [
         {
           reg: '^#?图片安全$',
-          fnc: 'isSafety'
+          fnc: 'isSafety',
+          permission: 'master'
         },
         {
           fnc: 'autoCheck'
@@ -78,7 +81,6 @@ export class autoCheck extends plugin {
       logger.info('[图片审查]当前队列存在待处理图片')
       return false
     }
-
     await redis.set('Yz:autoCheckLock', '1', { EX: 30 })
 
     const buffer = await getImageBuffer(imageUrl)
@@ -100,9 +102,13 @@ export class autoCheck extends plugin {
     //测试中使用uint8Array似乎比buffer更稳定
     const uint8Array = new Uint8Array(buffer)
     //load()是从nsfwjs的S3对象存储中加载的模型，是否稳定我也不知道，可以自己研究一下从本地加载模型。实测node18从本地加载模型失败。
-    const model = await nsfw.load()
+    //const model = await nsfw.load()
+
+    // 将await nsfw.load()作为一个独立的方法或者模块，可以防止每次运行脚本都加载一次模型，解决了内存泄露问题
+    const model = await loadModel()
     const image = await tf.node.decodeImage(uint8Array, 3)
     const predictions = await model.classify(image)
+    // 张量的内存必须显式地进行管理（仅仅使 tf.Tensor 超出范围不足以释放其内存）。
     image.dispose()
     console.log(predictions)
 
@@ -133,7 +139,6 @@ export class autoCheck extends plugin {
       await this.e.group.recallMsg(this.e.message_id)
       msgArray.push('\n主人不允许群里出现这样的图片，依米撤回了哦')
     }
-
     await this.e.reply(msgArray, true)
     return true
   }
@@ -157,10 +162,8 @@ export class autoCheck extends plugin {
 
     // Release memory by setting jimpObj.bitmap to null
     image.bitmap = null
-
     //console.log(imageData)
     const code = await jsQR(imageData, width, height, { dontInvert: true })
-
     if (!code?.data) {
       return false
     }
@@ -183,9 +186,7 @@ async function getImageBuffer(imageUrl) {
         await redis.del('Yz:autoCheckLock')
         reject(new Error(`Request failed with status code ${response.statusCode}`))
       }
-
       const chunks = []
-
       response.on('data', (chunk) => {
         chunks.push(chunk)
       })
@@ -201,4 +202,12 @@ async function getImageBuffer(imageUrl) {
       })
     })
   })
+}
+
+async function loadModel() {
+  if (!loadedModel) {
+    // load()是从nsfwjs的S3对象存储中加载的模型，是否稳定我也不知道，可以自己研究一下从本地加载模型。实测node18从本地加载模型失败。
+    loadedModel = await nsfw.load()
+  }
+  return loadedModel
 }
