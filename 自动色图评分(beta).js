@@ -45,7 +45,7 @@ export class nsfwImageCheck extends plugin {
     const regex = /-(\w{32})\//
     const hash = imageUrl.match(regex)[1]
     if (await redis.exists(`Yz:nsfwCheck:${hash}`)) {
-      //console.log('[二维码扫描]重置缓存时间')
+      logger.info('[图片评分]图片安全，重置缓存时间')
       await redis.expire(`Yz:nsfwCheck:${hash}`, 36 * 60 * 60)
       return false
     }
