@@ -24,7 +24,7 @@ const postNum = [] //虽然用的是数组，但是最多只能输入一个号�
 
 /**
  * nsfw检测模型路径，模型不存在则加载联网模型，“.”表示云崽根目录。一个文件夹内应包含一个model.json文件和若干个二进制文件。
- * 模型下载地址：https://github.com/GantMan/nsfw_model/releases，经过少量样本对照，Mar 4, 2020 的 nsfw_mobilenet_v2_140_224.zip 135 MB 版本审查的准确率更高，
+ * 模型下载地址：https://github.com/GantMan/nsfw_model/releases，经过少量样本对照，Mar 4, 2020 的 nsfw_mobilenet_v2_140_224.zip 135 MB 版本审查的准确率更高。
  * 你只需要选择其中一个二进制模型使用即可，参考下方路径。
  */
 const modelPath = './web_model_quantized/model.json'
@@ -109,14 +109,14 @@ export class autoCheck extends plugin {
     await tf.enableProdMode()
     //测试中使用uint8Array似乎比buffer更稳定
     const uint8Array = new Uint8Array(buffer)
-    //load()是从nsfwjs的S3对象存储中加载的模型，是否稳定我也不知道，可以自己研究一下从本地加载模型。实测node18从本地加载模型失败。
+    //load()是从nsfwjs的S3对象存储中加载的模型，是否稳定我也不知道
     //const model = await nsfw.load()
 
     // 将await nsfw.load()作为一个独立的方法或者模块，可以防止每次运行脚本都加载一次模型，解决了内存泄露问题
     const model = await loadModel()
     const image = await tf.node.decodeImage(uint8Array, 3)
     const predictions = await model.classify(image)
-    // 张量的内存必须显式地进行管理（仅仅使 tf.Tensor 超出范围不足以释放其内存）。
+    // 张量的内存必须显式地进行管理（仅仅使 tf.Tensor 超出范围不足以释放其内存）
     image.dispose()
     console.log(predictions)
 
@@ -221,13 +221,9 @@ async function loadModel() {
       const ioHandler = tf.io.fileSystem(modelPath)
       loadedModel = await nsfw.load(ioHandler, { type: 'graph' })
     } else {
-      // 如果模型不存在，则从网络加载模型
+      // 如果模型不存在，则从网络加载模型，不知道怎么保存权重数据，不想处理了，也不知道这文档哪一行是保存权重数据的API https://js.tensorflow.org/api/latest/#io.copyModel
       logger.info('[图片审查]模型不存在，尝试加载联网模型。')
       loadedModel = await nsfw.load()
-      // 保存模型到本地，不知道怎么保存权重数据，不想处理了
-      // const modelData = loadedModel.model.toJSON()
-      // const modelJSON = JSON.stringify(modelData)
-      // fs.writeFileSync(modelPath, modelJSON)
     }
   }
   return loadedModel

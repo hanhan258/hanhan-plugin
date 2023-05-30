@@ -123,13 +123,9 @@ async function loadModel() {
       const ioHandler = tf.io.fileSystem(modelPath)
       loadedModel = await nsfw.load(ioHandler, { type: 'graph' })
     } else {
-      // 如果模型不存在，则从网络加载模型
-      logger.info('[图片审查]模型不存在，使用联网模型，推演准确率较低。')
+      // 如果模型不存在，则从网络加载模型，不知道怎么保存权重数据，不想处理了，也不知道这文档哪一行是保存权重数据的API https://js.tensorflow.org/api/latest/#io.copyModel
+      logger.info('[图片审查]模型不存在，尝试加载联网模型。')
       loadedModel = await nsfw.load()
-      // 保存模型到本地，不知道怎么保存权重数据，不想处理了
-      // const modelData = loadedModel.model.toJSON()
-      // const modelJSON = JSON.stringify(modelData)
-      // fs.writeFileSync(modelPath, modelJSON)
     }
   }
   return loadedModel
