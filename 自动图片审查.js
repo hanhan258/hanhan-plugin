@@ -4,10 +4,12 @@ import jsQR from "jsqr"
 import tf from "@tensorflow/tfjs-node"
 import nsfw from "nsfwjs"
 import https from 'https'
+import fs from "fs"
 
 /**
  * 需要安装依赖``` pnpm i jimp jsqr @tensorflow/tfjs-node nsfwjs -w ```
  * 一个很简单的插件，是在无聊的生活中增加的一个无意义的功能。
+ * 加载模型后内存占用较高，您可以尝试将config/pm2/pm2.json里面的max_memory_restart字段的值改成1G，例如"max_memory_restart": "1G"
  */
 
 //是否自动撤回nsfw图片，true为真，false为假，默认不撤回主人。
@@ -20,6 +22,14 @@ const recallQR = false
 const postMethod = 'group'
 const postNum = [] //虽然用的是数组，但是最多只能输入一个号码
 
+/**
+ * nsfw检测模型路径，模型不存在则加载联网模型，“.”表示云崽根目录。一个文件夹内应包含一个model.json文件和若干个二进制文件。
+ * 模型下载地址：https://github.com/GantMan/nsfw_model/releases，经过少量样本对照，Mar 4, 2020 的 nsfw_mobilenet_v2_140_224.zip 135 MB 版本审查的准确率更高。
+ * 你只需要选择其中一个二进制模型使用即可，参考下方路径。
+ */
+const modelPath = './web_model_quantized/model.json'
+
+let loadedModel = null
 export class autoCheck extends plugin {
   constructor() {
     super({
@@ -30,7 +40,8 @@ export class autoCheck extends plugin {
       rule: [
         {
           reg: '^#?图片安全$',
-          fnc: 'isSafety'
+          fnc: 'isSafety',
+          permission: 'master'
         },
         {
           fnc: 'autoCheck'
@@ -78,7 +89,6 @@ export class autoCheck extends plugin {
       logger.info('[图片审查]当前队列存在待处理图片')
       return false
     }
-
     await redis.set('Yz:autoCheckLock', '1', { EX: 30 })
 
     const buffer = await getImageBuffer(imageUrl)
@@ -99,10 +109,14 @@ export class autoCheck extends plugin {
     await tf.enableProdMode()
     //测试中使用uint8Array似乎比buffer更稳定
     const uint8Array = new Uint8Array(buffer)
-    //load()是从nsfwjs的S3对象存储中加载的模型，是否稳定我也不知道，可以自己研究一下从本地加载模型。实测node18从本地加载模型失败。
-    const model = await nsfw.load()
+    //load()是从nsfwjs的S3对象存储中加载的模型，是否稳定我也不知道
+    //const model = await nsfw.load()
+
+    // 将await nsfw.load()作为一个独立的方法或者模块，可以防止每次运行脚本都加载一次模型，解决了内存泄露问题
+    const model = await loadModel()
     const image = await tf.node.decodeImage(uint8Array, 3)
     const predictions = await model.classify(image)
+    // 张量的内存必须显式地进行管理（仅仅使 tf.Tensor 超出范围不足以释放其内存）
     image.dispose()
     console.log(predictions)
 
@@ -133,7 +147,6 @@ export class autoCheck extends plugin {
       await this.e.group.recallMsg(this.e.message_id)
       msgArray.push('\n主人不允许群里出现这样的图片，依米撤回了哦')
     }
-
     await this.e.reply(msgArray, true)
     return true
   }
@@ -157,10 +170,8 @@ export class autoCheck extends plugin {
 
     // Release memory by setting jimpObj.bitmap to null
     image.bitmap = null
-
     //console.log(imageData)
     const code = await jsQR(imageData, width, height, { dontInvert: true })
-
     if (!code?.data) {
       return false
     }
@@ -183,9 +194,7 @@ async function getImageBuffer(imageUrl) {
         await redis.del('Yz:autoCheckLock')
         reject(new Error(`Request failed with status code ${response.statusCode}`))
       }
-
       const chunks = []
-
       response.on('data', (chunk) => {
         chunks.push(chunk)
       })
@@ -201,4 +210,21 @@ async function getImageBuffer(imageUrl) {
       })
     })
   })
+}
+
+async function loadModel() {
+  if (!loadedModel) {
+    const modelExists = fs.existsSync(modelPath)
+    if (modelExists) {
+      // 如果模型已存在，则加载本地模型
+      logger.info('[图片审查]模型存在，尝试载入本地模型。')
+      const ioHandler = tf.io.fileSystem(modelPath)
+      loadedModel = await nsfw.load(ioHandler, { type: 'graph' })
+    } else {
+      // 如果模型不存在，则从网络加载模型，不知道怎么保存权重数据，不想处理了，也不知道这文档哪一行是保存权重数据的API https://js.tensorflow.org/api/latest/#io.copyModel
+      logger.info('[图片审查]模型不存在，尝试加载联网模型。')
+      loadedModel = await nsfw.load()
+    }
+  }
+  return loadedModel
 }

@@ -4,7 +4,9 @@
 
 > 下载插件或者复制插件里面的代码，然后放在example文件夹内，然后安装依赖
 > 
-> 如果条件允许，建议将 config/pm2/pm2.json `max_memory_restart` 字段的值改为`1G`，实测自动扫描二维码功能和自动色图评分功能会占用较高内存。
+> 如果条件允许，建议将 `config/pm2/pm2.json` `max_memory_restart` 字段的值改为`1G`，实测自动扫描二维码功能和自动色图评分功能会占用较高内存。
+>
+> 自动图片审查可以载入本地模型 [模型下载](https://github.com/GantMan/nsfw_model/releases)，经过少量样本对照，Mar 4, 2020 的 nsfw_mobilenet_v2_140_224.zip 135 MB 版本审查的准确率更高。下载完成后把压缩包里面的`web_model_quantized`文件夹丢进云崽根目录即可。
 
 ## 安装依赖
 
@@ -12,7 +14,9 @@
 
 自动扫描二维码功能用到了`jimp`和`jsqr`这两个库，请在云崽根目录执行`pnpm i jimp jsqr -w`安装依赖
 
-自动色图评分（beta）需要`@tensorflow/tfjs-node`和`nsfwjs`这两个库，请在云崽根目录执行`pnpm i @tensorflow/tfjs-node nsfwjs -w`安装依赖。装不上的话就别折腾了，这个插件对服务器性能要求比较高。
+自动色图评分需要`@tensorflow/tfjs-node`和`nsfwjs`这两个库，请在云崽根目录执行`pnpm i @tensorflow/tfjs-node nsfwjs -w`安装依赖。装不上的话就别折腾了，这个插件对服务器性能要求比较高。
+
+自动图片审查是扫描二维码和涩图评分的合体，需要安装四个依赖`pnpm i jimp jsqr @tensorflow/tfjs-node nsfwjs -w`，占用内存较大，谨慎使用。
 
 安装完依赖之后，重启机器人，就可以食用了
 
