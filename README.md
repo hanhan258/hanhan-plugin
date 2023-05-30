@@ -14,7 +14,7 @@
 
 自动扫描二维码功能用到了`jimp`和`jsqr`这两个库，请在云崽根目录执行`pnpm i jimp jsqr -w`安装依赖
 
-自动色图评分（beta）需要`@tensorflow/tfjs-node`和`nsfwjs`这两个库，请在云崽根目录执行`pnpm i @tensorflow/tfjs-node nsfwjs -w`安装依赖。装不上的话就别折腾了，这个插件对服务器性能要求比较高。
+自动色图评分需要`@tensorflow/tfjs-node`和`nsfwjs`这两个库，请在云崽根目录执行`pnpm i @tensorflow/tfjs-node nsfwjs -w`安装依赖。装不上的话就别折腾了，这个插件对服务器性能要求比较高。
 
 自动图片审查是扫描二维码和涩图评分的合体，需要安装四个依赖`pnpm i jimp jsqr @tensorflow/tfjs-node nsfwjs -w`，占用内存较大，谨慎使用。
 
