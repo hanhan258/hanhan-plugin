@@ -25,14 +25,18 @@ export class qrcode extends plugin {
   async qrcodeScan() {
     //检查消息类型
     //console.log('debug', this.e.message)
-    if (this.e.message[0].type !== 'image' || !this.e.message[0].url) {
+    // if (this.e.message[0].type !== 'image' || !this.e.message[0].url) {
+    //   return false
+    // }
+    const imageUrl = this.e.message.find(msg => msg.type === 'image')?.url || null
+    if (!imageUrl) {
       return false
     }
-    const imageUrl = this.e.message[0].url
+    //const imageUrl = this.e.message[0].url
     const regex = /-(\w{32})\//
     const hash = imageUrl.match(regex)[1]
     if (await redis.exists(`Yz:qrcode:${hash}`)) {
-      //console.log('[二维码扫描]重置缓存时间')
+      console.log('[二维码扫描]不是二维码，重置缓存时间')
       await redis.expire(`Yz:qrcode:${hash}`, 36 * 60 * 60)
       return false
     }
@@ -53,6 +57,8 @@ export class qrcode extends plugin {
         imageData[index++] = rgba.a // 透明度通道
       }
     }
+    // Release memory by setting jimpObj.bitmap to null
+    image.bitmap = null
     //console.log(imageData)
     //cv from https://www.npmjs.com/package/jsqr
     const code = jsQR(imageData, width, height, { dontInvert: true })
