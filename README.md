@@ -11,8 +11,9 @@
 > git clone https://gitee.com/han-hanz/hanhan-plugin.git
 
 ## 安装依赖
-
-因为买家秀用到了`axios`，所以要安装这个依赖，在云崽根目录执行`pnpm install axios -w`，如果你之前装过，可以跳过
+```bash:numbers
+pnpm i
+```
 
 安装完依赖之后，重启机器人，就可以食用了
 
