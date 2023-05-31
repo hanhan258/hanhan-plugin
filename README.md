@@ -146,6 +146,12 @@
 >
 > 因为是部分功能是调用的接口，接口寄了功能也就寄了，可以给我提issues，我能换接口我就换，找不到我就下架功能。
 
+## 赞助
+
+如果觉得本项目好玩或者对你有帮助，愿意的话可以赞助我一口快乐水：
+
+https://afdian.net/a/hanhanbeea
+
 ## 贡献者
 
 <!-- readme: collaborators,contributors -start -->
@@ -157,3 +163,9 @@
 
 ![Alt](https://repobeats.axiom.co/api/embed/076d597ede41432208435f233d18cb20052fb90a.svg "Repobeats analytics image")
 <!-- readme: collaborators,contributors -end -->
+
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=hanhan258/hanhan-plugin&type=Date)](https://star-history.com/#hanhan258/hanhan-plugin&Date)
+
