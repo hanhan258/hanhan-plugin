@@ -166,6 +166,5 @@ https://afdian.net/a/hanhanbeea
 
 
 ## Star History
-
-[![Star History Chart](https://github.com/account)](https://star-history.com/#hanhan258/hanhan-plugin&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=hanhan258/hanhan-plugin&type=Date)]([https://star-history.com/#ikechan8370/hanhan-plugin&Date](https://avatars.githubusercontent.com/u/96119846?s=96&v=4))
 
