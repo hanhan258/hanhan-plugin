@@ -111,139 +111,148 @@ export class jiami extends plugin {
           fnc: 'baseDe'
         }
       ]
-    });
+    })
   }
-  //憨憨功能
+
+  // 憨憨功能
   async hanhanHelp (e) {
-    e.reply(`憨憨小功能：\n(#)(兽语|猫语|喵语|狗语|动物语)加(解)密\n(#)mt\n(#)买家秀\n(#)兽语帮助\n(#)今天是几号\n(#)历史上的今天\n(#)ping (ip/域名)\n(#)摩斯加(解)密\n(#)url编(解)码\n(#)base64编(解)码`)
+    e.reply('憨憨小功能：\n(#)(兽语|猫语|喵语|狗语|动物语)加(解)密\n(#)mt\n(#)买家秀\n(#)兽语帮助\n(#)今天是几号\n(#)历史上的今天\n(#)ping (ip/域名)\n(#)摩斯加(解)密\n(#)url编(解)码\n(#)base64编(解)码')
   }
-  //兽语帮助
+
+  // 兽语帮助
   async shouyuHelp (e) {
-    e.reply(`请发送：\n#(兽语|猫语|喵语|狗语|动物语)加(解)密+要加(解)密的文字\n或(兽语|猫语|狗语|动物语)加(解)密+要加(解)密的文字\n例如：#(兽语|猫语|喵语|狗语|动物语)加密你好\n(兽语|猫语|喵语|狗语|动物语)加密你好`)
+    e.reply('请发送：\n#(兽语|猫语|喵语|狗语|动物语)加(解)密+要加(解)密的文字\n或(兽语|猫语|狗语|动物语)加(解)密+要加(解)密的文字\n例如：#(兽语|猫语|喵语|狗语|动物语)加密你好\n(兽语|猫语|喵语|狗语|动物语)加密你好')
   }
-  //美腿
-  async mt(e){
-    //接口地址
 
-    //发送消息
-    this.reply(segment.image(`http://cf228e76e6.hk02.hoomoon.cn/0/`));
+  // 美腿
+  async mt (e) {
+    // 接口地址
 
-    return true; //返回true 阻挡消息不再往下
+    // 发送消息
+    this.reply(segment.image('http://cf228e76e6.hk02.hoomoon.cn/0/'))
+
+    return true // 返回true 阻挡消息不再往下
   }
-  //买家秀
-  async buyerShow(e){
-    //接口地址
-    let url = "https://api.dzzui.com/api/imgtaobao?format=json";
-    let msg = [];
+
+  // 买家秀
+  async buyerShow (e) {
+    // 接口地址
+    let url = 'https://api.dzzui.com/api/imgtaobao?format=json'
+    let msg = []
     try {
-      let response = await axios.get(url);
-      msg.push(segment.image(response.data.imgurl));
-      //发送消息
-      this.reply(msg);
+      let response = await axios.get(url)
+      msg.push(segment.image(response.data.imgurl))
+      // 发送消息
+      this.reply(msg)
     } catch (error) {
-      console.error(error);
+      console.error(error)
     }
 
-    return true; //返回true 阻挡消息不再往下
+    return true // 返回true 阻挡消息不再往下
   }
-  //兽语加密
-  async shouyuEn(e) {
-    let msg = e.msg;
-    let encode;
-    let url;
-    let response;
-    let res;
+
+  // 兽语加密
+  async shouyuEn (e) {
+    let msg = e.msg
+    let encode
+    let url
+    let response
+    let res
     let sendmsg = []
-    if(msg.includes('兽语')){
-      msg = e.msg.replace(/^#?兽语加密/, "").trim();;
-      encode = encodeURIComponent(msg)//将文本转成url编码
+    if (msg.includes('兽语')) {
+      msg = e.msg.replace(/^#?兽语加密/, '').trim()
+      encode = encodeURIComponent(msg)// 将文本转成url编码
       url = `https://www.sgtap.tk/API/shouyu.php?act=jm&content=${encode}&miyu=sy&type=text`
-      response = await fetch(url); //调用接口获取数据
-      res = await response.text();
+      response = await fetch(url) // 调用接口获取数据
+      res = await response.text()
     }
-    if(msg.includes("猫语")||msg.includes("喵语")){
-      msg = e.msg.replace(/^#?(猫语|喵语)加密/, "").trim();
-      encode = encodeURIComponent(msg)//将文本转成url编码
+    if (msg.includes('猫语') || msg.includes('喵语')) {
+      msg = e.msg.replace(/^#?(猫语|喵语)加密/, '').trim()
+      encode = encodeURIComponent(msg)// 将文本转成url编码
       url = `https://www.sgtap.tk/API/shouyu.php?act=jm&content=${encode}&miyu=my&type=text`
-      response = await fetch(url); //调用接口获取数据
-      res = await response.text();
+      response = await fetch(url) // 调用接口获取数据
+      res = await response.text()
     }
-    if(msg.includes("狗语")){
-      msg = e.msg.replace(/^#?狗语加密/, "").trim();
-      encode = encodeURIComponent(msg)//将文本转成url编码
+    if (msg.includes('狗语')) {
+      msg = e.msg.replace(/^#?狗语加密/, '').trim()
+      encode = encodeURIComponent(msg)// 将文本转成url编码
       url = `https://www.sgtap.tk/API/shouyu.php?act=jm&content=${encode}&miyu=gy&type=text`
-      response = await fetch(url); //调用接口获取数据
-      res = await response.text();
+      response = await fetch(url) // 调用接口获取数据
+      res = await response.text()
     }
-    if(msg.includes("动物语")){
-      msg = e.msg.replace(/^#?动物语加密/, "").trim();
-      encode = encodeURIComponent(msg)//将文本转成url编码
+    if (msg.includes('动物语')) {
+      msg = e.msg.replace(/^#?动物语加密/, '').trim()
+      encode = encodeURIComponent(msg)// 将文本转成url编码
       url = `https://www.sgtap.tk/API/shouyu.php?act=jm&content=${encode}&miyu=dw&type=text`
-      response = await fetch(url); //调用接口获取数据
-      res = await response.text();
+      response = await fetch(url) // 调用接口获取数据
+      res = await response.text()
     }
 
     sendmsg.push(res)
     await this.reply(sendmsg, true)
   }
-  //兽语解密
-  async shouyuDe(e) {
-    let msg = e.msg;
-    let encode;
-    let url;
-    let response;
-    let res;
+
+  // 兽语解密
+  async shouyuDe (e) {
+    let msg = e.msg
+    let encode
+    let url
+    let response
+    let res
     let sendmsg = []
-    if(msg.includes("兽语")){
-      msg = e.msg.replace(/^#?兽语解密/, "").trim();
-      encode = encodeURIComponent(msg)//将文本转成url编码
+    if (msg.includes('兽语')) {
+      msg = e.msg.replace(/^#?兽语解密/, '').trim()
+      encode = encodeURIComponent(msg)// 将文本转成url编码
       url = `https://www.sgtap.tk/API/shouyu.php?act=py&content=${encode}&miyu=sy&type=text`
-      response = await fetch(url); //调用接口获取数据
-      res = await response.text();
+      response = await fetch(url) // 调用接口获取数据
+      res = await response.text()
     }
-    if(msg.includes("猫语")||msg.includes("喵语")){
-      msg = e.msg.replace(/^#?(猫语|喵语)解密/, "").trim();
-      encode = encodeURIComponent(msg)//将文本转成url编码
+    if (msg.includes('猫语') || msg.includes('喵语')) {
+      msg = e.msg.replace(/^#?(猫语|喵语)解密/, '').trim()
+      encode = encodeURIComponent(msg)// 将文本转成url编码
       url = `https://www.sgtap.tk/API/shouyu.php?act=py&content=${encode}&miyu=my&type=text`
-      response = await fetch(url); //调用接口获取数据
-      res = await response.text();
+      response = await fetch(url) // 调用接口获取数据
+      res = await response.text()
     }
-    if(msg.includes("狗语")){
-      msg = e.msg.replace(/^#?狗语解密/, "").trim();
-      encode = encodeURIComponent(msg)//将文本转成url编码
+    if (msg.includes('狗语')) {
+      msg = e.msg.replace(/^#?狗语解密/, '').trim()
+      encode = encodeURIComponent(msg)// 将文本转成url编码
       url = `https://www.sgtap.tk/API/shouyu.php?act=py&content=${encode}&miyu=gy&type=text`
-      response = await fetch(url); //调用接口获取数据
-      res = await response.text();
+      response = await fetch(url) // 调用接口获取数据
+      res = await response.text()
     }
-    if(msg.includes("动物语")){
-      msg = e.msg.replace(/^#?动物语解密/, "").trim();
-      encode = encodeURIComponent(msg)//将文本转成url编码
+    if (msg.includes('动物语')) {
+      msg = e.msg.replace(/^#?动物语解密/, '').trim()
+      encode = encodeURIComponent(msg)// 将文本转成url编码
       url = `https://www.sgtap.tk/API/shouyu.php?act=py&content=${encode}&miyu=dw&type=text`
-      response = await fetch(url); //调用接口获取数据
-      res = await response.text();
+      response = await fetch(url) // 调用接口获取数据
+      res = await response.text()
     }
 
     sendmsg.push(res)
     await this.reply(sendmsg, true)
   }
-  //今天是几号
-  async today(e) {
-    let url = `https://ovooa.ybapi.cn/API/rl/api.php?type=text`
-    let response = await fetch(url); //调用接口获取数据
-    let res = await response.text();
+
+  // 今天是几号
+  async today (e) {
+    let url = 'https://ovooa.ybapi.cn/API/rl/api.php?type=text'
+    let response = await fetch(url) // 调用接口获取数据
+    let res = await response.text()
     let sendmsg = []
     sendmsg.push(res)
     await this.reply(sendmsg, true)
   }
-  //历史上的今天
-  async history(e) {
-    let url = `https://ovooa.ybapi.cn/API/lishi/api.php?n=10`
-    let response = await fetch(url); //调用接口获取数据
-    let res = await response.text();
+
+  // 历史上的今天
+  async history (e) {
+    let url = 'https://ovooa.ybapi.cn/API/lishi/api.php?n=10'
+    let response = await fetch(url) // 调用接口获取数据
+    let res = await response.text()
     let sendmsg = []
     sendmsg.push(res)
     await this.reply(sendmsg, true)
   }
+
   // ping网站或ip
   async ping (e) {
     if (!token) return false
@@ -343,54 +352,57 @@ export class jiami extends plugin {
     return true
   }
 
-  //莫斯加密
-  async morseEn(e) {
-    let sendmsg = [];
-    let encode = e.msg.replace(/^#?(莫斯|摩斯)加密/, "").trim();
-    //下面接口二选一
-    //https://xiaobapi.top/api/xb/api/mesdm.php?type=en&msg=${encode}
+  // 莫斯加密
+  async morseEn (e) {
+    let sendmsg = []
+    let encode = e.msg.replace(/^#?(莫斯|摩斯)加密/, '').trim()
+    // 下面接口二选一
+    // https://xiaobapi.top/api/xb/api/mesdm.php?type=en&msg=${encode}
     let url = `http://www.plapi.tk/api/mesdm.php?type=%E5%8A%A0%E5%AF%86&msg=${encode}`
-    let response = await fetch(url); //调用接口获取数据
-    let res = await response.text();
+    let response = await fetch(url) // 调用接口获取数据
+    let res = await response.text()
     sendmsg.push(res)
     await this.reply(sendmsg, true)
   }
-  //莫斯解密
-  async morseDe(e) {
-    let sendmsg = [];
-    let	encode = e.msg.replace(/^#?(莫斯|摩斯)解密/, "").trim();
-    //下面接口二选一
-    //https://xiaobapi.top/api/xb/api/mesdm.php?type=de&msg=${encode}
+
+  // 莫斯解密
+  async morseDe (e) {
+    let sendmsg = []
+    let	encode = e.msg.replace(/^#?(莫斯|摩斯)解密/, '').trim()
+    // 下面接口二选一
+    // https://xiaobapi.top/api/xb/api/mesdm.php?type=de&msg=${encode}
     let	url = `http://www.plapi.tk/api/mesdm.php?type=%E8%A7%A3%E5%AF%86&msg=${encode}`
-    let response = await fetch(url); //调用接口获取数据
-    let res = await response.text();
+    let response = await fetch(url) // 调用接口获取数据
+    let res = await response.text()
     sendmsg.push(res)
     await this.reply(sendmsg, true)
   }
-  //url编码
-  async urlEn(e) {
-    let encode = e.msg.replace(/^#?(url|URL)编码/, "").trim();
+
+  // url编码
+  async urlEn (e) {
+    let encode = e.msg.replace(/^#?(url|URL)编码/, '').trim()
     let result = encodeURI(encode)
-    await this.reply(result,true)
+    await this.reply(result, true)
   }
 
   // url解码
-  async urlDe(e) {
-    let encode = e.msg.replace(/^#?(url|URL)解码/, "").trim();
+  async urlDe (e) {
+    let encode = e.msg.replace(/^#?(url|URL)解码/, '').trim()
     let result = decodeURI(encode)
     await this.reply(result, true)
   }
 
-  //base64编码
-  async baseEn(e){
-    let encode = e.msg.replace(/^#?(base64|Base64)编码/, "").trim();
-    let result = Buffer.from(encode).toString('base64');
+  // base64编码
+  async baseEn (e) {
+    let encode = e.msg.replace(/^#?(base64|Base64)编码/, '').trim()
+    let result = Buffer.from(encode).toString('base64')
     await this.reply(result, true)
   }
-  //base64解码
-  async baseDe(e){
-    let encode = e.msg.replace(/^#?(base64|Base64)解码/, "").trim();
-    let result = Buffer.from(encode, 'base64').toString();
+
+  // base64解码
+  async baseDe (e) {
+    let encode = e.msg.replace(/^#?(base64|Base64)解码/, '').trim()
+    let result = Buffer.from(encode, 'base64').toString()
     await this.reply(result, true)
   }
 }
