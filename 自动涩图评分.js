@@ -3,22 +3,22 @@ import tf from "@tensorflow/tfjs-node"
 import nsfw from "nsfwjs"
 import https from 'https'
 import fs from "fs"
+import path from 'node:path'
 //import axios from 'axios'
 
 
 /**
  * 一个很简单的插件。
  * 需要安装依赖``` pnpm i @tensorflow/tfjs-node nsfwjs -w ```
- * 这里提供了两种操作思路，一种是官方示例使用的axios方法，另一种是nodejs内置https.get方法。我认为https.get()的操作思路与自动扫描二维码类似，所以使用了https.get()
  * 详见https://www.npmjs.com/package/nsfwjs#node-js-app
  * 如果同时使用自动扫描二维码和自动色图评分，或许你应该在图片处理上共用一套逻辑。
  * 加载模型后内存占用较高，您可以尝试将config/pm2/pm2.json里面的max_memory_restart字段的值改成1G，例如"max_memory_restart": "1G"
  */
 
 /**
- * nsfw审查模型路径，模型不存在则使用联网模型，“.”表示云崽根目录。一个文件夹内应包含一个model.json文件和若干个二进制文件。
- * 模型下载地址：https://github.com/GantMan/nsfw_model/releases，经过少量样本对照，Mar 4, 2020 的 nsfw_mobilenet_v2_140_224.zip 135 MB 版本审查的准确率更高，
- * 你只需要选择其中一个二进制模型使用即可，参考下方路径。
+ * nsfw检测模型路径，模型不存在则加载联网模型，脚本会自动将模型保存到本地，无需手动配置。
+ * “.”表示云崽根目录。一个文件夹内应包含一个model.json文件和若干个二进制文件。你也可以自己修改成其他路径，模型放进去就行。
+ * 模型下载地址：https://github.com/GantMan/nsfw_model/releases，经过少量样本对照，nsfw_mobilenet_v2_140_224.zip 135 MB 版本审查的准确率更高。
  */
 const modelPath = './web_model_quantized/model.json'
 
@@ -116,17 +116,34 @@ async function getImageBuffer(imageUrl) {
 
 async function loadModel() {
   if (!loadedModel) {
-    const modelExists = fs.existsSync(modelPath)
-    if (modelExists) {
+    const defModelPath = './data/def_nsfw_check_model/model.json'
+    const modelPathChoice = fs.existsSync(modelPath) ? modelPath : (fs.existsSync(defModelPath) ? defModelPath : null)
+    if (modelPathChoice) {
       // 如果模型已存在，则加载本地模型
-      logger.info('[图片审查]模型存在，尝试载入本地模型。')
-      const ioHandler = tf.io.fileSystem(modelPath)
-      loadedModel = await nsfw.load(ioHandler, { type: 'graph' })
+      logger.info('[图片审查]模型存在，尝试载入本地模型')
+      const ioHandler = tf.io.fileSystem(modelPathChoice)
+      loadedModel = await nsfw.load(ioHandler, { type: modelPathChoice === modelPath ? 'graph' : 224 })
     } else {
-      // 如果模型不存在，则从网络加载模型，不知道怎么保存权重数据，不想处理了，也不知道这文档哪一行是保存权重数据的API https://js.tensorflow.org/api/latest/#io.copyModel
-      logger.info('[图片审查]模型不存在，尝试加载联网模型。')
+      // 如果模型不存在，则从网络加载模型
+      logger.info('[图片审查]模型不存在，尝试加载联网模型')
+      const defPath = './data/def_nsfw_check_model/'
+      mkdirs(defPath)
       loadedModel = await nsfw.load()
+      // 保存模型到本地，代码是天上掉下来的
+      await loadedModel.model.save(tf.io.fileSystem(defPath))
+      logger.info(`模型已保存到${defPath}`)
     }
   }
   return loadedModel
+}
+
+function mkdirs(dirPath) {
+  if (fs.existsSync(dirPath)) {
+      return true
+  } else {
+      if (mkdirs(path.dirname(dirPath))) {
+          fs.mkdirSync(dirPath)
+          return true
+      }
+  }
 }
