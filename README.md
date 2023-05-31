@@ -149,4 +149,11 @@
 ## 贡献者
 
 <!-- readme: collaborators,contributors -start -->
+感谢以下贡献者
+
+<a href="https://github.com/hanhan258/hanhan-plugin/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=hanhan258/hanhan-plugin" />
+</a>
+
+![Alt](https://repobeats.axiom.co/api/embed/076d597ede41432208435f233d18cb20052fb90a.svg "Repobeats analytics image")
 <!-- readme: collaborators,contributors -end -->
