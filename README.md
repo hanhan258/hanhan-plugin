@@ -161,10 +161,9 @@ https://afdian.net/a/hanhanbeea
   <img src="https://contrib.rocks/image?repo=hanhan258/hanhan-plugin" />
 </a>
 
-![Alt](https://repobeats.axiom.co/api/embed/076d597ede41432208435f233d18cb20052fb90a.svg "Repobeats analytics image")
 <!-- readme: collaborators,contributors -end -->
 
 
 ## Star History
-[![Star History Chart](https://api.star-history.com/svg?repos=hanhan258/hanhan-plugin&type=Date)]([https://star-history.com/#ikechan8370/hanhan-plugin&Date](https://avatars.githubusercontent.com/u/96119846?s=96&v=4))
+
 
