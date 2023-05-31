@@ -145,3 +145,8 @@
 > 调用接口可以实现很简单的的无用小功能，有手就能写，你杠就是你对
 >
 > 因为是部分功能是调用的接口，接口寄了功能也就寄了，可以给我提issues，我能换接口我就换，找不到我就下架功能。
+
+## 贡献者
+
+<!-- readme: collaborators,contributors -start -->
+<!-- readme: collaborators,contributors -end -->
