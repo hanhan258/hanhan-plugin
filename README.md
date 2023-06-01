@@ -4,11 +4,11 @@
 
 > #Github
 >
-> git clone https://github.com/hanhan258/hanhan-plugin.git
+> git clone https://github.com/hanhan258/hanhan-plugin.git ./plugins/hanhan-plugin
 >
 > #Gitee
 >
-> git clone https://gitee.com/han-hanz/hanhan-plugin.git
+> git clone https://gitee.com/han-hanz/hanhan-plugin.git ./plugins/hanhan-plugin
 
 ## 安装依赖
 ```bash:numbers
