@@ -16,7 +16,7 @@ const chromeF = "C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe"
 //搜索提示词，个别网站访问较慢可以适当修改提示增加提示时间
 const echo = `搜索中...`
 //关闭无头模式，即真打开浏览器,(后台就会有个浏览器闪现出来),linux有桌面板可以打开, 无桌面版建议关闭
-const noie = false  //现在为关闭无头模式
+const noie = true  //现在为无头模式
 const echo0 = `30000ms erorr`
 
 
@@ -34,11 +34,7 @@ export class sys extends plugin {
       priority: 50,
       rule: [
         {
-          reg: '^#?#baidu=(.*)$',
-          fnc: 'so_baidu'
-        },
-        {
-          reg: '^#?#百度=(.*)$',
+          reg: '^#?#(百度|baidu)=(.*)$',
           fnc: 'so_baidu'
         },
         {
@@ -102,7 +98,7 @@ export class sys extends plugin {
           fnc: 'so_acg'
         },
         {
-          reg: '^#?#ping=(.*)$',
+          reg: '^#?#cnping=(.*)$',
           fnc: 'so_ping'
         },
         {
@@ -271,7 +267,7 @@ export class sys extends plugin {
   async so_baidu(e) {
     try {
       logger.info("[用户命令]", e.msg);
-      let msg = e.msg.replace("#百度=", "").trim();
+      let msg = e.msg.replace(/^#?(百度|baidu)=/, '').trim()
       msg = msg.split(" ");
       await e.reply(echo) //提示词    
       const browser = await puppeteer.launch({
@@ -613,7 +609,7 @@ export class sys extends plugin {
   async so_ping(e) {
     try {
       logger.info("[用户命令]", e.msg);
-      let msg = e.msg.replace("#ping=", "").trim();
+      let msg = e.msg.replace("#cnping=", "").trim();
       msg = msg.split(" ");
       await e.reply(`ping中....请等待30秒`)
       const browser = await puppeteer.launch({
