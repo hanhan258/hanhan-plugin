@@ -24,6 +24,9 @@ pnpm i
 ![d6f539c6a04749315f336a7f4fd16467](https://github.com/hanhan258/hanhan-plugin/assets/96119846/2512bca6-e8ba-42d0-ae78-f1fea6ad7f98)
 
 ## 搜一搜帮助
+发送`#搜一搜帮助`查看功能
+
+![ed938cc31092b55fefc19bebdb6f44f1](https://github.com/hanhan258/hanhan-plugin/assets/96119846/64f13d37-6274-48bb-bd47-5a491f190536)
 
 
 ## 说明
