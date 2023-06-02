@@ -21,14 +21,13 @@ pnpm i
 
 发送`#nav`或者`#憨憨帮助`查看功能
 
-![01671d40237a9f1e21fa39cce5a3d61b_720](https://github.com/hanhan258/hanhan-plugin/assets/96119846/68ec1824-822c-4cbd-a20d-bcc7be25333b)
+![d6f539c6a04749315f336a7f4fd16467](https://github.com/hanhan258/hanhan-plugin/assets/96119846/2512bca6-e8ba-42d0-ae78-f1fea6ad7f98)
+
+## 搜一搜帮助
 
 
 ## 说明
-
-> 调用接口可以实现很简单的的无用小功能，有手就能写，你杠就是你对
->
-> 因为是部分功能是调用的接口，接口寄了功能也就寄了，可以给我提issues，我能换接口我就换，找不到我就下架功能。
+> 因为是部分功能是调用的接口，接口寄了功能也就寄了，可以给我提issues，能换接口我就换了，找不到我就下架功能。
 
 ## 赞助
 
