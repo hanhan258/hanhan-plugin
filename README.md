@@ -2,12 +2,10 @@
 
 ## 安装
 
-> #Github
->
+> ### Github
 > git clone https://github.com/hanhan258/hanhan-plugin.git ./plugins/hanhan-plugin
->
-> #Gitee
->
+
+> ### Gitee
 > git clone https://gitee.com/han-hanz/hanhan-plugin.git ./plugins/hanhan-plugin
 
 ## 安装依赖
@@ -21,12 +19,13 @@ pnpm i
 
 发送`#nav`或者`#憨憨帮助`查看功能
 
-![d6f539c6a04749315f336a7f4fd16467](https://github.com/hanhan258/hanhan-plugin/assets/96119846/2512bca6-e8ba-42d0-ae78-f1fea6ad7f98)
+<img src="https://github.com/hanhan258/hanhan-plugin/assets/96119846/2512bca6-e8ba-42d0-ae78-f1fea6ad7f98" alt="d6f539c6a04749315f336a7f4fd16467" style="zoom:50%;" />
 
 ## 搜一搜帮助
+
 发送`#搜一搜帮助`查看功能
 
-![ed938cc31092b55fefc19bebdb6f44f1](https://github.com/hanhan258/hanhan-plugin/assets/96119846/64f13d37-6274-48bb-bd47-5a491f190536)
+<img src="https://github.com/hanhan258/hanhan-plugin/assets/96119846/64f13d37-6274-48bb-bd47-5a491f190536" alt="ed938cc31092b55fefc19bebdb6f44f1" style="zoom:50%;" />
 
 
 ## 说明
