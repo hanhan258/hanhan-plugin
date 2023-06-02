@@ -60,7 +60,7 @@ async so_help2(e) {
   /** e.msg 用户的命令消息 */
   logger.info("[用户命令]", e.msg);
   await this.reply(
-      `--其他网站--\n- 天眼查= ,查ip= ,ping= ,#打开网页= ,#科学打开网页=\n- 电脑硬件 cpu=，gpu=,cpu排行，gpu排行`
+      `--其他网站--\n- 天眼查= ,查ip= ,ping= ,#打开网页= ,#科学打开网页=\n- 电脑硬件 cpu=，gpu=,cpu排行，gpu排行，\n-天气 #台风路径，#msn天气=`
   );
   }
 }
