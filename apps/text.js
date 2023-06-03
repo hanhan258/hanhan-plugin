@@ -1,6 +1,7 @@
 import plugin from '../../../lib/plugins/plugin.js'
 import fetch from 'node-fetch'
 import axios from 'axios'
+import { segment } from 'oicq'
 
 export class text extends plugin {
   constructor () {
@@ -31,9 +32,28 @@ export class text extends plugin {
           reg: '^#?历史上的今天',
           /** 执行方法 */
           fnc: 'history'
+        },
+        {
+          /** 命令正则匹配 */
+          reg: '^#?人生倒计时',
+          /** 执行方法 */
+          fnc: 'rsdjs'
         }
       ]
     })
+  }
+
+  // 人生倒计时
+  async rsdjs (e) {
+    let sendmsg = []
+    let url = `https://v.api.aa1.cn/api/rsdjs/`
+    let response = await axios.get(url) // 调用接口获取数据
+    console.log(response)
+    sendmsg.push(response.data.month, "\n")
+    sendmsg.push(response.data.week, "\n")
+    sendmsg.push(response.data.day, "\n")
+    sendmsg.push(response.data.time)
+    await this.reply(sendmsg, true)
   }
 
   // 发癫

@@ -55,17 +55,47 @@ export class photo extends plugin {
           reg: '^#?随机(ai|AI)',
           /** 执行方法 */
           fnc: 'sjai'
+        },
+        {
+          /** 命令正则匹配 */
+          reg: '^#?手写',
+          /** 执行方法 */
+          fnc: 'sx'
+        },
+        {
+          /** 命令正则匹配 */
+          reg: '^#?每日英语',
+          /** 执行方法 */
+          fnc: 'mryy'
         }
       ]
     })
   }
+
+  // 每日英语
+  async mryy (e) {
+    let sendmsg = []
+    let url = `https://open.iciba.com/dsapi/`
+    let response = await axios.get(url) // 调用接口获取数据
+    console.log(response)
+    sendmsg.push(segment.image(response.data.fenxiang_img))
+    await this.reply(sendmsg, true)
+  }
+  
+  // 手写模拟器
+  async sx (e) {
+    let encode = e.msg.replace(/^#?手写/, '').trim()
+    // 发送消息
+    await this.reply(segment.image(`https://zj.v.api.aa1.cn/api/zuoye/?msg=${encode}`), true)
+    return true // 返回true 阻挡消息不再往下
+  }
+
 
   // 猫羽雫图片天气
   async tianqi (e) {
     let encode = e.msg.replace(/^#?天气/, '').trim()
     // 发送消息
     await this.reply(segment.image(`https://api.caonm.net/api/qqtq/t.php?msg=${encode}&type=img&n=1`), true)
-
     return true // 返回true 阻挡消息不再往下
   }
 
@@ -80,17 +110,13 @@ export class photo extends plugin {
   async xiaoc (e) {
     // 发送消息
     this.reply(segment.image('http://api.caonm.net/api/xc/index.php'))
-
     return true // 返回true 阻挡消息不再往下
   }
 
   // 兽猫酱
   async shoumao (e) {
-    // 接口地址
-
     // 发送消息
     this.reply(segment.image('http://api.caonm.net/api/smj/index.php'))
-
     return true // 返回true 阻挡消息不再往下
   }
 
@@ -105,7 +131,6 @@ export class photo extends plugin {
   async sjai (e) {
     // 发送消息
     this.reply(segment.image('http://lx.linxi.icu/0/ai/'))
-
     return true // 返回true 阻挡消息不再往下
   }
 
@@ -122,7 +147,6 @@ export class photo extends plugin {
     } catch (error) {
       console.error(error)
     }
-
     return true // 返回true 阻挡消息不再往下
   }
 }

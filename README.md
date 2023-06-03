@@ -1,5 +1,6 @@
 # hanhan-plugin
 
+
 ## 安装
 
 ### Github
@@ -19,7 +20,7 @@ pnpm i
 
 发送`#nav`或者`#憨憨帮助`查看功能
 
-<img src="https://github.com/hanhan258/hanhan-plugin/assets/96119846/2512bca6-e8ba-42d0-ae78-f1fea6ad7f98" alt="d6f539c6a04749315f336a7f4fd16467" style="zoom:50%;" />
+
 
 ## 搜一搜帮助
 
