@@ -1,5 +1,7 @@
 # hanhan-plugin
+![](./resources/readme/logo.jpg)
 
+我们的宗旨就是摆就完事了。
 
 ## 安装
 
