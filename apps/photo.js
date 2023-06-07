@@ -123,14 +123,14 @@ export class photo extends plugin {
   // 美腿
   async mt (e) {
     // 发送消息
-    this.reply(segment.image('http://lx.linxi.icu/0/'))
+    this.reply(segment.image('http://lx.linxi.icu/API/meitui.php'))
     return true // 返回true 阻挡消息不再往下
   }
 
   // 随机ai
   async sjai (e) {
     // 发送消息
-    this.reply(segment.image('http://lx.linxi.icu/0/ai/'))
+    this.reply(segment.image('http://lx.linxi.icu/API/aitu.php'))
     return true // 返回true 阻挡消息不再往下
   }
 
