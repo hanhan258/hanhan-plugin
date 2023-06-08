@@ -29,6 +29,16 @@ for (let i in files) {
 
 logger.info('**************************************')
 logger.info('hanhan-plugin加载成功')
+logger.info('            ▃▆█▇▄▖')
+logger.info('　 　 　 ▟◤▖      ◥█▎')
+logger.info('   　 ◢◤　 ▐　　　  ▐▉')
+logger.info('　 ▗◤　　　▂　▗▖　　▕█▎')
+logger.info('　◤　▗▅▖◥▄　▀◣　　█▊')
+logger.info('▐　▕▎◥▖◣◤　　　　◢██')
+logger.info('█◣　◥▅█▀　　　　▐██◤')
+logger.info('▐█▙▂　　     　◢██◤')
+logger.info('◥██◣　　　　◢▄◤')
+logger.info(' 　　▀██▅▇▀')
 logger.info('仓库地址 https://github.com/hanhan258/hanhan-plugin')
 logger.info('**************************************')
 export { apps }
