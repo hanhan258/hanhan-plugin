@@ -1,8 +1,8 @@
 import plugin from '../../../lib/plugins/plugin.js'
-import fetch from 'node-fetch'
+import xmorse from 'xmorse'
 
 export class morse extends plugin {
-  constructor () {
+  constructor() {
     super({
       /** 功能名称 */
       name: '摩斯',
@@ -30,29 +30,18 @@ export class morse extends plugin {
   }
 
   // 莫斯加密
-  async morseEn (e) {
-    let sendmsg = []
+  async morseEn(e) {
     let encode = e.msg.replace(/^#?(莫斯|摩斯)加密/, '').trim()
-    // 下面接口二选一
-    // https://xiaobapi.top/api/xb/api/mesdm.php?type=en&msg=${encode}
-    let url = `http://www.plapi.tk/api/mesdm.php?type=%E5%8A%A0%E5%AF%86&msg=${encode}`
-    let response = await fetch(url) // 调用接口获取数据
-    let res = await response.text()
-    sendmsg.push(res)
-    await this.reply(sendmsg, true)
+    // standart morse
+    let result = xmorse.encode(`${encode}`);
+    await this.reply(result, true)
   }
 
   // 莫斯解密
-  async morseDe (e) {
-    let sendmsg = []
-
+  async morseDe(e) {
     let encode = e.msg.replace(/^#?(莫斯|摩斯)解密/, '').trim()
-    // 下面接口二选一
-    // https://xiaobapi.top/api/xb/api/mesdm.php?type=de&msg=${encode}
-    let url = `http://www.plapi.tk/api/mesdm.php?type=%E8%A7%A3%E5%AF%86&msg=${encode}`
-    let response = await fetch(url) // 调用接口获取数据
-    let res = await response.text()
-    sendmsg.push(res)
-    await this.reply(sendmsg, true)
+    // standart morse
+    let result = xmorse.decode(`${encode}`);
+    await this.reply(result, true)
   }
 }

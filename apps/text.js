@@ -38,9 +38,21 @@ export class text extends plugin {
           reg: '^#?人生倒计时',
           /** 执行方法 */
           fnc: 'rsdjs'
+        },
+        {
+          /** 命令正则匹配 */
+          reg: '^#?(今天|早上|中午|晚上|下午|现在)吃什么',
+          /** 执行方法 */
+          fnc: 'eat'
         }
       ]
     })
+  }
+  // 今天吃什么
+  async eat(e){
+    let resp = await fetch('http://api.yujn.cn/api/chi.php?')
+    let result = resp.text()
+    await this.reply(result)
   }
 
   // 人生倒计时

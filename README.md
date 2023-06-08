@@ -22,13 +22,13 @@ pnpm i
 
 发送`#nav`或者`#憨憨帮助`查看功能
 
-![9c055127d23b558114f2621c5b90d858](https://github.com/hanhan258/hanhan-plugin/assets/96119846/bacb283a-52ad-464c-bd60-c098c2c65c8c)
+![9c055127d23b558114f2621c5b90d858](./resources/readme/help.jpg)
 
 ## 搜一搜帮助
 
 发送`#搜一搜帮助`查看功能
 
-<img src="https://github.com/hanhan258/hanhan-plugin/assets/96119846/64f13d37-6274-48bb-bd47-5a491f190536" alt="ed938cc31092b55fefc19bebdb6f44f1" style="zoom:50%;" />
+![9c055127d23b558114f2621c5b90d858](./resources/readme/sys.jpg)
 
 
 ## 说明

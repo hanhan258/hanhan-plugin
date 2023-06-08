@@ -35,7 +35,7 @@ export class diaotu extends plugin {
                     fnc: 'diaotu'
                 },
                 {
-                    reg: '原神，启动！',
+                    reg: '^#?原神(，|,)启动(！|!)',
                     fnc: 'ysqd'
                 },
             ]

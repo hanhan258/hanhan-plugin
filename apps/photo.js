@@ -67,9 +67,22 @@ export class photo extends plugin {
           reg: '^#?每日英语',
           /** 执行方法 */
           fnc: 'mryy'
+        },
+        {
+          /** 命令正则匹配 */
+          reg: '^#?随机柴郡',
+          /** 执行方法 */
+          fnc: 'cj'
         }
       ]
     })
+  }
+
+  // 随机柴郡
+  async cj (e) {
+    // 发送消息
+    await this.reply(segment.image('http://api.yujn.cn/api/chaijun.php?'))
+    return true // 返回true 阻挡消息不再往下
   }
 
   // 每日英语
@@ -102,34 +115,34 @@ export class photo extends plugin {
   // mc酱
   async mc (e) {
     // 发送消息
-    this.reply(segment.image('https://www.hlapi.cn/api/mcj'))
+    await this.reply(segment.image('https://www.hlapi.cn/api/mcj'))
     return true // 返回true 阻挡消息不再往下
   }
 
   // 小c酱
   async xiaoc (e) {
     // 发送消息
-    this.reply(segment.image('http://api.yujn.cn/api/xcj.php?'))
+    await this.reply(segment.image('http://api.yujn.cn/api/xcj.php?'))
     return true // 返回true 阻挡消息不再往下
   }
 
   // 兽猫酱
   async shoumao (e) {
     // 发送消息
-    this.reply(segment.image('http://api.yujn.cn/api/smj.php?'))
+    await this.reply(segment.image('http://api.yujn.cn/api/smj.php?'))
     return true // 返回true 阻挡消息不再往下
   }
 
   // 美腿
   async mt (e) {
-    this.reply(segment.image('http://lx.linxi.icu/API/meitui.php'))
+    await this.reply(segment.image('http://lx.linxi.icu/API/meitui.php'))
     return true // 返回true 阻挡消息不再往下
   }
 
   // 随机ai
   async sjai (e) {
     // 发送消息
-    this.reply(segment.image('http://lx.linxi.icu/API/aitu.php'))
+    await this.reply(segment.image('http://lx.linxi.icu/API/aitu.php'))
     return true // 返回true 阻挡消息不再往下
   }
 
