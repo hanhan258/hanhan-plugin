@@ -148,18 +148,8 @@ export class photo extends plugin {
 
   // 买家秀
   async buyerShow (e) {
-    // 接口地址
-    let url = 'https://api.dzzui.com/api/imgtaobao'
-    let msg = []
-    try {
-      let response = await axios.get(url)
-      msg.push(segment.image(response.data.imgurl))
-      // 发送消息
-      this.reply(msg)
-    } catch (error) {
-      e.reply(error)
-      console.error(error)
-    }
+    // 发送消息
+    await this.reply(segment.image('https://api.dzzui.com/api/imgtaobao'))
     return true // 返回true 阻挡消息不再往下
   }
 }
