@@ -22,16 +22,16 @@ export class diaotu extends plugin {
             rule: [
                 {
                     /** 命令正则匹配 */
-                    reg: '^#来张(表情图|表情)$',
+                    reg: '^#?来张(表情图|表情)$',
                     /** 执行方法 */
                     fnc: 'bq'
                 },
                 {
-                    reg: '^#(叼|吊|屌|沙雕)发言$',
+                    reg: '^#?(叼|吊|屌|沙雕)发言$',
                     fnc: 'qydiaotu'
                 },
                 {
-                    reg: '^#来张(叼|雕|吊)图$',
+                    reg: '^#?来张(叼|雕|吊)图$',
                     fnc: 'diaotu'
                 },
                 {

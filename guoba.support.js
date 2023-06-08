@@ -1,5 +1,6 @@
 import path from "path";
 
+
 export function supportGuoba() {
   return {
     // 插件信息，将会显示在前端页面

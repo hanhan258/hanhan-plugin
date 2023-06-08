@@ -95,34 +95,33 @@ export class photo extends plugin {
   async tianqi (e) {
     let encode = e.msg.replace(/^#?天气/, '').trim()
     // 发送消息
-    await this.reply(segment.image(`https://api.caonm.net/api/qqtq/t.php?msg=${encode}&type=img&n=1`), true)
+    await this.reply(segment.image(`https://xiaobapi.top/api/xb/api/city.php?type=image&msg=${encode}`), true)
     return true // 返回true 阻挡消息不再往下
   }
 
   // mc酱
   async mc (e) {
     // 发送消息
-    this.reply(segment.image('http://api.caonm.net/api/mc/index.php'))
+    this.reply(segment.image('https://www.hlapi.cn/api/mcj'))
     return true // 返回true 阻挡消息不再往下
   }
 
   // 小c酱
   async xiaoc (e) {
     // 发送消息
-    this.reply(segment.image('http://api.caonm.net/api/xc/index.php'))
+    this.reply(segment.image('http://api.yujn.cn/api/xcj.php?'))
     return true // 返回true 阻挡消息不再往下
   }
 
   // 兽猫酱
   async shoumao (e) {
     // 发送消息
-    this.reply(segment.image('http://api.caonm.net/api/smj/index.php'))
+    this.reply(segment.image('http://api.yujn.cn/api/smj.php?'))
     return true // 返回true 阻挡消息不再往下
   }
 
   // 美腿
   async mt (e) {
-    // 发送消息
     this.reply(segment.image('http://lx.linxi.icu/API/meitui.php'))
     return true // 返回true 阻挡消息不再往下
   }
@@ -137,7 +136,7 @@ export class photo extends plugin {
   // 买家秀
   async buyerShow (e) {
     // 接口地址
-    let url = 'https://api.dzzui.com/api/imgtaobao?format=json'
+    let url = 'https://api.dzzui.com/api/imgtaobao'
     let msg = []
     try {
       let response = await axios.get(url)
@@ -145,6 +144,7 @@ export class photo extends plugin {
       // 发送消息
       this.reply(msg)
     } catch (error) {
+      e.reply(error)
       console.error(error)
     }
     return true // 返回true 阻挡消息不再往下
