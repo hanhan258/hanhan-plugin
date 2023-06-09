@@ -3,7 +3,7 @@ import dns from 'dns'
 import { exec, execSync } from 'child_process'
 
 // token of https://ipinfo.io
-const token = 'd557341e6cfb56'
+const token = ''
 // const reply = true
 export class ping extends plugin {
   constructor () {
