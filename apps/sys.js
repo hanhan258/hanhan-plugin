@@ -34,175 +34,175 @@ export class sys extends plugin {
       priority: 50,
       rule: [
         {
-          reg: '^#?#(百度|baidu)=(.*)$',
+          reg: '^#?(百度|baidu)(=|＝)(.*)$',
           fnc: 'so_baidu'
         },
         {
-          reg: '^#?#搜狗=(.*)$',
+          reg: '^#?搜狗(=|＝)(.*)$',
           fnc: 'so_sg'
         },
         {
-          reg: '^#?#duckduckgo=(.*)$',
+          reg: '^#?duckduckgo(=|＝)(.*)$',
           fnc: 'so_duckduckgo'
         },
         {
-          reg: '^#?#必应=(.*)$',
+          reg: '^#?必应(=|＝)(.*)$',
           fnc: 'so_bing'
         },
         {
-          reg: '^#?#google=(.*)$',
+          reg: '^#?google(=|＝)(.*)$',
           fnc: 'so_google'
         },
         {
-          reg: '^#?#wiki=(.*)$',
+          reg: '^#?wiki(=|＝)(.*)$',
           fnc: 'so_wiki'
         },
         {
-          reg: '^#?#ecosia=(.*)$',
+          reg: '^#?ecosia(=|＝)(.*)$',
           fnc: 'so_ecosia'
         },
         {
-          reg: '^#?#360=(.*)$',
+          reg: '^#?360(=|＝)(.*)$',
           fnc: 'so_360'
         },
         {
-          reg: '^#?#2345=(.*)$',
+          reg: '^#?2345(=|＝)(.*)$',
           fnc: 'so_2345'
         },
         {
-          reg: '^#?#youtube=(.*)$',
+          reg: '^#?youtube(=|＝)(.*)$',
           fnc: 'so_ytb'
         },
         {
-          reg: '^#?#推特找人=(.*)$',
+          reg: '^#?推特找人(=|＝)(.*)$',
           fnc: 'so_twzr'
         },
         {
-          reg: '^#?#科学打开网页=(.*)$',
+          reg: '^#?科学打开网页(=|＝)(.*)$',
           fnc: 'so_fqopenwebui'
         },
         {
-          reg: '^#?#打开网页=(.*)$',
+          reg: '^#?打开网页(=|＝)(.*)$',
           fnc: 'so_openwebui'
         },
         {
-          reg: '^#?#bilibili=(.*)$',
+          reg: '^#?bilibili(=|＝)(.*)$',
           fnc: 'so_blbl'
         },
         {
-          reg: '^#?#github=(.*)$',
+          reg: '^#?github(=|＝)(.*)$',
           fnc: 'so_github'
         },
         {
-          reg: '^#?#动漫资源=(.*)$',
+          reg: '^#?动漫资源(=|＝)(.*)$',
           fnc: 'so_acg'
         },
         {
-          reg: '^#?#cnping=(.*)$',
+          reg: '^#?cnping(=|＝)(.*)$',
           fnc: 'so_ping'
         },
         {
-          reg: '^#?#webcrawler=(.*)$',
+          reg: '^#?webcrawler(=|＝)(.*)$',
           fnc: 'so_webcrawler'
         },
         {
-          reg: '^#?#aol=(.*)$',
+          reg: '^#?aol(=|＝)(.*)$',
           fnc: 'so_aol'
         },
         {
-          reg: '^#?#ask=(.*)$',
+          reg: '^#?ask(=|＝)(.*)$',
           fnc: 'so_ask'
         },
         {
-          reg: '^#?#yahoo=(.*)$',
+          reg: '^#?yahoo(=|＝)(.*)$',
           fnc: 'so_yahoo'
         },
         {
-          reg: '^#?#pornhub=(.*)$',
+          reg: '^#?pornhub(=|＝)(.*)$',
           fnc: 'so_ph'
         },
         {
-          reg: '^#?#pixiv=(.*)$',
+          reg: '^#?pixiv(=|＝)(.*)$',
           fnc: 'so_pixiv'
         },
         {
-          reg: '^#?#sankaku=(.*)$',
+          reg: '^#?sankaku(=|＝)(.*)$',
           fnc: 'so_sankaku'
         },
         {
-          reg: '^#?#亚马逊=(.*)$',
+          reg: '^#?亚马逊(=|＝)(.*)$',
           fnc: 'so_amz'
         },
         {
-          reg: '^#?#niconico=(.*)$',
+          reg: '^#?niconico(=|＝)(.*)$',
           fnc: 'so_niconico'
         },
         {
-          reg: '^#?#syosetu=(.*)$',
+          reg: '^#?syosetu(=|＝)(.*)$',
           fnc: 'so_syosetu'
         },
         {
-          reg: '^#?#dmm=(.*)$',
+          reg: '^#?dmm(=|＝)(.*)$',
           fnc: 'so_dmm'
         },
         {
-          reg: '^#?#cpu排行(.*)$',
+          reg: '^#?cpu排行(.*)$',
           fnc: 'so_cpuz'
         },
         {
-          reg: '^#?#cpu=(.*)$',
+          reg: '^#?cpu(=|＝)(.*)$',
           fnc: 'so_cpu'
         },
         {
-          reg: '^#?#gpu排行',
+          reg: '^#?gpu排行',
           fnc: 'so_gpuz'
         },
         {
-          reg: '^#?#gpu=(.*)$',
+          reg: '^#?gpu(=|＝)(.*)$',
           fnc: 'so_gpu'
         },
         {
-          reg: '^#?#TMDB=(.*)$',
+          reg: '^#?TMDB(=|＝)(.*)$',
           fnc: 'so_tmdb'
         },
         {
-          reg: '^#?#IMDB=(.*)$',
+          reg: '^#?IMDB(=|＝)(.*)$',
           fnc: 'so_imdb'
         },
         {
-          reg: '^#?#查ip=$',
+          reg: '^#?查ip=$',
           fnc: 'so_ckip'
         },
         {
-          reg: '^#?#查ip=(.*)$',
+          reg: '^#?查ip(=|＝)(.*)$',
           fnc: 'so_cip'
         },
         {
-          reg: '^#?#wallhere=(.*)$',
+          reg: '^#?wallhere(=|＝)(.*)$',
           fnc: 'so_wallhere'
         },
         {
-          reg: '^#?#天眼查=(.*)$',
+          reg: '^#?天眼查(=|＝)(.*)$',
           fnc: 'so_tyc'
         },
         {
-          reg: '^#?#steam=(.*)$',
+          reg: '^#?steam(=|＝)(.*)$',
           fnc: 'so_steam'
         },
         {
-          reg: '^#?#yandex=(.*)$',
+          reg: '^#?yandex(=|＝)(.*)$',
           fnc: 'so_yandex'
         },
         {
-          reg: '^#?#msn天气=(.*)$',
+          reg: '^#?msn天气(=|＝)(.*)$',
           fnc: 'so_bingtq'
         },
         {
-          reg: '^#?#msn天气=$',
+          reg: '^#?msn天气=$',
           fnc: 'so_bingtqo'
         },
         {
-          reg: '^#?#台风路径$',
+          reg: '^#?台风路径$',
           fnc: 'so_tf'
         },
       ]
