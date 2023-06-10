@@ -1,7 +1,6 @@
 import plugin from '../../../lib/plugins/plugin.js'
 import fetch from 'node-fetch'
 import axios from 'axios'
-import { segment } from 'oicq'
 
 export class text extends plugin {
   constructor () {

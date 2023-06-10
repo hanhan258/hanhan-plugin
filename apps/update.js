@@ -31,7 +31,10 @@ export class Update extends plugin {
    * @returns
    */
   async update () {
-    if (!this.e.isMaster) return false
+    if (!this.e.isMaster) {
+      e.reply('需要主人才能更新捏~')
+      return false
+    } 
 
     /** 检查是否正在更新中 */
     if (uping) {

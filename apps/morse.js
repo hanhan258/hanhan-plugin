@@ -5,9 +5,9 @@ export class morse extends plugin {
   constructor() {
     super({
       /** 功能名称 */
-      name: '摩斯',
+      name: '憨憨摩斯',
       /** 功能描述 */
-      dsc: '摩斯',
+      dsc: '憨憨摩斯',
       /** https://oicqjs.github.io/oicq/#events */
       event: 'message',
       /** 优先级，数字越小等级越高 */

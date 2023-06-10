@@ -1,4 +1,5 @@
 import fs from 'node:fs'
+import chalk from 'chalk'
 
 if (!global.segment) {
   global.segment = (await import('oicq')).segment
@@ -28,17 +29,17 @@ for (let i in files) {
 
 
 logger.info('**************************************')
-logger.info('hanhan-plugin加载成功')
-logger.info('            ▃▆█▇▄▖')
-logger.info('　 　 　 ▟◤▖      ◥█▎')
-logger.info('   　 ◢◤　 ▐　　　  ▐▉')
-logger.info('　 ▗◤　　　▂　▗▖　　▕█▎')
-logger.info('　◤　▗▅▖◥▄　▀◣　　█▊')
-logger.info('▐　▕▎◥▖◣◤　　　　◢██')
-logger.info('█◣　◥▅█▀　　　　▐██◤')
-logger.info('▐█▙▂　　     　◢██◤')
-logger.info('◥██◣　　　　◢▄◤')
-logger.info(' 　　▀██▅▇▀')
+logger.info(chalk.green.bold('hanhan-plugin加载成功'))
+logger.info(chalk.green.bold('            ▃▆█▇▄▖'))
+logger.info(chalk.green.bold('　 　 　 ▟◤▖      ◥█▎'))
+logger.info(chalk.green.bold('   　 ◢◤　 ▐　　　  ▐▉'))
+logger.info(chalk.green.bold('　 ▗◤　　　▂　▗▖　　▕█▎'))
+logger.info(chalk.green.bold('　◤　▗▅▖◥▄　▀◣　　█▊'))
+logger.info(chalk.green.bold('▐　▕▎◥▖◣◤　　　　◢██'))
+logger.info(chalk.green.bold('█◣　◥▅█▀　　　　▐██◤'))
+logger.info(chalk.green.bold('▐█▙▂　　     　◢██◤'))
+logger.info(chalk.green.bold('◥██◣　　　　◢▄◤'))
+logger.info(chalk.green.bold(' 　　▀██▅▇▀'))
 logger.info('仓库地址 https://github.com/hanhan258/hanhan-plugin')
 logger.info('**************************************')
 export { apps }

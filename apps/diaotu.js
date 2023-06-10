@@ -14,7 +14,7 @@ export class diaotu extends plugin {
             /** 功能名称 */
             name: '憨憨叼图',
             /** 功能描述 */
-            dsc: '简单开发示例',
+            dsc: '憨憨叼图',
             /** https://oicqjs.github.io/oicq/#events */
             event: 'message',
             /** 优先级，数字越小等级越高 */

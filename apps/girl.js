@@ -1,6 +1,5 @@
 import plugin from '../../../lib/plugins/plugin.js'
 import { segment } from 'oicq'
-import axios from 'axios'
 
 export class girl extends plugin {
   constructor () {
@@ -65,7 +64,8 @@ export class girl extends plugin {
   // 黑丝
   async hs (e) {
     // 发送消息
-    await this.reply(segment.image('http://api.yujn.cn/api/heisi.php?'))
+    // http://api.yujn.cn/api/heisi.php?
+    await this.reply(segment.image('http://shanhe.kim/api/tu/hs.php'))
     return true // 返回true 阻挡消息不再往下
   }
 

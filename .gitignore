@@ -1,3 +1,5 @@
+!config/config.example.json
+
 # Logs
 logs
 *.log

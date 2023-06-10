@@ -1,7 +1,8 @@
 import plugin from '../../../lib/plugins/plugin.js'
-import { segment } from "oicq";
-import puppeteer, { connect } from 'puppeteer';
-const proxyChain = import('proxy-chain');
+import { Config } from '../utils/config.js'
+import { segment } from "oicq"
+import puppeteer, { connect } from 'puppeteer'
+const proxyChain = import('proxy-chain')
 //代码小白。。。能用就行哈，求大佬指点
 //打开市面上几乎...（我的功能非常简单...）
 //启动时记得先修改下面的代理地址和浏览器地址，以防出现错误
@@ -10,13 +11,13 @@ const proxyChain = import('proxy-chain');
 
 
 //代理设置
-const proxyUrl = "http://127.0.0.1:7890"
+const proxyUrl = Config.proxyUrl
 //chrome地址，edge也可以
-const chromeF = "C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe"
+const chromeF = Config.chromeF
 //搜索提示词，个别网站访问较慢可以适当修改提示增加提示时间
 const echo = `搜索中...`
 //关闭无头模式，即真打开浏览器,(后台就会有个浏览器闪现出来),linux有桌面板可以打开, 无桌面版建议关闭
-const noie = true  //现在为无头模式
+const noie = Config.noie  //现在为无头模式
 const echo0 = `30000ms erorr`
 
 
@@ -27,7 +28,7 @@ export class sys extends plugin {
       /** 功能名称 */
       name: '憨憨-全网一下',
       /** 功能描述 */
-      dsc: '简单开发示例',
+      dsc: '憨憨-全网一下',
       /** https://oicqjs.github.io/oicq/#events */
       event: 'message',
       /** 优先级，数字越小等级越高 */

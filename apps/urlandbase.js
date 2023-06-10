@@ -4,9 +4,9 @@ export class urlAndBase extends plugin {
   constructor () {
     super({
       /** 功能名称 */
-      name: '憨憨小功能',
+      name: '憨憨编码',
       /** 功能描述 */
-      dsc: '憨憨写的无用小功能',
+      dsc: '憨憨编码',
       /** https://oicqjs.github.io/oicq/#events */
       event: 'message',
       /** 优先级，数字越小等级越高 */
