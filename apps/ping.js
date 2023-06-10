@@ -30,7 +30,7 @@ export class ping extends plugin {
 
   // ping网站或ip
   async ping (e) {
-    if (!token) {
+    if (!Config.pingtoken) {
       e.reply('请前往 https://ipinfo.io 注册账号，使用 #憨憨设置pingtoken 命令进行设置')
       return false
     }
