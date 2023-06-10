@@ -1,7 +1,7 @@
 import fs from 'fs'
 import lodash from 'lodash'
 const defaultConfig = {
-  "pingtoken": "",
+  "pingToken": "",
   "proxyUrl": "",
   "chromeF": "",
   "noie": true

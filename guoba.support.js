@@ -19,7 +19,7 @@ export function supportGuoba() {
       iconColor: "#d19f56",
       iconPath: path.join(
         process.cwd() + "/plugins/hanhan-plugin/resources/readme/logo.jpg"
-        ),
+      ),
     },
     // 配置项信息
     configInfo: {
@@ -28,7 +28,7 @@ export function supportGuoba() {
         {
           field: 'pingToken',
           label: 'ping',
-          bottomHelpMessage: '填写后才能使用ping指令，请前往 https://ipinfo.io 注册账号并将获取到的token配置到这里',
+          bottomHelpMessage: '填写后才能使用ping指令，请前往 https://ipinfo.io 注册账号并将获取到的token配置到这里，设置好之后请重启',
           component: 'Input'
         },
         {
@@ -57,7 +57,6 @@ export function supportGuoba() {
       // 设置配置的方法（前端点确定后调用的方法）
       setConfigData (data, { Result }) {
         for (let [keyPath, value] of Object.entries(data)) {
-          if (keyPath === 'translateLang' || keyPath === 'targetArea') { value = value.toString().split(/[,，;；|]/) }
           if (Config[keyPath] !== value) { Config[keyPath] = value }
         }
         return Result.ok({}, '保存成功~')

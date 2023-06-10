@@ -28,7 +28,7 @@ export class manage extends plugin {
       return false
     } 
     this.setContext('savePingToken')
-    await this.reply('请前往 https://ipinfo.io 注册账号获取token，并发送', true)
+    await this.reply('请前往 https://ipinfo.io 注册账号获取token，并发送，设置好之后请重启', true)
     return false
   }
 
@@ -42,7 +42,7 @@ export class manage extends plugin {
       return
     }
     // todo
-    Config.pingtoken = token
+    Config.pingToken = token
     await this.reply('PingToken设置成功', true)
     this.finish('savePingToken')
   }
