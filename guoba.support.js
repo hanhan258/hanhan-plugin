@@ -34,7 +34,7 @@ export function supportGuoba() {
         {
           field: 'proxyUrl',
           label: '代理',
-          bottomHelpMessage: '用于访问外网资源，例如：Google',
+          bottomHelpMessage: '用于访问外网资源，http或socks5代理,例如：http://127.0.0.1:7890',
           component: 'Input'
         },
         {
@@ -48,6 +48,12 @@ export function supportGuoba() {
           label: '无头模式',
           bottomHelpMessage: '关闭无头模式会真打开浏览器进行截图',
           component: 'Switch'
+        },
+        {
+          field: 'tmdbkey',
+          label: 'tmdb key',
+          bottomHelpMessage: 'tmdb官网获取的key，请前往https://developer.themoviedb.org/docs 注册账号并将获取到的key配置到这里，设置好之后请重启',
+          component: 'Input'
         },
       ],
       // 获取配置数据方法（用于前端填充显示数据）
