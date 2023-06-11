@@ -2,9 +2,10 @@ import fs from 'fs'
 import lodash from 'lodash'
 const defaultConfig = {
   "pingToken": "",
-  "proxyUrl": "",
+  "proxyUrl": "http://127.0.0.1:7890",
   "chromeF": "",
-  "noie": true
+  "noie": true,
+  "tmdbkey":'',
 }
 const _path = process.cwd()
 let config = {}
