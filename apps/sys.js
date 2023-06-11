@@ -1,37 +1,22 @@
 import plugin from '../../../lib/plugins/plugin.js'
 import { Config } from '../utils/config.js'
 import { segment } from "oicq"
-import puppeteer, { connect } from 'puppeteer'
-const proxyChain = import('proxy-chain')
-//代码小白。。。能用就行哈，求大佬指点
-//打开市面上几乎...（我的功能非常简单...）
-//启动时记得先修改下面的代理地址和浏览器地址，以防出现错误
+import puppeteer from 'puppeteer'
 
-//千万不要忘记pnpm i puppeteer - w 和pnpm i proxy-chain -w，安装依赖！！！
-
-
-//代理设置
 const proxyUrl = Config.proxyUrl
-//chrome地址，edge也可以
 const chromeF = Config.chromeF
-//搜索提示词，个别网站访问较慢可以适当修改提示增加提示时间
-const echo = `搜索中...`
-//关闭无头模式，即真打开浏览器,(后台就会有个浏览器闪现出来),linux有桌面板可以打开, 无桌面版建议关闭
-const noie = Config.noie  //现在为无头模式
-const echo0 = `30000ms erorr`
+const echo = Config.sysecho
+const noie = Config.noie 
+const echo0 = Config.sysecho0
 
 
 
 export class sys extends plugin {
   constructor() {
     super({
-      /** 功能名称 */
       name: '憨憨-全网一下',
-      /** 功能描述 */
       dsc: '憨憨-全网一下',
-      /** https://oicqjs.github.io/oicq/#events */
       event: 'message',
-      /** 优先级，数字越小等级越高 */
       priority: 50,
       rule: [
         {
@@ -162,10 +147,10 @@ export class sys extends plugin {
           reg: '^#?gpu(=|＝)?(.*)$',
           fnc: 'so_gpu'
         },
-        {
+       /* {
           reg: '^#?TMDB(=|＝)?(.*)$',
           fnc: 'so_tmdb'
-        },
+        },*/
         {
           reg: '^#?IMDB(=|＝)?(.*)$',
           fnc: 'so_imdb'
@@ -214,7 +199,7 @@ export class sys extends plugin {
   async so_google(e) {
     try {
       logger.info("[用户命令]", e.msg);
-      let msg = e.msg.replace("#google=", "").trim();
+      let msg = e.msg.replace(/^#?google(=|＝)?/, "").trim();
       msg = msg.split(" ");
       await e.reply(echo/*+`你所搜索的内容的直链:https://www.google.com/search?q=`+msg*/) //提示词    
       const browser = await puppeteer.launch({
@@ -241,7 +226,7 @@ export class sys extends plugin {
   async so_bing(e) {
     try {
       logger.info("[用户命令]", e.msg);
-      let msg = e.msg.replace("#必应=", "").trim();
+      let msg = e.msg.replace(/^#?必应(=|＝)?/, "").trim();
       msg = msg.split(" ");
       await e.reply(echo) //提示词        
       const browser = await puppeteer.launch({
@@ -268,7 +253,7 @@ export class sys extends plugin {
   async so_baidu(e) {
     try {
       logger.info("[用户命令]", e.msg);
-      let msg = e.msg.replace(/^#?(百度|baidu)=/, '').trim()
+      let msg = e.msg.replace(/^#?(百度|baidu)(=|＝)?/, '').trim()
       msg = msg.split(" ");
       await e.reply(echo) //提示词    
       const browser = await puppeteer.launch({
@@ -293,7 +278,7 @@ export class sys extends plugin {
   async so_360(e) {
     try {
       logger.info("[用户命令]", e.msg);
-      let msg = e.msg.replace("#360=", "").trim();
+      let msg = e.msg.replace(/^#?360(=|＝)?/, "").trim();
       msg = msg.split(" ");
       await e.reply(echo) //提示词 
       const page = await browser.newPage();
@@ -319,7 +304,7 @@ export class sys extends plugin {
   async so_twzr(e) {
     try {
       logger.info("[用户命令]", e.msg);
-      let msg = e.msg.replace("#推特找人=", "").trim();
+      let msg = e.msg.replace(/^#?推特找人(=|＝)?/, "").trim();
       msg = msg.split(" ");
       await e.reply(echo) //提示词      
       const browser = await puppeteer.launch({
@@ -347,7 +332,7 @@ export class sys extends plugin {
   async so_ytb(e) {
     try {
       logger.info("[用户命令]", e.msg);
-      let msg = e.msg.replace("#youtube=", "").trim();
+      let msg = e.msg.replace(/^#?youtube(=|＝)?/, "").trim();
       msg = msg.split(" ");
       await e.reply(echo) //提示词      
       const browser = await puppeteer.launch({
@@ -375,7 +360,7 @@ export class sys extends plugin {
   async so_sg(e) {
     try {
       logger.info("[用户命令]", e.msg);
-      let msg = e.msg.replace("#搜狗=", "").trim();
+      let msg = e.msg.replace(/^#?搜狗(=|＝)?/, "").trim();
       msg = msg.split(" ");
       await e.reply(echo) //提示词      
       const browser = await puppeteer.launch({
@@ -401,7 +386,7 @@ export class sys extends plugin {
   async so_duckduckgo(e) {
     try {
       logger.info("[用户命令]", e.msg);
-      let msg = e.msg.replace("#duckduckgo=", "").trim();
+      let msg = e.msg.replace(/^#?duckduckgo(=|＝)?/, "").trim();
       msg = msg.split(" ");
       await e.reply(echo) //提示词      
       const browser = await puppeteer.launch({
@@ -427,7 +412,7 @@ export class sys extends plugin {
   async so_wiki(e) {
     try {
       logger.info("[用户命令]", e.msg);
-      let msg = e.msg.replace("#wiki=", "").trim();
+      let msg = e.msg.replace(/^#?wiki(=|＝)?/, "").trim();
       msg = msg.split(" ");
       await e.reply(echo) //提示词      
       const browser = await puppeteer.launch({
@@ -453,7 +438,7 @@ export class sys extends plugin {
   async so_ecosia(e) {
     try {
       logger.info("[用户命令]", e.msg);
-      let msg = e.msg.replace("#ecosia=", "").trim();
+      let msg = e.msg.replace(/^#?ecosia(=|＝)?/, "").trim();
       msg = msg.split(" ");
       await e.reply(echo) //提示词    
       const browser = await puppeteer.launch({
@@ -478,7 +463,7 @@ export class sys extends plugin {
   async so_fqopenwebui(e) {
     try {
       logger.info("[用户命令]", e.msg);
-      let msg = e.msg.replace("#科学打开网页=", "").trim();
+      let msg = e.msg.replace(/^#?科学打开网页(=|＝)?/, "").trim();
       msg = msg.split(" ");
       await e.reply(`打开中...请骚等`) //提示词    
       const browser = await puppeteer.launch({
@@ -505,7 +490,7 @@ export class sys extends plugin {
   async so_openwebui(e) {
     try {
       logger.info("[用户命令]", e.msg);
-      let msg = e.msg.replace("#打开网页=", "").trim();
+      let msg = e.msg.replace(/^#?打开网页(=|＝)?/, "").trim();
       msg = msg.split(" ");
       await e.reply(`打开中...请骚等`) //提示词    
       const browser = await puppeteer.launch({
@@ -531,7 +516,7 @@ export class sys extends plugin {
   async so_blbl(e) {
     try {
       logger.info("[用户命令]", e.msg);
-      let msg = e.msg.replace("#bilibili=", "").trim();
+      let msg = e.msg.replace(/^#?bilibili(=|＝)?/, "").trim();
       msg = msg.split(" ");
       await e.reply(echo) //提示词    
       const browser = await puppeteer.launch({
@@ -557,7 +542,7 @@ export class sys extends plugin {
   async so_github(e) {
     try {
       logger.info("[用户命令]", e.msg);
-      let msg = e.msg.replace("#github=", "").trim();
+      let msg = e.msg.replace(/^#?github(=|＝)?/, "").trim();
       msg = msg.split(" ");
       await e.reply(echo) //提示词    
       const browser = await puppeteer.launch({
@@ -585,7 +570,7 @@ export class sys extends plugin {
   async so_acg(e) {
     try {
       logger.info("[用户命令]", e.msg);
-      let msg = e.msg.replace("#动漫资源=", "").trim();
+      let msg = e.msg.replace(/^#?动漫资源(=|＝)?/, "").trim();
       msg = msg.split(" ");
       await e.reply(echo) //提示词
       const browser = await puppeteer.launch({
@@ -610,7 +595,7 @@ export class sys extends plugin {
   async so_ping(e) {
     try {
       logger.info("[用户命令]", e.msg);
-      let msg = e.msg.replace("#cnping=", "").trim();
+      let msg = e.msg.replace(/^#?cnping(=|＝)?/, "").trim();
       msg = msg.split(" ");
       await e.reply(`ping中....请等待30秒`)
       const browser = await puppeteer.launch({
@@ -637,7 +622,7 @@ export class sys extends plugin {
   async so_webcrawler(e) {
     try {
       logger.info("[用户命令]", e.msg);
-      let msg = e.msg.replace("#webcrawler=", "").trim();
+      let msg = e.msg.replace(/^#?webcrawler(=|＝)?/, "").trim();
       msg = msg.split(" ");
       await e.reply(echo) //提示词
       const browser = await puppeteer.launch({
@@ -663,7 +648,7 @@ export class sys extends plugin {
   async so_aol(e) {
     try {
       logger.info("[用户命令]", e.msg);
-      let msg = e.msg.replace("#aol=", "").trim();
+      let msg = e.msg.replace(/^#?aol(=|＝)?/, "").trim();
       msg = msg.split(" ");
       await e.reply(echo) //提示词
       const browser = await puppeteer.launch({
@@ -689,7 +674,7 @@ export class sys extends plugin {
   async so_ask(e) {
     try {
       logger.info("[用户命令]", e.msg);
-      let msg = e.msg.replace("#ask=", "").trim();
+      let msg = e.msg.replace(/^#?ask(=|＝)?/, "").trim();
       msg = msg.split(" ");
       await e.reply(echo) //提示词
       const browser = await puppeteer.launch({
@@ -715,7 +700,7 @@ export class sys extends plugin {
   async so_yahoo(e) {
     try {
       logger.info("[用户命令]", e.msg);
-      let msg = e.msg.replace("#yahoo=", "").trim();
+      let msg = e.msg.replace(/^#?yahoo(=|＝)?/, "").trim();
       msg = msg.split(" ");
       await e.reply(echo) //提示词
       const browser = await puppeteer.launch({
@@ -741,7 +726,7 @@ export class sys extends plugin {
   async so_ph(e) {
     try {
       logger.info("[用户命令]", e.msg);
-      let msg = e.msg.replace("#pornhub=", "").trim();
+      let msg = e.msg.replace(/^#?pornhub(=|＝)?/, "").trim();
       msg = msg.split(" ");
       await e.reply(echo) //提示词
       const browser = await puppeteer.launch({
@@ -767,7 +752,7 @@ export class sys extends plugin {
   async so_pixiv(e) {
     try {
       logger.info("[用户命令]", e.msg);
-      let msg = e.msg.replace("#pixiv=", "").trim();
+      let msg = e.msg.replace(/^#?pixiv(=|＝)?/, "").trim();
       msg = msg.split(" ");
       await e.reply(echo) //提示词
       const browser = await puppeteer.launch({
@@ -793,7 +778,7 @@ export class sys extends plugin {
   async so_sankaku(e) {
     try {
       logger.info("[用户命令]", e.msg);
-      let msg = e.msg.replace("#sankaku=", "").trim();
+      let msg = e.msg.replace(/^#?sankaku(=|＝)?/, "").trim();
       msg = msg.split(" ");
       await e.reply(echo + '请烧等30秒') //提示词
       const browser = await puppeteer.launch({
@@ -820,7 +805,7 @@ export class sys extends plugin {
   async so_amz(e) {
     try {
       logger.info("[用户命令]", e.msg);
-      let msg = e.msg.replace("#亚马逊=", "").trim();
+      let msg = e.msg.replace(/^#?亚马逊(=|＝)?/, "").trim();
       msg = msg.split(" ");
       await e.reply(echo) //提示词
       const browser = await puppeteer.launch({
@@ -846,7 +831,7 @@ export class sys extends plugin {
   async so_niconico(e) {
     try {
       logger.info("[用户命令]", e.msg);
-      let msg = e.msg.replace("#niconico=", "").trim();
+      let msg = e.msg.replace(/^#?niconico(=|＝)?/, "").trim();
       msg = msg.split(" ");
       await e.reply(echo) //提示词
       const browser = await puppeteer.launch({
@@ -872,7 +857,7 @@ export class sys extends plugin {
   async so_syosetu(e) {
     try {
       logger.info("[用户命令]", e.msg);
-      let msg = e.msg.replace("#syosetu=", "").trim();
+      let msg = e.msg.replace(/^#?syosetu(=|＝)?/, "").trim();
       msg = msg.split(" ");
       await e.reply(echo) //提示词
       const browser = await puppeteer.launch({
@@ -898,7 +883,7 @@ export class sys extends plugin {
   async so_dmm(e) {
     try {
       logger.info("[用户命令]", e.msg);
-      let msg = e.msg.replace("#dmm=", "").trim();
+      let msg = e.msg.replace(/^#?dmm(=|＝)?/, "").trim();
       msg = msg.split(" ");
       await e.reply(echo) //提示词
       const browser = await puppeteer.launch({
@@ -923,9 +908,7 @@ export class sys extends plugin {
   /** e.msg 用户的命令消息 */
   async so_cpuz(e) {
     try {
-      logger.info("[用户命令]", e.msg);
-      let msg = e.msg.replace("#cpu排行").trim();
-      msg = msg.split(" ");
+      logger.info("[用户命令]");
       await e.reply(echo) //提示词
       const browser = await puppeteer.launch({
         headless: noie,
@@ -950,7 +933,7 @@ export class sys extends plugin {
   async so_cpu(e) {
     try {
       logger.info("[用户命令]", e.msg);
-      let msg = e.msg.replace("#cpu=", "").trim();
+      let msg = e.msg.replace(/^#?cpu(=|＝)?/, "").trim();
       msg = msg.split(" ");
       await e.reply(echo) //提示词
       const browser = await puppeteer.launch({
@@ -974,9 +957,7 @@ export class sys extends plugin {
   /** e.msg 用户的命令消息 */
   async so_gpuz(e) {
     try {
-      logger.info("[用户命令]", e.msg);
-      let msg = e.msg.replace("#gpu排行").trim();
-      msg = msg.split(" ");
+      logger.info("[用户命令]");
       await e.reply(echo) //提示词
       const browser = await puppeteer.launch({
         headless: noie,
@@ -1000,7 +981,7 @@ export class sys extends plugin {
   async so_gpu(e) {
     try {
       logger.info("[用户命令]", e.msg);
-      let msg = e.msg.replace("#gpu=", "").trim();
+      let msg = e.msg.replace(/^#?gpu(=|＝)?/, "").trim();
       msg = msg.split(" ");
       await e.reply(echo) //提示词
       const browser = await puppeteer.launch({
@@ -1022,7 +1003,7 @@ export class sys extends plugin {
     }
   }
   /** e.msg 用户的命令消息 */
-  async so_tmdb(e) {
+/*  async so_tmdb(e) {
     try {
       logger.info("[用户命令]", e.msg);
       let msg = e.msg.replace("#TMDB=", "").trim();
@@ -1050,7 +1031,7 @@ export class sys extends plugin {
   async so_imdb(e) {
     try {
       logger.info("[用户命令]", e.msg);
-      let msg = e.msg.replace("#IMDB=", "").trim();
+      let msg = e.msg.replace(/^#?IMDB(=|＝)?/, "").trim();
       msg = msg.split(" ");
       await e.reply(echo) //提示词
       const browser = await puppeteer.launch({
@@ -1077,7 +1058,7 @@ export class sys extends plugin {
   async so_cip(e) {
     try {
       logger.info("[用户命令]", e.msg);
-      let msg = e.msg.replace("#查ip=", "").trim();
+      let msg = e.msg.replace(/^#?查ip(=|＝)?/, "").trim();
       msg = msg.split(" ");
       await e.reply(echo) //提示词
       const browser = await puppeteer.launch({
@@ -1109,7 +1090,7 @@ export class sys extends plugin {
   async so_wallhere(e) {
     try {
       logger.info("[用户命令]", e.msg);
-      let msg = e.msg.replace("#wallhere=", "").trim();
+      let msg = e.msg.replace(/^#?wallhere(=|＝)?/, "").trim();
       msg = msg.split(" ");
       await e.reply(echo) //提示词
       const browser = await puppeteer.launch({
@@ -1136,7 +1117,7 @@ export class sys extends plugin {
   async so_tyc(e) {
     try {
       logger.info("[用户命令]", e.msg);
-      let msg = e.msg.replace("#天眼查=", "").trim();
+      let msg = e.msg.replace(/^#?天眼查(=|＝)?/, "").trim();
       msg = msg.split(" ");
       await e.reply(echo) //提示词
       const browser = await puppeteer.launch({
@@ -1163,7 +1144,7 @@ export class sys extends plugin {
   async so_steam(e) {
     try {
       logger.info("[用户命令]", e.msg);
-      let msg = e.msg.replace("#steam=", "").trim();
+      let msg = e.msg.replace(/^#?steam(=|＝)?/, "").trim();
       msg = msg.split(" ");
       await e.reply(echo) //提示词
       const browser = await puppeteer.launch({
@@ -1190,7 +1171,7 @@ export class sys extends plugin {
   async so_yandex(e) {
     try {
       logger.info("[用户命令]", e.msg);
-      let msg = e.msg.replace("#yandex=", "").trim();
+      let msg = e.msg.replace(/^#?yandex(=|＝)?/, "").trim();
       msg = msg.split(" ");
       await e.reply(echo) //提示词
       const browser = await puppeteer.launch({
@@ -1217,7 +1198,7 @@ export class sys extends plugin {
     try {
       try {
         logger.info("[用户命令]", e.msg);
-        let msg = e.msg.replace("#msn天气=", "").trim();
+        let msg = e.msg.replace(/^#?msn天气(=|＝)?/, "").trim();
         msg = msg.split(" ");
         await e.reply(echo) //提示词
         const browser = await puppeteer.launch({
