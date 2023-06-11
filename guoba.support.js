@@ -55,6 +55,18 @@ export function supportGuoba() {
           bottomHelpMessage: 'tmdb官网获取的key，请前往https://developer.themoviedb.org/docs 注册账号并将获取到的key配置到这里，设置好之后请重启',
           component: 'Input'
         },
+        {
+          field: 'sysecho',
+          label: '搜一搜搜索提示词',
+          bottomHelpMessage: '个性化搜一搜搜索提示词',
+          component: 'Input'
+        },
+        {
+          field: 'sysecho0',
+          label: '搜一搜搜索error提示词',
+          bottomHelpMessage: '个性化搜一搜搜索error提示词',
+          component: 'Input'
+        },
       ],
       // 获取配置数据方法（用于前端填充显示数据）
       getConfigData () {
