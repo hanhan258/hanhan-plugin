@@ -8,6 +8,7 @@ const chromeF = Config.chromeF
 const echo = Config.sysecho
 const noie = Config.noie 
 const echo0 = Config.sysecho0
+const folderPath = './plugins/hanhan-plugin/resources/ls/'
 
 
 
@@ -210,7 +211,7 @@ export class sys extends plugin {
       const page = await browser.newPage();    //启动一个新的页面
       await page.setViewport({ width: 740, height: 300 }); //截图大小（页面大小）
       await page.goto('https://www.google.com/search?q=' + msg, { waitUntil: 'networkidle2' });   //打开的网址，后面一段是等待页面加载完成
-      const screenshotPath = `screenshot.png`;   //保存的文件名
+      const screenshotPath = `${folderPath}/screenshot.png`;   //保存的文件名
       await page.screenshot({ path: screenshotPath, fullPage: true })
       await browser.close();
 
@@ -237,7 +238,7 @@ export class sys extends plugin {
       const page = await browser.newPage();
       await page.setViewport({ width: 900, height: 300 }); //截图大小（页面大小）
       await page.goto('https://www.bing.com/search?q=' + msg, { waitUntil: 'networkidle2' });
-      const screenshotPath = `screenshot.png`;
+      const screenshotPath = `${folderPath}/screenshot.png`;
       await page.screenshot({ path: screenshotPath, fullPage: true })
       await browser.close();
 
@@ -263,7 +264,7 @@ export class sys extends plugin {
       const page = await browser.newPage();
       await page.setViewport({ width: 800, height: 300 }); //截图大小（页面大小）
       await page.goto('https://www.baidu.com/s?wd=' + msg[0], { waitUntil: 'networkidle2' });
-      const screenshotPath = `screenshot.png`;
+      const screenshotPath = `${folderPath}/screenshot.png`;
       await page.screenshot({ path: screenshotPath, fullPage: true })
       await browser.close();
 
@@ -289,7 +290,7 @@ export class sys extends plugin {
       await page.setViewport({ width: 1200, height: 300 }); //截图大小（页面大小）
       await page.goto('https://www.so.com/s?q=' + msg, { waitUntil: 'networkidle2' });
       await new Promise((r) => setTimeout(r, 5000));
-      const screenshotPath = `screenshot.png`;
+      const screenshotPath = `${folderPath}/screenshot.png`;
       await page.screenshot({ path: screenshotPath, fullPage: true })
       await browser.close();
 
@@ -316,7 +317,7 @@ export class sys extends plugin {
       await page.setViewport({ width: 770, height: 4300 }); //截图大小（页面大小）
       await page.goto('https://www.twitter.com/' + msg, { waitUntil: 'networkidle2' });
       await new Promise((r) => setTimeout(r, 5000));
-      const screenshotPath = `screenshot.png`;
+      const screenshotPath = `${folderPath}/screenshot.png`;
       await page.screenshot({ path: screenshotPath, fullPage: true })
       await browser.close();
 
@@ -345,7 +346,7 @@ export class sys extends plugin {
       const page = await browser.newPage();
       await page.setViewport({ width: 800, height: 2300 }); //截图大小（页面大小）
       await page.goto('https://www.youtube.com/results?search_query=' + msg, { waitUntil: 'networkidle2' });
-      const screenshotPath = `screenshot.png`;
+      const screenshotPath = `${folderPath}/screenshot.png`;
       await page.screenshot({ path: screenshotPath, fullPage: true })
       await browser.close();
 
@@ -371,7 +372,7 @@ export class sys extends plugin {
       const page = await browser.newPage();
       await page.setViewport({ width: 1200, height: 300 }); //截图大小（页面大小）
       await page.goto('https://www.sogou.com/web?query=' + msg, { waitUntil: 'networkidle2' });
-      const screenshotPath = `screenshot.png`;
+      const screenshotPath = `${folderPath}/screenshot.png`;
       await page.screenshot({ path: screenshotPath, fullPage: true })
       await browser.close();
 
@@ -397,7 +398,7 @@ export class sys extends plugin {
       const page = await browser.newPage();
       await page.setViewport({ width: 1200, height: 200 }); //截图大小（页面大小）
       await page.goto('https://duckduckgo.com/?q=' + msg, { waitUntil: 'networkidle2' });
-      const screenshotPath = `screenshot.png`;
+      const screenshotPath = `${folderPath}/screenshot.png`;
       await page.screenshot({ path: screenshotPath, fullPage: true });
       await browser.close();
 
@@ -423,7 +424,7 @@ export class sys extends plugin {
       const page = await browser.newPage();
       await page.setViewport({ width: 800, height: 100 }); //截图大小（页面大小）
       await page.goto('https://zh.wikipedia.org/wiki/' + msg, { waitUntil: 'networkidle2' });
-      const screenshotPath = `screenshot.png`;
+      const screenshotPath = `${folderPath}/screenshot.png`;
       await page.screenshot({ path: screenshotPath, fullPage: true });
       await browser.close();
 
@@ -448,7 +449,7 @@ export class sys extends plugin {
       const page = await browser.newPage();
       await page.setViewport({ width: 1200, height: 199 }); //截图大小（页面大小）
       await page.goto('https://www.ecosia.org/search?q=' + msg, { waitUntil: 'networkidle2' });
-      const screenshotPath = `screenshot.png`;
+      const screenshotPath = `${folderPath}/screenshot.png`;
       await page.screenshot({ path: screenshotPath, fullPage: true })
       await browser.close();
 
@@ -527,7 +528,7 @@ export class sys extends plugin {
       const page = await browser.newPage();
       await page.setViewport({ width: 1200, height: 199 }); //截图大小（页面大小）
       await page.goto('https://search.bilibili.com/all?keyword=' + msg, { waitUntil: 'networkidle2' });
-      const screenshotPath = `screenshot.png`;
+      const screenshotPath = `${folderPath}/screenshot.png`;
       await page.screenshot({ path: screenshotPath, fullPage: true })
       await browser.close();
 
@@ -555,7 +556,7 @@ export class sys extends plugin {
       const page = await browser.newPage();
       await page.setViewport({ width: 1200, height: 199 }); //截图大小（页面大小）
       await page.goto('https://github.com/search?q=' + msg, { waitUntil: 'networkidle2' });
-      const screenshotPath = `screenshot.png`;
+      const screenshotPath = `${folderPath}/screenshot.png`;
       await page.screenshot({ path: screenshotPath, fullPage: true })
       await browser.close();
 
@@ -581,7 +582,7 @@ export class sys extends plugin {
       const page = await browser.newPage();
       await page.setViewport({ width: 1200, height: 199 }); //截图大小（页面大小）
       await page.goto('https://acg.rip/?term=' + msg, { waitUntil: 'networkidle2' });
-      const screenshotPath = `screenshot.png`;
+      const screenshotPath = `${folderPath}/screenshot.png`;
       await page.screenshot({ path: screenshotPath, fullPage: true })
       await browser.close();
 
@@ -607,7 +608,7 @@ export class sys extends plugin {
       await page.setViewport({ width: 1380, height: 400 }); //截图大小（页面大小）
       await page.goto('https://www.ping.cn/http/' + msg);
       await new Promise((r) => setTimeout(r, 33000));
-      const screenshotPath = `screenshot.png`;
+      const screenshotPath = `${folderPath}/screenshot.png`;
       await page.screenshot({ path: screenshotPath, fullPage: true })
       await browser.close();
 
@@ -633,7 +634,7 @@ export class sys extends plugin {
       const page = await browser.newPage();
       await page.setViewport({ width: 1200, height: 199 }); //截图大小（页面大小）
       await page.goto('https://www.webcrawler.com/serp?q=' + msg, { waitUntil: 'networkidle2' });
-      const screenshotPath = `screenshot.png`;
+      const screenshotPath = `${folderPath}/screenshot.png`;
       await page.screenshot({ path: screenshotPath, fullPage: true })
       await browser.close();
 
@@ -659,7 +660,7 @@ export class sys extends plugin {
       const page = await browser.newPage();
       await page.setViewport({ width: 1290, height: 199 }); //截图大小（页面大小）
       await page.goto('https://search.aol.com/aol/search?q=' + msg, { waitUntil: 'networkidle2' });
-      const screenshotPath = `screenshot.png`;
+      const screenshotPath = `${folderPath}/screenshot.png`;
       await page.screenshot({ path: screenshotPath, fullPage: true })
       await browser.close();
 
@@ -685,7 +686,7 @@ export class sys extends plugin {
       const page = await browser.newPage();
       await page.setViewport({ width: 1290, height: 199 }); //截图大小（页面大小）
       await page.goto('https://www.ask.com/web?q=' + msg, { waitUntil: 'networkidle2' });
-      const screenshotPath = `screenshot.png`;
+      const screenshotPath = `${folderPath}/screenshot.png`;
       await page.screenshot({ path: screenshotPath, fullPage: true })
       await browser.close();
 
@@ -711,7 +712,7 @@ export class sys extends plugin {
       const page = await browser.newPage();
       await page.setViewport({ width: 1290, height: 199 }); //截图大小（页面大小）
       await page.goto('https://search.yahoo.com/search?p=' + msg, { waitUntil: 'networkidle2' });
-      const screenshotPath = `screenshot.png`;
+      const screenshotPath = `${folderPath}/screenshot.png`;
       await page.screenshot({ path: screenshotPath, fullPage: true })
       await browser.close();
 
@@ -737,7 +738,7 @@ export class sys extends plugin {
       const page = await browser.newPage();
       await page.setViewport({ width: 1290, height: 300 }); //截图大小（页面大小）
       await page.goto('https://cn.pornhub.com/video/search?search=' + msg, { waitUntil: 'networkidle2' });
-      const screenshotPath = `screenshot.png`;
+      const screenshotPath = `${folderPath}/screenshot.png`;
       await page.screenshot({ path: screenshotPath, fullPage: true })
       await browser.close();
 
@@ -763,7 +764,7 @@ export class sys extends plugin {
       const page = await browser.newPage();
       await page.setViewport({ width: 1290, height: 399 }); //截图大小（页面大小）
       await page.goto('https://www.pixiv.net/tags/' + msg, { waitUntil: 'networkidle2' });
-      const screenshotPath = `screenshot.png`;
+      const screenshotPath = `${folderPath}/screenshot.png`;
       await page.screenshot({ path: screenshotPath, fullPage: true })
       await browser.close();
 
@@ -790,7 +791,7 @@ export class sys extends plugin {
       await page.setViewport({ width: 1500, height: 199 }); //截图大小（页面大小）
       await page.goto('https://sankaku.app/zh-CN?tags=' + msg, { waitUntil: 'networkidle2' });
       await new Promise((r) => setTimeout(r, 23000));
-      const screenshotPath = `screenshot.png`;
+      const screenshotPath = `${folderPath}/screenshot.png`;
       await page.screenshot({ path: screenshotPath, fullPage: true })
       await browser.close();
 
@@ -816,7 +817,7 @@ export class sys extends plugin {
       const page = await browser.newPage();
       await page.setViewport({ width: 1260, height: 299 }); //截图大小（页面大小）
       await page.goto('https://www.amazon.cn/s?k=' + msg, { waitUntil: 'networkidle2' });
-      const screenshotPath = `screenshot.png`;
+      const screenshotPath = `${folderPath}/screenshot.png`;
       await page.screenshot({ path: screenshotPath, fullPage: true })
       await browser.close();
 
@@ -842,7 +843,7 @@ export class sys extends plugin {
       const page = await browser.newPage();
       await page.setViewport({ width: 1045, height: 299 }); //截图大小（页面大小）
       await page.goto('https://www.nicovideo.jp/search/' + msg, { waitUntil: 'networkidle2' });
-      const screenshotPath = `screenshot.png`;
+      const screenshotPath = `${folderPath}/screenshot.png`;
       await page.screenshot({ path: screenshotPath, fullPage: true })
       await browser.close();
 
@@ -868,7 +869,7 @@ export class sys extends plugin {
       const page = await browser.newPage();
       await page.setViewport({ width: 1065, height: 300 }); //截图大小（页面大小）
       await page.goto('https://yomou.syosetu.com/search.php?word=' + msg, { waitUntil: 'networkidle2' });
-      const screenshotPath = `screenshot.png`;
+      const screenshotPath = `${folderPath}/screenshot.png`;
       await page.screenshot({ path: screenshotPath, fullPage: true })
       await browser.close();
 
@@ -894,7 +895,7 @@ export class sys extends plugin {
       const page = await browser.newPage();
       await page.setViewport({ width: 1065, height: 300 }); //截图大小（页面大小）
       await page.goto('https://www.dmm.com/search/=/searchstr=' + msg, { waitUntil: 'networkidle2' });
-      const screenshotPath = `screenshot.png`;
+      const screenshotPath = `${folderPath}/screenshot.png`;
       await page.screenshot({ path: screenshotPath, fullPage: true })
       await browser.close();
 
@@ -918,7 +919,7 @@ export class sys extends plugin {
       const page = await browser.newPage();
       await page.setViewport({ width: 1275, height: 300 }); //截图大小（页面大小）
       await page.goto('https://valid.x86.fr/bench/1', { waitUntil: 'networkidle2' });
-      const screenshotPath = `screenshot.png`;
+      const screenshotPath = `${folderPath}/screenshot.png`;
       await page.screenshot({ path: screenshotPath, fullPage: true })
       await browser.close();
 
@@ -943,7 +944,7 @@ export class sys extends plugin {
       const page = await browser.newPage();
       await page.setViewport({ width: 1275, height: 365 }); //截图大小（页面大小）
       await page.goto('https://browser.geekbench.com/search?utf8=%E2%9C%93&q=' + msg, { waitUntil: 'networkidle2' });
-      const screenshotPath = `screenshot.png`;
+      const screenshotPath = `${folderPath}/screenshot.png`;
       await page.screenshot({ path: screenshotPath, fullPage: true })
       await browser.close();
 
@@ -966,7 +967,7 @@ export class sys extends plugin {
       const page = await browser.newPage();
       await page.setViewport({ width: 1275, height: 300 }); //截图大小（页面大小）
       await page.goto('https://technical.city/zh/video/rating', { waitUntil: 'networkidle2' });
-      const screenshotPath = `screenshot.png`;
+      const screenshotPath = `${folderPath}/screenshot.png`;
       await page.screenshot({ path: screenshotPath, fullPage: true })
       await browser.close();
 
@@ -991,7 +992,7 @@ export class sys extends plugin {
       const page = await browser.newPage();
       await page.setViewport({ width: 1275, height: 109 }); //截图大小（页面大小）
       await page.goto('https://technical.city/zh/search?q=' + msg, { waitUntil: 'networkidle2' });
-      const screenshotPath = `screenshot.png`;
+      const screenshotPath = `${folderPath}/screenshot.png`;
       await page.screenshot({ path: screenshotPath, fullPage: true })
       await browser.close();
 
@@ -1016,7 +1017,7 @@ export class sys extends plugin {
       const page = await browser.newPage();
       await page.setViewport({ width: 1275, height: 109 }); //截图大小（页面大小）
       await page.goto('https://www.themoviedb.org/search?query=' + msg, { waitUntil: 'networkidle2' });
-      const screenshotPath = `screenshot.png`;
+      const screenshotPath = `${folderPath}/screenshot.png`;
       await page.screenshot({ path: screenshotPath, fullPage: true })
       await browser.close();
 
@@ -1043,7 +1044,7 @@ export class sys extends plugin {
       await page.setViewport({ width: 1275, height: 300 }); //截图大小（页面大小）
       await page.goto('https://www.imdb.com/find/?q=' + msg, { waitUntil: 'networkidle2' });
       //await new Promise((r) => setTimeout(r, 50000));
-      const screenshotPath = `screenshot.png`;
+      const screenshotPath = `${folderPath}/screenshot.png`;
       await page.screenshot({ path: screenshotPath, fullPage: true })
       await browser.close();
 
@@ -1070,7 +1071,7 @@ export class sys extends plugin {
       await page.setViewport({ width: 840, height: 109 }); //截图大小（页面大小）
       await page.goto('https://ip.hao86.com/' + msg[0], { waitUntil: 'networkidle2' });
       //await new Promise((r) => setTimeout(r, 50000));
-      const screenshotPath = `screenshot.png`;
+      const screenshotPath = `${folderPath}/screenshot.png`;
       await page.screenshot({ path: screenshotPath, fullPage: true })
       await browser.close();
 
@@ -1102,7 +1103,7 @@ export class sys extends plugin {
       await page.setViewport({ width: 1080, height: 309 }); //截图大小（页面大小）
       await page.goto('https://wallhere.com/zh/wallpapers?q=' + msg, { waitUntil: 'networkidle2' });
       //await new Promise((r) => setTimeout(r, 50000));
-      const screenshotPath = `screenshot.png`;
+      const screenshotPath = `${folderPath}/screenshot.png`;
       await page.screenshot({ path: screenshotPath, fullPage: true })
       await browser.close();
 
@@ -1129,7 +1130,7 @@ export class sys extends plugin {
       await page.setViewport({ width: 1080, height: 309 }); //截图大小（页面大小）
       await page.goto('https://www.tianyancha.com/search?key=' + msg, { waitUntil: 'networkidle2' });
       //await new Promise((r) => setTimeout(r, 50000));
-      const screenshotPath = `screenshot.png`;
+      const screenshotPath = `${folderPath}/screenshot.png`;
       await page.screenshot({ path: screenshotPath, fullPage: true })
       await browser.close();
 
@@ -1156,7 +1157,7 @@ export class sys extends plugin {
       await page.setViewport({ width: 1080, height: 300 }); //截图大小（页面大小）
       await page.goto('https://store.steampowered.com/search/?term=' + msg, { waitUntil: 'networkidle2' });
       //await new Promise((r) => setTimeout(r, 50000));
-      const screenshotPath = `screenshot.png`;
+      const screenshotPath = `${folderPath}/screenshot.png`;
       await page.screenshot({ path: screenshotPath, fullPage: true })
       await browser.close();
 
@@ -1183,7 +1184,7 @@ export class sys extends plugin {
       await page.setViewport({ width: 1080, height: 300 }); //截图大小（页面大小）
       await page.goto('https://yandex.com/search/?text=' + msg, { waitUntil: 'networkidle2' });
       //await new Promise((r) => setTimeout(r, 50000));
-      const screenshotPath = `screenshot.png`;
+      const screenshotPath = `${folderPath}/screenshot.png`;
       await page.screenshot({ path: screenshotPath, fullPage: true })
       await browser.close();
 
@@ -1210,7 +1211,7 @@ export class sys extends plugin {
         await page.setViewport({ width: 1080, height: 1509 }); //截图大小（页面大小）
         await page.goto('https://www.msn.cn/zh-cn/weather/forecast/in-' + msg, { waitUntil: 'networkidle2' });
         //await new Promise((r) => setTimeout(r, 50000));
-        const screenshotPath = `screenshot.png`;
+        const screenshotPath = `${folderPath}/screenshot.png`;
         await page.screenshot({ path: screenshotPath })
         await browser.close();
 
@@ -1243,7 +1244,7 @@ export class sys extends plugin {
       await page.setViewport({ width: 1280, height: 1279 }); //截图大小（页面大小）
       await page.goto('https://typhoon.slt.zj.gov.cn/', { waitUntil: 'networkidle2' });
       await new Promise((r) => setTimeout(r, 6000));
-      const screenshotPath = `screenshot.png`;
+      const screenshotPath = `${folderPath}/screenshot.png`;
       await page.screenshot({ path: screenshotPath })
       await browser.close();
 
@@ -1272,7 +1273,7 @@ export class sys extends plugin {
     const url = 'https://namemc.com/profile/' + msg; // 根据你的需求构建 URL
     await page.goto(url, { waitUntil: 'networkidle2' });
     await page.waitFor(10000);
-    const screenshotPath = `screenshot.png`;
+    const screenshotPath = `${folderPath}/screenshot.png`;
     await page.screenshot({ path: screenshotPath , fullPage: true })
     await browser.close();
   

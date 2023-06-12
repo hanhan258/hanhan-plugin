@@ -67,6 +67,14 @@ export function supportGuoba() {
           bottomHelpMessage: '个性化搜一搜搜索error提示词',
           component: 'Input'
         },
+        {
+          field: 'gdkey',
+          label: '高德key',
+          bottomHelpMessage: '高德官网获取的key，请前往https://lbs.amap.com/ 注册账号并将获取到的key配置到这里，设置好之后请重启',
+          component: 'Input'
+        },
+
+ 
       ],
       // 获取配置数据方法（用于前端填充显示数据）
       getConfigData () {
