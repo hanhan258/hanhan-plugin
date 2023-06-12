@@ -3,6 +3,7 @@ import plugin from '../../../lib/plugins/plugin.js';
 import axios from "axios";
 import fs from "fs";
 import puppeteer from "puppeteer";
+import { Config } from '../utils/config.js'
 
 const gdkey = Config.gdkey
 
