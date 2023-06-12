@@ -1,6 +1,9 @@
 import plugin from '../../../lib/plugins/plugin.js'
 import { segment } from 'oicq'
 import axios from 'axios'
+import { Config } from '../utils/config.js'
+import { endingSpeech, followMe, pepTalk } from '../utils/const.js'
+import { sleep } from '../utils/common.js'
 
 export class photo extends plugin {
   constructor () {
@@ -76,6 +79,56 @@ export class photo extends plugin {
         }
       ]
     })
+    this.task = [
+      {
+        cron: '30 7 * * *',
+        // cron: '*/1 * * * *',
+        name: 'englishTimeIsUp',
+        fnc: this.englishTimeIsUp
+      }
+    ]
+  }
+
+  async englishTimeIsUp () {
+    let toSend = Config.studyGroups || []
+    let url = 'https://open.iciba.com/dsapi/'
+    let response = await axios.get(url) // 调用接口获取数据
+    const res = response.data
+    const img = res.fenxiang_img
+    let audioBuffer
+    try {
+      const response = await fetch(res.tts)
+      audioBuffer = await response.arrayBuffer()
+      logger.warn(audioBuffer)
+    } catch (error) {
+      console.error(error)
+    }
+    if (img) {
+      for (const element of toSend) {
+        if (!element) {
+          continue
+        }
+        let groupId = parseInt(element)
+        if (Bot.getGroupList().get(groupId)) {
+          await Bot.sendGroupMsg(groupId, pepTalk[Math.floor(Math.random() * pepTalk.length)])
+          await sleep(5000)
+          await Bot.sendGroupMsg(groupId, segment.image(img))
+          await sleep(1500)
+          // 重要的事情说三遍！
+          await Bot.sendGroupMsg(groupId, followMe[Math.floor(Math.random() * followMe.length)])
+          await sleep(1500)
+          await Bot.sendGroupMsg(groupId, segment.record(res.tts))
+          await sleep(1500)
+          await Bot.sendGroupMsg(groupId, segment.record(res.tts))
+          await sleep(1500)
+          await Bot.sendGroupMsg(groupId, segment.record(res.tts))
+          await sleep(2000)
+          await Bot.sendGroupMsg(groupId, endingSpeech[Math.floor(Math.random() * endingSpeech.length)])
+        } else {
+          logger.warn('机器人不在要发送的群组里。' + groupId)
+        }
+      }
+    }
   }
 
   // 随机柴郡
@@ -88,13 +141,13 @@ export class photo extends plugin {
   // 每日英语
   async mryy (e) {
     let sendmsg = []
-    let url = `https://open.iciba.com/dsapi/`
+    let url = 'https://open.iciba.com/dsapi/'
     let response = await axios.get(url) // 调用接口获取数据
     console.log(response)
     sendmsg.push(segment.image(response.data.fenxiang_img))
     await this.reply(sendmsg, true)
   }
-  
+
   // 手写模拟器
   async sx (e) {
     let encode = e.msg.replace(/^#?手写/, '').trim()
@@ -102,7 +155,6 @@ export class photo extends plugin {
     await this.reply(segment.image(`https://zj.v.api.aa1.cn/api/zuoye/?msg=${encode}`), true)
     return true // 返回true 阻挡消息不再往下
   }
-
 
   // 猫羽雫图片天气
   async tianqi (e) {
