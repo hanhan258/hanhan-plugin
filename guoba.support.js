@@ -1,7 +1,7 @@
 import { Config } from './utils/config.js'
 import path from 'path'
 
-export function supportGuoba() {
+export function supportGuoba () {
   return {
     // 插件信息，将会显示在前端页面
     // 如果你的插件没有在插件库里，那么需要填上补充信息
@@ -15,11 +15,11 @@ export function supportGuoba() {
       isV3: true,
       isV2: false,
       description: '基于hanhan娱乐',
-      icon: "mdi:stove",
-      iconColor: "#d19f56",
+      icon: 'mdi:stove',
+      iconColor: '#d19f56',
       iconPath: path.join(
-        process.cwd() + "/plugins/hanhan-plugin/resources/readme/logo.jpg"
-      ),
+        process.cwd() + '/plugins/hanhan-plugin/resources/readme/logo.jpg'
+      )
     },
     // 配置项信息
     configInfo: {
@@ -73,8 +73,13 @@ export function supportGuoba() {
           bottomHelpMessage: '高德官网获取的key，请前往https://lbs.amap.com/ 注册账号并将获取到的key配置到这里，设置好之后请重启',
           component: 'Input'
         },
+        {
+          field: 'studyGroups',
+          label: '每日英语分享群组',
+          bottomHelpMessage: '填入后将向所填群每天早上自动分享每日英语',
+          component: 'Input'
+        }
 
- 
       ],
       // 获取配置数据方法（用于前端填充显示数据）
       getConfigData () {
@@ -83,6 +88,7 @@ export function supportGuoba() {
       // 设置配置的方法（前端点确定后调用的方法）
       setConfigData (data, { Result }) {
         for (let [keyPath, value] of Object.entries(data)) {
+          if (keyPath === 'studyGroups') { value = value.toString().split(/[,，;；|]/) }
           if (Config[keyPath] !== value) { Config[keyPath] = value }
         }
         return Result.ok({}, '保存成功~')

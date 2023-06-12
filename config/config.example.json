@@ -6,5 +6,8 @@
   "tmdbkey": "",
   "sysecho":"搜索中...",
   "sysecho0":"30000ms erorr",
-  "gdkey":""
+  "gdkey":"",
+  "studyGroups": [
+    "123456"
+  ]
 }
