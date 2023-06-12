@@ -95,14 +95,6 @@ export class photo extends plugin {
     let response = await axios.get(url) // 调用接口获取数据
     const res = response.data
     const img = res.fenxiang_img
-    let audioBuffer
-    try {
-      const response = await fetch(res.tts)
-      audioBuffer = await response.arrayBuffer()
-      logger.warn(audioBuffer)
-    } catch (error) {
-      console.error(error)
-    }
     if (img) {
       for (const element of toSend) {
         if (!element) {
