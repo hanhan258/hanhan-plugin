@@ -1,10 +1,11 @@
 import plugin from '../../../lib/plugins/plugin.js';
 import { segment } from 'oicq';
+import { Config } from '../utils/config.js'
 import puppeteer from 'puppeteer';
 
-const chromeF = ""
+const chromeF = Config.chromeF
 
-export class ewmpl extends plugin {
+export class qrcode extends plugin {
     constructor() {
         super({
             name: '憨憨转二维码',

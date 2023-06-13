@@ -3,33 +3,19 @@ import plugin from '../../../lib/plugins/plugin.js'
 export class RussiaRoundPlatePlugin extends plugin {
   constructor () {
     super({
-      /** 功能名称 */
-      name: '憨憨小游戏',
-      /** 功能描述 */
-      dsc: '憨憨小游戏',
-      /** https://oicqjs.github.io/oicq/#events */
+      name: '憨憨小游戏-俄罗斯轮盘',
+      dsc: '憨憨小游戏-俄罗斯轮盘',
       event: 'message',
-      /** 优先级，数字越小等级越高 */
       priority: 6,
       rule: [
         {
-          /** 命令正则匹配 */
           reg: '^#?(开启俄罗斯轮盘|开盘|开启轮盘|开启转盘|俄罗斯轮盘)$',
-          /** 执行方法 */
           fnc: 'start'
         },
         {
-          /** 命令正则匹配 */
           reg: '^#?开枪$',
-          /** 执行方法 */
           fnc: 'shoot'
         },
-        {
-          /** 命令正则匹配 */
-          reg: '^#?开枪$',
-          /** 执行方法 */
-          fnc: 'shoot'
-        }
       ]
     })
   }
