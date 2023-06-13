@@ -3,9 +3,6 @@ import { Config } from '../utils/config.js'
 import dns from 'dns'
 import { exec, execSync } from 'child_process'
 
-// token of https://ipinfo.io
-const token = Config.pingToken
-
 // const reply = true
 export class ping extends plugin {
   constructor () {
@@ -27,15 +24,17 @@ export class ping extends plugin {
         }
       ]
     })
+    // token of https://ipinfo.io
+    this.token = Config.pingToken || Config.pingtoken
   }
 
   // ping网站或ip
   async ping (e) {
-    if (!Config.pingtoken) {
-      e.reply('请前往 https://ipinfo.io 注册账号，使用 #憨憨设置pingtoken 命令进行设置，设置好之后请重启')
+    if (!this.token) {
+      e.reply('请前往 https://ipinfo.io 注册账号，使用 #憨憨设置pingtoken 命令进行设置')
       return false
     }
-
+    let token = this.token
     console.log(token)
     let host = e.msg.trim().replace(/^#?ping\s?/, '').replace(/https?:\/\//, '')
     if (!host) {
