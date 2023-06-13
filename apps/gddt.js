@@ -5,7 +5,6 @@ import fs from "fs";
 import puppeteer from "puppeteer";
 import { Config } from '../utils/config.js'
 
-const gdkey = Config.gdkey
 
 export class example extends plugin {
     constructor() {
@@ -25,7 +24,7 @@ export class example extends plugin {
                 },
             ]
         });
-        this.apiKey = gdkey; // 请替换为你的高德地图API密钥
+        this.apiKey = Config.gdkey; // 请替换为你的高德地图API密钥
     }
 
 

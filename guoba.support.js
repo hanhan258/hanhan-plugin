@@ -28,7 +28,7 @@ export function supportGuoba () {
         {
           field: 'pingToken',
           label: 'ping',
-          bottomHelpMessage: '填写后才能使用ping指令，请前往 https://ipinfo.io 注册账号并将获取到的token配置到这里，设置好之后请重启',
+          bottomHelpMessage: '填写后才能使用ping指令，请前往 https://ipinfo.io 注册账号并将获取到的token配置到这里',
           component: 'Input'
         },
         {
@@ -52,7 +52,7 @@ export function supportGuoba () {
         {
           field: 'tmdbkey',
           label: 'tmdb key',
-          bottomHelpMessage: 'tmdb官网获取的key，请前往https://developer.themoviedb.org/docs 注册账号并将获取到的key配置到这里，设置好之后请重启',
+          bottomHelpMessage: 'tmdb官网获取的key，请前往https://developer.themoviedb.org/docs 注册账号并将获取到的key配置到这里',
           component: 'Input'
         },
         {
@@ -70,13 +70,13 @@ export function supportGuoba () {
         {
           field: 'gdkey',
           label: '高德key',
-          bottomHelpMessage: '高德官网获取的key，请前往https://lbs.amap.com/ 注册账号并将获取到的key配置到这里，设置好之后请重启',
+          bottomHelpMessage: '高德官网获取的key，请前往https://lbs.amap.com/ 注册账号并将获取到的key配置到这里',
           component: 'Input'
         },
         {
           field: 'studyGroups',
           label: '每日英语分享群组',
-          bottomHelpMessage: '填入后将向所填群每天早上自动分享每日英语',
+          bottomHelpMessage: '填入后将向所填群每天早上自动分享每日英语,群号请使用 , 或 : 分隔开',
           component: 'Input'
         }
 

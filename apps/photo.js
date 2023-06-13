@@ -164,7 +164,7 @@ export class photo extends plugin {
   async tianqi(e) {
     let encode = e.msg.replace(/^#?天气/, '').trim()
     // 发送消息
-    await this.reply(segment.image(`https://xiaobapi.top/api/xb/api/city.php?type=image&msg=${encode}`), true)
+    await this.reply(segment.image(`http://api.caonm.net/api/qqtq/t.php?msg=${encode}&type=img&n=1`), true)
     return true // 返回true 阻挡消息不再往下
   }
 

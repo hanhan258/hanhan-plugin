@@ -8,7 +8,7 @@ const defaultConfig = {
   tmdbkey: '',
   sysecho: '搜索中...',
   sysecho0: '30000ms erorr',
-  gdkey: 'e5792986a48b14e7e2a0667b5595bfcd',
+  gdkey: '',
   studyGroups: ''
 }
 const _path = process.cwd()

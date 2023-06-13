@@ -30,7 +30,7 @@ export class Update extends plugin {
    * rule - 更新憨憨插件
    * @returns
    */
-  async update () {
+  async update (e) {
     if (!this.e.isMaster) {
       e.reply('憨憨还是认主人的捏~')
       return false

@@ -7,11 +7,7 @@ import puppeteer from 'puppeteer';
 import fs from 'fs';
 //const downloadedImages = new Map(); // 用于保存已下载的图片
 
-let key = Config.tmdbkey;
-const proxyUrl = Config.proxyUrl
 let r_18 = true
-
-
 
 async function makeForwardMsg(e, msgs = [], dec = '') {
   let nickname = Bot.nickname;
@@ -91,8 +87,12 @@ export class Photo extends plugin {
       
       ]
     });
+    this.key = Config.tmdbkey
+    this.proxyUrl = Config.proxyUrl
   }
   async Searchoperas(e) {
+    let key = this.key
+    let proxyUrl = this.proxyUrl
     let msg0 = ['查询中'];
     await this.reply(msg0, true, { recallMsg: e.isGroup ? 3 : 0 });
     console.log("[用户命令]", e.msg);
@@ -145,6 +145,8 @@ export class Photo extends plugin {
 
 
   async Futuremovies(e) {
+    let key = this.key
+    let proxyUrl = this.proxyUrl
     let msg0 = ['查询中'];
     await this.reply(msg0, true, { recallMsg: e.isGroup ? 3 : 0 });
     const url = `https://api.themoviedb.org/3/movie/upcoming?language=zh-CN&page=1&region=CN`;
@@ -198,6 +200,8 @@ export class Photo extends plugin {
   }
 
   async trending_movies(e) {
+    let key = this.key
+    let proxyUrl = this.proxyUrl
     let msg0 = ['查询中'];
     await this.reply(msg0, true, { recallMsg: e.isGroup ? 3 : 0 });
     const url = `https://api.themoviedb.org/3/trending/movie/week?language=zh`;
@@ -251,6 +255,8 @@ export class Photo extends plugin {
   }
 
   async trending_tv(e) {
+    let key = this.key
+    let proxyUrl = this.proxyUrl
     let msg0 = ['查询中'];
     await this.reply(msg0, true, { recallMsg: e.isGroup ? 3 : 0 });
     const url = `https://api.themoviedb.org/3/trending/tv/week?language=zh`;
@@ -304,6 +310,8 @@ export class Photo extends plugin {
   }
 
   async now_movies(e) {
+    let key = this.key
+    let proxyUrl = this.proxyUrl
     let msg0 = ['查询中'];
     await this.reply(msg0, true, { recallMsg: e.isGroup ? 3 : 0 });
     const url = `https://api.themoviedb.org/3/movie/now_playing?language=zh&page=1&region=CN`;
@@ -357,6 +365,8 @@ export class Photo extends plugin {
   }
 
   async Searchmovies(e) {
+    let key = this.key
+    let proxyUrl = this.proxyUrl
     let msg0 = ['查询中'];
     await this.reply(msg0, true, { recallMsg: e.isGroup ? 3 : 0 });
     console.log("[用户命令]", e.msg);
@@ -407,6 +417,8 @@ export class Photo extends plugin {
       })
   }
   async person(e) {
+    let key = this.key
+    let proxyUrl = this.proxyUrl
     let msg0 = ['查询中'];
     await this.reply(msg0, true, { recallMsg: e.isGroup ? 3 : 0 });
     console.log("[用户命令]", e.msg);
