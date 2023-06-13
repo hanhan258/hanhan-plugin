@@ -90,9 +90,9 @@ export class Update extends plugin {
     let time = await this.getTime('hanhan-plugin')
 
     if (/(Already up[ -]to[ -]date|已经是最新的)/.test(ret.stdout)) {
-      await this.reply(`憨憨大脑已经是最新版本的啦~\n最后更新时间：${time}`)
+      await this.reply(`憨憨的大脑已经是最新版本的啦~\n最后更新时间：${time}`)
     } else {
-      await this.reply(`hanhan-plugin\n最后更新时间：${time}`)
+      await this.reply(`憨憨的大脑获取到新知识啦~\n最后更新时间：${time}`)
       this.isUp = true
       /** 获取憨憨插件的更新日志 */
       let log = await this.getLog('hanhan-plugin')
