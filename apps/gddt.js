@@ -16,21 +16,21 @@ export class example extends plugin {
             priority: 1,
             rule: [
                 {
-                    reg: "^搜地点=(.*)$",
+                    reg: "^#?搜地点=(.*)$",
                     fnc: 'handleSearchLocation'
                 },
                 {
-                    reg: "^高德搜ip=(.*)$",
+                    reg: "^#?高德搜ip=(.*)$",
                     fnc: 'gdip'
                 },
             ]
         });
-        this.apiKey = "e5792986a48b14e7e2a0667b5595bfcd"; // 请替换为你的高德地图API密钥
+        this.apiKey = gdkey; // 请替换为你的高德地图API密钥
     }
 
 
     async handleSearchLocation(e) {
-        const match = e.msg.match(/^搜地点=(.*)$/);
+        const match = e.msg.match(/^#?搜地点=(.*)$/);
         if (!match || !match[1]) {
             await e.reply("请输入有效的搜索地点。");
             return;
@@ -98,7 +98,7 @@ export class example extends plugin {
     }
     async gdip(e) {
         console.log("[用户命令]", e.msg);
-        let msg = e.msg.replace(/^高德搜ip=/, "").trim();
+        let msg = e.msg.replace(/^#?高德搜ip=/, "").trim();
         msg = msg.split(" ").join("+");
         const url = `https://restapi.amap.com/v3/ip?key=${this.apiKey}&ip=${msg}`;
         const response = await axios.get(url);

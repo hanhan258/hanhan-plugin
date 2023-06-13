@@ -76,6 +76,19 @@ export class Photo extends plugin {
           reg: '^#?搜导演=(.*)$',
           fnc: 'person'
         },
+        {
+          reg: '^#?正在放映的电影$',
+          fnc: 'now_movies'
+        },
+        {
+          reg: '^#?本周电影排行$',
+          fnc: 'trending_movies'
+        },
+        {
+          reg: '^#?本周tv排行$',
+          fnc: 'trending_tv'
+        },
+      
       ]
     });
   }
@@ -114,7 +127,7 @@ export class Photo extends plugin {
 
           let msg = [
             segment.image(`file:///${filePath}`),
-            `中文名: ${show.name}\n原著名称: ${show.original_name}\n发行地区: ${show.origin_country}\n发行日期: ${show.first_air_date}\n使用语言: ${show.original_language} \n评分: ${show.popularity}\n剧情简介: \n${show.overview}`
+            `中文名: ${show.name}\n原著名称: ${show.original_name}\n发行地区: ${show.origin_country}\n发行日期: ${show.first_air_date}\n使用语言: ${show.original_language} \n评分: ${show.vote_average}\n剧情简介: \n${show.overview}`
           ];
           forwardMsgs.push(...msg);
         }
@@ -151,7 +164,7 @@ export class Photo extends plugin {
       .then(res => res.json())
       .then(async json => {
         let results = json.results;
-        await this.reply(`共找到${results.length}电影，资源下寨中`, true);
+        await this.reply(`共找到${results.length}电影，资源下寨中，排名由第一部依次向下`, true);
 
         let forwardMsgs = [];
         for (let i = 0; i < results.length; i++) {
@@ -163,7 +176,7 @@ export class Photo extends plugin {
 
           let msg = [
             segment.image(`file:///${filePath}`),
-            `中文名: ${movie.title}\n原著名称: ${movie.original_title}\n计划上映日期: ${movie.release_date}\n使用语言: ${movie.original_language} \n评分: ${movie.popularity}\n剧情简介: \n${movie.overview}`
+            `中文名: ${movie.title}\n原著名称: ${movie.original_title}\n计划上映日期: ${movie.release_date}\n使用语言: ${movie.original_language} \n评分: ${movie.vote_average}\n剧情简介: \n${movie.overview}`
           ];
 
           forwardMsgs.push(...msg);
@@ -183,6 +196,166 @@ export class Photo extends plugin {
       })
       .catch(err => console.error('Error:' + err));
   }
+
+  async trending_movies(e) {
+    let msg0 = ['查询中'];
+    await this.reply(msg0, true, { recallMsg: e.isGroup ? 3 : 0 });
+    const url = `https://api.themoviedb.org/3/trending/movie/week?language=zh`;
+    // 创建代理
+    const proxyAgent = new HttpsProxyAgent(proxyUrl);
+
+    const options = {
+      method: 'GET',
+      headers: {
+        accept: 'application/json',
+        Authorization: `Bearer ${key}`
+      },
+      agent: proxyAgent // 设置代理
+    };
+
+    fetch(url, options)
+      .then(res => res.json())
+      .then(async json => {
+        let results = json.results;
+        await this.reply(`共找到${results.length}电影，资源下寨中`, true);
+
+        let forwardMsgs = [];
+        for (let i = 0; i < results.length; i++) {
+          let movie = results[i];
+          let coverUrl = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
+          console.log(`[进度${i + 1}/${results.length}]----开始下载图片----`);
+
+          const filePath = await this.downloadImage(coverUrl);
+
+          let msg = [
+            segment.image(`file:///${filePath}`),
+            `中文名: ${movie.title}\n原著名称: ${movie.original_title}\n上映日期: ${movie.release_date}\n使用语言: ${movie.original_language} \n评分: ${movie.vote_average}\n剧情简介: \n${movie.overview}`
+          ];
+
+          forwardMsgs.push(...msg);
+        }
+
+        // 发送转发消息到群组
+        if (e.isGroup) {
+          let dec = '电影信息';
+          let forwardMsg = await makeForwardMsg(e, forwardMsgs, dec);
+          if (forwardMsg) {
+            await Bot.sendGroupMsg(e.group_id, forwardMsg);
+          }
+        }
+
+        //let msgComplete = ['电影信息发送完成'];
+        //await this.reply(msgComplete, true);
+      })
+      .catch(err => console.error('Error:' + err));
+  }
+
+  async trending_tv(e) {
+    let msg0 = ['查询中'];
+    await this.reply(msg0, true, { recallMsg: e.isGroup ? 3 : 0 });
+    const url = `https://api.themoviedb.org/3/trending/tv/week?language=zh`;
+    // 创建代理
+    const proxyAgent = new HttpsProxyAgent(proxyUrl);
+
+    const options = {
+      method: 'GET',
+      headers: {
+        accept: 'application/json',
+        Authorization: `Bearer ${key}`
+      },
+      agent: proxyAgent // 设置代理
+    };
+
+    fetch(url, options)
+      .then(res => res.json())
+      .then(async json => {
+        let results = json.results;
+        await this.reply(`共找到${results.length}电影，资源下寨中`, true);
+
+        let forwardMsgs = [];
+        for (let i = 0; i < results.length; i++) {
+          let movie = results[i];
+          let coverUrl = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
+          console.log(`[进度${i + 1}/${results.length}]----开始下载图片----`);
+
+          const filePath = await this.downloadImage(coverUrl);
+
+          let msg = [
+            segment.image(`file:///${filePath}`),
+            `中文名: ${movie.name}\n原著名称: ${movie.original_name}\n计划上映日期: ${movie.release_date}\n使用语言: ${movie.original_language} \n评分: ${movie.vote_average}\n剧情简介: \n${movie.overview}`
+          ];
+
+          forwardMsgs.push(...msg);
+        }
+
+        // 发送转发消息到群组
+        if (e.isGroup) {
+          let dec = '电影信息';
+          let forwardMsg = await makeForwardMsg(e, forwardMsgs, dec);
+          if (forwardMsg) {
+            await Bot.sendGroupMsg(e.group_id, forwardMsg);
+          }
+        }
+
+        //let msgComplete = ['电影信息发送完成'];
+        //await this.reply(msgComplete, true);
+      })
+      .catch(err => console.error('Error:' + err));
+  }
+
+  async now_movies(e) {
+    let msg0 = ['查询中'];
+    await this.reply(msg0, true, { recallMsg: e.isGroup ? 3 : 0 });
+    const url = `https://api.themoviedb.org/3/movie/now_playing?language=zh&page=1&region=CN`;
+    // 创建代理
+    const proxyAgent = new HttpsProxyAgent(proxyUrl);
+
+    const options = {
+      method: 'GET',
+      headers: {
+        accept: 'application/json',
+        Authorization: `Bearer ${key}`
+      },
+      agent: proxyAgent // 设置代理
+    };
+
+    fetch(url, options)
+      .then(res => res.json())
+      .then(async json => {
+        let results = json.results;
+        await this.reply(`共找到${results.length}电影，资源下寨中`, true);
+
+        let forwardMsgs = [];
+        for (let i = 0; i < results.length; i++) {
+          let movie = results[i];
+          let coverUrl = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
+          console.log(`[进度${i + 1}/${results.length}]----开始下载图片----`);
+
+          const filePath = await this.downloadImage(coverUrl);
+
+          let msg = [
+            segment.image(`file:///${filePath}`),
+            `中文名: ${movie.title}\n原著名称: ${movie.original_title}\n计划上映日期: ${movie.release_date}\n使用语言: ${movie.original_language} \n评分: ${movie.vote_average}\n剧情简介: \n${movie.overview}`
+          ];
+
+          forwardMsgs.push(...msg);
+        }
+
+        // 发送转发消息到群组
+        if (e.isGroup) {
+          let dec = '电影信息';
+          let forwardMsg = await makeForwardMsg(e, forwardMsgs, dec);
+          if (forwardMsg) {
+            await Bot.sendGroupMsg(e.group_id, forwardMsg);
+          }
+        }
+
+        //let msgComplete = ['电影信息发送完成'];
+        //await this.reply(msgComplete, true);
+      })
+      .catch(err => console.error('Error:' + err));
+  }
+
   async Searchmovies(e) {
     let msg0 = ['查询中'];
     await this.reply(msg0, true, { recallMsg: e.isGroup ? 3 : 0 });
@@ -218,7 +391,7 @@ export class Photo extends plugin {
 
           let msg = [
             segment.image(`file:///${filePath}`),
-            `中文名: ${show.title}\n原著名称: ${show.original_title}\n是否R-18: ${show.adult}\n发行日期: ${show.release_date}\n使用语言: ${show.original_language} \n评分: ${show.popularity}\n剧情简介: \n${show.overview}`
+            `中文名: ${show.title}\n原著名称: ${show.original_title}\n是否R-18: ${show.adult}\n发行日期: ${show.release_date}\n使用语言: ${show.original_language} \n评分: ${show.vote_average}\n剧情简介: \n${show.overview}`
           ];
           forwardMsgs.push(...msg);
         }
