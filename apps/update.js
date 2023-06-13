@@ -32,7 +32,7 @@ export class Update extends plugin {
    */
   async update () {
     if (!this.e.isMaster) {
-      e.reply('需要主人才能更新捏~')
+      e.reply('憨憨还是认主人的捏~')
       return false
     } 
 
@@ -70,9 +70,9 @@ export class Update extends plugin {
     let command = 'git -C ./plugins/hanhan-plugin/ pull --no-rebase'
     if (isForce) {
       command = `git -C ./plugins/hanhan-plugin/ checkout . && ${command}`
-      this.e.reply('正在执行强制更新操作，请稍等')
+      this.e.reply('吼！大脑替换术！启动！')
     } else {
-      this.e.reply('正在执行更新操作，请稍等')
+      this.e.reply('憨憨升级！变成大憨憨~')
     }
     /** 获取上次提交的commitId，用于获取日志时判断新增的更新日志 */
     this.oldCommitId = await this.getcommitId('hanhan-plugin')
@@ -90,7 +90,7 @@ export class Update extends plugin {
     let time = await this.getTime('hanhan-plugin')
 
     if (/(Already up[ -]to[ -]date|已经是最新的)/.test(ret.stdout)) {
-      await this.reply(`hanhan-plugin已经是最新版本\n最后更新时间：${time}`)
+      await this.reply(`憨憨大脑已经是最新版本的啦~\n最后更新时间：${time}`)
     } else {
       await this.reply(`hanhan-plugin\n最后更新时间：${time}`)
       this.isUp = true
@@ -237,37 +237,37 @@ export class Update extends plugin {
    * @returns
    */
   async gitErr (err, stdout) {
-    let msg = '更新失败！'
+    let msg = '憨憨失败啦！qwq'
     let errMsg = err.toString()
     stdout = stdout.toString()
 
     if (errMsg.includes('Timed out')) {
       let remote = errMsg.match(/'(.+?)'/g)[0].replace(/'/g, '')
-      await this.reply(msg + `\n连接超时：${remote}`)
+      await this.reply(msg + `\n憨憨找不到网络了qwq，(问题为：${remote})`)
       return
     }
 
     if (/Failed to connect|unable to access/g.test(errMsg)) {
       let remote = errMsg.match(/'(.+?)'/g)[0].replace(/'/g, '')
-      await this.reply(msg + `\n连接失败：${remote}`)
+      await this.reply(msg + `\n憨憨找不到网络了qwq(问题为：${remote})`)
       return
     }
 
     if (errMsg.includes('be overwritten by merge')) {
       await this.reply(
         msg +
-        `存在冲突：\n${errMsg}\n` +
-        '请解决冲突后再更新，或者执行#强制更新，放弃本地修改'
+        `最新的大脑和现在的憨憨大脑打架啦~：\n${errMsg}\n` +
+        '你肯定是偷偷动了憨憨的大脑！请执行#强制更新，放弃本地修改'
       )
       return
     }
 
     if (stdout.includes('CONFLICT')) {
       await this.reply([
-        msg + '存在冲突\n',
+        msg + '最新的大脑和现在的憨憨大脑打架啦~\n',
         errMsg,
         stdout,
-        '\n请解决冲突后再更新，或者执行#强制更新，放弃本地修改'
+        '\n你肯定是偷偷动了憨憨的大脑！请执行#强制更新，放弃本地修改'
       ])
       return
     }
@@ -295,7 +295,7 @@ export class Update extends plugin {
   async checkGit () {
     let ret = await execSync('git --version', { encoding: 'utf-8' })
     if (!ret || !ret.includes('git version')) {
-      await this.reply('请先安装git')
+      await this.reply('啊？你怎么连git都没装捏...憨憨链接不到大脑啦~')
       return false
     }
     return true
