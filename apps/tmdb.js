@@ -93,6 +93,10 @@ export class Photo extends plugin {
   async Searchoperas(e) {
     let key = this.key
     let proxyUrl = this.proxyUrl
+    if (!key) {
+      e.reply('未检测到key！请前往 https://developer.themoviedb.org/docs 注册账号，使用 #憨憨设置tmdb key 命令进行设置')
+      return false
+    }
     let msg0 = ['查询中'];
     await this.reply(msg0, true, { recallMsg: e.isGroup ? 3 : 0 });
     console.log("[用户命令]", e.msg);
@@ -147,6 +151,10 @@ export class Photo extends plugin {
   async Futuremovies(e) {
     let key = this.key
     let proxyUrl = this.proxyUrl
+    if (!key) {
+      e.reply('未检测到key！请前往 https://developer.themoviedb.org/docs 注册账号，使用 #憨憨设置tmdb key 命令进行设置')
+      return false
+    }
     let msg0 = ['查询中'];
     await this.reply(msg0, true, { recallMsg: e.isGroup ? 3 : 0 });
     const url = `https://api.themoviedb.org/3/movie/upcoming?language=zh-CN&page=1&region=CN`;
@@ -202,6 +210,10 @@ export class Photo extends plugin {
   async trending_movies(e) {
     let key = this.key
     let proxyUrl = this.proxyUrl
+    if (!key) {
+      e.reply('未检测到key！请前往 https://developer.themoviedb.org/docs 注册账号，使用 #憨憨设置tmdb key 命令进行设置')
+      return false
+    }
     let msg0 = ['查询中'];
     await this.reply(msg0, true, { recallMsg: e.isGroup ? 3 : 0 });
     const url = `https://api.themoviedb.org/3/trending/movie/week?language=zh`;
@@ -257,6 +269,10 @@ export class Photo extends plugin {
   async trending_tv(e) {
     let key = this.key
     let proxyUrl = this.proxyUrl
+    if (!key) {
+      e.reply('未检测到key！请前往 https://developer.themoviedb.org/docs 注册账号，使用 #憨憨设置tmdb key 命令进行设置')
+      return false
+    }
     let msg0 = ['查询中'];
     await this.reply(msg0, true, { recallMsg: e.isGroup ? 3 : 0 });
     const url = `https://api.themoviedb.org/3/trending/tv/week?language=zh`;
@@ -312,6 +328,10 @@ export class Photo extends plugin {
   async now_movies(e) {
     let key = this.key
     let proxyUrl = this.proxyUrl
+    if (!key) {
+      e.reply('未检测到key！请前往 https://developer.themoviedb.org/docs 注册账号，使用 #憨憨设置tmdb key 命令进行设置')
+      return false
+    }
     let msg0 = ['查询中'];
     await this.reply(msg0, true, { recallMsg: e.isGroup ? 3 : 0 });
     const url = `https://api.themoviedb.org/3/movie/now_playing?language=zh&page=1&region=CN`;
@@ -367,6 +387,10 @@ export class Photo extends plugin {
   async Searchmovies(e) {
     let key = this.key
     let proxyUrl = this.proxyUrl
+    if (!key) {
+      e.reply('未检测到key！请前往 https://developer.themoviedb.org/docs 注册账号，使用 #憨憨设置tmdb key 命令进行设置')
+      return false
+    }
     let msg0 = ['查询中'];
     await this.reply(msg0, true, { recallMsg: e.isGroup ? 3 : 0 });
     console.log("[用户命令]", e.msg);
@@ -419,6 +443,10 @@ export class Photo extends plugin {
   async person(e) {
     let key = this.key
     let proxyUrl = this.proxyUrl
+    if (!key) {
+      e.reply('未检测到key！请前往 https://developer.themoviedb.org/docs 注册账号，使用 #憨憨设置tmdb key 命令进行设置')
+      return false
+    }
     let msg0 = ['查询中'];
     await this.reply(msg0, true, { recallMsg: e.isGroup ? 3 : 0 });
     console.log("[用户命令]", e.msg);
