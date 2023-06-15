@@ -13,7 +13,7 @@
 
 ## 安装依赖，到yunzai根目录下执行
 ```bash:numbers
-cd /plugins/hanhan-plugin
+cd ./plugins/hanhan-plugin
 pnpm i
 ```
 
