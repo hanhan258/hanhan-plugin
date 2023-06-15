@@ -16,7 +16,11 @@ export class manage extends plugin {
         {
           reg: '^#憨憨设置(Ping|ping)(Token|token)',
           fnc: 'setPingToken',
-        }
+        },
+        {
+          reg: '^(#憨憨|#)设置(tmdb|TMDB) key=(.*)$',
+          fnc: 'settmdbkey',
+        },
       ]
     })
   }
@@ -47,4 +51,27 @@ export class manage extends plugin {
     this.finish('savePingToken')
   }
   
+  async settmdbkey (e) {
+    if (!this.e.isMaster) {
+      e.reply('需要主人才能设置捏~')
+      return false
+    }
+    this.setContext('settmdbkey')
+    await this.reply('未检测到key！请前往 https://developer.themoviedb.org/docs 注册账号，使用 #憨憨设置tmdb key 命令进行设置', true)
+    return false
+  }
+
+  async settmdbkey (e) {
+    console.log("[用户命令]", e.msg);
+    let token = e.msg.replace(/^(#憨憨|#)设置(tmdb|TMDB) key=/, "").trim();
+    if (token.length != 211) {
+      await this.reply('tmdb key错误', true)
+      this.finish('settmdbkey')
+      return
+    }
+    // todo
+    Config.tmdbkey = token
+    await this.reply('tmdb key设置成功', true)
+    this.finish('settmdbkey')
+  }
 }

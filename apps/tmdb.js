@@ -94,7 +94,7 @@ export class Photo extends plugin {
     let key = this.key
     let proxyUrl = this.proxyUrl
     if (!key) {
-      e.reply('未检测到key！请前往 https://developer.themoviedb.org/docs 注册账号，使用 #憨憨设置tmdb key 命令进行设置')
+      e.reply('未检测到key！请前往 https://developer.themoviedb.org/docs 注册账号，使用 #憨憨设置tmdb key= 命令进行设置')
       return false
     }
     let msg0 = ['查询中'];
@@ -152,7 +152,7 @@ export class Photo extends plugin {
     let key = this.key
     let proxyUrl = this.proxyUrl
     if (!key) {
-      e.reply('未检测到key！请前往 https://developer.themoviedb.org/docs 注册账号，使用 #憨憨设置tmdb key 命令进行设置')
+      e.reply('未检测到key！请前往 https://developer.themoviedb.org/docs 注册账号，使用 #憨憨设置tmdb key= 命令进行设置')
       return false
     }
     let msg0 = ['查询中'];
@@ -211,7 +211,7 @@ export class Photo extends plugin {
     let key = this.key
     let proxyUrl = this.proxyUrl
     if (!key) {
-      e.reply('未检测到key！请前往 https://developer.themoviedb.org/docs 注册账号，使用 #憨憨设置tmdb key 命令进行设置')
+      e.reply('未检测到key！请前往 https://developer.themoviedb.org/docs 注册账号，使用 #憨憨设置tmdb key= 命令进行设置')
       return false
     }
     let msg0 = ['查询中'];
@@ -270,7 +270,7 @@ export class Photo extends plugin {
     let key = this.key
     let proxyUrl = this.proxyUrl
     if (!key) {
-      e.reply('未检测到key！请前往 https://developer.themoviedb.org/docs 注册账号，使用 #憨憨设置tmdb key 命令进行设置')
+      e.reply('未检测到key！请前往 https://developer.themoviedb.org/docs 注册账号，使用 #憨憨设置tmdb key= 命令进行设置')
       return false
     }
     let msg0 = ['查询中'];
@@ -329,7 +329,7 @@ export class Photo extends plugin {
     let key = this.key
     let proxyUrl = this.proxyUrl
     if (!key) {
-      e.reply('未检测到key！请前往 https://developer.themoviedb.org/docs 注册账号，使用 #憨憨设置tmdb key 命令进行设置')
+      e.reply('未检测到key！请前往 https://developer.themoviedb.org/docs 注册账号，使用 #憨憨设置tmdb key= 命令进行设置')
       return false
     }
     let msg0 = ['查询中'];
@@ -388,7 +388,7 @@ export class Photo extends plugin {
     let key = this.key
     let proxyUrl = this.proxyUrl
     if (!key) {
-      e.reply('未检测到key！请前往 https://developer.themoviedb.org/docs 注册账号，使用 #憨憨设置tmdb key 命令进行设置')
+      e.reply('未检测到key！请前往 https://developer.themoviedb.org/docs 注册账号，使用 #憨憨设置tmdb key= 命令进行设置')
       return false
     }
     let msg0 = ['查询中'];
@@ -444,7 +444,7 @@ export class Photo extends plugin {
     let key = this.key
     let proxyUrl = this.proxyUrl
     if (!key) {
-      e.reply('未检测到key！请前往 https://developer.themoviedb.org/docs 注册账号，使用 #憨憨设置tmdb key 命令进行设置')
+      e.reply('未检测到key！请前往 https://developer.themoviedb.org/docs 注册账号，使用 #憨憨设置tmdb key= 命令进行设置')
       return false
     }
     let msg0 = ['查询中'];
