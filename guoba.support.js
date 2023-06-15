@@ -68,6 +68,16 @@ export function supportGuoba () {
           component: 'Input'
         },
         {
+          field: 'sysgqjt',
+          label: '搜一搜截图高清放大倍率',
+          bottomHelpMessage: '数字越大，截图时越清晰，注意不要超过4，因为tx无法发送过大的图片',
+          component: 'InputNumber',
+          componentProps: {
+            min: 1,
+            max: 100
+          }
+        },
+        {
           field: 'gdkey',
           label: '高德key',
           bottomHelpMessage: '高德官网获取的key，请前往https://lbs.amap.com/ 注册账号并将获取到的key配置到这里',

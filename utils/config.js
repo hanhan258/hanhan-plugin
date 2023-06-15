@@ -8,6 +8,7 @@ const defaultConfig = {
   tmdbkey: '',
   sysecho: '搜索中...',
   sysecho0: '30000ms erorr',
+  sysgqjt: 1,
   gdkey: '',
   studyGroups: ''
 }
