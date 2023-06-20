@@ -174,7 +174,7 @@ export class Photo extends plugin {
       .then(res => res.json())
       .then(async json => {
         let results = json.results;
-        await this.reply(`共找到${results.length}电影，资源下寨中，排名由第一部依次向下`, true);
+        await this.reply(`共找到${results.length}电影，资源下寨中`, true);
 
         let forwardMsgs = [];
         for (let i = 0; i < results.length; i++) {
@@ -233,7 +233,7 @@ export class Photo extends plugin {
       .then(res => res.json())
       .then(async json => {
         let results = json.results;
-        await this.reply(`共找到${results.length}电影，资源下寨中`, true);
+        await this.reply(`共找到${results.length}电影，资源下寨中，排名由第一部依次向下`, true);
 
         let forwardMsgs = [];
         for (let i = 0; i < results.length; i++) {
@@ -292,7 +292,7 @@ export class Photo extends plugin {
       .then(res => res.json())
       .then(async json => {
         let results = json.results;
-        await this.reply(`共找到${results.length}电影，资源下寨中`, true);
+        await this.reply(`共找到${results.length}电影，资源下寨中，排名由第一部依次向下`, true);
 
         let forwardMsgs = [];
         for (let i = 0; i < results.length; i++) {
