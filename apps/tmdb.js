@@ -363,7 +363,7 @@ export class Photo extends plugin {
 
           let msg = [
             segment.image(`file:///${filePath}`),
-            `中文名: ${movie.title}\n原著名称: ${movie.original_title}\n计划上映日期: ${movie.release_date}\n使用语言: ${movie.original_language} \n评分: ${movie.vote_average}\n剧情简介: \n${movie.overview}`
+            `中文名: ${movie.title}\n原著名称: ${movie.original_title}\n上映日期: ${movie.release_date}\n使用语言: ${movie.original_language} \n评分: ${movie.vote_average}\n剧情简介: \n${movie.overview}`
           ];
 
           forwardMsgs.push(...msg);
