@@ -348,7 +348,7 @@ export class sys extends plugin {
       msg = msg.split(" ");
       let proxyUrl0 = this.proxyUrl
       let Timeout = 5000;
-      let coverUrl = msg
+      let coverUrl = `${msg}`
       await this.downloadImage(e, coverUrl, "", "", Timeout, "", proxyUrl0);
     } catch (error) {
       console.error(error);
@@ -363,7 +363,7 @@ export class sys extends plugin {
       let msg = e.msg.replace(/^#?打开网页(=|＝)?/, "").trim();
       msg = msg.split(" ");
       let Timeout = 5000;
-      let coverUrl = msg
+      let coverUrl = `${msg}`
       await this.downloadImage(e, coverUrl, "", "", Timeout, "", "");
     } catch (error) {
       console.error(error);
