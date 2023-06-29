@@ -19,7 +19,7 @@ export class Ping extends plugin {
       rule: [
         {
           /** 命令正则匹配 */
-          reg: '^#?ping ',
+          reg: '^#[pP]ing ',
           /** 执行方法 */
           fnc: 'ping'
         }
@@ -34,13 +34,14 @@ export class Ping extends plugin {
       return false
     }
 
-    let msg = e.msg.trim().replace(/^#?ping\s?/, '').replace(/https?:\/\//, '')
+    let msg = e.msg.trim().replace(/^#[pP]ing\s/, '').replace(/https?:\/\//, '')
     await this.reply('在ping了、在ping了。。。', true, { recallMsg: 3 })
-    let ipInfo; let pingRes; let domain; let ipAddress = msg
+    let ipInfo; let pingRes; let domain; let ipAddress = msg; let isShowIP = false; const numberOfEchos = 6
+    if (e.msg.trim().includes('#Ping')) isShowIP = true
     if (msg !== 'me') {
       const options = {
         logToFile: false,
-        numberOfEchos: 6,
+        numberOfEchos,
         timeout: 2
       }
       if (net.isIPv4(msg)) {
@@ -61,7 +62,9 @@ export class Ping extends plugin {
           pingRes = '最小延迟：' + Math.floor(response.min) + 'ms\n' +
               '最大延迟：' + Math.floor(response.max) + 'ms\n' +
               '平均延迟：' + Math.floor(response.avg) + 'ms\n' +
-              '丢包数：' + Math.floor(response.packetLoss)
+              '发送数据包: ' + numberOfEchos + '\n' +
+              '丢失数据包: ' + (numberOfEchos - response.times.length) + '\n' +
+              '丢包率：' + response.packetLoss + '%'
         } else {
           pingRes = `目标地址${!e.isGroup ? '(' + ipAddress + ')' : domain || ''}无法响应，请检查网络连接是否正常(是否需要代理访问？)，或该站点是否已关闭。`
         }
@@ -87,13 +90,19 @@ export class Ping extends plugin {
       return false
     }
     ipInfo = JSON.parse(ipInfo.trim())
-    let res = `${!e.isGroup ? 'IP: ' + ipInfo.ip + '\n' : ''}${domain ? 'Domain: ' + domain + '\n' : ''}国家：${ipInfo.country}\n地区：${ipInfo.region}\n城市：${ipInfo.city}\n时区：${ipInfo.timezone}\n经纬度：${ipInfo.loc}\n运营商：${ipInfo.org}\n${pingRes || ''}`
+
+    logger.warn(ipInfo)
+    if (ipInfo.bogon) {
+      await this.reply(pingRes, e.isGroup)
+      return false
+    }
+    let res = `${isShowIP ? 'IP: ' + ipInfo.ip + '\n' : ''}${domain ? 'Domain: ' + domain + '\n' : ''}国家：${ipInfo.country}\n地区：${ipInfo.region}\n城市：${ipInfo.city}\n时区：${ipInfo.timezone}\n经纬度：${ipInfo.loc}\n运营商：${ipInfo.org}\n${pingRes || ''}`
     await this.reply(res, e.isGroup)
     return true
   }
 }
 function getDomain (url) {
-  const domainRegex = /((?!:\/\/)([a-zA-Z0-9-]+\.)*[a-zA-Z0-9-]+\.[a-zA-Z]{2,})/
+  const domainRegex = /((?:[\u4e00-\u9fa5a-zA-Z0-9-]+\.)+[\u4e00-\u9fa5a-zA-Z]{2,})/
   const match = url.match(domainRegex)
   return match ? match[1] : false
 }
