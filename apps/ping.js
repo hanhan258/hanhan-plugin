@@ -1,10 +1,11 @@
 import plugin from '../../../lib/plugins/plugin.js'
 import { Config } from '../utils/config.js'
 import dns from 'dns'
-import { exec, execSync } from 'child_process'
+import { exec } from 'child_process'
+import pingMan from 'pingman'
+import net from 'net'
 
-// const reply = true
-export class ping extends plugin {
+export class Ping extends plugin {
   constructor () {
     super({
       /** 功能名称 */
@@ -24,97 +25,55 @@ export class ping extends plugin {
         }
       ]
     })
-    // token of https://ipinfo.io
-    this.token = Config.pingToken || Config.pingtoken
   }
 
   // ping网站或ip
   async ping (e) {
-    if (!this.token) {
-      e.reply('请前往 https://ipinfo.io 注册账号，使用 #憨憨设置pingtoken 命令进行设置')
+    if (!Config.pingToken) {
+      e.reply('请前往 https://ipinfo.io 注册账号，使用 #憨憨设置pingtoken 命令进行设置，设置好之后请重启')
       return false
     }
-    let token = this.token
-    console.log(token)
-    let host = e.msg.trim().replace(/^#?ping\s?/, '').replace(/https?:\/\//, '')
-    if (!host) {
-      await this.reply('请检查输入是否有误~', e.isGroup)
-      return false
-    }
-    await this.reply('在ping了、在ping了。。。', true, { recallMsg: e.isGroup ? 3 : 0 })
-    const regex = /^(([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,6}:|([0-9a-fA-F]{1,4}:){1,5}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,4}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,5}|:)|:((:[0-9a-fA-F]{1,4}){1,6}|:))%?([0-9a-zA-Z]{1,})?$/
-    let pingCommand = ''
-    let pingRegex = ''
-    let pingRes = ''
-    // 不ping本机
-    if (host !== 'me') {
-      // 获取公网ip
-      if (!regex.test(host)) {
-        function lookup (hostname) {
-          return new Promise((resolve, reject) => {
-            dns.lookup(hostname, (err, address) => {
-              if (err) {
-                reject(err)
-              } else {
-                resolve(address)
-              }
-            })
-          })
-        }
 
-        try {
-          host = await lookup(host)
-        } catch (err) {
-          await this.reply(err.toString(), e.isGroup)
-          logger.error('ipAddress err: ', err)
+    let msg = e.msg.trim().replace(/^#?ping\s?/, '').replace(/https?:\/\//, '')
+    await this.reply('在ping了、在ping了。。。', true, { recallMsg: 3 })
+    let ipInfo; let pingRes; let domain; let ipAddress = msg
+    if (msg !== 'me') {
+      const options = {
+        logToFile: false,
+        numberOfEchos: 6,
+        timeout: 2
+      }
+      if (net.isIPv4(msg)) {
+        options.IPV4 = true
+      } else if (net.isIPv6(msg)) {
+        options.IPV6 = true
+      } else {
+        domain = getDomain(msg)
+        ipAddress = domain ? await getIPAddress(domain) : ''
+        if (!ipAddress) {
+          await this.reply('解析域名ip出错！')
           return false
         }
       }
-
-      if (process.platform === 'win32') {
-        // 设置控制台的编码格式
-        execSync('chcp 65001')
-        // 设置ping指令
-        pingCommand = `ping -n 4 ${host}`
-        // 设置处理ping结果的正则表达式
-        pingRegex = /Packets: Sent = (\d+), Received = (\d+), Lost = \d+ \((\d+%) loss\),\s*\nApproximate round trip times in milli-seconds:\s*\n\s*Minimum = (\d+)ms, Maximum = (\d+)ms, Average = (\d+)ms/
-      } else {
-        process.env.LANG = 'en_US.UTF-8'
-        pingCommand = `ping -c 4 ${host}`
-        pingRegex = /(\d+\.?\d*) packets transmitted, (\d+\.?\d*) received, (\d+\.?\d*%) packet loss, time \d+ms\s*\n\s*rtt min\/avg\/max\/mdev = (\d+\.?\d*)\/(\d+\.?\d*)\/(\d+\.?\d*)\/\d+\.?\d* ms/
-      }
       try {
-        // 获取ping结果
-        pingRes = await new Promise((resolve, reject) => {
-          exec(pingCommand, async (error, stdout, stderr) => {
-            if (error) {
-              reject(error)
-            } else {
-              resolve(stdout)
-            }
-          })
-        })
+        let response = await pingMan(ipAddress, options)
+        if (response.alive) {
+          pingRes = '最小延迟：' + Math.floor(response.min) + 'ms\n' +
+              '最大延迟：' + Math.floor(response.max) + 'ms\n' +
+              '平均延迟：' + Math.floor(response.avg) + 'ms\n' +
+              '丢包数：' + Math.floor(response.packetLoss)
+        } else {
+          pingRes = `目标地址${!e.isGroup ? '(' + ipAddress + ')' : domain || ''}无法响应，请检查网络连接是否正常(是否需要代理访问？)，或该站点是否已关闭。`
+        }
       } catch (error) {
-        logger.error(`exec pingCommand执行出错: ${error}`)
-      }
-      const match = pingRegex.exec(pingRes.toString())
-      if (match) {
-        const packetCount = match[1]
-        const receivedCount = match[2]
-        const lossRate = match[3]
-        const minDelay = match[4]
-        const maxDelay = match[5]
-        const avgDelay = match[6]
-        pingRes = `最小延迟：${minDelay}ms\n最大延迟：${maxDelay}ms\n平均延迟：${avgDelay}ms\n数据包数：${packetCount}\n接受数据包：${receivedCount}\n丢包率：${lossRate}`
-      } else {
-        pingRes = pingRes === '' ? `目标地址${!e.isGroup ? '(' + e.msg.trim().match(/^#?ping\s?(.+)/)[1] + ')' : ''}无法响应，请检查网络连接是否正常(是否需要代理访问？)，或者该站点是否已关闭。` : pingRes.replace(new RegExp(host, 'g'), '=͟͟͞͞ʕ•̫͡•ʔ=͟͟͞͞ʕ•̫͡•ʔ=͟͟͞͞ʕ•̫͡•ʔ')
+        logger.error(`ping 执行出错: ${error}`)
+        await this.reply('ping 执行出错: ', error)
       }
     }
-    let ipInfo = ''
     try {
       // 通过ipinfo.io获取ip地址相关信息
       ipInfo = await new Promise((resolve, reject) => {
-        exec(`curl https://ipinfo.io/${host === 'me' ? '' : host}?token=${token}`, async (error, stdout, stderr) => {
+        exec(`curl https://ipinfo.io/${msg === 'me' ? '' : ipAddress}?token=${Config.pingToken}`, async (error, stdout, stderr) => {
           if (error) {
             reject(error)
           } else {
@@ -124,12 +83,33 @@ export class ping extends plugin {
       })
     } catch (error) {
       logger.error(`exec curl执行出错: ${error}`)
-      await this.reply(error, e.isGroup)
+      await this.reply(`exec curl执行出错: ${error}`, e.isGroup)
       return false
     }
     ipInfo = JSON.parse(ipInfo.trim())
-    let res = `${!e.isGroup ? 'IP: ' + ipInfo.ip + '\n' : ''}国家：${ipInfo.country}\n地区：${ipInfo.region}\n城市：${ipInfo.city}\n时区：${ipInfo.timezone}\n经纬度：${ipInfo.loc}\n运营商：${ipInfo.org}\n${pingRes}`
+    let res = `${!e.isGroup ? 'IP: ' + ipInfo.ip + '\n' : ''}${domain ? 'Domain: ' + domain + '\n' : ''}国家：${ipInfo.country}\n地区：${ipInfo.region}\n城市：${ipInfo.city}\n时区：${ipInfo.timezone}\n经纬度：${ipInfo.loc}\n运营商：${ipInfo.org}\n${pingRes || ''}`
     await this.reply(res, e.isGroup)
     return true
+  }
+}
+function getDomain (url) {
+  const domainRegex = /((?!:\/\/)([a-zA-Z0-9-]+\.)*[a-zA-Z0-9-]+\.[a-zA-Z]{2,})/
+  const match = url.match(domainRegex)
+  return match ? match[1] : false
+}
+async function getIPAddress (host) {
+  try {
+    return await new Promise((resolve, reject) => {
+      dns.lookup(host, (err, address) => {
+        if (err) {
+          reject(err)
+        } else {
+          resolve(address)
+        }
+      })
+    })
+  } catch (error) {
+    logger.error(error)
+    return false
   }
 }
