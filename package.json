@@ -9,6 +9,7 @@
     "oicq": "^2.3.1",
     "proxy-chain": "^2.3.0",
     "puppeteer": "^20.4.0",
+    "pingman": "^2.0.0",
     "xmorse": "1.0.0"
   }
 }
