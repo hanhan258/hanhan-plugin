@@ -23,7 +23,7 @@ export class help extends plugin {
           reg: '^#搜一搜帮助$',
           /** 执行方法 */
           fnc: 'so_help'
-        },
+        }
       ]
     })
   }
@@ -32,9 +32,10 @@ export class help extends plugin {
   async hanhanHelp (e) {
     await e.runtime.render('hanhan-plugin', '/help/help.html')
   }
-async so_help(e) {
+
+  async so_help (e) {
   /** e.msg 用户的命令消息 */
-  logger.info("[用户命令]", e.msg);
-  await e.runtime.render('hanhan-plugin', '/help/sys.html')
-}
+    logger.info('[用户命令]', e.msg)
+    await e.runtime.render('hanhan-plugin', '/help/sys.html')
+  }
 }

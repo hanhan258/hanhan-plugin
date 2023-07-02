@@ -15,7 +15,7 @@ export class RussiaRoundPlatePlugin extends plugin {
         {
           reg: '^#?开枪$',
           fnc: 'shoot'
-        },
+        }
       ]
     })
   }

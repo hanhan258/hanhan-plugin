@@ -6,7 +6,7 @@ import { endingSpeech, followMe, pepTalk } from '../utils/const.js'
 import { sleep } from '../utils/common.js'
 
 export class photo extends plugin {
-  constructor() {
+  constructor () {
     super({
       /** 功能名称 */
       name: '憨憨图片类',
@@ -61,7 +61,7 @@ export class photo extends plugin {
         },
         {
           /** 命令正则匹配 */
-          reg: '^#?手写$',
+          reg: '^#?手写',
           /** 执行方法 */
           fnc: 'sx'
         },
@@ -89,6 +89,12 @@ export class photo extends plugin {
           /** 执行方法 */
           fnc: 'random_orient'
         },
+        {
+          /** 命令正则匹配 */
+          reg: '^#?一二布布$',
+          /** 执行方法 */
+          fnc: 'yebb'
+        }
       ]
     })
     this.task = [
@@ -101,7 +107,7 @@ export class photo extends plugin {
     ]
   }
 
-  async englishTimeIsUp() {
+  async englishTimeIsUp () {
     let toSend = Config.studyGroups || []
     let url = 'https://open.iciba.com/dsapi/'
     let response = await axios.get(url) // 调用接口获取数据
@@ -135,107 +141,112 @@ export class photo extends plugin {
     }
   }
 
+  // 一二布布
+  async yebb (e) {
+    // 发送消息
+    await this.reply(segment.image('http://api.yujn.cn/api/bubu.php?'))
+    return true // 返回true 阻挡消息不再往下
+  }
+
   // 随机柴郡
-  async cj(e) {
+  async cj (e) {
     // 发送消息
     await this.reply(segment.image('http://api.yujn.cn/api/chaijun.php?'))
     return true // 返回true 阻挡消息不再往下
   }
 
   // 每日英语
-  async mryy(e) {
+  async mryy (e) {
     let sendmsg = []
     let url = 'https://open.iciba.com/dsapi/'
     let response = await axios.get(url) // 调用接口获取数据
-    console.log(response)
     sendmsg.push(segment.image(response.data.fenxiang_img))
-    await this.reply(sendmsg, true)
+    await this.reply(sendmsg)
   }
 
   // 手写模拟器
-  async sx(e) {
+  async sx (e) {
     let encode = e.msg.replace(/^#?手写/, '').trim()
     // 发送消息
-    await this.reply(segment.image(`https://zj.v.api.aa1.cn/api/zuoye/?msg=${encode}`), true)
+    await this.reply(segment.image(`https://zj.v.api.aa1.cn/api/zuoye/?msg=${encode}`))
     return true // 返回true 阻挡消息不再往下
   }
 
   // 猫羽雫图片天气
-  async tianqi(e) {
+  async tianqi (e) {
     let encode = e.msg.replace(/^#?天气/, '').trim()
+    let img = segment.image(`http://api.caonm.net/api/qqtq/t?msg=${encode}&key=9eEVLhmjy98VKTkg4jSuUo2vVO`)
     // 发送消息
-    await this.reply(segment.image(`http://api.caonm.net/api/qqtq/t.php?msg=${encode}&type=img&n=1`), true)
+    if (img) this.reply(img)
+    else this.reply('图片裂开了捏~')
     return true // 返回true 阻挡消息不再往下
   }
 
   // mc酱
-  async mc(e) {
+  async mc (e) {
     // 发送消息
     await this.reply(segment.image('https://www.hlapi.cn/api/mcj'))
     return true // 返回true 阻挡消息不再往下
   }
 
   // 小c酱
-  async xiaoc(e) {
+  async xiaoc (e) {
     // 发送消息
     await this.reply(segment.image('http://api.yujn.cn/api/xcj.php?'))
     return true // 返回true 阻挡消息不再往下
   }
 
   // 兽猫酱
-  async shoumao(e) {
+  async shoumao (e) {
     // 发送消息
     await this.reply(segment.image('http://api.yujn.cn/api/smj.php?'))
     return true // 返回true 阻挡消息不再往下
   }
 
   // 美腿
-  async mt(e) {
+  async mt (e) {
     await this.reply(segment.image('http://lx.linxi.icu/API/meitui.php'))
     return true // 返回true 阻挡消息不再往下
   }
 
   // 随机ai
-  async sjai(e) {
+  async sjai (e) {
     // 发送消息
     await this.reply(segment.image('http://lx.linxi.icu/API/aitu.php'))
     return true // 返回true 阻挡消息不再往下
   }
 
   // 买家秀
-  async buyerShow(e) {
+  async buyerShow (e) {
     // 发送消息
     await this.reply(segment.image('https://api.dzzui.com/api/imgtaobao'))
     return true // 返回true 阻挡消息不再往下
   }
+
   // 随机二次元
-  async random_acg(e) {
-    let api_list = [
-    'https://www.dmoe.cc/random.php', 
-    'http://www.98qy.com/sjbz/api.php',
-    'https://t.mwm.moe/mp/',
-    'https://t.mwm.moe/pc/',
-    'https://api.ghser.com/random/pc.php',
-    'https://api.ghser.com/random/pe.php',
-    'https://www.loliapi.com/acg/',
-    'https://api.paugram.com/wallpaper/',
-  ];
-    let random_type = Math.random()
-    if (random_type < 1 ) {
-      let api_number = Math.ceil(Math.random() * api_list['length'])
-      await this.reply(segment.image(`${api_list[api_number - 1]}`))
+  async random_acg (e) {
+    let apiList = [
+      'https://www.dmoe.cc/random.php',
+      'http://www.98qy.com/sjbz/api.php',
+      'https://t.mwm.moe/mp/',
+      'https://t.mwm.moe/pc/',
+      'https://api.ghser.com/random/pc.php',
+      'https://api.ghser.com/random/pe.php',
+      'https://www.loliapi.com/acg/',
+      'https://api.paugram.com/wallpaper/'
+    ]
+    let randomType = Math.random()
+    if (randomType < 1) {
+      let apiNumber = Math.ceil(Math.random() * apiList.length)
+      await this.reply(segment.image(`${apiList[apiNumber - 1]}`))
       return true
     }
   }
 
-  //随机东方
-  async random_orient(e) {
+  // 随机东方
+  async random_orient (e) {
     // 发送消息
     await this.reply(segment.image('https://img.paulzzh.tech/touhou/random'))
-    return true 
+    return true
   }
-
-
-
 }
-

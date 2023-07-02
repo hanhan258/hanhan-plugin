@@ -27,17 +27,20 @@ pnpm i
 
 发送`#nav`或者`#憨憨帮助`查看功能
 
-![9c055127d23b558114f2621c5b90d858](./resources/readme/help.jpg)
+<img src="./resources/readme/help.jpg" alt="9c055127d23b558114f2621c5b90d858" style="zoom:50%;" />
 
 ## 搜一搜帮助
 
 发送`#搜一搜帮助`查看功能
 
-![9c055127d23b558114f2621c5b90d858](./resources/readme/sys.jpg)
+搜一搜或许需要安装`google-chrome`，请自行搜索教程安装，并将`which google-chrome`得到的路径配置在`config.json`里面（config.example.json礼门有示例，可以直接复制过去，修改路径即可）
+
+<img src="./resources/readme/sys.jpg" alt="9c055127d23b558114f2621c5b90d858" style="zoom:50%;" />
 
 
 ## 说明
-> 因为是部分功能是调用的接口，接口寄了功能也就寄了，可以给我提issues，能换接口我就换了，找不到我就下架功能。
+> 大部分功能是调用的接口，接口寄了功能也就寄了，可以提issues，能找到替代接口我就会修复，找不到我就会下架功能。
+> 喜欢的话给个Star吧，爱你呦，么么哒![Alt text](./resources/readme/3835E2DA.png)
 
 ## 赞助
 

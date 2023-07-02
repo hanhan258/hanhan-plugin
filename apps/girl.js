@@ -20,29 +20,29 @@ export class girl extends plugin {
           fnc: 'jk'
         },
         {
-            /** 命令正则匹配 */
-            reg: '^#?(黑丝|hs)$',
-            /** 执行方法 */
-            fnc: 'hs'
+          /** 命令正则匹配 */
+          reg: '^#?(黑丝|hs)$',
+          /** 执行方法 */
+          fnc: 'hs'
         },
         {
-            /** 命令正则匹配 */
-            reg: '^#?(白丝|bs)$',
-            /** 执行方法 */
-            fnc: 'bs'
+          /** 命令正则匹配 */
+          reg: '^#?(白丝|bs)$',
+          /** 执行方法 */
+          fnc: 'bs'
         },
         {
-            /** 命令正则匹配 */
-            reg: '^#?(写真|xz)$',
-            /** 执行方法 */
-            fnc: 'xz'
+          /** 命令正则匹配 */
+          reg: '^#?(写真|xz)$',
+          /** 执行方法 */
+          fnc: 'xz'
         },
         {
-            /** 命令正则匹配 */
-            reg: '^#?(小姐姐|xjj)$',
-            /** 执行方法 */
-            fnc: 'xjj'
-        },
+          /** 命令正则匹配 */
+          reg: '^#?(小姐姐|xjj)$',
+          /** 执行方法 */
+          fnc: 'xjj'
+        }
       ]
     })
   }
@@ -52,15 +52,15 @@ export class girl extends plugin {
     // 发送消息
     await this.reply(segment.image('http://api.yujn.cn/api/yangyan.php?'))
     return true // 返回true 阻挡消息不再往下
-   }
+  }
 
   // JK
   async jk (e) {
-   // 发送消息
-   await this.reply(segment.image('http://api.yujn.cn/api/jk.php??'))
-   return true // 返回true 阻挡消息不再往下
+    // 发送消息
+    await this.reply(segment.image('http://api.yujn.cn/api/jk.php??'))
+    return true // 返回true 阻挡消息不再往下
   }
-  
+
   // 黑丝
   async hs (e) {
     // 发送消息
@@ -68,7 +68,6 @@ export class girl extends plugin {
     await this.reply(segment.image('http://shanhe.kim/api/tu/hs.php'))
     return true // 返回true 阻挡消息不再往下
   }
-
 
   // 白丝
   async bs (e) {

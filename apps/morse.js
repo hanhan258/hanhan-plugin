@@ -2,7 +2,7 @@ import plugin from '../../../lib/plugins/plugin.js'
 import xmorse from 'xmorse'
 
 export class morse extends plugin {
-  constructor() {
+  constructor () {
     super({
       /** 功能名称 */
       name: '憨憨摩斯',
@@ -30,18 +30,18 @@ export class morse extends plugin {
   }
 
   // 莫斯加密
-  async morseEn(e) {
+  async morseEn (e) {
     let encode = e.msg.replace(/^#?(莫斯|摩斯)加密/, '').trim()
     // standart morse
-    let result = xmorse.encode(`${encode}`);
+    let result = xmorse.encode(`${encode}`)
     await this.reply(result, true)
   }
 
   // 莫斯解密
-  async morseDe(e) {
+  async morseDe (e) {
     let encode = e.msg.replace(/^#?(莫斯|摩斯)解密/, '').trim()
     // standart morse
-    let result = xmorse.decode(`${encode}`);
+    let result = xmorse.decode(`${encode}`)
     await this.reply(result, true)
   }
 }

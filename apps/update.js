@@ -34,7 +34,7 @@ export class Update extends plugin {
     if (!this.e.isMaster) {
       e.reply('憨憨还是认主人的捏~')
       return false
-    } 
+    }
 
     /** 检查是否正在更新中 */
     if (uping) {

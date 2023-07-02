@@ -1,6 +1,7 @@
 import plugin from '../../../lib/plugins/plugin.js'
 import fetch from 'node-fetch'
 import axios from 'axios'
+import he from 'he'
 
 export class text extends plugin {
   constructor () {
@@ -40,31 +41,84 @@ export class text extends plugin {
         },
         {
           /** 命令正则匹配 */
-          reg: '^#?(今天|早上|中午|晚上|下午|现在)吃什么',
+          reg: '^#?随机日记',
           /** 执行方法 */
-          fnc: 'eat'
+          fnc: 'sjrj'
+        },
+        {
+          /** 命令正则匹配 */
+          reg: '^#?舔狗日记',
+          /** 执行方法 */
+          fnc: 'tgrj'
+        },
+        {
+          /** 命令正则匹配 */
+          reg: '^#?新春祝福',
+          /** 执行方法 */
+          fnc: 'newyear'
+        },
+        {
+          /** 命令正则匹配 */
+          reg: '^#?(污污|污句子)',
+          /** 执行方法 */
+          fnc: 'wjz'
+        },
+        {
+          /** 命令正则匹配 */
+          reg: '^#?网易云热评',
+          /** 执行方法 */
+          fnc: 'wyyrp'
         }
       ]
     })
   }
-  // 今天吃什么
-  async eat(e){
-    let resp = await fetch('http://api.yujn.cn/api/chi.php?')
-    let result = resp.text()
+
+  // 网易云热评
+  async wyyrp (e) {
+    let resp = await fetch('https://api.f4team.cn/API/wyrp/api.php?type=text')
+    let result = await resp.text()
+    await this.reply(result)
+  }
+
+  // 污句子
+  async wjz (e) {
+    let resp = await fetch('http://api.yujn.cn/api/text_wu.php')
+    let str = await resp.text()
+    let result = str.trim()
+    await this.reply(result)
+  }
+
+  // 新春祝福
+  async newyear (e) {
+    let resp = await fetch('http://api.yujn.cn/api/zhufu.php')
+    let str = await resp.text()
+    let result = str.trim()
+    await this.reply(result)
+  }
+
+  // 舔狗日记
+  async tgrj (e) {
+    let resp = await fetch('https://api.f4team.cn/API/tgrj/api.php')
+    await this.reply(await resp.text())
+  }
+
+  // 随机日记
+  async sjrj (e) {
+    let resp = await fetch('http://api.yujn.cn/api/baoan.php?')
+    let result = he.decode(await resp.text()).replace(/<br>/g, '\n')
     await this.reply(result)
   }
 
   // 人生倒计时
   async rsdjs (e) {
     let sendmsg = []
-    let url = `https://v.api.aa1.cn/api/rsdjs/`
+    let url = 'https://v.api.aa1.cn/api/rsdjs/'
     let response = await axios.get(url) // 调用接口获取数据
-    console.log(response)
-    sendmsg.push(response.data.month, "\n")
-    sendmsg.push(response.data.week, "\n")
-    sendmsg.push(response.data.day, "\n")
+    sendmsg.push(response.data.month, '\n')
+    sendmsg.push(response.data.week, '\n')
+    sendmsg.push(response.data.day, '\n')
     sendmsg.push(response.data.time)
-    await this.reply(sendmsg, true)
+    await this.reply(sendmsg)
   }
 
   // 发癫
@@ -76,7 +130,7 @@ export class text extends plugin {
     let response = await axios.get(url) // 调用接口获取数据
     let res = response.data.data
     sendmsg.push(res)
-    await this.reply(sendmsg, true)
+    await this.reply(sendmsg)
   }
 
   // 今天是几号
@@ -96,6 +150,6 @@ export class text extends plugin {
     let res = await response.text()
     let sendmsg = []
     sendmsg.push(res)
-    await this.reply(sendmsg, true)
+    await this.reply(sendmsg)
   }
 }
