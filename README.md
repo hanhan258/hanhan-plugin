@@ -21,7 +21,9 @@ cd ./plugins/hanhan-plugin
 pnpm i
 ```
 
-安装完依赖之后，重启机器人，就可以食用了
+搜一搜或许需要安装`google-chrome`，请自行搜索教程安装，并将`which google-chrome`得到的路径配置在`config.json`里面（config.example.json礼门有示例，可以直接复制过去，修改路径即可）
+
+操作完之后，启动你的机器人，就可以食用了
 
 ## nav
 
@@ -32,8 +34,6 @@ pnpm i
 ## 搜一搜帮助
 
 发送`#搜一搜帮助`查看功能
-
-搜一搜或许需要安装`google-chrome`，请自行搜索教程安装，并将`which google-chrome`得到的路径配置在`config.json`里面（config.example.json礼门有示例，可以直接复制过去，修改路径即可）
 
 <img src="./resources/readme/sys.jpg" alt="9c055127d23b558114f2621c5b90d858" style="zoom:50%;" />
 
