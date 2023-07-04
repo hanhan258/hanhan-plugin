@@ -257,7 +257,7 @@ export class Update extends plugin {
       await this.reply(
         msg +
         `最新的大脑和现在的憨憨大脑打架啦~：\n${errMsg}\n` +
-        '你肯定是偷偷动了憨憨的大脑！请执行#强制更新，放弃本地修改'
+        '你肯定是偷偷动了憨憨的大脑！请执行#憨憨强制更新，放弃本地修改'
       )
       return
     }

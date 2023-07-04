@@ -14,13 +14,13 @@ export class help extends plugin {
       rule: [
         {
           /** 命令正则匹配 */
-          reg: '#(nav|憨憨帮助)',
+          reg: '#?(nav|憨憨帮助)$',
           /** 执行方法 */
           fnc: 'hanhanHelp'
         },
         {
           /** 命令正则匹配 */
-          reg: '^#搜一搜帮助$',
+          reg: '^#?搜一搜帮助$',
           /** 执行方法 */
           fnc: 'so_help'
         }

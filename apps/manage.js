@@ -14,7 +14,7 @@ export class manage extends plugin {
       priority: 6,
       rule: [
         {
-          reg: '^#憨憨设置(Ping|ping)(Token|token)',
+          reg: '^#憨憨设置(Ping|ping)(Token|token)$',
           fnc: 'setPingToken'
         },
         {

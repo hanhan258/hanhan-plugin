@@ -35,15 +35,15 @@ export class diaotu extends plugin {
           fnc: 'diaotu'
         },
         {
-          reg: '^#?原神(，|,)启动(！|!)',
+          reg: '^#?原神(，|,)启动(！|!)$',
           fnc: 'ysqd'
         },
         {
-          reg: '^#?(坤坤|小黑子|鸡|cxk|鸡脚)',
+          reg: '^#?(坤坤|小黑子|鸡|cxk|鸡脚|鸽鸽|哥哥)$',
           fnc: 'cxk'
         },
         {
-          reg: '^#?随机表情',
+          reg: '^#?随机表情$',
           fnc: 'sjbq'
         }
       ]

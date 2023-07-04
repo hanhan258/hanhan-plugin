@@ -23,54 +23,89 @@ export class text extends plugin {
         },
         {
           /** 命令正则匹配 */
-          reg: '^#?今天是几号',
+          reg: '^#?今天是几号$',
           /** 执行方法 */
           fnc: 'today'
         },
         {
           /** 命令正则匹配 */
-          reg: '^#?历史上的今天',
+          reg: '^#?历史上的今天$',
           /** 执行方法 */
           fnc: 'history'
         },
         {
           /** 命令正则匹配 */
-          reg: '^#?人生倒计时',
+          reg: '^#?人生倒计时$',
           /** 执行方法 */
           fnc: 'rsdjs'
         },
         {
           /** 命令正则匹配 */
-          reg: '^#?随机日记',
+          reg: '^#?随机日记$',
           /** 执行方法 */
           fnc: 'sjrj'
         },
         {
           /** 命令正则匹配 */
-          reg: '^#?舔狗日记',
+          reg: '^#?舔狗日记$',
           /** 执行方法 */
           fnc: 'tgrj'
         },
         {
           /** 命令正则匹配 */
-          reg: '^#?新春祝福',
+          reg: '^#?新春祝福$',
           /** 执行方法 */
           fnc: 'newyear'
         },
         {
           /** 命令正则匹配 */
-          reg: '^#?(污污|污句子)',
+          reg: '^#?(污污|污句子)$',
           /** 执行方法 */
           fnc: 'wjz'
         },
         {
           /** 命令正则匹配 */
-          reg: '^#?网易云热评',
+          reg: '^#?网易云热评$',
           /** 执行方法 */
           fnc: 'wyyrp'
+        },
+        {
+          /** 命令正则匹配 */
+          reg: '^#?油价',
+          /** 执行方法 */
+          fnc: 'yjcx'
         }
       ]
     })
+  }
+
+  // 油价查询
+  async yjcx (e) {
+    let sendmsg = []
+    let encode = e.msg.replace(/^#?油价/, '').trim()
+    let shengfen = ['北京', '上海', '江苏', '天津', '重庆', '江西', '辽宁', '安徽', '内蒙古', '福建',
+      '宁夏', '甘肃', '青海', '广东', '山东', '广西', '山西', '贵州', '陕西', '海南', '四川', '河北',
+      '西藏', '河南', '新疆', '黑龙江', '吉林', '云南', '湖北', '浙江', '湖南']
+    let result = shengfen.includes(encode)
+    if (!result) {
+      await this.reply('只支持省份查询哦')
+      return
+    }
+    console.log(encode)
+    let url = `https://api.qqsuu.cn/api/dm-oilprice?prov=${encode}`
+    let response = await axios.get(url) // 调用接口获取数据
+    if (response.data.code == 200) {
+      sendmsg.push('省份：', response.data.data.prov, '\n')
+      sendmsg.push('0号：', response.data.data.p0, '\n')
+      sendmsg.push('89号：', response.data.data.p89, '\n')
+      sendmsg.push('92号：', response.data.data.p92, '\n')
+      sendmsg.push('95号：', response.data.data.p95, '\n')
+      sendmsg.push('98号：', response.data.data.p98, '\n')
+      sendmsg.push(response.data.data.time)
+      await this.reply(sendmsg)
+    } else {
+      await this.reply('查询失败,可能接口失效力~，请联系憨憨捏~')
+    }
   }
 
   // 网易云热评
