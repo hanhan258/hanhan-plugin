@@ -15,13 +15,13 @@ export class morse extends plugin {
       rule: [
         {
           /** 命令正则匹配 */
-          reg: '^#?(摩斯|莫斯)加密',
+          reg: '^#(摩斯|莫斯)加密',
           /** 执行方法 */
           fnc: 'morseEn'
         },
         {
           /** 命令正则匹配 */
-          reg: '^#?(摩斯|莫斯)解密',
+          reg: '^#(摩斯|莫斯)解密',
           /** 执行方法 */
           fnc: 'morseDe'
         }

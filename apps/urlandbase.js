@@ -20,19 +20,19 @@ export class urlAndBase extends plugin {
         },
         {
           /** 命令正则匹配 */
-          reg: '^#?(url|URL)解码',
+          reg: '^#(url|URL)解码',
           /** 执行方法 */
           fnc: 'urlDe'
         },
         {
           /** 命令正则匹配 */
-          reg: '^#?(base64|Base64)编码',
+          reg: '^#(base64|Base64)编码',
           /** 执行方法 */
           fnc: 'baseEn'
         },
         {
           /** 命令正则匹配 */
-          reg: '^#?(base64|Base64)解码',
+          reg: '^#(base64|Base64)解码',
           /** 执行方法 */
           fnc: 'baseDe'
         }

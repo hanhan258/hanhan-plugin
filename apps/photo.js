@@ -150,8 +150,17 @@ export class photo extends plugin {
 
   // 随机柴郡
   async cj (e) {
+    let urls = ['http://api.yujn.cn/api/chaijun.php?', 'http://chaijun.avocado.wiki']
+    const randomIndex = Math.random()
+    let url
+    console.log('randomIndex: ' + randomIndex)
+    if (randomIndex < 0.7) {
+      url = urls[1] // 返回第一个 URL，概率为 0.7
+    } else {
+      url = urls[0] // 返回第二个 URL，概率为 0.3
+    }
     // 发送消息
-    await this.reply(segment.image('http://api.yujn.cn/api/chaijun.php?'))
+    await this.reply(segment.image(url))
     return true // 返回true 阻挡消息不再往下
   }
 
