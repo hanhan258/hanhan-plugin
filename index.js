@@ -28,8 +28,8 @@ for (let i in files) {
 }
 
 
-logger.info('**************************************')
-logger.info(chalk.green.bold('hanhan-plugin加载成功'))
+logger.info('§f§4********************[§ah§ba§dn§eh§fa§5n§f§4]********************')
+logger.info('§nh§ba§dn§eh§fa§5n§8-§7p§8l§4u§ag§5i§fsn加§k载§a成§c功')
 logger.info(chalk.green.bold('            ▃▆█▇▄▖'))
 logger.info(chalk.green.bold('　 　 　 ▟◤▖      ◥█▎'))
 logger.info(chalk.green.bold('   　 ◢◤　 ▐　　　  ▐▉'))
@@ -40,6 +40,6 @@ logger.info(chalk.green.bold('█◣　◥▅█▀　　　　▐██◤'))
 logger.info(chalk.green.bold('▐█▙▂　　     　◢██◤'))
 logger.info(chalk.green.bold('◥██◣　　　　◢▄◤'))
 logger.info(chalk.green.bold(' 　　▀██▅▇▀'))
-logger.info('仓库地址 https://github.com/hanhan258/hanhan-plugin')
-logger.info('**************************************')
+logger.info('§f§b仓库地址 §e§nhttps://github.com/hanhan258/hanhan-plugin')
+logger.info('§f§4********************[§b///^///§f§4]********************')
 export { apps }
