@@ -28,8 +28,8 @@ for (let i in files) {
 }
 
 
-logger.info('§f§4********************[§ah§ba§dn§eh§fa§5n§f§4]********************')
-logger.info('§nh§ba§dn§eh§fa§5n§8-§7p§8l§4u§ag§5i§fsn加§k载§a成§c功')
+logger.info(`${chalk.redBright.bold('********************[')}${chalk.cyan.bold('hanhan')}${chalk.redBright.bold(']********************')}`)
+logger.info(`${chalk.blue.bold('han')}${chalk.redBright.bold('han')}${chalk.gray.bold('-')}${chalk.cyan.bold('plugin')}${chalk.whiteBright.bold('加载')}${chalk.greenBright.bold('成功')}`)
 logger.info(chalk.green.bold('            ▃▆█▇▄▖'))
 logger.info(chalk.green.bold('　 　 　 ▟◤▖      ◥█▎'))
 logger.info(chalk.green.bold('   　 ◢◤　 ▐　　　  ▐▉'))
@@ -40,6 +40,6 @@ logger.info(chalk.green.bold('█◣　◥▅█▀　　　　▐██◤'))
 logger.info(chalk.green.bold('▐█▙▂　　     　◢██◤'))
 logger.info(chalk.green.bold('◥██◣　　　　◢▄◤'))
 logger.info(chalk.green.bold(' 　　▀██▅▇▀'))
-logger.info('§f§b仓库地址 §e§nhttps://github.com/hanhan258/hanhan-plugin')
-logger.info('§f§4********************[§b///^///§f§4]********************')
+logger.info(`${chalk.cyan.italic('仓库地址')} ${chalk.yellowBright.underline('https://github.com/hanhan258/hanhan-plugin')}`)
+logger.info(`${chalk.redBright.bold('********************[')}${chalk.cyan.bold('///^///')}${chalk.redBright.bold(']********************')}`)
 export { apps }
