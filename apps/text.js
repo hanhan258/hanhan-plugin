@@ -17,12 +17,6 @@ export class text extends plugin {
       rule: [
         {
           /** 命令正则匹配 */
-          reg: '^#?发癫',
-          /** 执行方法 */
-          fnc: 'fd'
-        },
-        {
-          /** 命令正则匹配 */
           reg: '^#?今天是几号$',
           /** 执行方法 */
           fnc: 'today'

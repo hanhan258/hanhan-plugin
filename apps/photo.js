@@ -19,12 +19,6 @@ export class photo extends plugin {
       rule: [
         {
           /** 命令正则匹配 */
-          reg: '^#?天气',
-          /** 执行方法 */
-          fnc: 'tianqi'
-        },
-        {
-          /** 命令正则匹配 */
           reg: '^#?mc酱$',
           /** 执行方法 */
           fnc: 'mc'
@@ -58,12 +52,6 @@ export class photo extends plugin {
           reg: '^#?随机(ai|AI)$',
           /** 执行方法 */
           fnc: 'sjai'
-        },
-        {
-          /** 命令正则匹配 */
-          reg: '^#?手写',
-          /** 执行方法 */
-          fnc: 'sx'
         },
         {
           /** 命令正则匹配 */
@@ -171,24 +159,6 @@ export class photo extends plugin {
     let response = await axios.get(url) // 调用接口获取数据
     sendmsg.push(segment.image(response.data.fenxiang_img))
     await this.reply(sendmsg)
-  }
-
-  // 手写模拟器
-  async sx (e) {
-    let encode = e.msg.replace(/^#?手写/, '').trim()
-    // 发送消息
-    await this.reply(segment.image(`https://zj.v.api.aa1.cn/api/zuoye/?msg=${encode}`))
-    return true // 返回true 阻挡消息不再往下
-  }
-
-  // 猫羽雫图片天气
-  async tianqi (e) {
-    let encode = e.msg.replace(/^#?天气/, '').trim()
-    let img = segment.image(`http://api.caonm.net/api/qqtq/t?msg=${encode}&key=9eEVLhmjy98VKTkg4jSuUo2vVO`)
-    // 发送消息
-    if (img) this.reply(img)
-    else this.reply('图片裂开了捏~')
-    return true // 返回true 阻挡消息不再往下
   }
 
   // mc酱

@@ -92,7 +92,7 @@ export class girl extends plugin {
         console.log(data.images[0].url)
         // 发送消息
         try {
-          sendmsg.push(data.images[0].url)
+          // sendmsg.push(data.images[0].url)
           sendmsg.push(segment.image(data.images[0].url))
           e.reply(sendmsg)
         } catch (err) {
