@@ -1,0 +1,77 @@
+{
+    "红包": {
+    "app": "com.tencent.qun.invite",
+    "desc": "xyz",
+    "view": "pic",
+    "ver": "1.0.0.31",
+    "prompt": "[QQ红包]恭喜发财!",
+    "appID": "",
+    "sourceName": "",
+    "actionData": "",
+    "actionData_A": "",
+    "sourceUrl": "",
+    "meta": {
+        "pic": {
+            "jumpUrl": "",
+            "preview": "http://p.qlogo.cn/qqmail_head/Q3auHgzwzM7lBCFS4Nqu7fl41k2EtkQwqpDowibDJFo2bnHFbOljIkhEa1o0QN3SbAYE9QaSXibsc/0",
+            "tag": "拼手气红包"
+        }
+    },
+    "config": {
+        "ctime": 1678617040,
+        "forward": 1,
+        "menuMode": 0,
+        "round": 0,
+        "showSender": 1,
+        "token": "2d3f5800cb1b345be42b892f91ad2849",
+        "type": "normal"
+    },
+    "text": "",
+    "sourceAd": "",
+    "extra": "{\"app_type\":1,\"appid\":100951776,\"msg_seq\":1678617035696200,\"uin\":1341806518}"
+},
+    "fuck": {
+        "app":"com.tencent.gamecenter.mall",
+        "desc":"",
+        "bizsrc":"",
+        "view":"attractFlowArkView",
+        "ver":"0.0.3.67",
+        "prompt":"fuck",
+        "appID":"",
+        "sourceName":"1104466820",
+        "actionData":"",
+        "actionData_A":"",
+        "sourceUrl":"",
+        "meta":{
+            "template3":{
+                "actURL":"",
+                "actUrl":"老六",
+                "adId":"1785648",
+                "appid":"1104466820",
+                "bannerImg":"",
+                "bannerJumpUrl":"",
+                "bgImg":"http:\/\/gchat.qpic.cn\/gchatpic_new\/0\/0-0-C12CE9704DE8D3622718BEB1E5F05FD4\/0?term=2",
+                "bgJumpUrl":"",
+                "btnIcon":"",
+                "feedId":549240,
+                "fid":50733,
+                "maskColor":"",
+                "miniWorldVideoId":"",
+                "miniWorldVideoUrl":"",
+                "productId":"",
+                "title":"",
+                "txVideo":"",
+                "videoCoverImg":"",
+                "videoType":20
+                }},
+        "config":{
+            "ctime":1690301715,
+            "token":"605bd5e111b9b799050ce6af8bade52f"
+        },
+        "text":"",
+        "extraApps":[],
+        "sourceAd":"",
+        "extra":""
+    },
+    "卡片黑丝":{"app":"com.tencent.imagetextbot","desc":"","view":"index","bizsrc":"","ver":"1.0.0.11","prompt":"黑丝","appID":"","sourceName":"","actionData":"","actionData_A":"","sourceUrl":"","meta":{"robot":{"cover":"http:\/\/api.tombk.cn\/API\/hs\/hs.php","jump_url":"","subtitle":"","title":""}},"config":{"ctime":1675246840,"token":"367a64a038face9b7ad5cc6da03a3363"},"text":"","extraApps":[],"sourceAd":"","extra":""}
+}

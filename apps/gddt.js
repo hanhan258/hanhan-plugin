@@ -1,4 +1,4 @@
-import { segment } from 'oicq'
+import { segment } from 'icqq'
 import plugin from '../../../lib/plugins/plugin.js'
 import axios from 'axios'
 import fs from 'fs'

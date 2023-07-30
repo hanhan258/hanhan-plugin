@@ -163,6 +163,22 @@ export const helpList = [
     }
     ]
   }, {
+    group: 'Json',
+    list: [{
+      title: '发红包',
+      desc: '发个红包'
+    }, {
+      title: 'fuck',
+      desc: '竖中指'
+    }, {
+      title: '卡片黑丝',
+      desc: '黑丝'
+    }, {
+      title: '#发送(红包|fuck|黑丝)到(群号)',
+      desc: '例如：#发送红包到123456789'
+    }
+    ]
+  }, {
     group: 'Other',
     list: [{
       title: '小黑子',

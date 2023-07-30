@@ -2,7 +2,7 @@ import fetch from 'node-fetch'
 import plugin from '../../../lib/plugins/plugin.js'
 import { Config } from '../utils/config.js'
 import { HttpsProxyAgent } from 'https-proxy-agent'
-import { segment } from 'oicq'
+import { segment } from 'icqq'
 import puppeteer from 'puppeteer'
 import fs from 'fs'
 // const downloadedImages = new Map(); // 用于保存已下载的图片
