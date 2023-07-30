@@ -165,7 +165,6 @@ export class text extends plugin {
       console.log(e.msg)
     }
     let encode = e.msg.replace(/^#?发癫/, '').trim()
-    e.reply(encode)
     if (!encode) return e.reply('输入内容不能为空')
 
     let url = `https://api.hanhanz.com/fd?msg=${encode}`
