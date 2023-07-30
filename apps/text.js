@@ -68,6 +68,12 @@ export class text extends plugin {
           reg: '^#?油价',
           /** 执行方法 */
           fnc: 'yjcx'
+        },
+        {
+          /** 命令正则匹配 */
+          reg: `^#?发癫(.*)`,
+          /** 执行方法 */
+          fnc: 'fd'
         }
       ]
     })
@@ -153,14 +159,19 @@ export class text extends plugin {
 
   // 发癫
   async fd (e) {
-    let sendmsg = []
+    if (e.at) {
+      const at = e.group.pickMember(e.at)
+      e.msg = at.info?.card || at.info?.nickname
+      console.log(e.msg)
+    }
     let encode = e.msg.replace(/^#?发癫/, '').trim()
+    e.reply(encode)
+    if (!encode) return e.reply('输入内容不能为空')
 
-    let url = `https://xiaobapi.top/api/xb/api/onset.php?name=${encode}`
-    let response = await axios.get(url) // 调用接口获取数据
-    let res = response.data.data
-    sendmsg.push(res)
-    await this.reply(sendmsg)
+    let url = `https://api.hanhanz.com/fd?msg=${encode}`
+    let response = await fetch(url) // 调用接口获取数据
+    const text = await response.text()
+    await this.reply(text)
   }
 
   // 今天是几号
