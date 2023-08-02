@@ -15,16 +15,26 @@ export class RussiaRoundPlatePlugin extends plugin {
         {
           reg: '^#?开枪$',
           fnc: 'shoot'
+        },
+        {
+          reg: '^#?结束游戏$',
+          fnc: 'stopShoop'
+        },{
+          reg: '^#?当前子弹$',
+          fnc: 'nowBullet'
         }
       ]
     })
   }
+  
+  
 
   async start (e) {
     if (!e.isGroup) {
       await e.reply('当前不在群聊里')
       return false
     }
+
     let groupId = e.group_id
     let groupLock = await redis.get(`HANHAN:ELS:${groupId}`)
     if (!groupLock) {
@@ -38,6 +48,7 @@ export class RussiaRoundPlatePlugin extends plugin {
 
   async shoot (e) {
     if (!e.isGroup) {
+      await e.reply('当前不在群聊里')
       return false
     }
     let groupId = e.group_id
@@ -57,9 +68,40 @@ export class RussiaRoundPlatePlugin extends plugin {
       await e.reply(`【${username}】开了一枪，枪响了。\n恭喜【${username}】被禁言${time}秒\n本轮游戏结束。请使用#开盘 开启新一轮游戏`)
       await redis.del(`HANHAN:ELS:${groupId}`)
     } else {
-      leftBullets--
+      leftBullets--    
       await redis.set(`HANHAN:ELS:${groupId}`, leftBullets + '', { EX: 10 * 60 * 1000 })
       await e.reply(`【${username}】开了一枪，没响。\n还剩【${leftBullets}】发子弹`)
+      // e.reply(`${leftBullets}`)
+    }
+  }
+
+  async stopShoop (e) {
+    if (!e.isGroup) {
+      await e.reply('当前不在群聊里')
+      return false
+    }
+    let groupId = e.group_id
+    let groupLock = await redis.get(`HANHAN:ELS:${groupId}`)
+    // e.reply(groupLock)
+    if (!groupLock) {
+      e.reply('当前群没有开盘')
+    }else{
+      await redis.del(`HANHAN:ELS:${groupId}`)
+      e.reply('结束成功')
+    }
+  }
+
+  async nowBullet(e){
+    if (!e.isGroup) {
+      await e.reply('当前不在群聊里')
+      return false
+    }
+    let groupId = e.group_id
+    let groupLock = await redis.get(`HANHAN:ELS:${groupId}`)
+    if (!groupLock) {
+      e.reply('当前群没有开盘')
+    }else{
+      e.reply('当前还有'+ groupLock + '发子弹')
     }
   }
 }

@@ -28,11 +28,14 @@ export const helpList = [
   {
     group: 'Game',
     list: [{
-      title: '#开启俄罗斯轮盘',
+      title: '#开盘',
       desc: '俄罗斯转盘'
     }, {
       title: '#开枪',
       desc: '开枪'
+    }, {
+      title: '#结束游戏',
+      desc: 'Game Over'
     }
     ]
   }, {
@@ -73,9 +76,6 @@ export const helpList = [
   }, {
     group: 'Photo',
     list: [{
-      title: '手写+文字',
-      desc: '手写字'
-    }, {
       title: 'mc酱',
       desc: '随机返回mc酱'
     }, {
@@ -165,17 +165,20 @@ export const helpList = [
   }, {
     group: 'Json',
     list: [{
-      title: '发红包',
+      title: '#发红包',
       desc: '发个红包'
     }, {
-      title: 'fuck',
+      title: '#fuck',
       desc: '竖中指'
     }, {
-      title: '卡片黑丝',
+      title: '#卡片黑丝',
       desc: '黑丝'
     }, {
       title: '#发送(红包|fuck|黑丝)到(群号)',
       desc: '例如：#发送红包到123456789'
+    }, {
+      title: '#发送json+内容',
+      desc: '例如：#发送json......'
     }
     ]
   }, {

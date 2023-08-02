@@ -22,10 +22,26 @@ export default class json extends plugin {
                 },
                 {
                     reg: `#发送(.*)到`,
-                    fnc: 'SendMsdTOTargetGroup'
+                    fnc: 'sendMsdTOTargetGroup'
+                },
+                {
+                    reg: "^#(发送)json(消息|信息)?([\\s\\S]*)$",
+                    fnc: 'sendJson'
                 }
             ],
         })
+    }
+
+    async sendJson(e) {
+        let messag = e.msg;
+        messag = messag.replace('#发送json', '')
+        messag = messag.replace('消息', '')
+        messag = messag.replace('信息', '')
+        if (!messag) return;
+        logger.info(messag)
+        let msg = [{ type: 'json', data: `${messag}` }]
+        this.reply(msg)
+        return true;
     }
 
     async hb(e) {
@@ -50,7 +66,7 @@ export default class json extends plugin {
     }
 
     //指定群发消息
-    async SendMsdTOTargetGroup(e) {
+    async sendMsdTOTargetGroup(e) {
         let target = e.msg.replace(/#发送(.*)到/, '').trim()
         let key
         if (e.msg.includes('红包')) {
@@ -71,6 +87,7 @@ export default class json extends plugin {
                 let msg = segment.json(JSON.stringify(this.getFileDataToJson('/resources/json/QQjson.json')[`${key}`]))
                 console.log(msg)
                 await group.sendMsg(msg)
+                e.reply('发送成功')
             }
         } catch (err) {
             return e.reply(`failed to send msg, error: ${JSON.stringify(err)}`)
