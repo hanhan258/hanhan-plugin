@@ -36,6 +36,9 @@ export const helpList = [
     }, {
       title: '#结束游戏',
       desc: 'Game Over'
+    }, {
+      title: '透+@某人',
+      desc: '我和你拼了'
     }
     ]
   }, {
