@@ -59,6 +59,7 @@ https://afdian.net/a/hanhanbeea
 
 <!-- readme: collaborators,contributors -end -->
 
+![Alt](https://repobeats.axiom.co/api/embed/2f1eeaa9fd7a3e6507891b6405a3e1ef31877bb3.svg "Repobeats analytics image")
 
 ## Star History
 
