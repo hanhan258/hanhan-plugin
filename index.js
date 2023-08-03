@@ -1,5 +1,6 @@
 import fs from 'node:fs'
 import chalk from 'chalk'
+import { Config } from './utils/config.js' 
 
 if (!global.segment) {
   global.segment = (await import('oicq')).segment
@@ -40,6 +41,7 @@ logger.info(chalk.green.bold('█◣　◥▅█▀　　　　▐██◤'))
 logger.info(chalk.green.bold('▐█▙▂　　     　◢██◤'))
 logger.info(chalk.green.bold('◥██◣　　　　◢▄◤'))
 logger.info(chalk.green.bold(' 　　▀██▅▇▀'))
+logger.info(chalk.green.bold(`当前版本v${Config.version}`))
 logger.info(`${chalk.cyan.italic('仓库地址')} ${chalk.yellowBright.underline('https://github.com/hanhan258/hanhan-plugin')}`)
 logger.info(`${chalk.redBright.bold('********************[')}${chalk.cyan.bold('///^///')}${chalk.redBright.bold(']********************')}`)
 export { apps }
