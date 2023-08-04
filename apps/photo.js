@@ -1,9 +1,10 @@
 import plugin from '../../../lib/plugins/plugin.js'
 import { segment } from 'icqq'
+import fetch from 'node-fetch'
 import axios from 'axios'
 import { Config } from '../utils/config.js'
 import { endingSpeech, followMe, pepTalk } from '../utils/const.js'
-import { sleep } from '../utils/common.js'
+import { sleep, makeForwardMsg } from '../utils/common.js'
 
 export class photo extends plugin {
   constructor () {
@@ -82,6 +83,12 @@ export class photo extends plugin {
           reg: '^#?一二布布$',
           /** 执行方法 */
           fnc: 'yebb'
+        },
+        {
+          /** 命令正则匹配 */
+          reg: '^#?情侣头像$',
+          /** 执行方法 */
+          fnc: 'qltx'
         }
       ]
     })
@@ -126,6 +133,33 @@ export class photo extends plugin {
           logger.warn('机器人不在要发送的群组里。' + groupId)
         }
       }
+    }
+  }
+
+  // 情侣头像
+  async qltx (e) {
+    let url = 'http://api.yujn.cn/api/qltx.php?type=json&lx=qltx'
+    let response = await fetch(url) // 调用接口获取数据
+    let result = await response.json()
+    console.log(result)
+    let forwardMsgs = []
+    forwardMsgs.push(result.title)
+    forwardMsgs.push(result.detail)
+    forwardMsgs.push('如果图片裂开了，请复制链接到浏览器打开')
+    if (result.image_count == 0) {
+      forwardMsgs.push('没有图片')
+    } else {
+      for (let i = 0; i < result.image_count; i++) {
+        forwardMsgs.push(result.img[i])
+        forwardMsgs.push(segment.image(result.img[i]))
+        console.log(i)
+      }
+    }
+
+    let dec = '情侣头像'
+    let forwardMsg = await makeForwardMsg(e, forwardMsgs, dec)
+    if (forwardMsg) {
+      await Bot.sendGroupMsg(e.group_id, forwardMsg)
     }
   }
 

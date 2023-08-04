@@ -3,50 +3,10 @@ import plugin from '../../../lib/plugins/plugin.js'
 import { Config } from '../utils/config.js'
 import { HttpsProxyAgent } from 'https-proxy-agent'
 import { segment } from 'icqq'
-import puppeteer from 'puppeteer'
-import fs from 'fs'
+import { downloadImage, makeForwardMsg } from '../utils/common.js'
 // const downloadedImages = new Map(); // 用于保存已下载的图片
 
 let r18 = true
-
-async function makeForwardMsg (e, msgs = [], dec = '') {
-  let nickname = Bot.nickname
-  if (e.isGroup) {
-    let info = await Bot.getGroupMemberInfo(e.group_id, Bot.uin)
-    nickname = info.card || info.nickname
-  }
-  let userInfo = {
-    user_id: Bot.uin,
-    nickname
-  }
-
-  let forwardMsg = []
-  msgs.forEach(msg => {
-    forwardMsg.push({
-      ...userInfo,
-      message: msg
-    })
-  })
-
-  /** 制作转发内容 */
-  if (e.isGroup) {
-    forwardMsg = await e.group.makeForwardMsg(forwardMsg)
-  } else if (e.friend) {
-    forwardMsg = await e.friend.makeForwardMsg(forwardMsg)
-  } else {
-    return false
-  }
-
-  if (dec) {
-    /** 处理描述 */
-    forwardMsg.data = forwardMsg.data
-      .replace(/\n/g, '')
-      .replace(/<title color="#777777" size="26">(.+?)<\/title>/g, '___')
-      .replace(/___+/, `<title color="#777777" size="26">${dec}</title>`)
-  }
-
-  return forwardMsg
-}
 
 export class Photo extends plugin {
   constructor () {
@@ -98,6 +58,10 @@ export class Photo extends plugin {
       e.reply('未检测到key！请前往 https://developer.themoviedb.org/docs 注册账号，使用 #憨憨设置tmdb key= 命令进行设置')
       return false
     }
+    if (!proxyUrl) {
+      e.reply('未检测到代理！没有代理憨憨做不到啊')
+      return false
+    }
     let msg0 = ['查询中']
     await this.reply(msg0, true, { recallMsg: e.isGroup ? 3 : 0 })
     console.log('[用户命令]', e.msg)
@@ -128,7 +92,7 @@ export class Photo extends plugin {
           let show = results[i]
           let coverUrl = `https://image.tmdb.org/t/p/w500${show.poster_path}`
           console.log(`[进度${i + 1}/${results.length}]----开始下载图片----`)
-          const filePath = await this.downloadImage(coverUrl)
+          const filePath = await downloadImage(coverUrl)
 
           let msg = [
             segment.image(`file:///${filePath}`),
@@ -153,6 +117,10 @@ export class Photo extends plugin {
     let proxyUrl = this.proxyUrl
     if (!key) {
       e.reply('未检测到key！请前往 https://developer.themoviedb.org/docs 注册账号，使用 #憨憨设置tmdb key= 命令进行设置')
+      return false
+    }
+    if (!proxyUrl) {
+      e.reply('未检测到代理！没有代理憨憨做不到啊')
       return false
     }
     let msg0 = ['查询中']
@@ -182,7 +150,7 @@ export class Photo extends plugin {
           let coverUrl = `https://image.tmdb.org/t/p/w500${movie.poster_path}`
           console.log(`[进度${i + 1}/${results.length}]----开始下载图片----`)
 
-          const filePath = await this.downloadImage(coverUrl)
+          const filePath = await downloadImage(coverUrl)
 
           let msg = [
             segment.image(`file:///${filePath}`),
@@ -214,6 +182,10 @@ export class Photo extends plugin {
       e.reply('未检测到key！请前往 https://developer.themoviedb.org/docs 注册账号，使用 #憨憨设置tmdb key= 命令进行设置')
       return false
     }
+    if (!proxyUrl) {
+      e.reply('未检测到代理！没有代理憨憨做不到啊')
+      return false
+    }
     let msg0 = ['查询中']
     await this.reply(msg0, true, { recallMsg: e.isGroup ? 3 : 0 })
     const url = 'https://api.themoviedb.org/3/trending/movie/week?language=zh'
@@ -241,7 +213,7 @@ export class Photo extends plugin {
           let coverUrl = `https://image.tmdb.org/t/p/w500${movie.poster_path}`
           console.log(`[进度${i + 1}/${results.length}]----开始下载图片----`)
 
-          const filePath = await this.downloadImage(coverUrl)
+          const filePath = await downloadImage(coverUrl)
 
           let msg = [
             segment.image(`file:///${filePath}`),
@@ -273,6 +245,10 @@ export class Photo extends plugin {
       e.reply('未检测到key！请前往 https://developer.themoviedb.org/docs 注册账号，使用 #憨憨设置tmdb key= 命令进行设置')
       return false
     }
+    if (!proxyUrl) {
+      e.reply('未检测到代理！没有代理憨憨做不到啊')
+      return false
+    }
     let msg0 = ['查询中']
     await this.reply(msg0, true, { recallMsg: e.isGroup ? 3 : 0 })
     const url = 'https://api.themoviedb.org/3/trending/tv/week?language=zh'
@@ -300,7 +276,7 @@ export class Photo extends plugin {
           let coverUrl = `https://image.tmdb.org/t/p/w500${movie.poster_path}`
           console.log(`[进度${i + 1}/${results.length}]----开始下载图片----`)
 
-          const filePath = await this.downloadImage(coverUrl)
+          const filePath = await downloadImage(coverUrl)
 
           let msg = [
             segment.image(`file:///${filePath}`),
@@ -332,6 +308,10 @@ export class Photo extends plugin {
       e.reply('未检测到key！请前往 https://developer.themoviedb.org/docs 注册账号，使用 #憨憨设置tmdb key= 命令进行设置')
       return false
     }
+    if (!proxyUrl) {
+      e.reply('未检测到代理！没有代理憨憨做不到啊')
+      return false
+    }
     let msg0 = ['查询中']
     await this.reply(msg0, true, { recallMsg: e.isGroup ? 3 : 0 })
     const url = 'https://api.themoviedb.org/3/movie/now_playing?language=zh&page=1&region=CN'
@@ -359,7 +339,7 @@ export class Photo extends plugin {
           let coverUrl = `https://image.tmdb.org/t/p/w500${movie.poster_path}`
           console.log(`[进度${i + 1}/${results.length}]----开始下载图片----`)
 
-          const filePath = await this.downloadImage(coverUrl)
+          const filePath = await downloadImage(coverUrl)
 
           let msg = [
             segment.image(`file:///${filePath}`),
@@ -389,6 +369,10 @@ export class Photo extends plugin {
     let proxyUrl = this.proxyUrl
     if (!key) {
       e.reply('未检测到key！请前往 https://developer.themoviedb.org/docs 注册账号，使用 #憨憨设置tmdb key= 命令进行设置')
+      return false
+    }
+    if (!proxyUrl) {
+      e.reply('未检测到代理！没有代理憨憨做不到啊')
       return false
     }
     let msg0 = ['查询中']
@@ -421,7 +405,7 @@ export class Photo extends plugin {
           let show = results[i]
           let coverUrl = `https://image.tmdb.org/t/p/w500${show.poster_path}`
           console.log(`[进度${i + 1}/${results.length}]----开始下载图片----`)
-          const filePath = await this.downloadImage(coverUrl)
+          const filePath = await downloadImage(coverUrl)
 
           let msg = [
             segment.image(`file:///${filePath}`),
@@ -446,6 +430,10 @@ export class Photo extends plugin {
     let proxyUrl = this.proxyUrl
     if (!key) {
       e.reply('未检测到key！请前往 https://developer.themoviedb.org/docs 注册账号，使用 #憨憨设置tmdb key= 命令进行设置')
+      return false
+    }
+    if (!proxyUrl) {
+      e.reply('未检测到代理！没有代理憨憨做不到啊')
       return false
     }
     let msg0 = ['查询中']
@@ -478,13 +466,13 @@ export class Photo extends plugin {
           let director = results[i]
           let coverUrl = `https://image.tmdb.org/t/p/w500${director.profile_path}`
           console.log(`[进度${i + 1}/${results.length}]----开始下载图片----`)
-          const filePath = await this.downloadImage(coverUrl)
+          const filePath = await downloadImage(coverUrl)
 
           let works = []
           for (let j = 0; j < director.known_for.length; j++) {
             let work = director.known_for[j]
             // let workCoverUrl = `https://image.tmdb.org/t/p/w500${work.poster_path}`;
-            // const workFilePath = await this.downloadImage(workCoverUrl);
+            // const workFilePath = await downloadImage(workCoverUrl);
             works.push(
               // segment.image(`file:///${workFilePath}`),
               `作品${j + 1}: ${work.title}`,
@@ -534,20 +522,4 @@ export class Photo extends plugin {
     await browser.close();
     return filePath;
   } */
-
-  async downloadImage (coverUrl) {
-    const browser = await puppeteer.launch({ headless: true })
-    const page = await browser.newPage()
-    await page.goto(coverUrl, { waitUntil: 'networkidle0' })
-    const imageSrc = await page.$eval('img', img => img.src)
-    const viewSource = await page.goto(imageSrc)
-    const buffer = await viewSource.buffer()
-    const folderPath = './plugins/hanhan-plugin/resources/tmdb_posters/' // 替换为你想要保存图片的文件夹路径
-    const filePath = `${folderPath}/image_${Date.now()}.png` // 修改文件路径
-    await fs.promises.writeFile(filePath, buffer)
-    console.log('----图片下载完成----')
-    await page.close()
-    await browser.close()
-    return filePath
-  }
 }

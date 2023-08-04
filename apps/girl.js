@@ -142,14 +142,15 @@ export class girl extends plugin {
   // 黑丝
   async hs (e) {
     // 发送消息
-    // http://api.yujn.cn/api/heisi.php?
-    await this.reply(segment.image('http://shanhe.kim/api/tu/hs.php'))
+    // http://api.tombk.cn/API/hs/hs.php
+    await this.reply(segment.image('http://api.yujn.cn/api/heisi.php?'))
     return true // 返回true 阻挡消息不再往下
   }
 
   // 白丝
   async bs (e) {
     // 发送消息
+    // http://api.tombk.cn/API/bs/bs.php
     await this.reply(segment.image('http://api.yujn.cn/api/baisi.php?'))
     return true // 返回true 阻挡消息不再往下
   }

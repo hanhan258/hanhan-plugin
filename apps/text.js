@@ -17,33 +17,9 @@ export class text extends plugin {
       rule: [
         {
           /** 命令正则匹配 */
-          reg: '^#?今天是几号$',
-          /** 执行方法 */
-          fnc: 'today'
-        },
-        {
-          /** 命令正则匹配 */
-          reg: '^#?历史上的今天$',
-          /** 执行方法 */
-          fnc: 'history'
-        },
-        {
-          /** 命令正则匹配 */
-          reg: '^#?人生倒计时$',
-          /** 执行方法 */
-          fnc: 'rsdjs'
-        },
-        {
-          /** 命令正则匹配 */
           reg: '^#?随机日记$',
           /** 执行方法 */
           fnc: 'sjrj'
-        },
-        {
-          /** 命令正则匹配 */
-          reg: '^#?舔狗日记$',
-          /** 执行方法 */
-          fnc: 'tgrj'
         },
         {
           /** 命令正则匹配 */
@@ -59,24 +35,47 @@ export class text extends plugin {
         },
         {
           /** 命令正则匹配 */
-          reg: '^#?网易云热评$',
-          /** 执行方法 */
-          fnc: 'wyyrp'
-        },
-        {
-          /** 命令正则匹配 */
           reg: '^#?油价',
           /** 执行方法 */
           fnc: 'yjcx'
         },
         {
           /** 命令正则匹配 */
-          reg: `^#?发癫(.*)`,
+          reg: '^#?发癫(.*)',
           /** 执行方法 */
           fnc: 'fd'
+        },
+        {
+          /** 命令正则匹配 */
+          reg: '^#?(kfc|v50|网易云热评|舔狗日记)$',
+          /** 执行方法 */
+          fnc: 'jh'
         }
       ]
     })
+  }
+
+  // 聚合
+  async jh (e) {
+    let message = e.msg
+    let key
+    if (message.includes('v50') || message.includes('kfc')) {
+      key = 'kfc'
+    } else if (message.includes('舔狗日记')) {
+      key = 'tg'
+    } else if (message.includes('网易云热评')) {
+      key = 'wyy'
+    }
+    let url = `http://api.gakki.icu/${key}?type=json`
+    let res = await fetch(url) // 调用接口获取数据
+    let result = await res.json()
+    if (result.code == 200) {
+      await e.reply(result.data)
+    } else if (result.code == 429) {
+      e.reply('太快了憨憨受不了，请慢一点~')
+    } else {
+      e.reply('查询失败,可能接口失效力~，请联系憨憨捏~')
+    }
   }
 
   // 油价查询
@@ -109,13 +108,6 @@ export class text extends plugin {
     }
   }
 
-  // 网易云热评
-  async wyyrp (e) {
-    let resp = await fetch('https://api.f4team.cn/API/wyrp/api.php?type=text')
-    let result = await resp.text()
-    await this.reply(result)
-  }
-
   // 污句子
   async wjz (e) {
     let resp = await fetch('http://api.yujn.cn/api/text_wu.php')
@@ -132,29 +124,11 @@ export class text extends plugin {
     await this.reply(result)
   }
 
-  // 舔狗日记
-  async tgrj (e) {
-    let resp = await fetch('https://api.f4team.cn/API/tgrj/api.php')
-    await this.reply(await resp.text())
-  }
-
   // 随机日记
   async sjrj (e) {
     let resp = await fetch('http://api.yujn.cn/api/baoan.php?')
     let result = he.decode(await resp.text()).replace(/<br>/g, '\n')
     await this.reply(result)
-  }
-
-  // 人生倒计时
-  async rsdjs (e) {
-    let sendmsg = []
-    let url = 'https://v.api.aa1.cn/api/rsdjs/'
-    let response = await axios.get(url) // 调用接口获取数据
-    sendmsg.push(response.data.month, '\n')
-    sendmsg.push(response.data.week, '\n')
-    sendmsg.push(response.data.day, '\n')
-    sendmsg.push(response.data.time)
-    await this.reply(sendmsg)
   }
 
   // 发癫
@@ -171,25 +145,5 @@ export class text extends plugin {
     let response = await fetch(url) // 调用接口获取数据
     const text = await response.text()
     await this.reply(text)
-  }
-
-  // 今天是几号
-  async today (e) {
-    let url = 'https://api.f4team.cn/API/rl/api.php?type=text'
-    let response = await fetch(url) // 调用接口获取数据
-    let res = await response.text()
-    let sendmsg = []
-    sendmsg.push(res)
-    await this.reply(sendmsg, true)
-  }
-
-  // 历史上的今天
-  async history (e) {
-    let url = 'https://api.f4team.cn/API/lishi/api.php?n=10'
-    let response = await fetch(url) // 调用接口获取数据
-    let res = await response.text()
-    let sendmsg = []
-    sendmsg.push(res)
-    await this.reply(sendmsg)
   }
 }

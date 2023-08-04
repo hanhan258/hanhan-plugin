@@ -18,7 +18,7 @@ export class manage extends plugin {
           fnc: 'setPingToken'
         },
         {
-          reg: '^(#憨憨|#)设置(tmdb|TMDB) key=(.*)$',
+          reg: '^#憨憨设置(tmdb|TMDB) key$',
           fnc: 'settmdbkey'
         }
       ]
@@ -32,7 +32,7 @@ export class manage extends plugin {
       return false
     }
     this.setContext('savePingToken')
-    await this.reply('请前往 https://ipinfo.io 注册账号获取token，并发送，设置好之后请重启', true)
+    await this.reply('请前往 https://ipinfo.io 注册账号获取token，并发送', true)
     return false
   }
 
@@ -57,21 +57,22 @@ export class manage extends plugin {
       return false
     }
     this.setContext('saveTmdbKey')
-    await this.reply('未检测到key！请前往 https://developer.themoviedb.org/docs 注册账号，使用 #憨憨设置tmdb key 命令进行设置', true)
+    await this.reply('请前往 https://developer.themoviedb.org/docs 注册账号获取key，并发送', true)
     return false
   }
 
   async saveTmdbKey (e) {
-    console.log('[用户命令]', e.msg)
-    let token = e.msg.replace(/^(#憨憨|#)设置(tmdb|TMDB) key=/, '').trim()
-    if (token.length != 211) {
+    if (!this.e.msg) return
+    let key = this.e.msg
+    console.log(key)
+    if (key.length != 211) {
       await this.reply('tmdb key错误', true)
-      this.finish('settmdbkey')
+      this.finish('saveTmdbKey')
       return
     }
     // todo
-    Config.tmdbkey = token
+    Config.tmdbkey = key
     await this.reply('tmdb key设置成功', true)
-    this.finish('settmdbkey')
+    this.finish('saveTmdbKey')
   }
 }

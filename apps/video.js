@@ -34,7 +34,7 @@ export class voice extends plugin {
         },
         {
           /** 命令正则匹配 */
-          reg: '^#?随机小姐姐$',
+          reg: '^#?(随机小姐姐|sjxjj)$',
           /** 执行方法 */
           fnc: 'sjxjj'
         },
@@ -86,6 +86,7 @@ export class voice extends plugin {
 
   // 随机小姐姐
   async sjxjj (e) {
+    // http://shanhe.kim/api/tu/sp_xjj.php
     let urls = 'http://api.yujn.cn/api/xjj.php?'
     let resp = await fetch(urls)
     console.log(resp.url)

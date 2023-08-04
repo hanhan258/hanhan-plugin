@@ -19,7 +19,7 @@ export class Ping extends plugin {
       rule: [
         {
           /** 命令正则匹配 */
-          reg: '^#[pP]ing ',
+          reg: '^#?[pP]ing ',
           /** 执行方法 */
           fnc: 'ping'
         }
@@ -34,7 +34,7 @@ export class Ping extends plugin {
       return false
     }
 
-    let msg = e.msg.trim().replace(/^#[pP]ing\s/, '').replace(/https?:\/\//, '')
+    let msg = e.msg.trim().replace(/^#?[pP]ing\s/, '').replace(/https?:\/\//, '')
     await this.reply('在ping了、在ping了。。。', true, { recallMsg: 3 })
     let ipInfo; let pingRes; let domain; let ipAddress = msg; let isShowIP = false; const numberOfEchos = 6
     if (e.msg.trim().includes('#Ping')) isShowIP = true

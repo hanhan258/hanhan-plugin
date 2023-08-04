@@ -54,7 +54,7 @@ export default function runtimeRender (e, path, renderData = {}, cfg = {}) {
         sys: {
           scale: pct,
           copyright: `Created By ${Version.name}<span class="version">${Version.yunzai}</span> & hanhan-plugin<span class="version">${Version.version}</span>`,
-          createdby: `Created By ${Version.name} & hanhan-plugin`,
+          createdby: `Created By ${Version.name} & hanhan-plugin`
         },
         Math,
         MathPro,

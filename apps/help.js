@@ -74,7 +74,7 @@ export class help extends plugin {
 
   async so_help (e) {
     /** e.msg 用户的命令消息 */
-      logger.info('[用户命令]', e.msg)
-      await e.runtime.render('hanhan-plugin', '/help/sys.html')
+    logger.info('[用户命令]', e.msg)
+    await e.runtime.render('hanhan-plugin', '/help/sys.html')
   }
 }

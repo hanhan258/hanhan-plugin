@@ -43,7 +43,7 @@ export class urlAndBase extends plugin {
   // url编码
   async urlEn (e) {
     let encode = e.msg.replace(/^#?(url|URL)编码/, '').trim()
-    if (!encode) return e.reply("输入不能为空", true)
+    if (!encode) return e.reply('输入不能为空', true)
     let result = encodeURI(encode)
     await this.reply(result, true)
   }
@@ -51,7 +51,7 @@ export class urlAndBase extends plugin {
   // url解码
   async urlDe (e) {
     let encode = e.msg.replace(/^#?(url|URL)解码/, '').trim()
-    if (!encode) return e.reply("输入不能为空", true)
+    if (!encode) return e.reply('输入不能为空', true)
     let result = decodeURI(encode)
     await this.reply(result, true)
   }
@@ -59,7 +59,7 @@ export class urlAndBase extends plugin {
   // base64编码
   async baseEn (e) {
     let encode = e.msg.replace(/^#?(base64|Base64)编码/, '').trim()
-    if (!encode) return e.reply("输入不能为空", true)
+    if (!encode) return e.reply('输入不能为空', true)
     let result = Buffer.from(encode).toString('base64')
     await this.reply(result, true)
   }
@@ -67,7 +67,7 @@ export class urlAndBase extends plugin {
   // base64解码
   async baseDe (e) {
     let encode = e.msg.replace(/^#?(base64|Base64)解码/, '').trim()
-    if (!encode) return e.reply("输入不能为空", true)
+    if (!encode) return e.reply('输入不能为空', true)
     let result = Buffer.from(encode, 'base64').toString()
     await this.reply(result, true)
   }

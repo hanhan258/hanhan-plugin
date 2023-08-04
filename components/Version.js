@@ -26,7 +26,7 @@ try {
     logs = fs.readFileSync(_logPath, 'utf8') || ''
     logs = logs.split('\n')
 
-    let temp = {};
+    let temp = {}
     let lastLine = {}
     lodash.forEach(logs, (line) => {
       if (versionCount <= -1) {
@@ -73,13 +73,13 @@ try {
 const yunzaiVersion = packageJson.version
 const isV3 = yunzaiVersion[0] === '3'
 let isMiao = false
-let name = "Yunzai-Bot"
+let name = 'Yunzai-Bot'
 if (packageJson.name === 'miao-yunzai') {
   isMiao = true
-  name = "Miao-Yunzai"
+  name = 'Miao-Yunzai'
 } else if (packageJson.name === 'trss-yunzai') {
   isMiao = true
-  name = "TRSS-Yunzai"
+  name = 'TRSS-Yunzai'
 }
 
 let Version = {
