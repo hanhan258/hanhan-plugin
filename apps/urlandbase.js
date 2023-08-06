@@ -3,37 +3,25 @@ import plugin from '../../../lib/plugins/plugin.js'
 export class urlAndBase extends plugin {
   constructor () {
     super({
-      /** 功能名称 */
       name: '憨憨编码',
-      /** 功能描述 */
       dsc: '憨憨编码',
-      /** https://oicqjs.github.io/oicq/#events */
       event: 'message',
-      /** 优先级，数字越小等级越高 */
       priority: 6,
       rule: [
         {
-          /** 命令正则匹配 */
           reg: '^#?(url|URL)编码',
-          /** 执行方法 */
           fnc: 'urlEn'
         },
         {
-          /** 命令正则匹配 */
-          reg: '^#(url|URL)解码',
-          /** 执行方法 */
+          reg: '^#?(url|URL)解码',
           fnc: 'urlDe'
         },
         {
-          /** 命令正则匹配 */
-          reg: '^#(base64|Base64)编码',
-          /** 执行方法 */
+          reg: '^#?(base64|Base64)编码',
           fnc: 'baseEn'
         },
         {
-          /** 命令正则匹配 */
-          reg: '^#(base64|Base64)解码',
-          /** 执行方法 */
+          reg: '^#?(base64|Base64)解码',
           fnc: 'baseDe'
         }
       ]

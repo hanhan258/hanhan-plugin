@@ -11,19 +11,13 @@ const TPGML = '/plugins/hanhan-plugin/resources/tp-bq/'
 export class diaotu extends plugin {
   constructor () {
     super({
-      /** 功能名称 */
       name: '憨憨叼图',
-      /** 功能描述 */
       dsc: '憨憨叼图',
-      /** https://oicqjs.github.io/oicq/#events */
       event: 'message',
-      /** 优先级，数字越小等级越高 */
       priority: 49,
       rule: [
         {
-          /** 命令正则匹配 */
           reg: '^#?来张(表情图|表情)$',
-          /** 执行方法 */
           fnc: 'bq'
         },
         {

@@ -8,19 +8,13 @@ import net from 'net'
 export class Ping extends plugin {
   constructor () {
     super({
-      /** 功能名称 */
       name: '憨憨Ping',
-      /** 功能描述 */
       dsc: '憨憨Ping',
-      /** https://oicqjs.github.io/oicq/#events */
       event: 'message',
-      /** 优先级，数字越小等级越高 */
       priority: 6,
       rule: [
         {
-          /** 命令正则匹配 */
           reg: '^#?[pP]ing ',
-          /** 执行方法 */
           fnc: 'ping'
         }
       ]

@@ -6,49 +6,33 @@ import he from 'he'
 export class text extends plugin {
   constructor () {
     super({
-      /** 功能名称 */
       name: '憨憨文本类',
-      /** 功能描述 */
       dsc: '憨憨文本类',
-      /** https://oicqjs.github.io/oicq/#events */
       event: 'message',
-      /** 优先级，数字越小等级越高 */
       priority: 6,
       rule: [
         {
-          /** 命令正则匹配 */
           reg: '^#?随机日记$',
-          /** 执行方法 */
           fnc: 'sjrj'
         },
         {
-          /** 命令正则匹配 */
           reg: '^#?新春祝福$',
-          /** 执行方法 */
           fnc: 'newyear'
         },
         {
-          /** 命令正则匹配 */
           reg: '^#?(污污|污句子)$',
-          /** 执行方法 */
           fnc: 'wjz'
         },
         {
-          /** 命令正则匹配 */
           reg: '^#?油价',
-          /** 执行方法 */
           fnc: 'yjcx'
         },
         {
-          /** 命令正则匹配 */
           reg: '^#?发癫(.*)',
-          /** 执行方法 */
           fnc: 'fd'
         },
         {
-          /** 命令正则匹配 */
           reg: '^#?(kfc|v50|网易云热评|舔狗日记)$',
-          /** 执行方法 */
           fnc: 'jh'
         }
       ]

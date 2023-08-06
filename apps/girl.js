@@ -4,55 +4,37 @@ import { segment } from 'icqq'
 export class girl extends plugin {
   constructor () {
     super({
-      /** 功能名称 */
       name: '憨憨Girl',
-      /** 功能描述 */
       dsc: '憨憨Girl',
-      /** https://oicqjs.github.io/oicq/#events */
       event: 'message',
-      /** 优先级，数字越小等级越高 */
       priority: 6,
       rule: [
         {
-          /** 命令正则匹配 */
           reg: '^#?(jk|JK)$',
-          /** 执行方法 */
           fnc: 'jk'
         },
         {
-          /** 命令正则匹配 */
           reg: '^#?(黑丝|hs)$',
-          /** 执行方法 */
           fnc: 'hs'
         },
         {
-          /** 命令正则匹配 */
           reg: '^#?(白丝|bs)$',
-          /** 执行方法 */
           fnc: 'bs'
         },
         {
-          /** 命令正则匹配 */
           reg: '^#?(写真|xz)$',
-          /** 执行方法 */
           fnc: 'xz'
         },
         {
-          /** 命令正则匹配 */
           reg: '^#?(小姐姐|xjj)$',
-          /** 执行方法 */
           fnc: 'xjj'
         },
         {
-          /** 命令正则匹配 */
           reg: '^#?waifu$',
-          /** 执行方法 */
           fnc: 'waifu'
         },
         {
-          /** 命令正则匹配 */
           reg: '^#?(Girl|girl)$',
-          /** 执行方法 */
           fnc: 'girl'
         }
       ]

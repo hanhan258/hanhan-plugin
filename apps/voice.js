@@ -4,25 +4,17 @@ import { segment } from 'icqq'
 export class voice extends plugin {
   constructor () {
     super({
-      /** 功能名称 */
       name: '憨憨语音类',
-      /** 功能描述 */
       dsc: '憨憨语音类',
-      /** https://oicqjs.github.io/oicq/#events */
       event: 'message',
-      /** 优先级，数字越小等级越高 */
       priority: 6,
       rule: [
         {
-          /** 命令正则匹配 */
           reg: '^#?随机唱鸭$',
-          /** 执行方法 */
           fnc: 'sjcy'
         },
         {
-          /** 命令正则匹配 */
           reg: '^#?随机坤坤$',
-          /** 执行方法 */
           fnc: 'sjkk'
         }
       ]

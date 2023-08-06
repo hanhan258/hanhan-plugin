@@ -9,86 +9,62 @@ import { sleep, makeForwardMsg } from '../utils/common.js'
 export class photo extends plugin {
   constructor () {
     super({
-      /** 功能名称 */
       name: '憨憨图片类',
-      /** 功能描述 */
       dsc: '憨憨图片类',
-      /** https://oicqjs.github.io/oicq/#events */
       event: 'message',
-      /** 优先级，数字越小等级越高 */
       priority: 6,
       rule: [
         {
-          /** 命令正则匹配 */
           reg: '^#?mc酱$',
-          /** 执行方法 */
           fnc: 'mc'
         },
         {
-          /** 命令正则匹配 */
           reg: '^#?小c酱$',
-          /** 执行方法 */
           fnc: 'xiaoc'
         },
         {
-          /** 命令正则匹配 */
           reg: '^#?兽猫酱$',
-          /** 执行方法 */
           fnc: 'shoumao'
         },
         {
-          /** 命令正则匹配 */
           reg: '^#?买家秀$',
-          /** 执行方法 */
           fnc: 'buyerShow'
         },
         {
-          /** 命令正则匹配 */
           reg: '^#?mt$',
-          /** 执行方法 */
           fnc: 'mt'
         },
         {
-          /** 命令正则匹配 */
           reg: '^#?随机(ai|AI)$',
-          /** 执行方法 */
           fnc: 'sjai'
         },
         {
-          /** 命令正则匹配 */
           reg: '^#?每日英语$',
-          /** 执行方法 */
           fnc: 'mryy'
         },
         {
-          /** 命令正则匹配 */
           reg: '^#?随机柴郡$',
-          /** 执行方法 */
           fnc: 'cj'
         },
         {
-          /** 命令正则匹配 */
           reg: '^#?随机acg$',
-          /** 执行方法 */
           fnc: 'random_acg'
         },
         {
-          /** 命令正则匹配 */
           reg: '^#?随机东方$',
-          /** 执行方法 */
           fnc: 'random_orient'
         },
         {
-          /** 命令正则匹配 */
           reg: '^#?一二布布$',
-          /** 执行方法 */
           fnc: 'yebb'
         },
         {
-          /** 命令正则匹配 */
           reg: '^#?情侣头像$',
-          /** 执行方法 */
           fnc: 'qltx'
+        },
+        {
+          reg: '^#?弱智吧',
+          fnc: 'rzb'
         }
       ]
     })
@@ -133,6 +109,38 @@ export class photo extends plugin {
           logger.warn('机器人不在要发送的群组里。' + groupId)
         }
       }
+    }
+  }
+
+  // 弱智吧
+  async rzb (e) {
+    let forwardMsgs = []
+    let url = 'http://api.yujn.cn/api/tieba.php?type=json&msg=%E5%BC%B1%E6%99%BA'
+    let res = await axios.get(url) // 调用接口获取数据
+    let result = await res.data
+    console.log(result)
+    if (res.status == 200) {
+      forwardMsgs.push('昵称：' + result.name)
+      forwardMsgs.push(result.time)
+      forwardMsgs.push(result.title)
+      if (result.text) {
+        forwardMsgs.push(result.text)
+      }
+      if (result.images && result.images.length > 0) {
+        for (let i = 0; i < result.images.length; i++) {
+          forwardMsgs.push(result.images[i])
+          forwardMsgs.push(segment.image(result.images[i]))
+          console.log(i)
+        }
+        forwardMsgs.push('如果图片裂开了，请复制链接到浏览器打开')
+      }
+      let dec = '弱智吧'
+      let forwardMsg = makeForwardMsg(e, forwardMsgs, dec)
+      if (forwardMsg) {
+        Bot.sendGroupMsg(e.group_id, forwardMsg)
+      }
+    } else {
+      e.reply('查询失败,可能接口失效力~，请联系憨憨捏~')
     }
   }
 

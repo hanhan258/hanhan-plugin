@@ -4,25 +4,17 @@ import xmorse from 'xmorse'
 export class morse extends plugin {
   constructor () {
     super({
-      /** 功能名称 */
       name: '憨憨摩斯',
-      /** 功能描述 */
       dsc: '憨憨摩斯',
-      /** https://oicqjs.github.io/oicq/#events */
       event: 'message',
-      /** 优先级，数字越小等级越高 */
       priority: 6,
       rule: [
         {
-          /** 命令正则匹配 */
-          reg: '^#(摩斯|莫斯)加密',
-          /** 执行方法 */
+          reg: '^#?(摩斯|莫斯)加密',
           fnc: 'morseEn'
         },
         {
-          /** 命令正则匹配 */
-          reg: '^#(摩斯|莫斯)解密',
-          /** 执行方法 */
+          reg: '^#?(摩斯|莫斯)解密',
           fnc: 'morseDe'
         }
       ]
