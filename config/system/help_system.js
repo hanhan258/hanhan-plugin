@@ -9,8 +9,8 @@
 export const helpCfg = {
   title: '憨憨帮助',
   subTitle: 'Yunzai-Bot & hanhan-plugin',
-  columnCount: 3,
-  colWidth: 275,
+  colCount: 4,
+  colWidth: 265,
   theme: 'all',
   themeExclude: ['default'],
   style: {
@@ -26,7 +26,7 @@ export const helpCfg = {
 
 export const helpList = [
   {
-    group: 'Game',
+    group: '娱乐',
     list: [
       {
         title: '#开盘',
@@ -40,10 +40,16 @@ export const helpList = [
       }, {
         title: '透+@某人',
         desc: '我和你拼了'
+      }, {
+        title: '#发送json+内容',
+        desc: '例如：#发送json......'
+      }, {
+        title: '弱智吧',
+        desc: '网上那么多人冒充秦始皇，那荆轲为什么不来刺秦皇呢？'
       }
     ]
   }, {
-    group: 'Text',
+    group: '文字',
     list: [
       {
         title: 'v50',
@@ -72,7 +78,7 @@ export const helpList = [
       }
     ]
   }, {
-    group: 'Photo',
+    group: '照片',
     list: [
       {
         title: 'mc酱',
@@ -110,7 +116,7 @@ export const helpList = [
       }
     ]
   }, {
-    group: 'Girl',
+    group: '好康的',
     list: [
       {
         title: 'mt',
@@ -166,15 +172,7 @@ export const helpList = [
       }
     ]
   }, {
-    group: 'Json',
-    list: [
-      {
-        title: '#发送json+内容',
-        desc: '例如：#发送json......'
-      }
-    ]
-  }, {
-    group: 'Other',
+    group: '其他',
     list: [
       {
         title: '小黑子',
@@ -200,7 +198,7 @@ export const helpList = [
       }
     ]
   }, {
-    group: 'Tool',
+    group: '工具',
     list: [
       {
         title: '#ping ip(域名)',
@@ -220,7 +218,7 @@ export const helpList = [
       }
     ]
   }, {
-    group: 'Manage',
+    group: '管理',
     list: [
       {
         title: '#憨憨设置pingtoken',
