@@ -1,10 +1,10 @@
-import plugin from '../../../lib/plugins/plugin.js'
-import { segment } from 'icqq'
-import fetch from 'node-fetch'
-import axios from 'axios'
-import { Config } from '../utils/config.js'
 import { endingSpeech, followMe, pepTalk } from '../utils/const.js'
 import { sleep, makeForwardMsg } from '../utils/common.js'
+import plugin from '../../../lib/plugins/plugin.js'
+import { Config } from '../utils/config.js'
+import fetch from 'node-fetch'
+import { segment } from 'icqq'
+import axios from 'axios'
 
 export class photo extends plugin {
   constructor () {

@@ -1,7 +1,7 @@
 import fetch from 'node-fetch'
 import plugin from '../../../lib/plugins/plugin.js'
 import { Config } from '../utils/config.js'
-import { HttpsProxyAgent } from 'https-proxy-agent'
+import HttpsProxyAgent from 'https-proxy-agent'
 import { segment } from 'icqq'
 import { downloadImage, makeForwardMsg } from '../utils/common.js'
 // const downloadedImages = new Map(); // 用于保存已下载的图片
