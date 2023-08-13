@@ -21,7 +21,7 @@ cd ./plugins/hanhan-plugin
 pnpm i
 ```
 
-搜一搜或许需要安装`google-chrome`，请自行搜索教程安装，并将`which google-chrome`得到的路径配置在`config.json`里面（config.example.json礼门有示例，可以直接复制过去，修改路径即可）
+搜一搜或许需要安装`google-chrome`，请自行搜索教程安装，并将`which google-chrome`得到的路径配置在`config.json`里面（config.example.json里面有示例，可以直接复制过去，修改路径即可）
 
 操作完之后，启动你的机器人，就可以食用了
 
