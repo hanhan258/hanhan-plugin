@@ -1,5 +1,5 @@
 import { endingSpeech, followMe, pepTalk } from '../utils/const.js'
-import { sleep, makeForwardMsg } from '../utils/common.js'
+import { sleep, recallSendForwardMsg } from '../utils/common.js'
 import plugin from '../../../lib/plugins/plugin.js'
 import { Config } from '../utils/config.js'
 import fetch from 'node-fetch'
@@ -135,10 +135,7 @@ export class photo extends plugin {
         forwardMsgs.push('如果图片裂开了，请复制链接到浏览器打开')
       }
       let dec = '弱智吧'
-      let forwardMsg = makeForwardMsg(e, forwardMsgs, dec)
-      if (forwardMsg) {
-        Bot.sendGroupMsg(e.group_id, forwardMsg)
-      }
+      return this.reply(await recallSendForwardMsg(e, forwardMsgs, false, dec))
     } else {
       e.reply('查询失败,可能接口失效力~，请联系憨憨捏~')
     }
@@ -165,10 +162,7 @@ export class photo extends plugin {
     }
 
     let dec = '情侣头像'
-    let forwardMsg = await makeForwardMsg(e, forwardMsgs, dec)
-    if (forwardMsg) {
-      await Bot.sendGroupMsg(e.group_id, forwardMsg)
-    }
+    return this.reply(await recallSendForwardMsg(e, forwardMsgs, false, dec))
   }
 
   // 一二布布

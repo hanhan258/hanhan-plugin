@@ -1,12 +1,14 @@
-import fetch from 'node-fetch'
+import { downloadImage, recallSendForwardMsg } from '../utils/common.js'
 import plugin from '../../../lib/plugins/plugin.js'
-import { Config } from '../utils/config.js'
 import HttpsProxyAgent from 'https-proxy-agent'
+import { Config } from '../utils/config.js'
+import fetch from 'node-fetch'
 import { segment } from 'icqq'
-import { downloadImage, makeForwardMsg } from '../utils/common.js'
+
 // const downloadedImages = new Map(); // 用于保存已下载的图片
 
 let r18 = true
+let dec = '电影信息'
 
 export class Photo extends plugin {
   constructor () {
@@ -101,14 +103,9 @@ export class Photo extends plugin {
           forwardMsgs.push(...msg)
         }
 
-        // 发送转发消息到群组
-        if (e.isGroup) {
-          let dec = 'TV信息'
-          let forwardMsg = await makeForwardMsg(e, forwardMsgs, dec)
-          if (forwardMsg) {
-            await Bot.sendGroupMsg(e.group_id, forwardMsg)
-          }
-        }
+        // 发送转发消息
+        dec = 'TV信息'
+        return this.reply(await recallSendForwardMsg(e, forwardMsgs, false, dec))
       })
   }
 
@@ -160,17 +157,8 @@ export class Photo extends plugin {
           forwardMsgs.push(...msg)
         }
 
-        // 发送转发消息到群组
-        if (e.isGroup) {
-          let dec = '电影信息'
-          let forwardMsg = await makeForwardMsg(e, forwardMsgs, dec)
-          if (forwardMsg) {
-            await Bot.sendGroupMsg(e.group_id, forwardMsg)
-          }
-        }
-
-        // let msgComplete = ['电影信息发送完成'];
-        // await this.reply(msgComplete, true);
+        // 发送转发消息
+        return this.reply(await recallSendForwardMsg(e, forwardMsgs, false, dec))
       })
       .catch(err => console.error('Error:' + err))
   }
@@ -223,17 +211,8 @@ export class Photo extends plugin {
           forwardMsgs.push(...msg)
         }
 
-        // 发送转发消息到群组
-        if (e.isGroup) {
-          let dec = '电影信息'
-          let forwardMsg = await makeForwardMsg(e, forwardMsgs, dec)
-          if (forwardMsg) {
-            await Bot.sendGroupMsg(e.group_id, forwardMsg)
-          }
-        }
-
-        // let msgComplete = ['电影信息发送完成'];
-        // await this.reply(msgComplete, true);
+        // 发送转发消息
+        return this.reply(await recallSendForwardMsg(e, forwardMsgs, false, dec))
       })
       .catch(err => console.error('Error:' + err))
   }
@@ -286,17 +265,8 @@ export class Photo extends plugin {
           forwardMsgs.push(...msg)
         }
 
-        // 发送转发消息到群组
-        if (e.isGroup) {
-          let dec = '电影信息'
-          let forwardMsg = await makeForwardMsg(e, forwardMsgs, dec)
-          if (forwardMsg) {
-            await Bot.sendGroupMsg(e.group_id, forwardMsg)
-          }
-        }
-
-        // let msgComplete = ['电影信息发送完成'];
-        // await this.reply(msgComplete, true);
+        // 发送转发消息
+        return this.reply(await recallSendForwardMsg(e, forwardMsgs, false, dec))
       })
       .catch(err => console.error('Error:' + err))
   }
@@ -349,14 +319,8 @@ export class Photo extends plugin {
           forwardMsgs.push(...msg)
         }
 
-        // 发送转发消息到群组
-        if (e.isGroup) {
-          let dec = '电影信息'
-          let forwardMsg = await makeForwardMsg(e, forwardMsgs, dec)
-          if (forwardMsg) {
-            await Bot.sendGroupMsg(e.group_id, forwardMsg)
-          }
-        }
+        // 发送转发消息
+        return this.reply(await recallSendForwardMsg(e, forwardMsgs, false, dec))
 
         // let msgComplete = ['电影信息发送完成'];
         // await this.reply(msgComplete, true);
@@ -413,15 +377,8 @@ export class Photo extends plugin {
           ]
           forwardMsgs.push(...msg)
         }
-
-        // 发送转发消息到群组
-        if (e.isGroup) {
-          let dec = '电影信息'
-          let forwardMsg = await makeForwardMsg(e, forwardMsgs, dec)
-          if (forwardMsg) {
-            await Bot.sendGroupMsg(e.group_id, forwardMsg)
-          }
-        }
+        // 发送转发消息
+        return this.reply(await recallSendForwardMsg(e, forwardMsgs, false, dec))
       })
   }
 
@@ -487,15 +444,9 @@ export class Photo extends plugin {
           ]
           forwardMsgs.push(...msg)
         }
-
         // 发送转发消息到群组
-        if (e.isGroup) {
-          let dec = '信息'
-          let forwardMsg = await makeForwardMsg(e, forwardMsgs, dec)
-          if (forwardMsg) {
-            await Bot.sendGroupMsg(e.group_id, forwardMsg)
-          }
-        }
+        dec = '信息'
+        return this.reply(await recallSendForwardMsg(e, forwardMsgs, false, dec))
       })
       .catch(err => console.error('Error:' + err))
   }
