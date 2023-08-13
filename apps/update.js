@@ -1,5 +1,5 @@
-import { recallSendForwardMsg } from '../utils/common.js'
 import plugin from '../../../lib/plugins/plugin.js'
+import { makeForwardMsg } from '../utils/common.js'
 import { Restart } from '../../other/restart.js'
 import { createRequire } from 'module'
 import _ from 'lodash'
@@ -141,7 +141,7 @@ export class Update extends plugin {
     let end = ''
     end =
       '更多详细信息，请前往Github查看\nhttps://github.com/hanhan258/hanhan-plugin'
-    log = await recallSendForwardMsg(`hanhan-plugin更新日志，共${line}条`, log, end)
+    log = await makeForwardMsg(`hanhan-plugin更新日志，共${line}条`, log, end)
 
     return log
   }
