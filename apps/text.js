@@ -117,15 +117,15 @@ export class text extends plugin {
 
   // 发癫
   async fd (e) {
+    let encode
     if (e.at) {
       const at = e.group.pickMember(e.at)
-      e.msg = at.info?.card || at.info?.nickname
-      console.log(e.msg)
+      encode = at.info?.card || at.info?.nickname
+    } else {
+      encode = e.msg.replace(/^#?发癫/, '').trim()
     }
-    let encode = e.msg.replace(/^#?发癫/, '').trim()
     if (!encode) return e.reply('输入内容不能为空')
-
-    let url = `https://api.hanhanz.com/fd?msg=${encode}`
+    let url = `https://api.gakki.icu/fd?msg=${encode}`
     let response = await fetch(url) // 调用接口获取数据
     const text = await response.text()
     await this.reply(text)
