@@ -63,8 +63,8 @@ export class photo extends plugin {
           fnc: 'qltx'
         },
         {
-          reg: '^#?弱智吧',
-          fnc: 'rzb'
+          reg: '^#?随机(.*)吧',
+          fnc: 'bdtb'
         }
       ]
     })
@@ -112,12 +112,19 @@ export class photo extends plugin {
     }
   }
 
-  // 弱智吧
-  async rzb (e) {
+  // 百度贴吧
+  async bdtb (e) {
     let forwardMsgs = []
-    let url = 'http://api.yujn.cn/api/tieba.php?type=json&msg=%E5%BC%B1%E6%99%BA'
+    let encode = e.msg.replace(/^#?随机/, '').trim()
+    let prefix = encode.split('吧')[0] // 使用split()方法以"吧"为分隔符分割字符串，然后获取第一个元素（吧字前面的内容）
+    console.log(prefix) // 输出提取的内容
+    let url = `http://api.yujn.cn/api/tieba.php?type=json&msg=${prefix}`
     let res = await axios.get(url) // 调用接口获取数据
     let result = await res.data
+    // console.log(result.code)
+    if (result.code == 201) {
+      return e.reply(result.tips)
+    }
     console.log(result)
     if (res.status == 200) {
       forwardMsgs.push('昵称：' + result.name)
@@ -134,7 +141,7 @@ export class photo extends plugin {
         }
         forwardMsgs.push('如果图片裂开了，请复制链接到浏览器打开')
       }
-      let dec = '弱智吧'
+      let dec = e.msg
       return this.reply(await recallSendForwardMsg(e, forwardMsgs, false, dec))
     } else {
       e.reply('查询失败,可能接口失效力~，请联系憨憨捏~')

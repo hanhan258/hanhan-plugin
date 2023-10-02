@@ -44,8 +44,11 @@ export const helpList = [
         title: '#发送json+内容',
         desc: '例如：#发送json......'
       }, {
-        title: '弱智吧',
-        desc: '网上那么多人冒充秦始皇，那荆轲为什么不来刺秦皇呢？'
+        title: '随机百度贴吧',
+        desc: '例如：随机孙笑川吧。贴吧里有的都支持'
+      }, {
+        title: '沙雕新闻',
+        desc: '某地一小偷坚信早晚会出事，于是总在中午作案'
       }
     ]
   }, {
@@ -215,6 +218,15 @@ export const helpList = [
       }, {
         title: '#base64编(解)码+内容',
         desc: 'base64编解码'
+      }, {
+        title: '访问+链接',
+        desc: '只支持返回类型为json或text的接口网址'
+      }, {
+        title: '图片+链接',
+        desc: '只支持返回类型为图片的接口网址'
+      }, {
+        title: '图链+图片',
+        desc: '返回图片的直链（可发送多个图片）'
       }
     ]
   }, {

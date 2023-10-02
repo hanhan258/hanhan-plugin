@@ -1,5 +1,7 @@
+import { recallSendForwardMsg } from '../utils/common.js'
 import plugin from '../../../lib/plugins/plugin.js'
 import fetch from 'node-fetch'
+import { segment } from 'icqq'
 import axios from 'axios'
 import he from 'he'
 
@@ -34,9 +36,39 @@ export class text extends plugin {
         {
           reg: '^#?(kfc|v50|网易云热评|舔狗日记)$',
           fnc: 'jh'
+        },
+        {
+          reg: '^#?沙雕新闻$',
+          fnc: 'sd'
         }
       ]
     })
+  }
+
+  // 沙雕新闻
+  async sd (e) {
+    let forwardMsgs = []
+    let url = 'https://api.yujn.cn/api/shadiao.php?'
+    let res = await axios.get(url) // 调用接口获取数据
+    let result = await res.data
+    console.log(result)
+    if (res.status == 200) {
+      forwardMsgs.push(result.title)
+      forwardMsgs.push(result.content)
+      if (result.images && result.images.length > 0) {
+        for (let i = 0; i < result.images.length; i++) {
+          forwardMsgs.push(result.images[i])
+          forwardMsgs.push(segment.image(result.images[i]))
+          console.log(i)
+        }
+        forwardMsgs.push('如果图片裂开了，请复制链接到浏览器打开')
+      }
+      forwardMsgs.push(result.video)
+      let dec = e.msg
+      return this.reply(await recallSendForwardMsg(e, forwardMsgs, false, dec))
+    } else {
+      e.reply('查询失败,可能接口失效力~，请联系憨憨捏~')
+    }
   }
 
   // 聚合
