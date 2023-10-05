@@ -158,8 +158,8 @@ export const helpList = [
         title: '甜妹',
         desc: '甜妹视频'
       }, {
-        title: '抖音变装',
-        desc: '抖音变装视频'
+        title: '抖音（快手）变装',
+        desc: '抖音、快手变装视频'
       }, {
         title: '随机小姐姐',
         desc: '甜妹视频'
@@ -172,6 +172,21 @@ export const helpList = [
       }, {
         title: '随机裙子',
         desc: 'JK、洛丽塔视频'
+      }, {
+        title: '黑（白）丝视频',
+        desc: '黑丝、白丝视频'
+      }, {
+        title: 'cos系列',
+        desc: 'coser'
+      }, {
+        title: '慢摇视频',
+        desc: '摇'
+      }, {
+        title: '纯情女高',
+        desc: '挺好看的'
+      }, {
+        title: '吊带系列',
+        desc: '有点......'
       }
     ]
   }, {

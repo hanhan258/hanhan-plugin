@@ -141,7 +141,7 @@ export class photo extends plugin {
         }
         forwardMsgs.push('如果图片裂开了，请复制链接到浏览器打开')
       }
-      let dec = e.msg
+      let dec = encode
       return this.reply(await recallSendForwardMsg(e, forwardMsgs, false, dec))
     } else {
       e.reply('查询失败,可能接口失效力~，请联系憨憨捏~')
