@@ -3,7 +3,7 @@ import plugin from '../../../lib/plugins/plugin.js'
 import HttpsProxyAgent from 'https-proxy-agent'
 import { Config } from '../utils/config.js'
 import fetch from 'node-fetch'
-import { segment } from 'icqq'
+
 
 // const downloadedImages = new Map(); // 用于保存已下载的图片
 

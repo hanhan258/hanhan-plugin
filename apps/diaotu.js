@@ -1,5 +1,5 @@
 import plugin from '../../../lib/plugins/plugin.js'
-import { segment } from 'icqq'
+
 import fs from 'fs'
 const path = process.cwd()
 

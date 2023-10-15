@@ -1,6 +1,6 @@
 import plugin from '../../../lib/plugins/plugin.js'
 import common from '../../../lib/common/common.js'
-import { segment } from 'icqq'
+
 
 let gailv = 0.4 // 初始概率
 

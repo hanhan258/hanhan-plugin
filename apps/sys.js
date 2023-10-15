@@ -1,6 +1,6 @@
 import plugin from '../../../lib/plugins/plugin.js'
 import { Config } from '../utils/config.js'
-import { segment } from 'icqq'
+
 import puppeteer from 'puppeteer'
 const folderPath = './plugins/hanhan-plugin/resources/ls/'
 export class sys extends plugin {

@@ -1,5 +1,5 @@
 import plugin from '../../../lib/plugins/plugin.js'
-import { segment } from 'icqq'
+
 
 export class girl extends plugin {
   constructor () {

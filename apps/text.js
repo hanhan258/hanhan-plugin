@@ -1,7 +1,7 @@
 import { recallSendForwardMsg } from '../utils/common.js'
 import plugin from '../../../lib/plugins/plugin.js'
 import fetch from 'node-fetch'
-import { segment } from 'icqq'
+
 import axios from 'axios'
 import he from 'he'
 
