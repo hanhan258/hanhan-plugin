@@ -3,6 +3,8 @@
 
 我们的宗旨就是摆就完事了。
 
+支持Yunzai-Bot、Miao-Yunzai和TRSS-Yunzai
+
 ## 安装
 
 ### Github
