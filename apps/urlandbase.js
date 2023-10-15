@@ -1,5 +1,5 @@
 import plugin from '../../../lib/plugins/plugin.js'
-import { segment } from 'icqq'
+
 import axios from 'axios'
 
 export class urlAndBase extends plugin {

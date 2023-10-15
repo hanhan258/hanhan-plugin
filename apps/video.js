@@ -1,5 +1,5 @@
 import plugin from '../../../lib/plugins/plugin.js'
-import { segment } from 'icqq'
+
 import fetch from 'node-fetch'
 
 export class voice extends plugin {

@@ -1,5 +1,5 @@
 // import fs from 'fs'
-// import { segment } from 'icqq'
+//
 
 // const RootPath = process.cwd() + '/plugins/hanhan-plugin/'
 export default class json extends plugin {

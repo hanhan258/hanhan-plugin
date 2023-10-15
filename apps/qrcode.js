@@ -1,5 +1,5 @@
 import plugin from '../../../lib/plugins/plugin.js'
-import { segment } from 'icqq'
+
 import { Config } from '../utils/config.js'
 import puppeteer from 'puppeteer'
 

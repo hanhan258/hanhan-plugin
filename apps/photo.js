@@ -3,7 +3,7 @@ import { sleep, recallSendForwardMsg } from '../utils/common.js'
 import plugin from '../../../lib/plugins/plugin.js'
 import { Config } from '../utils/config.js'
 import fetch from 'node-fetch'
-import { segment } from 'icqq'
+
 import axios from 'axios'
 
 export class photo extends plugin {
