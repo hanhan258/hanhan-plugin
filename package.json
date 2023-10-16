@@ -9,7 +9,6 @@
     "node-fetch": "^3.3.1",
     "pingman": "^2.0.0",
     "proxy-chain": "^2.3.0",
-    "puppeteer": "^20.4.0",
     "xmorse": "1.0.0"
   }
 }
