@@ -90,7 +90,7 @@ export class Ping extends plugin {
       await this.reply(pingRes, e.isGroup)
       return false
     }
-    let res = `${isShowIP ? 'IP: ' + ipInfo.ip + '\n' : ''}${domain ? 'Domain: ' + domain + '\n' : ''}国家：${ipInfo.country}\n地区：${ipInfo.region}\n城市：${ipInfo.city}\n时区：${ipInfo.timezone}\n经纬度：${ipInfo.loc}\n运营商：${ipInfo.org}\n${pingRes || ''}`
+    let res = `${isShowIP ? 'IP: ' + ipInfo.ip + '\n' : ''}${domain ? 'Domain: ' + domain + '\n' : ''}国家/地区：${ipInfo.country}\n区域：${ipInfo.region}\n城市：${ipInfo.city}\n时区：${ipInfo.timezone}\n经纬度：${ipInfo.loc}\n运营商：${ipInfo.org}\n${pingRes || ''}`
     await this.reply(res, e.isGroup)
     return true
   }
