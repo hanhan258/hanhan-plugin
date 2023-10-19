@@ -1,5 +1,6 @@
+
 # hanhan-plugin
-![](./resources/readme/logo.jpg)
+## 你不让我们用bot的居心何在？
 
 我们的宗旨就是摆就完事了。
 
