@@ -1,9 +1,9 @@
-import { recallSendForwardMsg } from '../utils/common.js'
+import { recallSendForwardMsg, getRandomLineFromFile } from '../utils/common.js'
 import plugin from '../../../lib/plugins/plugin.js'
 import fetch from 'node-fetch'
-
 import axios from 'axios'
 import he from 'he'
+const RootPath = process.cwd() + '/plugins/hanhan-plugin/'
 
 export class text extends plugin {
   constructor () {
@@ -74,24 +74,15 @@ export class text extends plugin {
   // 聚合
   async jh (e) {
     let message = e.msg
-    let key
-    if (message.includes('v50') || message.includes('kfc')) {
-      key = 'kfc'
-    } else if (message.includes('舔狗日记')) {
-      key = 'tg'
+    let path = RootPath + '/resources/json/kfc.json'
+    if (message.includes('舔狗日记')) {
+      path = RootPath + '/resources/json/tg.json'
     } else if (message.includes('网易云热评')) {
-      key = 'wyy'
+      path = RootPath + '/resources/json/wyy.json'
     }
-    let url = `http://api.gakki.icu/${key}?type=json`
-    let res = await fetch(url) // 调用接口获取数据
-    let result = await res.json()
-    if (result.code == 200) {
-      await e.reply(result.data)
-    } else if (result.code == 429) {
-      e.reply('太快了憨憨受不了，请慢一点~')
-    } else {
-      e.reply('查询失败,可能接口失效力~，请联系憨憨捏~')
-    }
+    let result = await getRandomLineFromFile(path)
+    console.log(result)
+    await this.reply(result)
   }
 
   // 油价查询
@@ -149,17 +140,24 @@ export class text extends plugin {
 
   // 发癫
   async fd (e) {
-    let encode
-    if (e.at) {
-      const at = e.group.pickMember(e.at)
-      encode = at.info?.card || at.info?.nickname
-    } else {
-      encode = e.msg.replace(/^#?发癫/, '').trim()
+    let msg = e.raw_message.replace(/^#?发癫/, '').trim()
+    // console.log(e.message.filter(m => m.type === 'at').length > 0)
+    // console.log(e.message.filter(m => m.type === 'text').length > 0)
+    // console.log(e.raw_message.replace(/^#?发癫/, '').trim())
+    // 判断是否是艾特
+    if (e.message.filter(m => m.type === 'at').length > 0) {
+      msg = e.raw_message.replace(/^#?发癫/, '').trim() || e.at
+      msg = msg.replace(/@/g, '').trim()
     }
-    if (!encode) return e.reply('输入内容不能为空')
-    let url = `https://api.gakki.icu/fd?msg=${encode}`
-    let response = await fetch(url) // 调用接口获取数据
-    const text = await response.text()
-    await this.reply(text)
+    // 判断是否含有发癫对象，没有则默认对憨憨发癫
+    if (!msg || msg.length === 0) {
+      msg = '憨憨'
+    }
+    let path = RootPath + '/resources/json/psycho.json'
+    let result = await getRandomLineFromFile(path)
+    console.log(result)
+    result = result.replace(/name/g, msg)
+    console.log(result)
+    await this.reply(result)
   }
 }

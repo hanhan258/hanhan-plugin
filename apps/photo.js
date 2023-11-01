@@ -70,7 +70,7 @@ export class photo extends plugin {
     })
     this.task = [
       {
-        cron: '30 7 * * *',
+        cron: '0 30 7 * * ?',
         // cron: '*/1 * * * *',
         name: 'englishTimeIsUp',
         fnc: this.englishTimeIsUp

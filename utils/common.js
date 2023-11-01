@@ -3,7 +3,20 @@
 import puppeteer from 'puppeteer'
 import fs from 'fs'
 import _ from 'lodash'
-
+export function getRandomLineFromFile (filePath) {
+  return new Promise((resolve, reject) => {
+    fs.readFile(filePath, 'utf8', (err, data) => {
+      if (err) {
+        reject(err)
+      } else {
+        const lines = JSON.parse(data)
+        const randomIndex = Math.floor(Math.random() * lines.length)
+        const randomLine = lines[randomIndex]
+        resolve(randomLine)
+      }
+    })
+  })
+}
 export async function sleep (ms = 1000) {
   await new Promise(resolve => setTimeout(resolve, ms))
 }
