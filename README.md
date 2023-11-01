@@ -4,7 +4,7 @@
 
 我们的宗旨就是摆就完事了。
 
-支持Yunzai-Bot、Miao-Yunzai和TRSS-Yunzai
+支持Yunzai-Bot、Miao-Yunzai和TRSS-Yunzai（部分支持）
 
 ## 安装
 
@@ -32,7 +32,7 @@ pnpm i
 
 发送`#nav`或者`#憨憨帮助`查看功能
 
-<img src="./resources/readme/help.jpg" alt="9c055127d23b558114f2621c5b90d858" style="zoom:50%;" />
+<img src="./resources/readme/help.jpg" alt="9c055127d23b558114f2621c5b90d858" style="zoom:35%;" />
 
 ## 搜一搜帮助
 
