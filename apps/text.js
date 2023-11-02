@@ -140,13 +140,11 @@ export class text extends plugin {
 
   // 发癫
   async fd (e) {
-    let msg = e.raw_message.replace(/^#?发癫/, '').trim()
-    // console.log(e.message.filter(m => m.type === 'at').length > 0)
-    // console.log(e.message.filter(m => m.type === 'text').length > 0)
-    // console.log(e.raw_message.replace(/^#?发癫/, '').trim())
+    let msg = e.msg.replace(/^#?发癫/, '').trim()
     // 判断是否是艾特
     if (e.message.filter(m => m.type === 'at').length > 0) {
-      msg = e.raw_message.replace(/^#?发癫/, '').trim() || e.at
+      // 解决前缀问题
+      msg = e.raw_message.replace(/^#?(.*)发癫/, '').trim() || e.at
       msg = msg.replace(/@/g, '').trim()
     }
     // 判断是否含有发癫对象，没有则默认对憨憨发癫
