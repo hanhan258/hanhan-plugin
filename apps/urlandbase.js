@@ -1,4 +1,5 @@
 import plugin from '../../../lib/plugins/plugin.js'
+import { recallSendForwardMsg } from '../utils/common.js'
 
 import axios from 'axios'
 
@@ -35,7 +36,7 @@ export class urlAndBase extends plugin {
           fnc: 'tp'
         },
         {
-          reg: '^#?图链',
+          reg: '^#?图链.*$',
           fnc: 'tl'
         }
       ]
@@ -43,16 +44,36 @@ export class urlAndBase extends plugin {
   }
 
   // 获取图片直链
+  // Extracted from Coconut Yenai-Plugin 侵删
   async tl (e) {
+    let img = []
+    if (e.source) {
+      let source
+      if (e.isGroup) {
+        source = (await e.group.getChatHistory(e.source.seq, 1)).pop()
+      } else {
+        source = (await e.friend.getChatHistory(e.source.time, 1)).pop()
+      }
+      for (let i of source.message) {
+        if (i.type == 'image') {
+          img.push(i.url)
+        }
+      }
+    } else {
+      img = e.img
+    }
     let forwardMsgs = []
-    if (!e.img) return e.reply('发送内容里没有图片', true)
-    if (e.img.length == 1) {
-      return e.reply(e.img)
+    if (!img) return e.reply('发送内容里没有图片', true)
+    if (img.length >= 2) {
+      // 大于两张图片以转发消息发送
+      for (let i of img) {
+        forwardMsgs.push([segment.image(i), '直链:', i])
+      }
+      let dec = '图链'
+      return this.reply(await recallSendForwardMsg(e, forwardMsgs, false, dec))
+    } else {
+      await e.reply([segment.image(img[0]), '直链:', img[0]])
     }
-    for (let i = 0; i < e.img.length; i++) {
-      forwardMsgs.push('图片' + (i + 1) + '：' + e.img[i] + '\n')
-    }
-    e.reply(forwardMsgs.join('').trim())
   }
 
   // 访问图片接口
