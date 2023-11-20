@@ -37,7 +37,7 @@ export class diaotu extends plugin {
           fnc: 'cxk'
         },
         {
-          reg: '^#?随机表情$',
+          reg: '^(#|/)?随机表情$',
           fnc: 'sjbq'
         }
       ]
