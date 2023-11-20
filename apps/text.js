@@ -14,15 +14,15 @@ export class text extends plugin {
       priority: 6,
       rule: [
         {
-          reg: '^#?随机日记$',
+          reg: '^(#|/)?随机日记$',
           fnc: 'sjrj'
         },
         {
-          reg: '^#?新春祝福$',
+          reg: '^(#|/)?新春祝福$',
           fnc: 'newyear'
         },
         {
-          reg: '^#?(污污|污句子)$',
+          reg: '^(#|/)?(污污|污句子)$',
           fnc: 'wjz'
         },
         {
@@ -34,11 +34,11 @@ export class text extends plugin {
           fnc: 'fd'
         },
         {
-          reg: '^#?(kfc|v50|网易云热评|舔狗日记)$',
+          reg: '^(#|/)?(kfc|v50|网易云热评|舔狗日记)$',
           fnc: 'jh'
         },
         {
-          reg: '^#?沙雕新闻$',
+          reg: '^(#|/)?沙雕新闻$',
           fnc: 'sd'
         }
       ]

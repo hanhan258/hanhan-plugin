@@ -15,55 +15,55 @@ export class photo extends plugin {
       priority: 6,
       rule: [
         {
-          reg: '^#?mc酱$',
+          reg: '^(#|/)?mc酱$',
           fnc: 'mc'
         },
         {
-          reg: '^#?小c酱$',
+          reg: '^(#|/)?小c酱$',
           fnc: 'xiaoc'
         },
         {
-          reg: '^#?兽猫酱$',
+          reg: '^(#|/)?兽猫酱$',
           fnc: 'shoumao'
         },
         {
-          reg: '^#?买家秀$',
+          reg: '^(#|/)?买家秀$',
           fnc: 'buyerShow'
         },
         {
-          reg: '^#?mt$',
+          reg: '^(#|/)?mt$',
           fnc: 'mt'
         },
         {
-          reg: '^#?随机(ai|AI)$',
+          reg: '^(#|/)?随机(ai|AI)$',
           fnc: 'sjai'
         },
         {
-          reg: '^#?每日英语$',
+          reg: '^(#|/)?每日英语$',
           fnc: 'mryy'
         },
         {
-          reg: '^#?随机柴郡$',
+          reg: '^(#|/)?随机柴郡$',
           fnc: 'cj'
         },
         {
-          reg: '^#?随机acg$',
+          reg: '^(#|/)?随机acg$',
           fnc: 'random_acg'
         },
         {
-          reg: '^#?随机东方$',
+          reg: '^(#|/)?随机东方$',
           fnc: 'random_orient'
         },
         {
-          reg: '^#?一二布布$',
+          reg: '^(#|/)?一二布布$',
           fnc: 'yebb'
         },
         {
-          reg: '^#?情侣头像$',
+          reg: '^(#|/)?情侣头像$',
           fnc: 'qltx'
         },
         {
-          reg: '^#?随机(.*)吧',
+          reg: '^(#|/)?随机(.*)吧',
           fnc: 'bdtb'
         }
       ]

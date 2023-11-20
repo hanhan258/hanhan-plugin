@@ -10,31 +10,31 @@ export class girl extends plugin {
       priority: 6,
       rule: [
         {
-          reg: '^#?(jk|JK)$',
+          reg: '^(#|/)?(jk|JK)$',
           fnc: 'jk'
         },
         {
-          reg: '^#?(黑丝|hs)$',
+          reg: '^(#|/)?(黑丝|hs)$',
           fnc: 'hs'
         },
         {
-          reg: '^#?(白丝|bs)$',
+          reg: '^(#|/)?(白丝|bs)$',
           fnc: 'bs'
         },
         {
-          reg: '^#?(写真|xz)$',
+          reg: '^(#|/)?(写真|xz)$',
           fnc: 'xz'
         },
         {
-          reg: '^#?(小姐姐|xjj)$',
+          reg: '^(#|/)?(小姐姐|xjj)$',
           fnc: 'xjj'
         },
         {
-          reg: '^#?waifu$',
+          reg: '^(#|/)?waifu$',
           fnc: 'waifu'
         },
         {
-          reg: '^#?(Girl|girl)$',
+          reg: '^(#|/)?(Girl|girl)$',
           fnc: 'girl'
         }
       ]
