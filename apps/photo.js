@@ -65,6 +65,14 @@ export class photo extends plugin {
         {
           reg: '^(#|/)?随机(.*)吧',
           fnc: 'bdtb'
+        },
+        {
+          reg: '^(#|/)?英雄联盟台词$',
+          fnc: 'yxlm'
+        },
+        {
+          reg: '^(#|/)?虎扑高校$',
+          fnc: 'hpgx'
         }
       ]
     })
@@ -112,13 +120,67 @@ export class photo extends plugin {
     }
   }
 
+  // 虎扑高校
+  async hpgx (e) {
+    let url = 'https://api.yujn.cn/api/hupu.php?type=json'
+    let response = await fetch(url) // 调用接口获取数据
+    let result = await response.json()
+    if (result.code != 200) {
+      return e.reply('api寄了')
+    }
+    console.log(result)
+    let forwardMsgs = []
+    forwardMsgs.push('数据均来源于虎扑评分')
+    forwardMsgs.push('高校：' + result.name)
+    // if (e.adapter === 'QQBot') {
+    //   forwardMsgs.push('\n评论：' + result.content)
+    //   forwardMsgs.push(segment.image(result.img))
+    //   let url = result.img.replace('https://', '').replace('http://', '')
+    //   forwardMsgs.push(url)
+    //   forwardMsgs.push('\n如果图片裂开了，请复制链接到浏览器打开')
+    //   return this.reply(forwardMsgs)
+    // }
+    forwardMsgs.push('评论：' + result.content)
+    forwardMsgs.push(segment.image(result.img))
+    forwardMsgs.push(result.img)
+    forwardMsgs.push('如果图片裂开了，请复制链接到浏览器打开')
+
+    let dec = '虎扑高校'
+    return this.reply(await recallSendForwardMsg(e, forwardMsgs, false, dec))
+  }
+
+  // 英雄联盟台词
+  async yxlm (e) {
+    let url = 'http://api.yujn.cn/api/yxlm.php?'
+    let response = await fetch(url) // 调用接口获取数据
+    let result = await response.json()
+    if (result.code != 200) {
+      return e.reply('api寄了')
+    }
+    console.log(result)
+    let forwardMsgs = []
+    forwardMsgs.push('数据均来源于虎扑评分')
+    forwardMsgs.push('英雄台词：' + result.data.name)
+    if (result.data.content == null) {
+      forwardMsgs.push('评论：没有评论')
+    } else {
+      forwardMsgs.push('评论：' + result.data.content)
+    }
+    forwardMsgs.push(segment.image(result.data.img))
+    forwardMsgs.push(result.data.img)
+    forwardMsgs.push('如果图片裂开了，请复制链接到浏览器打开')
+
+    let dec = '英雄联盟台词'
+    return this.reply(await recallSendForwardMsg(e, forwardMsgs, false, dec))
+  }
+
   // 百度贴吧
   async bdtb (e) {
     let forwardMsgs = []
     let encode = e.msg.replace(/^#?随机/, '').trim()
     let prefix = encode.split('吧')[0] // 使用split()方法以"吧"为分隔符分割字符串，然后获取第一个元素（吧字前面的内容）
     console.log(prefix) // 输出提取的内容
-    let url = `http://api.yujn.cn/api/tieba.php?type=json&msg=${prefix}`
+    let url = `https://api.yujn.cn/api/tieba.php?type=json&msg=${prefix}`
     let res = await axios.get(url) // 调用接口获取数据
     let result = await res.data
     // console.log(result.code)
