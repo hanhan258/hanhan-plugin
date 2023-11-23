@@ -1,5 +1,5 @@
 import plugin from '../../../lib/plugins/plugin.js'
-
+import { recallSendForwardMsg } from '../utils/common.js'
 
 export class girl extends plugin {
   constructor () {
@@ -36,9 +36,50 @@ export class girl extends plugin {
         {
           reg: '^(#|/)?(Girl|girl)$',
           fnc: 'girl'
+        },
+        {
+          reg: '^(#|/)?买家秀$',
+          fnc: 'buyerShow'
+        },
+        {
+          reg: '^(#|/)?清凉一夏$',
+          fnc: 'qlyx'
         }
       ]
     })
+  }
+
+  // 光腿
+  async qlyx (e) {
+    let url = 'https://api.yujn.cn/api/qlyx.php?type=json'
+    let response = await fetch(url) // 调用接口获取数据
+    let result = await response.json()
+    if (result.code != 200) {
+      return e.reply('api寄了')
+    }
+    console.log(result)
+    let forwardMsgs = []
+    forwardMsgs.push(result.data.title)
+    if (result.data.count == 0) {
+      forwardMsgs.push('没有图片')
+    } else {
+      for (let i = 0; i < result.data.count; i++) {
+        forwardMsgs.push(result.data.images[i])
+        forwardMsgs.push(segment.image(result.data.images[i]))
+        console.log(i)
+      }
+    }
+    forwardMsgs.push('如果图片裂开了，请复制链接到浏览器打开')
+
+    let dec = '清凉一夏'
+    return this.reply(await recallSendForwardMsg(e, forwardMsgs, false, dec))
+  }
+
+  // 买家秀
+  async buyerShow (e) {
+    // 发送消息
+    await this.reply(segment.image('https://api.dzzui.com/api/imgtaobao'))
+    return true // 返回true 阻挡消息不再往下
   }
 
   // girl

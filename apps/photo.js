@@ -27,10 +27,6 @@ export class photo extends plugin {
           fnc: 'shoumao'
         },
         {
-          reg: '^(#|/)?买家秀$',
-          fnc: 'buyerShow'
-        },
-        {
           reg: '^(#|/)?mt$',
           fnc: 'mt'
         },
@@ -297,13 +293,6 @@ export class photo extends plugin {
   async sjai (e) {
     // 发送消息
     await this.reply(segment.image('http://lx.linxi.icu/API/aitu.php'))
-    return true // 返回true 阻挡消息不再往下
-  }
-
-  // 买家秀
-  async buyerShow (e) {
-    // 发送消息
-    await this.reply(segment.image('https://api.dzzui.com/api/imgtaobao'))
     return true // 返回true 阻挡消息不再往下
   }
 

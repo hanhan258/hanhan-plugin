@@ -49,6 +49,12 @@ export const helpList = [
       }, {
         title: '沙雕新闻',
         desc: '某地一小偷坚信早晚会出事，于是总在中午作案'
+      }, {
+        title: '英雄联盟台词',
+        desc: '虎扑英雄联盟台词'
+      }, {
+        title: '虎扑高校',
+        desc: '虎扑高校评分'
       }
     ]
   }, {
@@ -145,6 +151,12 @@ export const helpList = [
       }, {
         title: '小姐姐',
         desc: '小姐姐捏'
+      }, {
+        title: '买家秀',
+        desc: '买家秀捏'
+      }, {
+        title: '清凉一夏',
+        desc: '光腿？'
       }, {
         title: '随机ai',
         desc: '随机ai图片'
