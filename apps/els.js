@@ -58,7 +58,7 @@ export class RussiaRoundPlatePlugin extends plugin {
     let username = e.sender.card || e.sender.nickname
     leftBullets = parseInt(leftBullets)
     if (leftBullets <= 1 || Math.random() < 1 / leftBullets) {
-      let group = await Bot.pickGroup(groupId)
+      let group = e.group || (await e.bot.pickGroup(groupId))
       let max = 300
       let min = 60
       let time = Math.floor(Math.random() * (max - min + 1)) + min
