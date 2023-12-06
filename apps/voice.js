@@ -1,5 +1,5 @@
 import plugin from '../../../lib/plugins/plugin.js'
-
+import fetch from 'node-fetch'
 
 export class voice extends plugin {
   constructor () {
@@ -16,9 +16,26 @@ export class voice extends plugin {
         {
           reg: '^#?随机坤坤$',
           fnc: 'sjkk'
+        },
+        {
+          reg: '^#?随机网易云$',
+          fnc: 'sjwyy'
         }
       ]
     })
+  }
+
+  // 随机网易云
+  async sjwyy (e) {
+    let url = 'https://api.yujn.cn/api/sjwyy.php?type=json'
+    let response = await fetch(url) // 调用接口获取数据
+    let result = await response.json()
+    if (result.code != 200) {
+      return e.reply('api寄了')
+    }
+    console.log(result)
+    await this.reply(segment.image(result.img))
+    await this.reply(segment.record(result.url))
   }
 
   // 随机唱鸭

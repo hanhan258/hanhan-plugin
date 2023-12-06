@@ -217,6 +217,9 @@ export const helpList = [
         title: '随机坤坤',
         desc: '坤坤语音'
       }, {
+        title: '随机网易云',
+        desc: '随机返回一首歌'
+      }, {
         title: '来张表情',
         desc: '表情包'
       }, {
