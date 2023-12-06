@@ -34,8 +34,13 @@ export class voice extends plugin {
       return e.reply('api寄了')
     }
     console.log(result)
-    await this.reply(segment.image(result.img))
-    await this.reply(segment.record(result.url))
+    if (result.id) {
+      await this.reply(segment.image(result.img))
+      await this.reply(segment.record(result.url))
+    } else {
+      this.reply('随机到vip歌曲了，已自动随机下一首')
+      this.sjwyy()
+    }
   }
 
   // 随机唱鸭
