@@ -41,9 +41,6 @@ export const helpList = [
         title: '透+@某人',
         desc: '我和你拼了'
       }, {
-        title: '#发送json+内容',
-        desc: '例如：#发送json......'
-      }, {
         title: '随机百度贴吧',
         desc: '例如：随机孙笑川吧。贴吧里有的都支持'
       }, {
@@ -55,6 +52,24 @@ export const helpList = [
       }, {
         title: '虎扑高校',
         desc: '虎扑高校评分'
+      }, {
+        title: '#发送json+内容',
+        desc: '例如：#发送json......'
+      }, {
+        title: '访问+链接',
+        desc: '只支持返回类型为json或text的接口网址'
+      }, {
+        title: '#图片+链接',
+        desc: '只支持返回类型为图片的接口网址'
+      }, {
+        title: '#视频+链接',
+        desc: '只支持返回类型为视频的接口网址'
+      }, {
+        title: '#语音+链接',
+        desc: '只支持返回类型为语音的接口网址'
+      }, {
+        title: '图链+图片',
+        desc: '返回图片的直链（可发送多个图片）'
       }
     ]
   }, {
@@ -116,12 +131,6 @@ export const helpList = [
       }, {
         title: '每日英语',
         desc: '学习时间到'
-      }, {
-        title: '转二维码',
-        desc: '转二维码'
-      }, {
-        title: '转两层二维码',
-        desc: '二维码套娃'
       }
     ]
   }, {
@@ -154,9 +163,6 @@ export const helpList = [
       }, {
         title: '买家秀',
         desc: '买家秀捏'
-      }, {
-        title: '清凉一夏',
-        desc: '光腿？'
       }, {
         title: '随机ai',
         desc: '随机ai图片'
@@ -208,9 +214,6 @@ export const helpList = [
         title: '小黑子',
         desc: '不要黑我家哥哥'
       }, {
-        title: '叼发言',
-        desc: '逆天'
-      }, {
         title: '随机唱鸭',
         desc: '随机返回唱歌语音'
       }, {
@@ -219,15 +222,6 @@ export const helpList = [
       }, {
         title: '随机网易云',
         desc: '随机返回一首歌'
-      }, {
-        title: '来张表情',
-        desc: '表情包'
-      }, {
-        title: '来张叼图',
-        desc: '好叼'
-      }, {
-        title: '原神，启动！',
-        desc: '原神，启动！'
       }
     ]
   }, {
@@ -248,15 +242,6 @@ export const helpList = [
       }, {
         title: '#base64编(解)码+内容',
         desc: 'base64编解码'
-      }, {
-        title: '访问+链接',
-        desc: '只支持返回类型为json或text的接口网址'
-      }, {
-        title: '图片+链接',
-        desc: '只支持返回类型为图片的接口网址'
-      }, {
-        title: '图链+图片',
-        desc: '返回图片的直链（可发送多个图片）'
       }
     ]
   }, {
@@ -265,9 +250,6 @@ export const helpList = [
       {
         title: '#憨憨设置pingtoken',
         desc: '设置ping要用的token'
-      }, {
-        title: '#憨憨设置tmdb key',
-        desc: '设置tmdb的token'
       }, {
         title: '#憨憨更新',
         desc: '更新插件'

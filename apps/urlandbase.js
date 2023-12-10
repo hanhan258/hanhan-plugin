@@ -32,15 +32,41 @@ export class urlAndBase extends plugin {
           fnc: 'fw'
         },
         {
-          reg: '^#?图片',
+          reg: '^#图片',
           fnc: 'tp'
         },
         {
           reg: '^#?图链.*$',
           fnc: 'tl'
+        },
+        {
+          reg: '^#视频',
+          fnc: 'sp'
+        },
+        {
+          reg: '^#语音',
+          fnc: 'yy'
         }
       ]
     })
+  }
+
+  // 访问语音接口
+  async yy (e) {
+    let url = e.msg.replace(/^#语音/, '').trim()
+    if (!url) return e.reply('你的语音接口呢，你想无中生有？', true)
+    if (url.startsWith('http')) {
+      e.reply(segment.record(url))
+    }
+  }
+
+  // 访问视频接口
+  async sp (e) {
+    let url = e.msg.replace(/^#视频/, '').trim()
+    if (!url) return e.reply('你的视频接口呢，你想无中生有？', true)
+    if (url.startsWith('http')) {
+      e.reply(segment.video(url))
+    }
   }
 
   // 获取图片直链
@@ -78,7 +104,7 @@ export class urlAndBase extends plugin {
 
   // 访问图片接口
   async tp (e) {
-    let url = e.msg.replace(/^#?图片/, '').trim()
+    let url = e.msg.replace(/^#图片/, '').trim()
     if (!url) return e.reply('你的图片接口呢，你想无中生有？', true)
     if (url.startsWith('http')) {
       e.reply(segment.image(url))

@@ -65,10 +65,6 @@ export class photo extends plugin {
         {
           reg: '^(#|/)?英雄联盟台词$',
           fnc: 'yxlm'
-        },
-        {
-          reg: '^(#|/)?虎扑高校$',
-          fnc: 'hpgx'
         }
       ]
     })
@@ -114,35 +110,6 @@ export class photo extends plugin {
         }
       }
     }
-  }
-
-  // 虎扑高校
-  async hpgx (e) {
-    let url = 'https://api.yujn.cn/api/hupu.php?type=json'
-    let response = await fetch(url) // 调用接口获取数据
-    let result = await response.json()
-    if (result.code != 200) {
-      return e.reply('api寄了')
-    }
-    console.log(result)
-    let forwardMsgs = []
-    forwardMsgs.push('数据均来源于虎扑评分')
-    forwardMsgs.push('高校：' + result.name)
-    // if (e.adapter === 'QQBot') {
-    //   forwardMsgs.push('\n评论：' + result.content)
-    //   forwardMsgs.push(segment.image(result.img))
-    //   let url = result.img.replace('https://', '').replace('http://', '')
-    //   forwardMsgs.push(url)
-    //   forwardMsgs.push('\n如果图片裂开了，请复制链接到浏览器打开')
-    //   return this.reply(forwardMsgs)
-    // }
-    forwardMsgs.push('评论：' + result.content)
-    forwardMsgs.push(segment.image(result.img))
-    forwardMsgs.push(result.img)
-    forwardMsgs.push('如果图片裂开了，请复制链接到浏览器打开')
-
-    let dec = '虎扑高校'
-    return this.reply(await recallSendForwardMsg(e, forwardMsgs, false, dec))
   }
 
   // 英雄联盟台词
