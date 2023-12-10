@@ -11,15 +11,23 @@ export class morse extends plugin {
       priority: 6,
       rule: [
         {
+          reg: '^#408$',
+          fnc: '408'
+        },
+        {
           reg: '^#?50033$',
           fnc: '50033'
         },
         {
-          reg: '^#?(184178|36518|5670)$',
+          reg: '^#?(75946|36518|5670)$',
           fnc: '25508'
         }
       ]
     })
+  }
+
+  async 408 (e) {
+    e.reply('50033\n75946\n36518\n5670')
   }
 
   async 50033 (e) {
