@@ -24,7 +24,7 @@ export class sys extends plugin {
           fnc: 'so_duckduckgo'
         },
         {
-          reg: '^#必应(=|＝)?(.*)$',
+          reg: '^#必应(=|＝)(.*)$',
           fnc: 'so_bing'
         },
         {
