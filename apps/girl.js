@@ -1,4 +1,5 @@
 import plugin from '../../../lib/plugins/plugin.js'
+import { recallSendForwardMsg } from '../utils/common.js'
 
 export class girl extends plugin {
   constructor () {
@@ -39,9 +40,37 @@ export class girl extends plugin {
         {
           reg: '^(#|/)?买家秀$',
           fnc: 'buyerShow'
+        },
+        {
+          reg: '^(#|/)?微博美女$',
+          fnc: 'weibo'
         }
       ]
     })
+  }
+
+  // 微博美女
+  async weibo (e) {
+    let url = 'https://api.yujn.cn/api/weibo.php?type=json'
+    let response = await fetch(url) // 调用接口获取数据
+    let result = await response.json()
+    if (result.code != 200) {
+      return e.reply('api寄了')
+    }
+    console.log(result)
+    let forwardMsgs = []
+    forwardMsgs.push(result.title)
+    if (result.img && result.img.length > 0) {
+      for (let i = 0; i < result.img.length; i++) {
+        forwardMsgs.push(segment.image(result.img[i]))
+        forwardMsgs.push(result.img[i])
+        console.log(i)
+      }
+      forwardMsgs.push('如果图片裂开了，请复制链接到浏览器打开')
+    }
+
+    let dec = '微博美女'
+    return this.reply(await recallSendForwardMsg(e, forwardMsgs, false, dec))
   }
 
   // 买家秀

@@ -29,11 +29,8 @@ export const helpList = [
     group: '娱乐',
     list: [
       {
-        title: '#开盘',
-        desc: '俄罗斯转盘'
-      }, {
         title: '#开枪',
-        desc: '开枪'
+        desc: '俄罗斯转盘开枪'
       }, {
         title: '#结束游戏',
         desc: 'Game Over'
@@ -41,7 +38,7 @@ export const helpList = [
         title: '透+@某人',
         desc: '我和你拼了'
       }, {
-        title: '随机百度贴吧',
+        title: '随机(.*)吧',
         desc: '例如：随机孙笑川吧。贴吧里有的都支持'
       }, {
         title: '沙雕新闻',
@@ -49,9 +46,6 @@ export const helpList = [
       }, {
         title: '英雄联盟台词',
         desc: '虎扑英雄联盟台词'
-      }, {
-        title: '虎扑高校',
-        desc: '虎扑高校评分'
       }, {
         title: '#发送json+内容',
         desc: '例如：#发送json......'
@@ -120,6 +114,9 @@ export const helpList = [
         title: '一二布布',
         desc: '一二布布表情包'
       }, {
+        title: '猫猫',
+        desc: '可爱猫猫'
+      }, {
         title: '随机表情',
         desc: '随机表情包'
       }, {
@@ -163,6 +160,9 @@ export const helpList = [
       }, {
         title: '买家秀',
         desc: '买家秀捏'
+      }, {
+        title: '微博美女',
+        desc: '微博美女'
       }, {
         title: '随机ai',
         desc: '随机ai图片'

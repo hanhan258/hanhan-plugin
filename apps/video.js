@@ -132,13 +132,11 @@ export class voice extends plugin {
   async hbssp (e) {
     let urls
     if (e.msg.includes('黑丝视频')) {
-      urls = 'http://api.liangx.link/API/hssp.php'
+      urls = ' http://api.yujn.cn/api/heisis.php'
     } else if (e.msg.includes('白丝视频')) {
-      urls = 'http://api.liangx.link/API/bssp.php'
+      urls = ' http://api.yujn.cn/api/baisis.php'
     }
-    let resp = await fetch(urls)
-    console.log(resp.url)
-    await e.reply(segment.video(resp.url))
+    await e.reply(segment.video(urls))
   }
 
   // // 原神Cos

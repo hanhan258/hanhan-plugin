@@ -65,6 +65,10 @@ export class photo extends plugin {
         {
           reg: '^(#|/)?英雄联盟台词$',
           fnc: 'yxlm'
+        },
+        {
+          reg: '^(#|/)?(猫猫|可爱猫猫)$',
+          fnc: 'maomao'
         }
       ]
     })
@@ -110,6 +114,13 @@ export class photo extends plugin {
         }
       }
     }
+  }
+
+  // 猫猫
+  async maomao (e) {
+    let resp = await fetch('http://www.yujn.cn/api/maomi.php?type=image')
+    console.log(resp.url)
+    await e.reply(segment.image(resp.url))
   }
 
   // 英雄联盟台词
@@ -160,8 +171,8 @@ export class photo extends plugin {
       }
       if (result.images && result.images.length > 0) {
         for (let i = 0; i < result.images.length; i++) {
-          forwardMsgs.push(result.images[i])
           forwardMsgs.push(segment.image(result.images[i]))
+          forwardMsgs.push(result.images[i])
           console.log(i)
         }
         forwardMsgs.push('如果图片裂开了，请复制链接到浏览器打开')
