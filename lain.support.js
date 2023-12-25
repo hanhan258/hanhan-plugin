@@ -1,7 +1,6 @@
 export default class Button {
   constructor() {
     this.plugin = {
-      // 插件名称
       name: '憨憨插件按钮',
       dsc: '憨憨插件按钮',
       priority: 100,
@@ -617,6 +616,21 @@ export default class Button {
               data: '/随机裙子',
               at_bot_show_channel_list: false
             }
+          },
+          {
+            id: '4',
+            render_data: {
+              label: '吊带系列',
+              visited_label: '吊带系列'
+            },
+            action: {
+              type: 2,
+              permission: {
+                type: 2
+              },
+              data: '/吊带系列',
+              at_bot_show_channel_list: false
+            }
           }
         ]
       },
@@ -652,14 +666,9 @@ export default class Button {
               data: '/白丝视频',
               at_bot_show_channel_list: false
             }
-          }
-        ]
-      },
-      {
-        type: 'button',
-        buttons: [
+          },
           {
-            id: '6',
+            id: '5',
             render_data: {
               label: '纯情女高',
               visited_label: '纯情女高'
@@ -670,21 +679,6 @@ export default class Button {
                 type: 2
               },
               data: '/纯情女高',
-              at_bot_show_channel_list: false
-            }
-          },
-          {
-            id: '6',
-            render_data: {
-              label: '吊带系列',
-              visited_label: '吊带系列'
-            },
-            action: {
-              type: 2,
-              permission: {
-                type: 2
-              },
-              data: '/吊带系列',
               at_bot_show_channel_list: false
             }
           }
