@@ -12,7 +12,8 @@ const defaultConfig = {
   gdkey: '',
   studyGroups: '',
   buttonWhiteGroups: '',
-  version: '1.4.0'
+  enableButton: false,
+  version: '1.4.1'
 }
 const _path = process.cwd()
 let config = {}

@@ -1,7 +1,6 @@
 import plugin from '../../../lib/plugins/plugin.js'
 import { Config } from '../utils/config.js'
 const Whitelist_group = Config.buttonWhiteGroups || []
-console.log(Whitelist_group)
 
 export class manage extends plugin {
   constructor () {
@@ -26,6 +25,10 @@ export class manage extends plugin {
         {
           reg: '^#憨憨删除按钮白名单$',
           fnc: 'delwhitegroup'
+        },
+        {
+          reg: '^#(关闭|开启)按钮白名单$',
+          fnc: 'enableWhiteGroup'
         }
       ]
     })
@@ -115,7 +118,7 @@ export class manage extends plugin {
     this.finish('savewhitegroup')
   }
 
-  // 设置whitegroup
+  // 删除whitegroup
   async delwhitegroup (e) {
     if (!this.e.isMaster) {
       e.reply('需要主人才能删除捏~')
@@ -147,7 +150,24 @@ export class manage extends plugin {
     }
     console.log(Whitelist_group)
     Config.buttonWhiteGroups = Whitelist_group
-    await this.reply('按钮白名单群设置成功', true)
+    await this.reply('按钮白名单群删除成功', true)
     this.finish('savedelwhitegroup')
+  }
+
+  // 开启关闭按钮白名单
+  async enableWhiteGroup (e) {
+    const reg = /(关闭|开启)/
+    const match = e.msg.match(reg)
+    if (match) {
+      const action = match[1]
+      if (action === '关闭') {
+        Config.enableButton = false // 关闭
+        await this.reply('已关闭按钮白名单', true)
+      } else {
+        Config.enableButton = true // 打开
+        await this.reply('已打开按钮白名单', true)
+      }
+    }
+    return false
   }
 }

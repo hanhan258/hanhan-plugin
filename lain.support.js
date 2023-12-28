@@ -1,5 +1,5 @@
 import { Config } from '../hanhan-plugin/utils/config.js'
-const Whitelist_group = Config.buttonWhiteGroups || []
+
 export default class Button {
   constructor () {
     this.plugin = {
@@ -52,7 +52,9 @@ export default class Button {
   }
 
   girl (e) {
-    if (!(Whitelist_group.includes(e.group_id))) { return false }
+    if (Config.enableButton) {
+      if (!(Config.buttonWhiteGroups.includes(e.group_id))) { return false }
+    }
     return [
       {
         type: 'button',
@@ -202,7 +204,9 @@ export default class Button {
   }
 
   photo (e) {
-    if (!(Whitelist_group.includes(e.group_id))) { return false }
+    if (Config.enableButton) {
+      if (!(Config.buttonWhiteGroups.includes(e.group_id))) { return false }
+    }
     return [
       {
         type: 'button',
@@ -339,7 +343,9 @@ export default class Button {
   }
 
   text (e) {
-    if (!(Whitelist_group.includes(e.group_id))) { return false }
+    if (Config.enableButton) {
+      if (!(Config.buttonWhiteGroups.includes(e.group_id))) { return false }
+    }
     return [
       {
         type: 'button',
@@ -483,7 +489,9 @@ export default class Button {
   }
 
   video (e) {
-    if (!(Whitelist_group.includes(e.group_id))) { return false }
+    if (Config.enableButton) {
+      if (!(Config.buttonWhiteGroups.includes(e.group_id))) { return false }
+    }
     return [
       {
         type: 'button',
@@ -679,7 +687,9 @@ export default class Button {
   }
 
   voice (e) {
-    if (!(Whitelist_group.includes(e.group_id))) { return false }
+    if (Config.enableButton) {
+      if (!(Config.buttonWhiteGroups.includes(e.group_id))) { return false }
+    }
     return [
       {
         type: 'button',
@@ -740,7 +750,9 @@ export default class Button {
   }
 
   manage (e) {
-    if (!(Whitelist_group.includes(e.group_id))) { return false }
+    if (Config.enableButton) {
+      if (!(Config.buttonWhiteGroups.includes(e.group_id))) { return false }
+    }
     return [
       {
         type: 'button',
@@ -816,7 +828,9 @@ export default class Button {
   }
 
   number (e) {
-    if (!(Whitelist_group.includes(e.group_id))) { return false }
+    if (Config.enableButton) {
+      if (!(Config.buttonWhiteGroups.includes(e.group_id))) { return false }
+    }
     return [
       {
         type: 'button',
@@ -892,7 +906,9 @@ export default class Button {
   }
 
   help (e) {
-    if (!(Whitelist_group.includes(e.group_id))) { return false }
+    if (Config.enableButton) {
+      if (!(Config.buttonWhiteGroups.includes(e.group_id))) { return false }
+    }
     return [
       {
         type: 'button',
