@@ -1,4 +1,4 @@
-import { Config } from '../utils/config.js'
+import { Config } from '../hanhan-plugin/utils/config.js'
 const Whitelist_group = Config.buttonWhiteGroups || []
 export default class Button {
   constructor () {
@@ -968,21 +968,6 @@ export default class Button {
           {
             id: '3',
             render_data: {
-              label: '管理类',
-              visited_label: '管理类'
-            },
-            action: {
-              type: 2,
-              permission: {
-                type: 2
-              },
-              data: '/管理类菜单',
-              at_bot_show_channel_list: false
-            }
-          },
-          {
-            id: '3',
-            render_data: {
               label: '语音类',
               visited_label: '语音类'
             },
@@ -992,6 +977,21 @@ export default class Button {
                 type: 2
               },
               data: '/语音类菜单',
+              at_bot_show_channel_list: false
+            }
+          },
+          {
+            id: '3',
+            render_data: {
+              label: '管理类',
+              visited_label: '管理类'
+            },
+            action: {
+              type: 2,
+              permission: {
+                type: 2
+              },
+              data: '/管理类菜单',
               at_bot_show_channel_list: false
             }
           }
