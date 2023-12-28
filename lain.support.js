@@ -52,7 +52,7 @@ export default class Button {
   }
 
   girl (e) {
-    if (Config.enableButton) {
+    if (Config.enableButton || false) {
       if (!(Config.buttonWhiteGroups.includes(e.group_id))) { return false }
     }
     return [
@@ -204,7 +204,7 @@ export default class Button {
   }
 
   photo (e) {
-    if (Config.enableButton) {
+    if (Config.enableButton || false) {
       if (!(Config.buttonWhiteGroups.includes(e.group_id))) { return false }
     }
     return [
@@ -343,7 +343,7 @@ export default class Button {
   }
 
   text (e) {
-    if (Config.enableButton) {
+    if (Config.enableButton || false) {
       if (!(Config.buttonWhiteGroups.includes(e.group_id))) { return false }
     }
     return [
@@ -489,7 +489,7 @@ export default class Button {
   }
 
   video (e) {
-    if (Config.enableButton) {
+    if (Config.enableButton || false) {
       if (!(Config.buttonWhiteGroups.includes(e.group_id))) { return false }
     }
     return [
@@ -687,7 +687,7 @@ export default class Button {
   }
 
   voice (e) {
-    if (Config.enableButton) {
+    if (Config.enableButton || false) {
       if (!(Config.buttonWhiteGroups.includes(e.group_id))) { return false }
     }
     return [
@@ -750,7 +750,7 @@ export default class Button {
   }
 
   manage (e) {
-    if (Config.enableButton) {
+    if (Config.enableButton || false) {
       if (!(Config.buttonWhiteGroups.includes(e.group_id))) { return false }
     }
     return [
@@ -828,7 +828,7 @@ export default class Button {
   }
 
   number (e) {
-    if (Config.enableButton) {
+    if (Config.enableButton || false) {
       if (!(Config.buttonWhiteGroups.includes(e.group_id))) { return false }
     }
     return [
@@ -906,7 +906,7 @@ export default class Button {
   }
 
   help (e) {
-    if (Config.enableButton) {
+    if (Config.enableButton || false) {
       if (!(Config.buttonWhiteGroups.includes(e.group_id))) { return false }
     }
     return [
