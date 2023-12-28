@@ -102,14 +102,13 @@ export class text extends plugin {
     let url = `https://api.qqsuu.cn/api/dm-oilprice?prov=${encode}`
     let response = await axios.get(url) // 调用接口获取数据
     if (response.data.code == 200) {
-      sendmsg.push('=====查询省份：', response.data.data.prov, '=====\n')
-      sendmsg.push('0#柴油：', response.data.data.p0, '\n')
-      sendmsg.push('89#汽油：', response.data.data.p89, '\n')
-      sendmsg.push('92#汽油：', response.data.data.p92, '\n')
-      sendmsg.push('95#汽油：', response.data.data.p95, '\n')
-      sendmsg.push('98#汽油：', response.data.data.p98, '\n')
-      sendmsg.push(response.data.data.time, '\n')
-      sendmsg.push('======================')
+      sendmsg.push('查询省份：' + response.data.data.prov, '\n')
+      sendmsg.push('0#柴油：' + response.data.data.p0, '\n')
+      sendmsg.push('89#汽油：' + response.data.data.p89, '\n')
+      sendmsg.push('92#汽油：' + response.data.data.p92, '\n')
+      sendmsg.push('95#汽油：' + response.data.data.p95, '\n')
+      sendmsg.push('98#汽油：' + response.data.data.p98, '\n')
+      sendmsg.push(response.data.data.time)
       await this.reply(sendmsg)
     } else {
       await this.reply('查询失败,可能接口失效力~，请联系憨憨捏~')

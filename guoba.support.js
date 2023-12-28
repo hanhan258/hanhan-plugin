@@ -88,6 +88,12 @@ export function supportGuoba () {
           label: '每日英语分享群组',
           bottomHelpMessage: '填入后将向所填群每天早上自动分享每日英语,群号请使用 , 或 : 分隔开',
           component: 'Input'
+        },
+        {
+          field: 'buttonWhiteGroups',
+          label: '按钮白名单，仅适用于官方机器人，icqq忽略',
+          bottomHelpMessage: '填入后将向所填群发送按钮，群格式102051169-FEA73F9FD9E789DBA6ED2F2341CB43AF，群号请使用 , 或 : 分隔开',
+          component: 'Input'
         }
 
       ],

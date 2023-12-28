@@ -20,23 +20,59 @@ export class help extends plugin {
           fnc: 'so_help'
         },
         {
-          reg: '^#?视频菜单$',
+          reg: '^#?视频类菜单$',
           fnc: 'video'
         },
         {
-          reg: '^#?语音菜单$',
+          reg: '^#?美女类菜单$',
+          fnc: 'girl'
+        },
+        {
+          reg: '^#?语音类菜单$',
           fnc: 'voice'
+        },
+        {
+          reg: '^#?文本类菜单$',
+          fnc: 'text'
+        },
+        {
+          reg: '^#?图片类菜单$',
+          fnc: 'photo'
+        },
+        {
+          reg: '^#?管理类菜单$',
+          fnc: 'set'
+        },
+        {
+          reg: '^#(408|数字类菜单)$',
+          fnc: '408'
         }
       ]
     })
   }
 
-  async voice (e) {
-    e.reply('随机唱鸭\n随机坤坤\n随机网易云')
+  async girl (e) {
+    e.reply('hs\nbs\njk\nxz\nxjj\nwaifu\ngirl\nmt\n买家秀')
+  }
+
+  async photo (e) {
+    e.reply('mc酱\n小c酱\n兽猫酱\n随机AI\n每日英语\n随机柴郡\n一二布布\n可爱猫猫')
+  }
+
+  async text (e) {
+    e.reply('kfc\n污句子\n随机日记\n舔狗日记\n新春祝福\n网易云热评\n#发癫+昵称\n#油价+省份')
+  }
+
+  async set (e) {
+    e.reply('#憨憨设置按钮白名单\n#憨憨删除按钮白名单\n#憨憨更新\n#憨憨强制更新')
   }
 
   async video (e) {
-    e.reply('loli 甜妹 玉足\ncos系列 慢摇视频\n抖音变装 快手变装\n双倍快乐 随机裙子\n黑丝视频 白丝视频\n纯情女高 吊带系列')
+    e.reply('loli 甜妹 玉足\ncos系列 慢摇视频\n抖音变装 快手变装\n双倍快乐 随机裙子\n纯情女高 吊带系列')
+  }
+
+  async 408 (e) {
+    e.reply('50033\n75946\n36518\n5670')
   }
 
   async help (e) {

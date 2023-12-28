@@ -11,7 +11,8 @@ const defaultConfig = {
   sysgqjt: 1,
   gdkey: '',
   studyGroups: '',
-  version: '1.3.9'
+  buttonWhiteGroups: '',
+  version: '1.4.0'
 }
 const _path = process.cwd()
 let config = {}

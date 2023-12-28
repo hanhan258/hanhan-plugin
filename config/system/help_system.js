@@ -251,11 +251,14 @@ export const helpList = [
         title: '#憨憨设置pingtoken',
         desc: '设置ping要用的token'
       }, {
-        title: '#憨憨更新',
-        desc: '更新插件'
+        title: '#憨憨设置按钮白名单',
+        desc: '仅限于官方Bot'
       }, {
-        title: '#憨憨强制更新',
-        desc: '强制更新'
+        title: '#憨憨删除按钮白名单',
+        desc: '仅限于官方Bot'
+      }, {
+        title: '#憨憨(强制)更新',
+        desc: '更新插件'
       }
     ]
   }

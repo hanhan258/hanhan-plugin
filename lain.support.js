@@ -1,29 +1,47 @@
+import { Config } from '../utils/config.js'
+const Whitelist_group = Config.buttonWhiteGroups || []
 export default class Button {
-  constructor() {
+  constructor () {
     this.plugin = {
       name: '憨憨插件按钮',
       dsc: '憨憨插件按钮',
       priority: 100,
       rule: [
         {
-          reg: '^#?(黑丝|hs|白丝|bs|JK|jk|写真|xz|小姐姐|xjj|waifu|Girl|girl|买家秀|mt)$',
+          reg: '^#?(美女类菜单|黑丝|hs|白丝|bs|JK|jk|写真|xz|小姐姐|xjj|waifu|Girl|girl|买家秀|mt)$',
           fnc: 'girl'
         },
         {
-          reg: '^#?(mc酱|小c酱|兽猫酱|随机AI|每日英语|随机柴郡|一二布布|可爱猫猫)$',
+          reg: '^#?(图片类菜单|mc酱|小c酱|兽猫酱|随机AI|每日英语|随机柴郡|一二布布|可爱猫猫)$',
           fnc: 'photo'
         },
         {
-          reg: '^#?(随机日记|新春祝福|污句子|kfc|v50|舔狗日记|网易云热评|发癫|油价)$',
+          reg: '^#?(文本类菜单|随机日记|新春祝福|污句子|kfc|v50|舔狗日记|网易云热评)$',
           fnc: 'text'
         },
         {
-          reg: '^#?video$',
+          reg: '^#?发癫(.*)',
+          fnc: 'text'
+        },
+        {
+          reg: '^#?油价(.*)',
+          fnc: 'text'
+        },
+        {
+          reg: '^#?视频类菜单$',
           fnc: 'video'
         },
         {
-          reg: '^#?voice$',
+          reg: '^#?语音类菜单$',
           fnc: 'voice'
+        },
+        {
+          reg: '^#?管理类菜单$',
+          fnc: 'manage'
+        },
+        {
+          reg: '^#?(数字类菜单|408|50033|75946|36518|5670)$',
+          fnc: 'number'
         },
         {
           reg: '^#?(nav|憨憨帮助)$',
@@ -33,7 +51,8 @@ export default class Button {
     }
   }
 
-  girl(e) {
+  girl (e) {
+    if (!(Whitelist_group.includes(e.group_id))) { return false }
     return [
       {
         type: 'button',
@@ -182,7 +201,8 @@ export default class Button {
     ]
   }
 
-  photo(e) {
+  photo (e) {
+    if (!(Whitelist_group.includes(e.group_id))) { return false }
     return [
       {
         type: 'button',
@@ -297,7 +317,7 @@ export default class Button {
               data: '/随机AI',
               at_bot_show_channel_list: false
             }
-          }, 
+          },
           {
             id: '3',
             render_data: {
@@ -318,7 +338,8 @@ export default class Button {
     ]
   }
 
-  text(e) {
+  text (e) {
+    if (!(Whitelist_group.includes(e.group_id))) { return false }
     return [
       {
         type: 'button',
@@ -337,7 +358,7 @@ export default class Button {
               data: '/发癫',
               at_bot_show_channel_list: false
             }
-          },{
+          }, {
             id: '1',
             render_data: {
               label: '油价',
@@ -371,7 +392,7 @@ export default class Button {
               data: '/kfc',
               at_bot_show_channel_list: false
             }
-          }, 
+          },
           {
             id: '2',
             render_data: {
@@ -441,7 +462,7 @@ export default class Button {
               data: '/新春祝福',
               at_bot_show_channel_list: false
             }
-          },{
+          }, {
             id: '4',
             render_data: {
               label: '网易云热评',
@@ -461,8 +482,8 @@ export default class Button {
     ]
   }
 
-  video(e) {
-    
+  video (e) {
+    if (!(Whitelist_group.includes(e.group_id))) { return false }
     return [
       {
         type: 'button',
@@ -616,57 +637,12 @@ export default class Button {
               data: '/随机裙子',
               at_bot_show_channel_list: false
             }
-          },
-          {
-            id: '4',
-            render_data: {
-              label: '吊带系列',
-              visited_label: '吊带系列'
-            },
-            action: {
-              type: 2,
-              permission: {
-                type: 2
-              },
-              data: '/吊带系列',
-              at_bot_show_channel_list: false
-            }
           }
         ]
       },
       {
         type: 'button',
         buttons: [
-          {
-            id: '5',
-            render_data: {
-              label: '黑丝视频',
-              visited_label: '黑丝视频'
-            },
-            action: {
-              type: 2,
-              permission: {
-                type: 2
-              },
-              data: '/黑丝视频',
-              at_bot_show_channel_list: false
-            }
-          },
-          {
-            id: '5',
-            render_data: {
-              label: '白丝视频',
-              visited_label: '白丝视频'
-            },
-            action: {
-              type: 2,
-              permission: {
-                type: 2
-              },
-              data: '/白丝视频',
-              at_bot_show_channel_list: false
-            }
-          },
           {
             id: '5',
             render_data: {
@@ -681,13 +657,29 @@ export default class Button {
               data: '/纯情女高',
               at_bot_show_channel_list: false
             }
+          },
+          {
+            id: '5',
+            render_data: {
+              label: '吊带系列',
+              visited_label: '吊带系列'
+            },
+            action: {
+              type: 2,
+              permission: {
+                type: 2
+              },
+              data: '/吊带系列',
+              at_bot_show_channel_list: false
+            }
           }
         ]
       }
     ]
   }
 
-  voice(e) {
+  voice (e) {
+    if (!(Whitelist_group.includes(e.group_id))) { return false }
     return [
       {
         type: 'button',
@@ -747,7 +739,8 @@ export default class Button {
     ]
   }
 
-  help(e) {
+  manage (e) {
+    if (!(Whitelist_group.includes(e.group_id))) { return false }
     return [
       {
         type: 'button',
@@ -755,29 +748,181 @@ export default class Button {
           {
             id: '1',
             render_data: {
-              label: 'hs',
-              visited_label: 'hs'
+              label: '设置按钮白名单',
+              visited_label: '设置按钮白名单'
             },
             action: {
               type: 2,
               permission: {
                 type: 2
               },
-              data: '/hs',
+              data: '/憨憨设置按钮白名单',
+              at_bot_show_channel_list: false
+            }
+          },
+          {
+            id: '1',
+            render_data: {
+              label: '删除按钮白名单',
+              visited_label: '删除按钮白名单'
+            },
+            action: {
+              type: 2,
+              permission: {
+                type: 2
+              },
+              data: '/憨憨删除按钮白名单',
+              at_bot_show_channel_list: false
+            }
+          }
+        ]
+      },
+      {
+        type: 'button',
+        buttons: [
+          {
+            id: '2',
+            render_data: {
+              label: '憨憨更新',
+              visited_label: '憨憨更新'
+            },
+            action: {
+              type: 2,
+              permission: {
+                type: 2
+              },
+              data: '/憨憨更新',
+              at_bot_show_channel_list: false
+            }
+          },
+          {
+            id: '2',
+            render_data: {
+              label: '憨憨强制更新',
+              visited_label: '憨憨强制更新'
+            },
+            action: {
+              type: 2,
+              permission: {
+                type: 2
+              },
+              data: '/憨憨强制更新',
+              at_bot_show_channel_list: false
+            }
+          }
+        ]
+      }
+    ]
+  }
+
+  number (e) {
+    if (!(Whitelist_group.includes(e.group_id))) { return false }
+    return [
+      {
+        type: 'button',
+        buttons: [
+          {
+            id: '1',
+            render_data: {
+              label: '5670',
+              visited_label: '5670'
+            },
+            action: {
+              type: 2,
+              permission: {
+                type: 2
+              },
+              data: '/5670',
+              at_bot_show_channel_list: false
+            }
+          },
+          {
+            id: '1',
+            render_data: {
+              label: '50033',
+              visited_label: '50033'
+            },
+            action: {
+              type: 2,
+              permission: {
+                type: 2
+              },
+              data: '/50033',
+              at_bot_show_channel_list: false
+            }
+          }
+        ]
+      },
+      {
+        type: 'button',
+        buttons: [
+          {
+            id: '2',
+            render_data: {
+              label: '36518',
+              visited_label: '36518'
+            },
+            action: {
+              type: 2,
+              permission: {
+                type: 2
+              },
+              data: '/36518',
+              at_bot_show_channel_list: false
+            }
+          },
+          {
+            id: '2',
+            render_data: {
+              label: '75946',
+              visited_label: '75946'
+            },
+            action: {
+              type: 2,
+              permission: {
+                type: 2
+              },
+              data: '/75946',
+              at_bot_show_channel_list: false
+            }
+          }
+        ]
+      }
+    ]
+  }
+
+  help (e) {
+    if (!(Whitelist_group.includes(e.group_id))) { return false }
+    return [
+      {
+        type: 'button',
+        buttons: [
+          {
+            id: '1',
+            render_data: {
+              label: '文本类',
+              visited_label: '文本类'
+            },
+            action: {
+              type: 2,
+              permission: {
+                type: 2
+              },
+              data: '/文本类菜单',
               at_bot_show_channel_list: false
             }
           }, {
             id: '1',
             render_data: {
-              label: 'bs',
-              visited_label: 'bs'
+              label: '图片类',
+              visited_label: '图片类'
             },
             action: {
               type: 2,
               permission: {
                 type: 2
               },
-              data: '/bs',
+              data: '/图片类菜单',
               at_bot_show_channel_list: false
             }
           }
@@ -789,29 +934,29 @@ export default class Button {
           {
             id: '2',
             render_data: {
-              label: 'kfc',
-              visited_label: 'kfc'
+              label: '美女类',
+              visited_label: '美女类'
             },
             action: {
               type: 2,
               permission: {
                 type: 2
               },
-              data: '/kfc',
+              data: '/美女类菜单',
               at_bot_show_channel_list: false
             }
           }, {
             id: '2',
             render_data: {
-              label: '舔狗日记',
-              visited_label: '舔狗日记'
+              label: '视频类',
+              visited_label: '视频类'
             },
             action: {
               type: 2,
               permission: {
                 type: 2
               },
-              data: '/舔狗日记',
+              data: '/视频类菜单',
               at_bot_show_channel_list: false
             }
           }
@@ -823,29 +968,30 @@ export default class Button {
           {
             id: '3',
             render_data: {
-              label: '随机柴郡',
-              visited_label: '随机柴郡'
+              label: '管理类',
+              visited_label: '管理类'
             },
             action: {
               type: 2,
               permission: {
                 type: 2
               },
-              data: '/随机柴郡',
+              data: '/管理类菜单',
               at_bot_show_channel_list: false
             }
-          }, {
+          },
+          {
             id: '3',
             render_data: {
-              label: '一二布布',
-              visited_label: '一二布布'
+              label: '语音类',
+              visited_label: '语音类'
             },
             action: {
               type: 2,
               permission: {
                 type: 2
               },
-              data: '/一二布布',
+              data: '/语音类菜单',
               at_bot_show_channel_list: false
             }
           }
@@ -855,41 +1001,7 @@ export default class Button {
         type: 'button',
         buttons: [
           {
-            id: '4',
-            render_data: {
-              label: '视频菜单',
-              visited_label: '视频菜单'
-            },
-            action: {
-              type: 2,
-              permission: {
-                type: 2
-              },
-              data: '/video',
-              at_bot_show_channel_list: false
-            }
-          }, {
-            id: '4',
-            render_data: {
-              label: '语音菜单',
-              visited_label: '语音菜单'
-            },
-            action: {
-              type: 2,
-              permission: {
-                type: 2
-              },
-              data: '/voice',
-              at_bot_show_channel_list: false
-            }
-          }
-        ]
-      },
-      {
-        type: 'button',
-        buttons: [
-          {
-            id: '5',
+            id: '3',
             render_data: {
               label: '憨憨帮助',
               visited_label: '憨憨帮助'

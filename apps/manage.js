@@ -1,5 +1,7 @@
 import plugin from '../../../lib/plugins/plugin.js'
 import { Config } from '../utils/config.js'
+const Whitelist_group = Config.buttonWhiteGroups || []
+console.log(Whitelist_group)
 
 export class manage extends plugin {
   constructor () {
@@ -16,6 +18,14 @@ export class manage extends plugin {
         {
           reg: '^#憨憨设置(tmdb|TMDB) key$',
           fnc: 'settmdbkey'
+        },
+        {
+          reg: '^#憨憨设置按钮白名单$',
+          fnc: 'setwhitegroup'
+        },
+        {
+          reg: '^#憨憨删除按钮白名单$',
+          fnc: 'delwhitegroup'
         }
       ]
     })
@@ -47,6 +57,7 @@ export class manage extends plugin {
     this.finish('savePingToken')
   }
 
+  // 设置tmdkey
   async settmdbkey (e) {
     if (!this.e.isMaster) {
       e.reply('需要主人才能设置捏~')
@@ -57,7 +68,7 @@ export class manage extends plugin {
     return false
   }
 
-  async saveTmdbKey (e) {
+  async saveTmdbKey () {
     if (!this.e.msg) return
     let key = this.e.msg
     console.log(key)
@@ -70,5 +81,73 @@ export class manage extends plugin {
     Config.tmdbkey = key
     await this.reply('tmdb key设置成功', true)
     this.finish('saveTmdbKey')
+  }
+
+  // 设置whitegroup
+  async setwhitegroup (e) {
+    if (!this.e.isMaster) {
+      e.reply('需要主人才能设置捏~')
+      return false
+    }
+    this.setContext('savewhitegroup')
+    await this.reply('请发送群号，格式：机器人Appid-xxxxxx', true)
+    return false
+  }
+
+  async savewhitegroup () {
+    if (!this.e.msg) return
+    let key = this.e.msg
+    console.log(key)
+    if (key.length != 42) {
+      await this.reply('群号不正确', true)
+      this.finish('savewhitegroup')
+      return
+    }
+    if (Whitelist_group.includes(key)) {
+      await this.reply('群号已存在', true)
+      this.finish('savewhitegroup')
+      return
+    }
+    Whitelist_group.push(key)
+    console.log(Whitelist_group)
+    Config.buttonWhiteGroups = Whitelist_group
+    await this.reply('按钮白名单群设置成功', true)
+    this.finish('savewhitegroup')
+  }
+
+  // 设置whitegroup
+  async delwhitegroup (e) {
+    if (!this.e.isMaster) {
+      e.reply('需要主人才能删除捏~')
+      return false
+    }
+    this.setContext('savedelwhitegroup')
+    await this.reply('请发送要删除的群号，格式：机器人Appid-xxxxxx', true)
+    return false
+  }
+
+  async savedelwhitegroup () {
+    if (!this.e.msg) return
+    let key = this.e.msg
+    console.log(key)
+    if (key.length != 42) {
+      await this.reply('群号不正确', true)
+      this.finish('savedelwhitegroup')
+      return
+    }
+    if (!Whitelist_group.includes(key)) {
+      await this.reply('群号不存在', true)
+      this.finish('savedelwhitegroup')
+      return
+    }
+    const index = Whitelist_group.indexOf(key)
+
+    if (index > -1) {
+      Whitelist_group.splice(index, 1)
+    }
+    console.log(Whitelist_group)
+    Config.buttonWhiteGroups = Whitelist_group
+    await this.reply('按钮白名单群设置成功', true)
+    this.finish('savedelwhitegroup')
   }
 }
