@@ -51,16 +51,20 @@ export class help extends plugin {
     })
   }
 
+  async voice (e) {
+    e.reply('随机唱鸭\n随机坤坤\n随机网易云')
+  }
+
   async girl (e) {
-    e.reply('hs\nbs\njk\nxz\nxjj\nwaifu\ngirl\nmt\n买家秀')
+    e.reply('hs bs jk xz mt\nxjj waifu girl 买家秀')
   }
 
   async photo (e) {
-    e.reply('mc酱\n小c酱\n兽猫酱\n随机AI\n每日英语\n随机柴郡\n一二布布\n可爱猫猫')
+    e.reply('mc酱 小c酱\n兽猫酱 随机AI\n每日英语 随机柴郡\n一二布布 可爱猫猫')
   }
 
   async text (e) {
-    e.reply('kfc\n污句子\n随机日记\n舔狗日记\n新春祝福\n网易云热评\n#发癫+昵称\n#油价+省份')
+    e.reply('kfc 污句子\n随机日记 舔狗日记\n新春祝福 网易云热评\n发癫+昵称 油价+省份')
   }
 
   async set (e) {
@@ -72,7 +76,7 @@ export class help extends plugin {
   }
 
   async 408 (e) {
-    e.reply('50033\n75946\n36518\n5670')
+    e.reply('5670 36518\n50033 75946')
   }
 
   async help (e) {
