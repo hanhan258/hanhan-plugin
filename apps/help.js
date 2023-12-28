@@ -20,11 +20,11 @@ export class help extends plugin {
           fnc: 'so_help'
         },
         {
-          reg: '^#?video$',
+          reg: '^#?视频菜单$',
           fnc: 'video'
         },
         {
-          reg: '^#?voice$',
+          reg: '^#?语音菜单$',
           fnc: 'voice'
         }
       ]
@@ -32,11 +32,11 @@ export class help extends plugin {
   }
 
   async voice (e) {
-    e.reply('随机唱鸭\n随机坤坤\n随机网易云') 
+    e.reply('随机唱鸭\n随机坤坤\n随机网易云')
   }
 
   async video (e) {
-    e.reply('loli 甜妹 玉足\ncos系列 慢摇视频\n抖音变装 快手变装\n双倍快乐 随机裙子\n黑丝视频 白丝视频\n纯情女高 吊带系列') 
+    e.reply('loli 甜妹 玉足\ncos系列 慢摇视频\n抖音变装 快手变装\n双倍快乐 随机裙子\n黑丝视频 白丝视频\n纯情女高 吊带系列')
   }
 
   async help (e) {

@@ -53,13 +53,13 @@ export const helpList = [
         title: '访问+链接',
         desc: '只支持返回类型为json或text的接口网址'
       }, {
-        title: '#图片+链接',
+        title: '#发图片+链接',
         desc: '只支持返回类型为图片的接口网址'
       }, {
-        title: '#视频+链接',
+        title: '#发视频+链接',
         desc: '只支持返回类型为视频的接口网址'
       }, {
-        title: '#语音+链接',
+        title: '#发语音+链接',
         desc: '只支持返回类型为语音的接口网址'
       }, {
         title: '图链+图片',

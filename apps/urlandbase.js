@@ -32,7 +32,7 @@ export class urlAndBase extends plugin {
           fnc: 'fw'
         },
         {
-          reg: '^#图片',
+          reg: '^#发图片',
           fnc: 'tp'
         },
         {
@@ -40,11 +40,11 @@ export class urlAndBase extends plugin {
           fnc: 'tl'
         },
         {
-          reg: '^#视频',
+          reg: '^#发视频',
           fnc: 'sp'
         },
         {
-          reg: '^#语音',
+          reg: '^#发语音',
           fnc: 'yy'
         }
       ]
@@ -53,7 +53,7 @@ export class urlAndBase extends plugin {
 
   // 访问语音接口
   async yy (e) {
-    let url = e.msg.replace(/^#语音/, '').trim()
+    let url = e.msg.replace(/^#发语音/, '').trim()
     if (!url) return e.reply('你的语音接口呢，你想无中生有？', true)
     if (url.startsWith('http')) {
       e.reply(segment.record(url))
@@ -62,7 +62,7 @@ export class urlAndBase extends plugin {
 
   // 访问视频接口
   async sp (e) {
-    let url = e.msg.replace(/^#视频/, '').trim()
+    let url = e.msg.replace(/^#发视频/, '').trim()
     if (!url) return e.reply('你的视频接口呢，你想无中生有？', true)
     if (url.startsWith('http')) {
       e.reply(segment.video(url))
@@ -104,7 +104,7 @@ export class urlAndBase extends plugin {
 
   // 访问图片接口
   async tp (e) {
-    let url = e.msg.replace(/^#图片/, '').trim()
+    let url = e.msg.replace(/^#发图片/, '').trim()
     if (!url) return e.reply('你的图片接口呢，你想无中生有？', true)
     if (url.startsWith('http')) {
       e.reply(segment.image(url))

@@ -89,6 +89,7 @@ export class text extends plugin {
   async yjcx (e) {
     let sendmsg = []
     let encode = e.msg.replace(/^#?油价/, '').trim()
+    if (!encode) return this.reply('你没有输入要查询的省份')
     let shengfen = ['北京', '上海', '江苏', '天津', '重庆', '江西', '辽宁', '安徽', '内蒙古', '福建',
       '宁夏', '甘肃', '青海', '广东', '山东', '广西', '山西', '贵州', '陕西', '海南', '四川', '河北',
       '西藏', '河南', '新疆', '黑龙江', '吉林', '云南', '湖北', '浙江', '湖南']
