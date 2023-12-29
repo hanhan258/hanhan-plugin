@@ -24,7 +24,11 @@ export class voice extends plugin {
         {
           reg: '^#?骂我$',
           fnc: 'maren'
-        }
+        },
+        {
+          reg: '^#?随机绿茶$',
+          fnc: 'lvcha'
+        },
       ]
     })
   }
@@ -65,6 +69,13 @@ export class voice extends plugin {
   async maren () {
     // 发送消息
     await this.reply(segment.record('http://api.yujn.cn/api/maren.php?'))
+    return true // 返回true 阻挡消息不再往下
+  }
+
+  // 绿茶语音包
+  async lvcha () {
+    // 发送消息
+    await this.reply(segment.record('https://api.yujn.cn/api/lvcha.php?'))
     return true // 返回true 阻挡消息不再往下
   }
 }

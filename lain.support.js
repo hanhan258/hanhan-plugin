@@ -176,10 +176,12 @@ export default class Button {
     }
     list = [
       { label: '随机唱鸭', data: '/随机唱鸭' },
-      { label: '随机坤坤', data: '/随机坤坤' },
-
       { label: '随机网易云', data: '/随机网易云' },
-      { label: '随机语音骂人', data: '/骂我' }
+
+      { label: '绿茶语音包', data: '/随机绿茶' },
+      { label: '随机骂人', data: '/骂我' },
+
+      { label: '随机坤坤', data: '/随机坤坤' },
     ]
     return toButton(list, 2)
   }

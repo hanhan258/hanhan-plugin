@@ -52,7 +52,7 @@ export class help extends plugin {
   }
 
   async voice (e) {
-    e.reply('随机唱鸭 随机坤坤 随机网易云 随机语音骂人')
+    e.reply('随机唱鸭 随机坤坤 随机网易云 随机语音骂人 绿茶语音包')
   }
 
   async girl (e) {
