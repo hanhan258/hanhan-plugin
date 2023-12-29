@@ -19,7 +19,7 @@ export class voice extends plugin {
           fnc: 'sjqz'
         },
         {
-          reg: '^#?甜妹$',
+          reg: '^#?甜妹(视频)$',
           fnc: 'tm'
         },
         {
