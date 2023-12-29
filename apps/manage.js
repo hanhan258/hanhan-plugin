@@ -156,6 +156,10 @@ export class manage extends plugin {
 
   // 开启关闭按钮白名单
   async enableWhiteGroup (e) {
+    if (!this.e.isMaster) {
+      e.reply('需要主人才能设置捏~')
+      return false
+    }
     const reg = /(关闭|开启)/
     const match = e.msg.match(reg)
     if (match) {
