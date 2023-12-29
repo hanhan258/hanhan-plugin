@@ -55,6 +55,7 @@ export class voice extends plugin {
   async sjcy (e) {
     // 发送消息
     await this.reply(segment.record('http://api.yujn.cn/api/changya.php?type=mp3'))
+    await is_MD(e)
     return true // 返回true 阻挡消息不再往下
   }
 
@@ -62,20 +63,27 @@ export class voice extends plugin {
   async sjkk (e) {
     // 发送消息
     await this.reply(segment.record('http://api.yujn.cn/api/sjkunkun.php?'))
+    await is_MD(e)
     return true // 返回true 阻挡消息不再往下
   }
 
   // 随机语音骂人
-  async maren () {
+  async maren (e) {
     // 发送消息
     await this.reply(segment.record('http://api.yujn.cn/api/maren.php?'))
+    await is_MD(e)
     return true // 返回true 阻挡消息不再往下
   }
 
   // 绿茶语音包
-  async lvcha () {
-    // 发送消息
+  async lvcha (e) {
     await this.reply(segment.record('https://api.yujn.cn/api/lvcha.php?'))
+    await is_MD(e)
     return true // 返回true 阻挡消息不再往下
   }
+}
+
+async function is_MD(e){
+  if (e.bot.config?.markdown)
+    await e.reply('语音类菜单')
 }
