@@ -55,14 +55,17 @@ export class RussiaRoundPlatePlugin extends plugin {
       await this.start(e)
       leftBullets = await redis.get(`HANHAN:ELS:${groupId}`)
     }
-    let username = e.sender.card || e.sender.nickname
+    let username = e.sender.card || e.sender.nickname || e.user_id
     leftBullets = parseInt(leftBullets)
     if (leftBullets <= 1 || Math.random() < 1 / leftBullets) {
       let group = e.group || (await e.bot.pickGroup(groupId))
       let max = 300
       let min = 60
       let time = Math.floor(Math.random() * (max - min + 1)) + min
-      await group.muteMember(e.sender.user_id, time)
+      try {
+        await group.muteMember(e.sender.user_id, time)
+      }catch (error) {
+      }
       await e.reply(`【${username}】开了一枪，枪响了。\n恭喜【${username}】被禁言${time}秒\n本轮游戏结束。请使用#开盘 开启新一轮游戏`)
       await redis.del(`HANHAN:ELS:${groupId}`)
     } else {
