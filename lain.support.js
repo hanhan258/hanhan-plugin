@@ -31,7 +31,7 @@ export default class Button {
           fnc: 'text'
         },
         {
-          reg: '^#?(视频类菜单|(抖音|快手)变装|随机裙子|甜妹|随机小姐姐|sjxjj|双倍快乐|萝莉|loli|玉足|(黑|白)丝视频|慢摇视频|cos系列|纯情女高|吊带系列)$',
+          reg: '^#?(视频类菜单|(抖音|快手)变装|随机裙子|甜妹(视频)|随机小姐姐|sjxjj|双倍快乐|萝莉|loli|玉足|(黑|白)丝视频|慢摇视频|cos系列|纯情女高|吊带系列)$',
           fnc: 'video'
         },
         {
@@ -153,7 +153,7 @@ export default class Button {
     }
     list = [
       { label: 'loli', data: '/loli' },
-      { label: '甜妹', data: '/甜妹' },
+      { label: '甜妹', data: '/甜妹视频' },
       { label: '玉足', data: '/玉足' },
 
       { label: 'cos系列', data: '/cos系列' },
