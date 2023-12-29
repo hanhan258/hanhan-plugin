@@ -77,6 +77,7 @@ export class voice extends plugin {
     let resp = await fetch(urls)
     console.log(resp.url)
     await e.reply(segment.video(resp.url))
+    await is_MD(e)
   }
 
   // 随机裙子
@@ -85,6 +86,7 @@ export class voice extends plugin {
     let resp = await fetch(urls)
     console.log(resp.url)
     await e.reply(segment.video(resp.url))
+    await is_MD(e)
   }
 
   // 甜妹
@@ -93,6 +95,7 @@ export class voice extends plugin {
     let resp = await fetch(urls)
     console.log(resp.url)
     await e.reply(segment.video(resp.url))
+    await is_MD(e)
   }
 
   // 随机小姐姐
@@ -102,6 +105,7 @@ export class voice extends plugin {
     let resp = await fetch(urls)
     console.log(resp.url)
     await e.reply(segment.video(resp.url))
+    await is_MD(e)
   }
 
   // 双倍快乐
@@ -110,6 +114,7 @@ export class voice extends plugin {
     let resp = await fetch(urls)
     console.log(resp.url)
     await e.reply(segment.video(resp.url))
+    await is_MD(e)
   }
 
   // 萝莉
@@ -118,6 +123,7 @@ export class voice extends plugin {
     let resp = await fetch(urls)
     console.log(resp.url)
     await e.reply(segment.video(resp.url))
+    await is_MD(e)
   }
 
   // 玉足
@@ -126,6 +132,7 @@ export class voice extends plugin {
     let resp = await fetch(urls)
     console.log(resp.url)
     await e.reply(segment.video(resp.url))
+    await is_MD(e)
   }
 
   // 黑白丝
@@ -137,6 +144,7 @@ export class voice extends plugin {
       urls = ' http://api.yujn.cn/api/baisis.php'
     }
     await e.reply(segment.video(urls))
+    await is_MD(e)
   }
 
   // // 原神Cos
@@ -153,6 +161,7 @@ export class voice extends plugin {
     let resp = await fetch(urls)
     console.log(resp.url)
     await e.reply(segment.video(resp.url))
+    await is_MD(e)
   }
 
   // Cos系列
@@ -161,6 +170,7 @@ export class voice extends plugin {
     let resp = await fetch(urls)
     console.log(resp.url)
     await e.reply(segment.video(resp.url))
+    await is_MD(e)
   }
 
   // 纯情女高
@@ -169,6 +179,7 @@ export class voice extends plugin {
     let resp = await fetch(urls)
     console.log(resp.url)
     await e.reply(segment.video(resp.url))
+    await is_MD(e)
   }
 
   // 吊带系列
@@ -177,5 +188,11 @@ export class voice extends plugin {
     let resp = await fetch(urls)
     console.log(resp.url)
     await e.reply(segment.video(resp.url))
+    await is_MD(e)
   }
+}
+
+async function is_MD(e){
+  if (e.bot.config?.markdown)
+    await e.reply('视频类菜单')
 }
