@@ -68,8 +68,8 @@ export default class Button {
       { label: 'xjj', data: '/xjj' },
 
       { label: 'girl', data: '/girl' },
-      { label: 'waifu', data: '/waifu' },
-      { label: '买家秀', data: '/买家秀' }
+      { label: '买家秀', data: '/买家秀' },
+      { label: 'waifu', data: '/waifu' }
     ]
     return toButton(list, 3)
   }
