@@ -20,6 +20,10 @@ export class voice extends plugin {
         {
           reg: '^#?随机网易云$',
           fnc: 'sjwyy'
+        },
+        {
+          reg: '^#?骂我$',
+          fnc: 'maren'
         }
       ]
     })
@@ -54,6 +58,13 @@ export class voice extends plugin {
   async sjkk (e) {
     // 发送消息
     await this.reply(segment.record('http://api.yujn.cn/api/sjkunkun.php?'))
+    return true // 返回true 阻挡消息不再往下
+  }
+
+  // 随机语音骂人
+  async maren () {
+    // 发送消息
+    await this.reply(segment.record('http://api.yujn.cn/api/maren.php?'))
     return true // 返回true 阻挡消息不再往下
   }
 }

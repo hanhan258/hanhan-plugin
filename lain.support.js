@@ -178,7 +178,8 @@ export default class Button {
       { label: '随机唱鸭', data: '/随机唱鸭' },
       { label: '随机坤坤', data: '/随机坤坤' },
 
-      { label: '随机网易云', data: '/随机网易云' }
+      { label: '随机网易云', data: '/随机网易云' },
+      { label: '随机语音骂人', data: '/骂我' }
     ]
     return toButton(list, 2)
   }
