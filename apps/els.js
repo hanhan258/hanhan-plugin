@@ -64,9 +64,10 @@ export class RussiaRoundPlatePlugin extends plugin {
       let time = Math.floor(Math.random() * (max - min + 1)) + min
       try {
         await group.muteMember(e.sender.user_id, time)
+        await e.reply(`【${username}】开了一枪，枪响了。\n恭喜【${username}】被禁言${time}秒\n本轮游戏结束。请使用#开盘 开启新一轮游戏`)
       }catch (error) {
+        await e.reply(`【${username}】开了一枪，枪响了。\n未获得管理员权限，跳过禁言环节。\n本轮游戏结束。请使用#开盘 开启新一轮游戏`)
       }
-      await e.reply(`【${username}】开了一枪，枪响了。\n恭喜【${username}】被禁言${time}秒\n本轮游戏结束。请使用#开盘 开启新一轮游戏`)
       await redis.del(`HANHAN:ELS:${groupId}`)
     } else {
       leftBullets--
