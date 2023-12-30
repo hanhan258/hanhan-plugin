@@ -138,7 +138,7 @@ export class girl extends plugin {
   // JK
   async jk (e) {
     // 发送消息
-    await this.reply(segment.image('http://api.yujn.cn/api/jk.php??'))
+    await this.reply(segment.image('https://api.hanhan.icu?jk'))
     return true // 返回true 阻挡消息不再往下
   }
 
@@ -146,7 +146,7 @@ export class girl extends plugin {
   async hs (e) {
     // 发送消息
     // http://api.tombk.cn/API/hs/hs.php
-    await this.reply(segment.image('http://api.yujn.cn/api/heisi.php?'))
+    await this.reply(segment.image('https://api.hanhan.icu?heisi'))
     return true // 返回true 阻挡消息不再往下
   }
 
@@ -154,7 +154,7 @@ export class girl extends plugin {
   async bs (e) {
     // 发送消息
     // http://api.tombk.cn/API/bs/bs.php
-    await this.reply(segment.image('http://api.yujn.cn/api/baisi.php?'))
+    await this.reply(segment.image('https://api.hanhan.icu?baisi'))
     return true // 返回true 阻挡消息不再往下
   }
 
