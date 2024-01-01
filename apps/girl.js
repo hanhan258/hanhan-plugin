@@ -22,10 +22,6 @@ export class girl extends plugin {
           fnc: 'bs'
         },
         {
-          reg: '^(#|/)?(写真|xz)$',
-          fnc: 'xz'
-        },
-        {
           reg: '^(#|/)?(小姐姐|xjj)$',
           fnc: 'xjj'
         },
@@ -34,12 +30,20 @@ export class girl extends plugin {
           fnc: 'waifu'
         },
         {
-          reg: '^(#|/)?(Girl|girl)$',
-          fnc: 'girl'
-        },
-        {
           reg: '^(#|/)?买家秀$',
           fnc: 'buyerShow'
+        },
+        {
+          reg: '^(#|/)?(诱惑图|yht)$',
+          fnc: 'yht'
+        },
+        {
+          reg: '^(#|/)?mt$',
+          fnc: 'mt'
+        },
+        {
+          reg: '^(#|/)?随机(ai|AI)$',
+          fnc: 'sjai'
         },
         {
           reg: '^(#|/)?微博美女$',
@@ -73,17 +77,30 @@ export class girl extends plugin {
     return this.reply(await recallSendForwardMsg(e, forwardMsgs, false, dec))
   }
 
-  // 买家秀
-  async buyerShow (e) {
+  // 随机ai
+  async sjai (e) {
     // 发送消息
-    await this.reply(segment.image('https://api.dzzui.com/api/imgtaobao'))
+    await this.reply(segment.image('http://hanhan.avocado.wiki?ai'))
     return true // 返回true 阻挡消息不再往下
   }
 
-  // girl
-  async girl (e) {
+  // 美腿
+  async mt (e) {
+    await this.reply(segment.image('http://hanhan.avocado.wiki?meitui'))
+    return true // 返回true 阻挡消息不再往下
+  }
+
+  // 诱惑图
+  async yht (e) {
     // 发送消息
-    await this.reply(segment.image('http://api.yujn.cn/api/sjvs.php?'))
+    await this.reply(segment.image('http://hanhan.avocado.wiki?youhuotu'))
+    return true // 返回true 阻挡消息不再往下
+  }
+
+  // 买家秀
+  async buyerShow (e) {
+    // 发送消息
+    await this.reply(segment.image('http://hanhan.avocado.wiki?taobao'))
     return true // 返回true 阻挡消息不再往下
   }
 
@@ -131,14 +148,14 @@ export class girl extends plugin {
   // 小姐姐
   async xjj (e) {
     // 发送消息
-    await this.reply(segment.image('http://api.yujn.cn/api/yangyan.php?'))
+    await this.reply(segment.image('http://hanhan.avocado.wiki?xiaojiejie'))
     return true // 返回true 阻挡消息不再往下
   }
 
   // JK
   async jk (e) {
     // 发送消息
-    await this.reply(segment.image('https://api.hanhan.icu?jk'))
+    await this.reply(segment.image('http://hanhan.avocado.wiki?jk'))
     return true // 返回true 阻挡消息不再往下
   }
 
@@ -146,7 +163,7 @@ export class girl extends plugin {
   async hs (e) {
     // 发送消息
     // http://api.tombk.cn/API/hs/hs.php
-    await this.reply(segment.image('https://api.hanhan.icu?heisi'))
+    await this.reply(segment.image('http://hanhan.avocado.wiki?heisi'))
     return true // 返回true 阻挡消息不再往下
   }
 
@@ -154,14 +171,7 @@ export class girl extends plugin {
   async bs (e) {
     // 发送消息
     // http://api.tombk.cn/API/bs/bs.php
-    await this.reply(segment.image('https://api.hanhan.icu?baisi'))
-    return true // 返回true 阻挡消息不再往下
-  }
-
-  // 写真
-  async xz (e) {
-    // 发送消息
-    await this.reply(segment.image('http://api.yujn.cn/api/xiezhen.php?type=image'))
+    await this.reply(segment.image('http://hanhan.avocado.wiki?baisi'))
     return true // 返回true 阻挡消息不再往下
   }
 }

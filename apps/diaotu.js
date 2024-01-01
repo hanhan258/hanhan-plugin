@@ -31,33 +31,9 @@ export class diaotu extends plugin {
         {
           reg: '^#?原神(，|,)启动(！|!)$',
           fnc: 'ysqd'
-        },
-        {
-          reg: '^#?(坤坤|小黑子|鸡|cxk|鸡脚|鸽鸽|哥哥)$',
-          fnc: 'cxk'
-        },
-        {
-          reg: '^(#|/)?随机表情$',
-          fnc: 'sjbq'
         }
       ]
     })
-  }
-
-  // 随机表情
-  async sjbq (e) {
-    // 发送消息
-    let resp = await fetch('http://api.yujn.cn/api/emo.php')
-    let result = await resp.text()
-    await this.reply(segment.image(result))
-    return true // 返回true 阻挡消息不再往下
-  }
-
-  // 随机坤坤
-  async cxk (e) {
-    // 发送消息
-    await this.reply(segment.image('http://api.yujn.cn/api/cxk.php'))
-    return true // 返回true 阻挡消息不再往下
   }
 
   async qydiaotu (e) {

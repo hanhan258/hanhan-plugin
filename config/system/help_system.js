@@ -37,33 +37,6 @@ export const helpList = [
       }, {
         title: '透+@某人',
         desc: '我和你拼了'
-      }, {
-        title: '随机(.*)吧',
-        desc: '例如：随机孙笑川吧。贴吧里有的都支持'
-      }, {
-        title: '沙雕新闻',
-        desc: '某地一小偷坚信早晚会出事，于是总在中午作案'
-      }, {
-        title: '英雄联盟台词',
-        desc: '虎扑英雄联盟台词'
-      }, {
-        title: '#发送json+内容',
-        desc: '例如：#发送json......'
-      }, {
-        title: '访问+链接',
-        desc: '只支持返回类型为json或text的接口网址'
-      }, {
-        title: '#发图片+链接',
-        desc: '只支持返回类型为图片的接口网址'
-      }, {
-        title: '#发视频+链接',
-        desc: '只支持返回类型为视频的接口网址'
-      }, {
-        title: '#发语音+链接',
-        desc: '只支持返回类型为语音的接口网址'
-      }, {
-        title: '图链+图片',
-        desc: '返回图片的直链（可发送多个图片）'
       }
     ]
   }, {
@@ -99,26 +72,8 @@ export const helpList = [
     group: '照片',
     list: [
       {
-        title: 'mc酱',
-        desc: '随机返回mc酱'
-      }, {
-        title: '小c酱',
-        desc: '随机返回小c酱'
-      }, {
-        title: '兽猫酱',
-        desc: '随机返回兽猫酱'
-      }, {
-        title: '随机柴郡',
-        desc: '可爱柴郡（超了）'
-      }, {
-        title: '一二布布',
-        desc: '一二布布表情包'
-      }, {
-        title: '猫猫',
-        desc: '可爱猫猫'
-      }, {
-        title: '随机表情',
-        desc: '随机表情包'
+        title: '萌宠',
+        desc: '可爱萌宠'
       }, {
         title: '随机东方',
         desc: '随机东方图片'
@@ -128,6 +83,68 @@ export const helpList = [
       }, {
         title: '每日英语',
         desc: '学习时间到'
+      }, {
+        title: '随机acg',
+        desc: '随机acg'
+      }, {
+        title: '随机(.*)吧',
+        desc: '例如：随机孙笑川吧。贴吧里有的都支持'
+      }, {
+        title: '沙雕新闻',
+        desc: '某地一小偷坚信早晚会出事，于是总在中午作案'
+      }, {
+        title: '英雄联盟台词',
+        desc: '虎扑英雄联盟台词'
+      }
+    ]
+  }, {
+    group: '表情包',
+    list: [
+      {
+        title: 'fox',
+        desc: '狐狐'
+      }, {
+        title: 'mc酱',
+        desc: 'mc酱'
+      }, {
+        title: '龙图',
+        desc: '随机龙图'
+      }, {
+        title: 'a梦',
+        desc: '哆啦A梦'
+      }, {
+        title: '咖波',
+        desc: '可爱咖波捏'
+      }, {
+        title: '猫羽雫',
+        desc: '猫羽雫表情包'
+      }, {
+        title: '蘑菇头',
+        desc: '蘑菇头表情包'
+      }, {
+        title: '熊猫头',
+        desc: '熊猫头表情包'
+      }, {
+        title: '派大星',
+        desc: '派大星表情包'
+      }, {
+        title: '小黄鸡',
+        desc: '小黄鸡表情包'
+      }, {
+        title: '小灰灰',
+        desc: '小灰灰'
+      }, {
+        title: '兽猫酱',
+        desc: '兽猫酱'
+      }, {
+        title: '随机柴郡',
+        desc: '可爱柴郡（超了）'
+      }, {
+        title: '一二布布',
+        desc: '一二布布表情包'
+      }, {
+        title: '随机表情',
+        desc: '随机表情包'
       }
     ]
   }, {
@@ -140,9 +157,6 @@ export const helpList = [
         title: 'JK',
         desc: 'JK'
       }, {
-        title: 'girl',
-        desc: '一个girl'
-      }, {
         title: 'waifu',
         desc: '嘿嘿嘿~老婆'
       }, {
@@ -151,9 +165,6 @@ export const helpList = [
       }, {
         title: '白丝',
         desc: '白丝捏'
-      }, {
-        title: '写真',
-        desc: '写真捏'
       }, {
         title: '小姐姐',
         desc: '小姐姐捏'
@@ -166,9 +177,6 @@ export const helpList = [
       }, {
         title: '随机ai',
         desc: '随机ai图片'
-      }, {
-        title: '随机acg',
-        desc: '随机acg图片'
       }, {
         title: 'loli',
         desc: 'loli视频'
@@ -190,9 +198,6 @@ export const helpList = [
       }, {
         title: '随机裙子',
         desc: 'JK、洛丽塔视频'
-      }, {
-        title: '黑（白）丝视频',
-        desc: '黑丝、白丝视频'
       }, {
         title: 'cos系列',
         desc: 'coser'
@@ -222,6 +227,12 @@ export const helpList = [
       }, {
         title: '随机网易云',
         desc: '随机返回一首歌'
+      }, {
+        title: '骂我',
+        desc: '日语骂人'
+      }, {
+        title: '随机绿茶',
+        desc: '绿茶语音'
       }
     ]
   }, {
@@ -242,6 +253,24 @@ export const helpList = [
       }, {
         title: '#base64编(解)码+内容',
         desc: 'base64编解码'
+      }, {
+        title: '#发送json+内容',
+        desc: '例如：#发送json......'
+      }, {
+        title: '访问+链接',
+        desc: '只支持返回类型为json或text的接口网址'
+      }, {
+        title: '#发图片+链接',
+        desc: '只支持返回类型为图片的接口网址'
+      }, {
+        title: '#发视频+链接',
+        desc: '只支持返回类型为视频的接口网址'
+      }, {
+        title: '#发语音+链接',
+        desc: '只支持返回类型为语音的接口网址'
+      }, {
+        title: '图链+图片',
+        desc: '返回图片的直链（可发送多个图片）'
       }
     ]
   }, {

@@ -28,7 +28,7 @@ export class voice extends plugin {
         {
           reg: '^#?随机绿茶$',
           fnc: 'lvcha'
-        },
+        }
       ]
     })
   }
@@ -83,7 +83,6 @@ export class voice extends plugin {
   }
 }
 
-async function is_MD(e){
-  if (e.bot.config?.markdown)
-    await e.reply('语音类菜单')
+async function is_MD (e) {
+  if (e.bot.config?.markdown) { await e.reply('语音类菜单') }
 }

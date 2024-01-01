@@ -15,32 +15,8 @@ export class photo extends plugin {
       priority: 6,
       rule: [
         {
-          reg: '^(#|/)?mc酱$',
-          fnc: 'mc'
-        },
-        {
-          reg: '^(#|/)?小c酱$',
-          fnc: 'xiaoc'
-        },
-        {
-          reg: '^(#|/)?兽猫酱$',
-          fnc: 'shoumao'
-        },
-        {
-          reg: '^(#|/)?mt$',
-          fnc: 'mt'
-        },
-        {
-          reg: '^(#|/)?随机(ai|AI)$',
-          fnc: 'sjai'
-        },
-        {
           reg: '^(#|/)?每日英语$',
           fnc: 'mryy'
-        },
-        {
-          reg: '^(#|/)?随机柴郡$',
-          fnc: 'cj'
         },
         {
           reg: '^(#|/)?随机acg$',
@@ -49,10 +25,6 @@ export class photo extends plugin {
         {
           reg: '^(#|/)?随机东方$',
           fnc: 'random_orient'
-        },
-        {
-          reg: '^(#|/)?一二布布$',
-          fnc: 'yebb'
         },
         {
           reg: '^(#|/)?情侣头像$',
@@ -67,8 +39,8 @@ export class photo extends plugin {
           fnc: 'yxlm'
         },
         {
-          reg: '^(#|/)?(猫猫|可爱猫猫)$',
-          fnc: 'maomao'
+          reg: '^(#|/)?(萌宠|可爱萌宠)$',
+          fnc: 'mengc'
         }
       ]
     })
@@ -116,11 +88,10 @@ export class photo extends plugin {
     }
   }
 
-  // 猫猫
-  async maomao (e) {
-    let resp = await fetch('http://www.yujn.cn/api/maomi.php?type=image')
-    console.log(resp.url)
-    await e.reply(segment.image(resp.url))
+  // 萌宠
+  async mengc (e) {
+    await e.reply(segment.image('http://hanhan.avocado.wiki?mengc'))
+    return true
   }
 
   // 英雄联盟台词
@@ -208,29 +179,6 @@ export class photo extends plugin {
     return this.reply(await recallSendForwardMsg(e, forwardMsgs, false, dec))
   }
 
-  // 一二布布
-  async yebb (e) {
-    // 发送消息
-    await this.reply(segment.image('http://api.yujn.cn/api/bubu.php?'))
-    return true // 返回true 阻挡消息不再往下
-  }
-
-  // 随机柴郡
-  async cj (e) {
-    let urls = ['http://api.yujn.cn/api/chaijun.php?', 'http://chaijun.avocado.wiki']
-    const randomIndex = Math.random()
-    let url
-    console.log('randomIndex: ' + randomIndex)
-    if (randomIndex < 0.7) {
-      url = urls[1] // 返回第一个 URL，概率为 0.7
-    } else {
-      url = urls[0] // 返回第二个 URL，概率为 0.3
-    }
-    // 发送消息
-    await this.reply(segment.image(url))
-    return true // 返回true 阻挡消息不再往下
-  }
-
   // 每日英语
   async mryy (e) {
     let sendmsg = []
@@ -238,40 +186,6 @@ export class photo extends plugin {
     let response = await axios.get(url) // 调用接口获取数据
     sendmsg.push(segment.image(response.data.fenxiang_img))
     await this.reply(sendmsg)
-  }
-
-  // mc酱
-  async mc (e) {
-    // 发送消息
-    await this.reply(segment.image('https://www.hlapi.cn/api/mcj'))
-    return true // 返回true 阻挡消息不再往下
-  }
-
-  // 小c酱
-  async xiaoc (e) {
-    // 发送消息
-    await this.reply(segment.image('http://api.yujn.cn/api/xcj.php?'))
-    return true // 返回true 阻挡消息不再往下
-  }
-
-  // 兽猫酱
-  async shoumao (e) {
-    // 发送消息
-    await this.reply(segment.image('http://api.yujn.cn/api/smj.php?'))
-    return true // 返回true 阻挡消息不再往下
-  }
-
-  // 美腿
-  async mt (e) {
-    await this.reply(segment.image('http://lx.linxi.icu/API/meitui.php'))
-    return true // 返回true 阻挡消息不再往下
-  }
-
-  // 随机ai
-  async sjai (e) {
-    // 发送消息
-    await this.reply(segment.image('http://lx.linxi.icu/API/aitu.php'))
-    return true // 返回true 阻挡消息不再往下
   }
 
   // 随机二次元

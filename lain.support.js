@@ -11,12 +11,16 @@ export default class Button {
       priority: 100,
       rule: [
         {
-          reg: '^#?(美女类菜单|黑丝|hs|白丝|bs|JK|jk|写真|xz|小姐姐|xjj|waifu|Girl|girl|买家秀|mt)$',
+          reg: '^#?(美女类菜单|黑丝|hs|白丝|bs|JK|jk||小姐姐|xjj|waifu|yht|买家秀|mt|随机ai)$',
           fnc: 'girl'
         },
         {
-          reg: '^#?(图片类菜单|mc酱|小c酱|兽猫酱|随机AI|每日英语|随机柴郡|一二布布|可爱猫猫)$',
+          reg: '^#?(图片类菜单|每日英语|萌宠|可爱萌宠)$',
           fnc: 'photo'
+        },
+        {
+          reg: '^#?(表情包菜单|狐狐|咖波|龙图|mc酱|兽猫酱|库洛米|蘑菇头|派大星|熊猫头|小黄鸡|小灰灰|猫羽雫|小黑子|哆啦A梦|一二布布|随机柴郡)$',
+          fnc: 'face'
         },
         {
           reg: '^#?(文本类菜单|随机日记|新春祝福|污句子|kfc|v50|舔狗日记|网易云热评)$',
@@ -31,11 +35,11 @@ export default class Button {
           fnc: 'text'
         },
         {
-          reg: '^#?(视频类菜单|(抖音|快手)变装|随机裙子|甜妹(视频)|随机小姐姐|sjxjj|双倍快乐|萝莉|loli|玉足|(黑|白)丝视频|慢摇视频|cos系列|纯情女高|吊带系列)$',
+          reg: '^#?视频类菜单$',
           fnc: 'video'
         },
         {
-          reg: '^#?(语音类菜单|随机唱鸭|随机坤坤|随机网易云|随机绿茶|骂我)$',
+          reg: '^#?语音类菜单$',
           fnc: 'voice'
         },
         {
@@ -63,13 +67,13 @@ export default class Button {
       { label: 'bs', data: '/bs' },
       { label: 'jk', data: '/jk' },
 
-      { label: 'xz', data: '/xz' },
       { label: 'mt', data: '/mt' },
       { label: 'xjj', data: '/xjj' },
+      { label: 'yht', data: '/yht' },
 
-      { label: 'girl', data: '/girl' },
       { label: '买家秀', data: '/买家秀' },
-      { label: 'waifu', data: '/waifu' }
+      { label: 'waifu', data: '/waifu' },
+      { label: '随机ai', data: '/随机ai' }
     ]
     return toButton(list, 3)
   }
@@ -79,18 +83,38 @@ export default class Button {
       if (!(Config.buttonWhiteGroups.includes(e.group_id))) { return false }
     }
     list = [
-      { label: 'mc酱', data: '/mc酱' },
-      { label: '小c酱', data: '/小c酱' },
-      { label: '兽猫酱', data: '/兽猫酱' },
-
-      { label: '每日英语', data: '/每日英语' },
-      { label: '随机柴郡', data: '/随机柴郡' },
-      { label: '一二布布', data: '/一二布布' },
-
-      { label: '随机AI', data: '/随机AI' },
-      { label: '可爱猫猫', data: '/可爱猫猫' }
+      { label: '萌宠', data: '/萌宠' },
+      { label: '每日英语', data: '/每日英语' }
     ]
     return toButton(list, 3)
+  }
+
+  face (e) {
+    if (Config.enableButton || false) {
+      if (!(Config.buttonWhiteGroups.includes(e.group_id))) { return false }
+    }
+    list = [
+      { label: '狐狐', data: '/狐狐' },
+      { label: '咖波', data: '/咖波' },
+      { label: '龙图', data: '/龙图' },
+      { label: 'mc酱', data: '/mc酱' },
+
+      { label: 'A梦', data: '/哆啦A梦' },
+      { label: '柴郡', data: '/随机柴郡' },
+      { label: '布布', data: '/一二布布' },
+      { label: '小黑子', data: '/小黑子' },
+
+      { label: '兽猫酱', data: '/兽猫酱' },
+      { label: '库洛米', data: '/库洛米' },
+      { label: '猫羽雫', data: '/猫羽雫' },
+      { label: '派大星', data: '/派大星' },
+
+      { label: '小黄鸡', data: '/小黄鸡' },
+      { label: '小灰灰', data: '/小灰灰' },
+      { label: '蘑菇头', data: '/蘑菇头' },
+      { label: '熊猫头', data: '/熊猫头' }
+    ]
+    return toButton(list, 4)
   }
 
   text (e) {
@@ -153,7 +177,7 @@ export default class Button {
     }
     list = [
       { label: 'loli', data: '/loli' },
-      { label: '甜妹', data: '/甜妹视频' },
+      { label: '甜妹', data: '/甜妹' },
       { label: '玉足', data: '/玉足' },
 
       { label: 'cos系列', data: '/cos系列' },
@@ -175,13 +199,13 @@ export default class Button {
       if (!(Config.buttonWhiteGroups.includes(e.group_id))) { return false }
     }
     list = [
+      { label: '骂我', data: '/骂我' },
+      { label: '绿茶', data: '/随机绿茶' },
+
       { label: '随机唱鸭', data: '/随机唱鸭' },
-      { label: '随机网易云', data: '/随机网易云' },
-
-      { label: '绿茶语音包', data: '/随机绿茶' },
-      { label: '随机骂人', data: '/骂我' },
-
       { label: '随机坤坤', data: '/随机坤坤' },
+
+      { label: '随机网易云', data: '/随机网易云' }
     ]
     return toButton(list, 2)
   }
@@ -222,12 +246,13 @@ export default class Button {
       { label: '文本类', data: '/文本类菜单' },
       { label: '图片类', data: '/图片类菜单' },
 
+      { label: '表情包', data: '/表情包菜单' },
       { label: '美女类', data: '/美女类菜单' },
+
       { label: '视频类', data: '/视频类菜单' },
-
       { label: '语音类', data: '/语音类菜单' },
-      { label: '管理类', data: '/管理类菜单' },
 
+      { label: '管理类', data: '/管理类菜单' },
       { label: '憨憨帮助', data: '/憨憨帮助' }
     ]
     return toButton(list, 2, false)

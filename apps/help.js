@@ -40,6 +40,10 @@ export class help extends plugin {
           fnc: 'photo'
         },
         {
+          reg: '^#?表情包菜单$',
+          fnc: 'face'
+        },
+        {
           reg: '^#?管理类菜单$',
           fnc: 'set'
         },
@@ -51,16 +55,20 @@ export class help extends plugin {
     })
   }
 
+  async face (e) {
+    e.reply('A梦 柴郡 布布\n狐狐 咖波 龙图 mc酱\n兽猫酱 库洛米 蘑菇头\n派大星 熊猫头 小黄鸡\n小灰灰 猫羽雫 小黑子')
+  }
+
   async voice (e) {
-    e.reply('随机唱鸭 随机坤坤 随机网易云 随机语音骂人 绿茶语音包')
+    e.reply('随机网易云\n随机唱鸭 随机坤坤\n日语骂人 绿茶语音 ')
   }
 
   async girl (e) {
-    e.reply('hs bs jk xz mt\nxjj waifu girl 买家秀')
+    e.reply('hs bs jk mt\nyht xjj waifu\n买家秀 随机ai')
   }
 
   async photo (e) {
-    e.reply('mc酱 小c酱\n兽猫酱 随机AI\n每日英语 随机柴郡\n一二布布 可爱猫猫')
+    e.reply('每日英语 可爱萌宠')
   }
 
   async text (e) {
