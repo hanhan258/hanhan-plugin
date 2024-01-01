@@ -56,7 +56,7 @@ export class help extends plugin {
   }
 
   async face (e) {
-    e.reply('A梦 柴郡 布布\n狐狐 咖波 龙图 mc酱\n兽猫酱 库洛米 蘑菇头\n派大星 熊猫头 小黄鸡\n小灰灰 猫羽雫 小黑子')
+    e.reply('A梦 柴郡 布布\n狐狐 咖波 龙图 猫娘\nmc酱 兽猫酱 库洛米 \n派大星 小灰灰 小黄鸡\n熊猫头 蘑菇头 小黑子')
   }
 
   async voice (e) {

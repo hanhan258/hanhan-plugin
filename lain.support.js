@@ -19,7 +19,7 @@ export default class Button {
           fnc: 'photo'
         },
         {
-          reg: '^#?(表情包菜单|狐狐|咖波|龙图|mc酱|兽猫酱|库洛米|蘑菇头|派大星|熊猫头|小黄鸡|小灰灰|猫羽雫|小黑子|哆啦A梦|一二布布|随机柴郡)$',
+          reg: '^#?(表情包菜单|狐狐|咖波|龙图|mc酱|兽猫酱|库洛米|蘑菇头|派大星|熊猫头|小黄鸡|小灰灰|猫娘|小黑子|哆啦A梦|一二布布|随机柴郡)$',
           fnc: 'face'
         },
         {
@@ -35,11 +35,11 @@ export default class Button {
           fnc: 'text'
         },
         {
-          reg: '^#?视频类菜单$',
+          reg: '^#?(视频类菜单|(抖音|快手)变装|随机裙子|甜妹|甜妹视频|随机小姐姐|sjxjj|双倍快乐|萝莉|loli|玉足|(黑|白)丝视频|慢摇视频|cos系列|纯情女高|吊带系列)$',
           fnc: 'video'
         },
         {
-          reg: '^#?语音类菜单$',
+          reg: '^#?(语音类菜单|随机唱鸭|随机坤坤|随机网易云|随机绿茶|骂我)$',
           fnc: 'voice'
         },
         {
@@ -102,15 +102,15 @@ export default class Button {
       { label: 'A梦', data: '/哆啦A梦' },
       { label: '柴郡', data: '/随机柴郡' },
       { label: '布布', data: '/一二布布' },
-      { label: '小黑子', data: '/小黑子' },
+      { label: '猫娘', data: '/猫娘' },
 
       { label: '兽猫酱', data: '/兽猫酱' },
       { label: '库洛米', data: '/库洛米' },
-      { label: '猫羽雫', data: '/猫羽雫' },
       { label: '派大星', data: '/派大星' },
+      { label: '小灰灰', data: '/小灰灰' },
 
       { label: '小黄鸡', data: '/小黄鸡' },
-      { label: '小灰灰', data: '/小灰灰' },
+      { label: '小黑子', data: '/小黑子' },
       { label: '蘑菇头', data: '/蘑菇头' },
       { label: '熊猫头', data: '/熊猫头' }
     ]
