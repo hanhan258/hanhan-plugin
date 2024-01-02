@@ -19,7 +19,7 @@ export default class Button {
           fnc: 'photo'
         },
         {
-          reg: '^#?(表情包菜单|狐狐|咖波|龙图|mc酱|兽猫酱|库洛米|蘑菇头|派大星|熊猫头|小黄鸡|小灰灰|猫娘|小黑子|哆啦A梦|一二布布|随机柴郡)$',
+          reg: '^#?(表情包菜单|狐狐|咖波|龙图|mc酱|兽猫酱|库洛米|蘑菇头|派大星|熊猫头|小黄鸡|小灰灰|甘城|小黑子|哆啦A梦|一二布布|随机柴郡)$',
           fnc: 'face'
         },
         {
@@ -97,12 +97,12 @@ export default class Button {
       { label: '狐狐', data: '/狐狐' },
       { label: '咖波', data: '/咖波' },
       { label: '龙图', data: '/龙图' },
-      { label: 'mc酱', data: '/mc酱' },
+      { label: '甘城', data: '/甘城' },
 
       { label: 'A梦', data: '/哆啦A梦' },
       { label: '柴郡', data: '/随机柴郡' },
       { label: '布布', data: '/一二布布' },
-      { label: '猫娘', data: '/猫娘' },
+      { label: 'mc酱', data: '/mc酱' },
 
       { label: '兽猫酱', data: '/兽猫酱' },
       { label: '库洛米', data: '/库洛米' },

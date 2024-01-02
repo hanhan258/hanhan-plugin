@@ -116,8 +116,8 @@ export const helpList = [
         title: '咖波',
         desc: '可爱咖波捏'
       }, {
-        title: '猫羽雫',
-        desc: '猫羽雫表情包'
+        title: '甘城',
+        desc: '甘城猫猫'
       }, {
         title: '蘑菇头',
         desc: '蘑菇头表情包'

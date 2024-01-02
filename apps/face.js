@@ -33,8 +33,8 @@ export class diaotu extends plugin {
           fnc: 'shoumao'
         },
         {
-          reg: '^(#|/)?猫娘$',
-          fnc: 'mn'
+          reg: '^(#|/)?甘城$',
+          fnc: 'gc'
         },
         {
           reg: '^(#|/)?(哆啦)?(A梦|a梦)|阿蒙$',
@@ -118,8 +118,8 @@ export class diaotu extends plugin {
     return true // 返回true 阻挡消息不再往下
   }
 
-  // 猫娘
-  async mn (e) {
+  // 甘城
+  async gc (e) {
     await this.reply(segment.image('http://hanhan.avocado.wiki?maoyuna'))
     return true // 返回true 阻挡消息不再往下
   }
