@@ -90,7 +90,7 @@ export class diaotu extends plugin {
 
   // 随机坤坤
   async cxk (e) {
-    await this.reply(segment.image('http://api.yujn.cn/api/cxk.php'))
+    await this.reply(segment.image('http://hanhan.avocado.wiki/?cxk'))
     return true // 返回true 阻挡消息不再往下
   }
 
