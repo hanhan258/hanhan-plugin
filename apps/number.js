@@ -25,7 +25,7 @@ export class morse extends plugin {
   async 50033 (e) {
     let forwardMsgs = []
     forwardMsgs.push(segment.image('http://165.154.133.106:50033/'))
-    if (e.bot.config?.markdown) { forwardMsgs.push('http://165.154.133.106:50033/') }
+    if (!e.bot.config?.markdown) { forwardMsgs.push('http://165.154.133.106:50033/') }
     let dec = e.msg
     return this.reply(await recallSendForwardMsg(e, forwardMsgs, false, dec))
   }
@@ -45,7 +45,7 @@ export class morse extends plugin {
     console.log(res.url)
     let forwardMsgs = []
     forwardMsgs.push(segment.image(res.url))
-    if (e.bot.config?.markdown) { forwardMsgs.push(res.url) }
+    if (!e.bot.config?.markdown) { forwardMsgs.push(res.url) }
     let dec = e.msg
     return this.reply(await recallSendForwardMsg(e, forwardMsgs, false, dec))
   }
