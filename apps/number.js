@@ -11,11 +11,15 @@ export class morse extends plugin {
       priority: 6,
       rule: [
         {
+          reg: '^#?5670$',
+          fnc: '5670'
+        },
+        {
           reg: '^#?50033$',
           fnc: '50033'
         },
         {
-          reg: '^#?(75946|36518|5670)$',
+          reg: '^#?(75946|36518)$',
           fnc: '25508'
         }
       ]
@@ -34,8 +38,6 @@ export class morse extends plugin {
     let url = 'http://api.yujn.cn/api/sese.php?'
     if (e.msg.includes('36518')) {
       url = 'http://api.yujn.cn/api/r18.php?'
-    } else if (e.msg.includes('5670')) {
-      url = 'https://api.yujn.cn/api/Pixiv.php?'
     }
     let res = await fetch(url).catch((err) => logger.error(err))
     if (!res) {
@@ -46,6 +48,17 @@ export class morse extends plugin {
     let forwardMsgs = []
     forwardMsgs.push(segment.image(res.url))
     if (!e.bot.config?.markdown) { forwardMsgs.push(res.url) }
+    let dec = e.msg
+    return this.reply(await recallSendForwardMsg(e, forwardMsgs, false, dec))
+  }
+
+  async 5670 (e) {
+    let resp = await fetch('https://api.yujn.cn/api/Pixiv.php?')
+    let str = await resp.text()
+    let result = str.trim()
+    let forwardMsgs = []
+    forwardMsgs.push(segment.image(result))
+    if (!e.bot.config?.markdown) { forwardMsgs.push(result) }
     let dec = e.msg
     return this.reply(await recallSendForwardMsg(e, forwardMsgs, false, dec))
   }
