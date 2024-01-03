@@ -15,16 +15,24 @@ export class photo extends plugin {
       priority: 6,
       rule: [
         {
+          reg: '^(#|/)?集原美$',
+          fnc: 'jiyuanmei'
+        },
+        {
+          reg: '^(#|/)?mc酱$',
+          fnc: 'mc'
+        },
+        {
+          reg: '^(#|/)?兽猫酱$',
+          fnc: 'shoumao'
+        },
+        {
           reg: '^(#|/)?每日英语$',
           fnc: 'mryy'
         },
         {
           reg: '^(#|/)?随机acg$',
           fnc: 'random_acg'
-        },
-        {
-          reg: '^(#|/)?随机东方$',
-          fnc: 'random_orient'
         },
         {
           reg: '^(#|/)?情侣头像$',
@@ -208,10 +216,22 @@ export class photo extends plugin {
     }
   }
 
-  // 随机东方
-  async random_orient (e) {
+  // 集原美
+  async jiyuanmei (e) {
     // 发送消息
-    await this.reply(segment.image('https://img.paulzzh.tech/touhou/random'))
+    await this.reply(segment.image('http://hanhan.avocado.wiki?jiyuanmei'))
     return true
+  }
+
+  // mc酱
+  async mc (e) {
+    await this.reply(segment.image('http://hanhan.avocado.wiki?mcjiang'))
+    return true // 返回true 阻挡消息不再往下
+  }
+
+  // 兽猫酱
+  async shoumao (e) {
+    await this.reply(segment.image('http://hanhan.avocado.wiki?shoumao'))
+    return true // 返回true 阻挡消息不再往下
   }
 }

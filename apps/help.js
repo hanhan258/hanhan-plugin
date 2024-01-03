@@ -20,71 +20,15 @@ export class help extends plugin {
           fnc: 'so_help'
         },
         {
-          reg: '^#?视频类菜单$',
-          fnc: 'video'
-        },
-        {
-          reg: '^#?美女类菜单$',
-          fnc: 'girl'
-        },
-        {
-          reg: '^#?语音类菜单$',
-          fnc: 'voice'
-        },
-        {
-          reg: '^#?文本类菜单$',
-          fnc: 'text'
-        },
-        {
-          reg: '^#?图片类菜单$',
-          fnc: 'photo'
-        },
-        {
-          reg: '^#?表情包菜单$',
-          fnc: 'face'
-        },
-        {
-          reg: '^#?管理类菜单$',
-          fnc: 'set'
-        },
-        {
-          reg: '^#(408|数字类菜单)$',
-          fnc: '408'
+          reg: '^#?(视频类|美女类|语音类|文本类|图片类|表情包|管理类|数字类)菜单$',
+          fnc: 'helps'
         }
       ]
     })
   }
 
-  async face (e) {
-    e.reply('A梦 柴郡 布布\n狐狐 咖波 龙图 甘城\nmc酱 兽猫酱 库洛米 \n派大星 小灰灰 小黄鸡\n熊猫头 蘑菇头 小黑子')
-  }
-
-  async voice (e) {
-    e.reply('随机网易云\n随机唱鸭 随机坤坤\n日语骂人 绿茶语音 ')
-  }
-
-  async girl (e) {
-    e.reply('hs bs jk mt\nyht xjj waifu\n买家秀 随机ai')
-  }
-
-  async photo (e) {
-    e.reply('每日英语 可爱萌宠')
-  }
-
-  async text (e) {
-    e.reply('kfc 污句子\n随机日记 舔狗日记\n新春祝福 网易云热评\n发癫+昵称 油价+省份')
-  }
-
-  async set (e) {
-    e.reply('#憨憨设置按钮白名单\n#憨憨删除按钮白名单\n#憨憨更新\n#憨憨强制更新')
-  }
-
-  async video (e) {
-    e.reply('loli 甜妹 玉足\ncos系列 慢摇视频\n抖音变装 快手变装\n双倍快乐 随机裙子\n纯情女高 吊带系列')
-  }
-
-  async 408 (e) {
-    e.reply('5670 36518\n50033 75946')
+  async helps (e) {
+    if (e.bot.config?.markdown) { return await e.reply('按钮菜单') }
   }
 
   async help (e) {

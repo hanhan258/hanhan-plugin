@@ -11,15 +11,15 @@ export default class Button {
       priority: 100,
       rule: [
         {
-          reg: '^#?(美女类菜单|黑丝|hs|白丝|bs|JK|jk||小姐姐|xjj|waifu|yht|买家秀|mt|随机ai)$',
+          reg: '^#?(美女类菜单|cos|黑丝|hs|白丝|bs|JK|jk|ak|国风|汉服|夏日女友|小性感|小姐姐|xjj|waifu|yht|买家秀|mt|随机ai)$',
           fnc: 'girl'
         },
         {
-          reg: '^#?(图片类菜单|每日英语|萌宠|可爱萌宠)$',
+          reg: '^#?(图片类菜单|mc酱|兽猫酱|每日英语|萌宠|可爱萌宠|随机acg|集原美)$',
           fnc: 'photo'
         },
         {
-          reg: '^#?(表情包菜单|狐狐|咖波|龙图|mc酱|兽猫酱|库洛米|蘑菇头|派大星|熊猫头|小黄鸡|小灰灰|甘城|小黑子|哆啦A梦|一二布布|随机柴郡)$',
+          reg: '^#?(表情包菜单|废柴|狐狐|咖波|龙图|库洛米|小恐龙|蘑菇头|派大星|熊猫头|小黄鸡|小灰灰|甘城|小黑子|哆啦A梦|一二布布|随机柴郡)$',
           fnc: 'face'
         },
         {
@@ -65,17 +65,25 @@ export default class Button {
     list = [
       { label: 'hs', data: '/hs' },
       { label: 'bs', data: '/bs' },
+      { label: 'mt', data: '/mt' },
+
+      { label: 'ai', data: '/随机ai' },
+      { label: 'ak', data: '/ak' },
       { label: 'jk', data: '/jk' },
 
-      { label: 'mt', data: '/mt' },
+      { label: 'cos', data: '/cos' },
       { label: 'xjj', data: '/xjj' },
       { label: 'yht', data: '/yht' },
 
-      { label: '买家秀', data: '/买家秀' },
+      { label: '汉服', data: '/汉服' },
+      { label: '国风', data: '/国风' },
       { label: 'waifu', data: '/waifu' },
-      { label: '随机ai', data: '/随机ai' }
+
+      { label: '小性感', data: '/小性感' },
+      { label: '夏日女友', data: '/夏日女友' },
+      { label: '买家秀', data: '/买家秀' }
     ]
-    return toButton(list, 3)
+    return toButton(list, 4)
   }
 
   photo (e) {
@@ -83,8 +91,13 @@ export default class Button {
       if (!(Config.buttonWhiteGroups.includes(e.group_id))) { return false }
     }
     list = [
+      { label: 'acg', data: '/随机acg' },
       { label: '萌宠', data: '/萌宠' },
-      { label: '每日英语', data: '/每日英语' }
+      { label: 'mc酱', data: '/mc酱' },
+
+      { label: '兽猫酱', data: '/兽猫酱' },
+      { label: '每日英语', data: '/每日英语' },
+      { label: '集原美', data: '/集原美' }
     ]
     return toButton(list, 3)
   }
@@ -102,9 +115,9 @@ export default class Button {
       { label: 'A梦', data: '/哆啦A梦' },
       { label: '柴郡', data: '/随机柴郡' },
       { label: '布布', data: '/一二布布' },
-      { label: 'mc酱', data: '/mc酱' },
+      { label: '废柴', data: '/废柴' },
 
-      { label: '兽猫酱', data: '/兽猫酱' },
+      { label: '小恐龙', data: '/小恐龙' },
       { label: '库洛米', data: '/库洛米' },
       { label: '派大星', data: '/派大星' },
       { label: '小灰灰', data: '/小灰灰' },

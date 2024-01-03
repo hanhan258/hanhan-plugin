@@ -75,8 +75,14 @@ export const helpList = [
         title: '萌宠',
         desc: '可爱萌宠'
       }, {
-        title: '随机东方',
-        desc: '随机东方图片'
+        title: 'mc酱',
+        desc: 'mc酱'
+      }, {
+        title: '集原美',
+        desc: '集原美'
+      }, {
+        title: '兽猫酱',
+        desc: '兽猫酱'
       }, {
         title: '情侣头像',
         desc: '返回情侣头像，有概率没返回图'
@@ -104,8 +110,8 @@ export const helpList = [
         title: 'fox',
         desc: '狐狐'
       }, {
-        title: 'mc酱',
-        desc: 'mc酱'
+        title: '废柴',
+        desc: '废柴'
       }, {
         title: '龙图',
         desc: '随机龙图'
@@ -134,8 +140,8 @@ export const helpList = [
         title: '小灰灰',
         desc: '小灰灰'
       }, {
-        title: '兽猫酱',
-        desc: '兽猫酱'
+        title: '小恐龙',
+        desc: '小恐龙'
       }, {
         title: '随机柴郡',
         desc: '可爱柴郡（超了）'
@@ -154,11 +160,23 @@ export const helpList = [
         title: 'mt',
         desc: '腿子'
       }, {
+        title: 'ak',
+        desc: 'ak制服'
+      }, {
+        title: 'cos',
+        desc: 'cosplay，图较少'
+      }, {
         title: 'JK',
         desc: 'JK'
       }, {
         title: 'waifu',
         desc: '嘿嘿嘿~老婆'
+      }, {
+        title: '汉服',
+        desc: '汉服小姐姐'
+      }, {
+        title: '国风',
+        desc: '古装国风'
       }, {
         title: '黑丝',
         desc: '黑丝捏'
@@ -166,11 +184,17 @@ export const helpList = [
         title: '白丝',
         desc: '白丝捏'
       }, {
+        title: '小性感',
+        desc: '小性感'
+      }, {
         title: '小姐姐',
         desc: '小姐姐捏'
       }, {
         title: '买家秀',
         desc: '买家秀捏'
+      }, {
+        title: '夏日女友',
+        desc: '夏日女友'
       }, {
         title: '微博美女',
         desc: '微博美女'

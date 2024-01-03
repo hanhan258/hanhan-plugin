@@ -14,6 +14,22 @@ export class girl extends plugin {
           fnc: 'jk'
         },
         {
+          reg: '^(#|/)?ak$',
+          fnc: 'ak'
+        },
+        {
+          reg: '^(#|/)?cos$',
+          fnc: 'cos'
+        },
+        {
+          reg: '^(#|/)?国风$',
+          fnc: 'guofeng'
+        },
+        {
+          reg: '^(#|/)?汉服$',
+          fnc: 'hanfu'
+        },
+        {
           reg: '^(#|/)?(黑丝|hs)$',
           fnc: 'hs'
         },
@@ -34,6 +50,14 @@ export class girl extends plugin {
           fnc: 'buyerShow'
         },
         {
+          reg: '^(#|/)?小性感$',
+          fnc: 'xiaoxinggan'
+        },
+        {
+          reg: '^(#|/)?夏日女友$',
+          fnc: 'girlfriend'
+        },
+        {
           reg: '^(#|/)?(诱惑图|yht)$',
           fnc: 'yht'
         },
@@ -51,6 +75,48 @@ export class girl extends plugin {
         }
       ]
     })
+  }
+
+  // 小性感
+  async xiaoxinggan (e) {
+    // 发送消息
+    await this.reply(segment.image('http://hanhan.avocado.wiki?xiaoxinggan'))
+    return true // 返回true 阻挡消息不再往下
+  }
+
+  // 汉服
+  async hanfu (e) {
+    // 发送消息
+    await this.reply(segment.image('http://hanhan.avocado.wiki?hanfu'))
+    return true // 返回true 阻挡消息不再往下
+  }
+
+  // 国风
+  async guofeng (e) {
+    // 发送消息
+    await this.reply(segment.image('http://hanhan.avocado.wiki?guofeng'))
+    return true // 返回true 阻挡消息不再往下
+  }
+
+  // 夏日女友
+  async girlfriend (e) {
+    // 发送消息
+    await this.reply(segment.image('http://hanhan.avocado.wiki?girlfriend'))
+    return true // 返回true 阻挡消息不再往下
+  }
+
+  // cos
+  async cos (e) {
+    // 发送消息
+    await this.reply(segment.image('http://hanhan.avocado.wiki?cos'))
+    return true // 返回true 阻挡消息不再往下
+  }
+
+  // ak
+  async ak (e) {
+    // 发送消息
+    await this.reply(segment.image('http://hanhan.avocado.wiki?ak'))
+    return true // 返回true 阻挡消息不再往下
   }
 
   // 微博美女

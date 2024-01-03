@@ -25,16 +25,16 @@ export class diaotu extends plugin {
           fnc: 'yebb'
         },
         {
-          reg: '^(#|/)?mc酱$',
-          fnc: 'mc'
-        },
-        {
-          reg: '^(#|/)?兽猫酱$',
-          fnc: 'shoumao'
-        },
-        {
           reg: '^(#|/)?甘城$',
           fnc: 'gc'
+        },
+        {
+          reg: '^(#|/)?废柴$',
+          fnc: 'fc'
+        },
+        {
+          reg: '^(#|/)?小恐龙$',
+          fnc: 'xkl'
         },
         {
           reg: '^(#|/)?(哆啦)?(A梦|a梦)|阿蒙$',
@@ -80,6 +80,18 @@ export class diaotu extends plugin {
     })
   }
 
+  // 小恐龙
+  async xkl (e) {
+    await this.reply(segment.image('http://hanhan.avocado.wiki/?xiaokonglong'))
+    return true // 返回true 阻挡消息不再往下
+  }
+
+  // 废柴
+  async fc (e) {
+    await this.reply(segment.image('http://hanhan.avocado.wiki/?cheems'))
+    return true // 返回true 阻挡消息不再往下
+  }
+
   // 随机表情
   async sjbq (e) {
     let resp = await fetch('http://api.yujn.cn/api/emo.php')
@@ -103,18 +115,6 @@ export class diaotu extends plugin {
   // 随机柴郡
   async cj (e) {
     await this.reply(segment.image('http://chaijun.avocado.wiki'))
-    return true // 返回true 阻挡消息不再往下
-  }
-
-  // mc酱
-  async mc (e) {
-    await this.reply(segment.image('http://hanhan.avocado.wiki?mcjiang'))
-    return true // 返回true 阻挡消息不再往下
-  }
-
-  // 兽猫酱
-  async shoumao (e) {
-    await this.reply(segment.image('http://api.yujn.cn/api/smj.php?'))
     return true // 返回true 阻挡消息不再往下
   }
 

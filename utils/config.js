@@ -13,7 +13,7 @@ const defaultConfig = {
   studyGroups: '',
   buttonWhiteGroups: '',
   enableButton: false,
-  version: '1.5.0'
+  version: '1.5.1'
 }
 const _path = process.cwd()
 let config = {}

@@ -192,7 +192,6 @@ export class voice extends plugin {
   }
 }
 
-async function is_MD(e){
-  if (e.bot.config?.markdown)
-    await e.reply('视频类菜单')
+async function is_MD (e) {
+  if (e.bot.config?.markdown) { await e.reply('视频类菜单') }
 }

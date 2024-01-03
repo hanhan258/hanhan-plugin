@@ -117,9 +117,10 @@ export class text extends plugin {
 
   // 污句子
   async wjz (e) {
-    let resp = await fetch('http://api.yujn.cn/api/text_wu.php')
+    let resp = await fetch('http://api.yujn.cn/api/text_wu.php?')
     let str = await resp.text()
     let result = str.trim()
+    if (result.includes('http')) { return e.reply('返回内容错误') }
     await this.reply(result)
   }
 
@@ -128,6 +129,7 @@ export class text extends plugin {
     let resp = await fetch('http://api.yujn.cn/api/zhufu.php')
     let str = await resp.text()
     let result = str.trim()
+    if (result.includes('http')) { return e.reply('返回内容错误') }
     await this.reply(result)
   }
 
@@ -135,6 +137,7 @@ export class text extends plugin {
   async sjrj (e) {
     let resp = await fetch('http://api.yujn.cn/api/baoan.php?')
     let result = he.decode(await resp.text()).replace(/<br>/g, '\n')
+    if (result.includes('http')) { return e.reply('返回内容错误') }
     await this.reply(result)
   }
 
