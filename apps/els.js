@@ -36,7 +36,7 @@ export class RussiaRoundPlatePlugin extends plugin {
     let groupId = e.group_id
     let groupLock = await redis.get(`HANHAN:ELS:${groupId}`)
     if (!groupLock) {
-      let totalBullets = 6
+      let totalBullets = 6 //尊重左轮手枪装弹量
       let realBullets = Math.floor(Math.random() * totalBullets)
       let bulletNum = JSON.stringify([totalBullets, realBullets])
       await redis.set(`HANHAN:ELS:${groupId}`, bulletNum + '', { EX: 10 * 60 * 1000 })
