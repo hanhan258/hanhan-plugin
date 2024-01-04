@@ -35,7 +35,7 @@ export default class Button {
           fnc: 'text'
         },
         {
-          reg: '^#?(视频类菜单|(抖音|快手)变装|随机裙子|甜妹|甜妹视频|随机小姐姐|sjxjj|双倍快乐|萝莉|loli|玉足|(黑|白)丝视频|慢摇视频|cos系列|纯情女高|吊带系列)$',
+          reg: '^#?(视频类菜单|(抖音|快手)变装|随机裙子|甜妹视频|随机小姐姐|sjxjj|双倍快乐|萝莉|loli|玉足|(黑|白)丝视频|慢摇视频|cos系列|纯情女高|吊带系列)$',
           fnc: 'video'
         },
         {
@@ -134,7 +134,11 @@ export default class Button {
     if (Config.enableButton || false) {
       if (!(Config.buttonWhiteGroups.includes(e.group_id))) { return false }
     }
+    button = []
     list = [
+      { label: '发癫', data: '/发癫', enter: false },
+      { label: '油价', data: '/油价', enter: false },
+      
       { label: 'kfc', data: '/kfc' },
       { label: '污句子', data: '/污句子' },
 
@@ -143,42 +147,6 @@ export default class Button {
 
       { label: '新春祝福', data: '/新春祝福' },
       { label: '网易云热评', data: '/网易云热评' }
-    ]
-    button = [
-      {
-        type: 'button',
-        buttons: [
-          {
-            id: '1',
-            render_data: {
-              label: '发癫',
-              style: 1
-            },
-            action: {
-              type: 2,
-              permission: {
-                type: 2
-              },
-              data: '/发癫',
-              at_bot_show_channel_list: false
-            }
-          }, {
-            id: '1',
-            render_data: {
-              label: '油价',
-              style: 1
-            },
-            action: {
-              type: 2,
-              permission: {
-                type: 2
-              },
-              data: '/油价',
-              at_bot_show_channel_list: false
-            }
-          }
-        ]
-      }
     ]
     button.push(...toButton(list, 2))
     return button
@@ -190,7 +158,7 @@ export default class Button {
     }
     list = [
       { label: 'loli', data: '/loli' },
-      { label: '甜妹', data: '/甜妹' },
+      { label: '甜妹', data: '/甜妹视频' },
       { label: '玉足', data: '/玉足' },
 
       { label: 'cos系列', data: '/cos系列' },
@@ -286,7 +254,7 @@ function toButton (list, line = 2, allow_random = true) {
         type: 2,
         permission: { type: 2 },
         data: i.data,
-        enter: true,
+        enter: i.enter !== undefined ? i.enter : true,
         unsupport_tips: 'code: 45'
       }
     })
