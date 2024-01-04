@@ -53,7 +53,11 @@ export default class Button {
         {
           reg: '^#?(nav|憨憨帮助)$',
           fnc: 'help'
-        }
+        },
+        {
+          reg: '^#?(开启俄罗斯轮盘|开盘|开启轮盘|开启转盘|俄罗斯轮盘|结束游戏|当前子弹|开枪)$',
+          fnc: 'els'
+        },
       ]
     }
   }
@@ -136,7 +140,7 @@ export default class Button {
     }
     button = []
     list = [
-      { label: '发癫', data: '/发癫', enter: false },
+      { label: '发癫', data: `/发癫 可爱的<@${e.sender.user_openid}>酱`, enter: false },
       { label: '油价', data: '/油价', enter: false },
       
       { label: 'kfc', data: '/kfc' },
@@ -235,6 +239,16 @@ export default class Button {
 
       { label: '管理类', data: '/管理类菜单' },
       { label: '憨憨帮助', data: '/憨憨帮助' }
+    ]
+    return toButton(list, 2, false)
+  }
+
+  els (e) {
+    if (Config.enableButton || false) {
+      if (!(Config.buttonWhiteGroups.includes(e.group_id))) { return false }
+    }
+    list = [
+      { label: '轮到我了吗', data: '/开枪' },
     ]
     return toButton(list, 2, false)
   }
