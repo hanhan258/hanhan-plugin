@@ -36,9 +36,11 @@ export class RussiaRoundPlatePlugin extends plugin {
     let groupId = e.group_id
     let groupLock = await redis.get(`HANHAN:ELS:${groupId}`)
     if (!groupLock) {
-      let bulletNum = Math.floor(Math.random() * 5) + 5
+      let totalBullets = 6 //尊重左轮手枪装弹量
+      let realBullets = Math.floor(Math.random() * totalBullets)
+      let bulletNum = JSON.stringify([totalBullets, realBullets])
       await redis.set(`HANHAN:ELS:${groupId}`, bulletNum + '', { EX: 10 * 60 * 1000 })
-      await e.reply(`当前群俄罗斯轮盘已开启！\n弹夹有【${bulletNum}】发子弹。\n请发送#开枪 参与游戏`)
+      await e.reply(`当前群俄罗斯轮盘已开启！\n弹夹有【${totalBullets}】发子弹。\n请发送#开枪 参与游戏`)
     } else {
       await e.reply('当前群俄罗斯轮盘正在进行中！\n请发送#开枪 参与游戏')
     }
@@ -50,29 +52,35 @@ export class RussiaRoundPlatePlugin extends plugin {
       return false
     }
     let groupId = e.group_id
-    let leftBullets = await redis.get(`HANHAN:ELS:${groupId}`)
+    let leftBullets = JSON.parse(await redis.get(`HANHAN:ELS:${groupId}`))
     if (!leftBullets) {
       await this.start(e)
-      leftBullets = await redis.get(`HANHAN:ELS:${groupId}`)
+      leftBullets = JSON.parse(await redis.get(`HANHAN:ELS:${groupId}`))
     }
-    let username = e.sender.card || e.sender.nickname || e.user_id
-    leftBullets = parseInt(leftBullets)
-    if (leftBullets <= 1 || Math.random() < 1 / leftBullets) {
+    let username = e.sender.card || e.sender.nickname || (e.bot.config?.markdown ? `<@${e.sender.user_openid}>` : e.sender.user_openid)
+    let totalBullets = leftBullets[0]
+    let realBullets = leftBullets[1]
+    totalBullets--
+    realBullets--
+    if (realBullets < 1 ) {
       let group = e.group || (await e.bot.pickGroup(groupId))
       let max = 300
       let min = 60
       let time = Math.floor(Math.random() * (max - min + 1)) + min
+      let msg
       try {
         await group.muteMember(e.sender.user_id, time)
-        await e.reply(`【${username}】开了一枪，枪响了。\n恭喜【${username}】被禁言${time}秒\n本轮游戏结束。请使用#开盘 开启新一轮游戏`)
+        msg = `【${username}】开了一枪，枪响了。\n恭喜【${username}】被禁言${time}秒\n本轮游戏结束。请使用#开盘 开启新一轮游戏`
       } catch (error) {
-        await e.reply(`【${username}】开了一枪，枪响了。\n未获得管理员权限，跳过禁言环节。\n本轮游戏结束。请使用#开盘 开启新一轮游戏`)
+        msg = `【${username}】开了一枪，枪响了。\n未获得管理员权限，跳过禁言环节。\n本轮游戏结束。请使用#开盘 开启新一轮游戏`
       }
+      msg = (username != (e.sender.card | e.sender.nickname)) ? `【${username}】开了一枪，枪响了。\npia~\n本轮游戏结束。请使用#开盘 开启新一轮游戏` : msg
+      await e.reply(msg)
       await redis.del(`HANHAN:ELS:${groupId}`)
     } else {
-      leftBullets--
+      leftBullets = JSON.stringify([totalBullets, realBullets])
       await redis.set(`HANHAN:ELS:${groupId}`, leftBullets + '', { EX: 10 * 60 * 1000 })
-      await e.reply(`【${username}】开了一枪，没响。\n还剩【${leftBullets}】发子弹`)
+      await e.reply(`【${username}】开了一枪，没响。\n还剩【${totalBullets}】发子弹`)
       // e.reply(`${leftBullets}`)
     }
   }
