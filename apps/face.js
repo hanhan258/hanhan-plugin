@@ -25,10 +25,6 @@ export class diaotu extends plugin {
           fnc: 'yebb'
         },
         {
-          reg: '^(#|/)?甘城$',
-          fnc: 'gc'
-        },
-        {
           reg: '^(#|/)?废柴$',
           fnc: 'fc'
         },
@@ -75,9 +71,19 @@ export class diaotu extends plugin {
         {
           reg: '^(#|/)?(小灰灰|随机小灰灰)$',
           fnc: 'xhh'
+        },
+        {
+          reg: '^(#|/)?小豆泥$',
+          fnc: 'xdn'
         }
       ]
     })
+  }
+
+  // 小豆泥
+  async xdn (e) {
+    await this.reply(segment.image('http://hanhan.avocado.wiki/?xiaodouni'))
+    return true // 返回true 阻挡消息不再往下
   }
 
   // 小恐龙
@@ -115,12 +121,6 @@ export class diaotu extends plugin {
   // 随机柴郡
   async cj (e) {
     await this.reply(segment.image('http://chaijun.avocado.wiki'))
-    return true // 返回true 阻挡消息不再往下
-  }
-
-  // 甘城
-  async gc (e) {
-    await this.reply(segment.image('http://hanhan.avocado.wiki?maoyuna'))
     return true // 返回true 阻挡消息不再往下
   }
 

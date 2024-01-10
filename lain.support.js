@@ -57,7 +57,7 @@ export default class Button {
         {
           reg: '^#?(开启俄罗斯轮盘|开盘|开启轮盘|开启转盘|俄罗斯轮盘|结束游戏|当前子弹|开枪)$',
           fnc: 'els'
-        },
+        }
       ]
     }
   }
@@ -96,12 +96,13 @@ export default class Button {
     }
     list = [
       { label: 'acg', data: '/随机acg' },
+      { label: '甘城', data: '/甘城' },
       { label: '萌宠', data: '/萌宠' },
-      { label: 'mc酱', data: '/mc酱' },
 
+      { label: 'mc酱', data: '/mc酱' },
       { label: '兽猫酱', data: '/兽猫酱' },
-      { label: '每日英语', data: '/每日英语' },
-      { label: '集原美', data: '/集原美' }
+      { label: '集原美', data: '/集原美' },
+      { label: '每日英语', data: '/每日英语' }
     ]
     return toButton(list, 3)
   }
@@ -114,7 +115,7 @@ export default class Button {
       { label: '狐狐', data: '/狐狐' },
       { label: '咖波', data: '/咖波' },
       { label: '龙图', data: '/龙图' },
-      { label: '甘城', data: '/甘城' },
+      { label: '豆泥', data: '/小豆泥' },
 
       { label: 'A梦', data: '/哆啦A梦' },
       { label: '柴郡', data: '/随机柴郡' },
@@ -140,19 +141,19 @@ export default class Button {
     }
     button = []
     list = [
-      { label: '发癫', data: `/发癫 可爱的<@${e.sender.user_openid}>酱`, enter: false },
-      { label: '油价', data: '/油价', enter: false },
-      
+      { label: '发癫', data: '/发癫', enter: false },
+      { label: 'at发癫', data: `/发癫 可爱的<@${e.sender.user_openid}>酱`, enter: false },
       { label: 'kfc', data: '/kfc' },
+
+      { label: '油价', data: '/油价', enter: false },
       { label: '污句子', data: '/污句子' },
-
       { label: '随机日记', data: '/随机日记' },
-      { label: '舔狗日记', data: '/舔狗日记' },
 
+      { label: '舔狗日记', data: '/舔狗日记' },
       { label: '新春祝福', data: '/新春祝福' },
       { label: '网易云热评', data: '/网易云热评' }
     ]
-    button.push(...toButton(list, 2))
+    button.push(...toButton(list, 3))
     return button
   }
 
@@ -248,7 +249,7 @@ export default class Button {
       if (!(Config.buttonWhiteGroups.includes(e.group_id))) { return false }
     }
     list = [
-      { label: '轮到我了吗', data: '/开枪' },
+      { label: '轮到我了吗', data: '/开枪' }
     ]
     return toButton(list, 2, false)
   }

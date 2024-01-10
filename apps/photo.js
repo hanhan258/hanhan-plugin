@@ -27,6 +27,10 @@ export class photo extends plugin {
           fnc: 'shoumao'
         },
         {
+          reg: '^(#|/)?甘城$',
+          fnc: 'gc'
+        },
+        {
           reg: '^(#|/)?每日英语$',
           fnc: 'mryy'
         },
@@ -94,6 +98,12 @@ export class photo extends plugin {
         }
       }
     }
+  }
+
+  // 甘城
+  async gc (e) {
+    await this.reply(segment.image('http://hanhan.avocado.wiki?maoyuna'))
+    return true // 返回true 阻挡消息不再往下
   }
 
   // 萌宠

@@ -68,83 +68,117 @@ export class voice extends plugin {
 
   // 抖音快手变装
   async dyksbz (e) {
-    let urls
-    if (e.msg.includes('抖音')) {
-      urls = 'http://api.yujn.cn/api/bianzhuang.php'
-    } else if (e.msg.includes('快手')) {
-      urls = 'http://api.yujn.cn/api/ksbianzhuang.php?type=video'
+    try {
+      let urls
+      if (e.msg.includes('抖音')) {
+        urls = 'http://api.yujn.cn/api/bianzhuang.php'
+      } else if (e.msg.includes('快手')) {
+        urls = 'http://api.yujn.cn/api/ksbianzhuang.php?type=video'
+      }
+      let resp = await fetch(urls)
+      console.log(resp.url)
+      await e.reply(segment.video(resp.url))
+      await is_MD(e)
+    } catch (error) {
+      e.reply('报错：' + error)
     }
-    let resp = await fetch(urls)
-    console.log(resp.url)
-    await e.reply(segment.video(resp.url))
-    await is_MD(e)
   }
 
   // 随机裙子
   async sjqz (e) {
-    let urls = 'http://api.yujn.cn/api/jksp.php?type=video'
-    let resp = await fetch(urls)
-    console.log(resp.url)
-    await e.reply(segment.video(resp.url))
-    await is_MD(e)
+    try {
+      let urls = 'http://api.yujn.cn/api/jksp.php?type=video'
+      let resp = await fetch(urls)
+      console.log(resp.url)
+      await e.reply(segment.video(resp.url))
+      await is_MD(e)
+    } catch (error) {
+      e.reply('报错：' + error)
+    }
   }
 
   // 甜妹
   async tm (e) {
-    let urls = 'http://api.yujn.cn/api/tianmei.php?type=video'
-    let resp = await fetch(urls)
-    console.log(resp.url)
-    await e.reply(segment.video(resp.url))
-    await is_MD(e)
+    try {
+      let urls = 'http://api.yujn.cn/api/tianmei.php?type=video'
+      let resp = await fetch(urls)
+      console.log(resp.url)
+      await e.reply(segment.video(resp.url))
+      await is_MD(e)
+    } catch (error) {
+      e.reply('报错：' + error)
+    }
   }
 
   // 随机小姐姐
   async sjxjj (e) {
-    // http://shanhe.kim/api/tu/sp_xjj.php
-    let urls = 'http://api.yujn.cn/api/xjj.php?'
-    let resp = await fetch(urls)
-    console.log(resp.url)
-    await e.reply(segment.video(resp.url))
-    await is_MD(e)
+    try {
+      // http://shanhe.kim/api/tu/sp_xjj.php
+      let urls = 'http://api.yujn.cn/api/xjj.php?'
+      let resp = await fetch(urls)
+      console.log(resp.url)
+      await e.reply(segment.video(resp.url))
+      await is_MD(e)
+    } catch (error) {
+      e.reply('报错：' + error)
+    }
   }
 
   // 双倍快乐
   async sbkl (e) {
-    let urls = 'http://api.yujn.cn/api/sbkl.php?type=video'
-    let resp = await fetch(urls)
-    console.log(resp.url)
-    await e.reply(segment.video(resp.url))
-    await is_MD(e)
+    try {
+      let urls = 'http://api.yujn.cn/api/sbkl.php?type=video'
+      let resp = await fetch(urls)
+      console.log(resp.url)
+      await e.reply(segment.video(resp.url))
+      await is_MD(e)
+    } catch (error) {
+      e.reply('报错：' + error)
+    }
   }
 
   // 萝莉
   async loli (e) {
-    let urls = 'http://api.yujn.cn/api/luoli.php?type=video'
-    let resp = await fetch(urls)
-    console.log(resp.url)
-    await e.reply(segment.video(resp.url))
-    await is_MD(e)
+    try {
+      let urls = 'http://api.yujn.cn/api/luoli.php?type=video'
+      let resp = await fetch(urls)
+      console.log(resp.url)
+      await e.reply(segment.video(resp.url))
+      await is_MD(e)
+    } catch (error) {
+      e.reply('报错：' + error)
+    }
   }
 
   // 玉足
   async yz (e) {
-    let urls = 'http://api.yujn.cn/api/jpmt.php?type=video'
-    let resp = await fetch(urls)
-    console.log(resp.url)
-    await e.reply(segment.video(resp.url))
-    await is_MD(e)
+    try {
+      let urls = 'http://api.yujn.cn/api/jpmt.php?type=video'
+      let resp = await fetch(urls)
+      console.log(resp.url)
+      await e.reply(segment.video(resp.url))
+      await is_MD(e)
+    } catch (error) {
+      e.reply('报错：' + error)
+    }
   }
 
   // 黑白丝
   async hbssp (e) {
-    let urls
-    if (e.msg.includes('黑丝视频')) {
-      urls = ' http://api.yujn.cn/api/heisis.php'
-    } else if (e.msg.includes('白丝视频')) {
-      urls = ' http://api.yujn.cn/api/baisis.php'
+    try {
+      let urls
+      if (e.msg.includes('黑丝视频')) {
+        urls = ' http://api.yujn.cn/api/heisis.php'
+      } else if (e.msg.includes('白丝视频')) {
+        urls = ' http://api.yujn.cn/api/baisis.php'
+      }
+      let resp = await fetch(urls)
+      console.log(resp.url)
+      await e.reply(segment.video(resp.url))
+      await is_MD(e)
+    } catch (error) {
+      e.reply('报错：' + error)
     }
-    await e.reply(segment.video(urls))
-    await is_MD(e)
   }
 
   // // 原神Cos
@@ -157,38 +191,54 @@ export class voice extends plugin {
 
   // 慢摇视频
   async mysp (e) {
-    let urls = 'http://api.yujn.cn/api/manyao.php?type=video'
-    let resp = await fetch(urls)
-    console.log(resp.url)
-    await e.reply(segment.video(resp.url))
-    await is_MD(e)
+    try {
+      let urls = 'http://api.yujn.cn/api/manyao.php?type=video'
+      let resp = await fetch(urls)
+      console.log(resp.url)
+      await e.reply(segment.video(resp.url))
+      await is_MD(e)
+    } catch (error) {
+      e.reply('报错：' + error)
+    }
   }
 
   // Cos系列
   async cosxl (e) {
-    let urls = 'http://api.yujn.cn/api/COS.php?type=video'
-    let resp = await fetch(urls)
-    console.log(resp.url)
-    await e.reply(segment.video(resp.url))
-    await is_MD(e)
+    try {
+      let urls = 'http://api.yujn.cn/api/COS.php?type=video'
+      let resp = await fetch(urls)
+      console.log(resp.url)
+      await e.reply(segment.video(resp.url))
+      await is_MD(e)
+    } catch (error) {
+      e.reply('报错：' + error)
+    }
   }
 
   // 纯情女高
   async cqng (e) {
-    let urls = 'http://api.yujn.cn/api/nvgao.php?type=video'
-    let resp = await fetch(urls)
-    console.log(resp.url)
-    await e.reply(segment.video(resp.url))
-    await is_MD(e)
+    try {
+      let urls = 'http://api.yujn.cn/api/nvgao.php?type=video'
+      let resp = await fetch(urls)
+      console.log(resp.url)
+      await e.reply(segment.video(resp.url))
+      await is_MD(e)
+    } catch (error) {
+      e.reply('报错：' + error)
+    }
   }
 
   // 吊带系列
   async ddxl (e) {
-    let urls = 'http://api.yujn.cn/api/diaodai.php?type=video'
-    let resp = await fetch(urls)
-    console.log(resp.url)
-    await e.reply(segment.video(resp.url))
-    await is_MD(e)
+    try {
+      let urls = 'http://api.yujn.cn/api/diaodai.php?type=video'
+      let resp = await fetch(urls)
+      console.log(resp.url)
+      await e.reply(segment.video(resp.url))
+      await is_MD(e)
+    } catch (error) {
+      e.reply('报错：' + error)
+    }
   }
 }
 

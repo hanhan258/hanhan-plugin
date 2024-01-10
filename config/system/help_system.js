@@ -78,11 +78,14 @@ export const helpList = [
         title: 'mc酱',
         desc: 'mc酱'
       }, {
+        title: '兽猫酱',
+        desc: '兽猫酱'
+      }, {
         title: '集原美',
         desc: '集原美'
       }, {
-        title: '兽猫酱',
-        desc: '兽猫酱'
+        title: '甘城',
+        desc: '甘城猫猫'
       }, {
         title: '情侣头像',
         desc: '返回情侣头像，有概率没返回图'
@@ -122,8 +125,8 @@ export const helpList = [
         title: '咖波',
         desc: '可爱咖波捏'
       }, {
-        title: '甘城',
-        desc: '甘城猫猫'
+        title: '小豆泥',
+        desc: '小豆泥'
       }, {
         title: '蘑菇头',
         desc: '蘑菇头表情包'
