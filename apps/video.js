@@ -61,9 +61,60 @@ export class voice extends plugin {
         {
           reg: '^#?吊带系列$',
           fnc: 'ddxl'
+        },
+        {
+          reg: '^#?完美身材$',
+          fnc: 'wmsc'
+        },
+        {
+          reg: '^#?热舞视频$',
+          fnc: 'rwsp'
+        },
+        {
+          reg: '^#?穿搭系列$',
+          fnc: 'cdxl'
         }
       ]
     })
+  }
+
+  // 穿搭系列
+  async cdxl (e) {
+    try {
+      let urls = 'http://api.yujn.cn/api/chuanda.php?type=video'
+      let resp = await fetch(urls)
+      console.log(resp.url)
+      await e.reply(segment.video(resp.url))
+      await is_MD(e)
+    } catch (error) {
+      e.reply('报错：' + error)
+    }
+  }
+
+  // 热舞视频
+  async rwsp (e) {
+    try {
+      let urls = 'http://api.yujn.cn/api/rewu.php?type=video'
+      let resp = await fetch(urls)
+      console.log(resp.url)
+      await e.reply(segment.video(resp.url))
+      await is_MD(e)
+    } catch (error) {
+      e.reply('报错：' + error)
+    }
+  }
+
+  // 完美身材
+  async wmsc (e) {
+    try {
+      let urls = 'http://api.yujn.cn/api/wmsc.php?type=video'
+      let resp = await fetch(urls)
+      console.log(resp.url)
+      await e.reply(segment.video(resp.url))
+      await is_MD(e)
+    } catch (error) {
+      e.reply('报错：' + error)
+    }
   }
 
   // 抖音快手变装

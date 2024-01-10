@@ -237,6 +237,15 @@ export const helpList = [
       }, {
         title: '吊带系列',
         desc: '有点......'
+      }, {
+        title: '完美身材',
+        desc: '没看出来'
+      }, {
+        title: '热舞视频',
+        desc: '一般般'
+      }, {
+        title: '穿搭系列',
+        desc: '凑合'
       }
     ]
   }, {

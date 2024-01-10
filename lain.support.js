@@ -162,22 +162,27 @@ export default class Button {
       if (!(Config.buttonWhiteGroups.includes(e.group_id))) { return false }
     }
     list = [
+      { label: 'cos', data: '/cos系列' },
       { label: 'loli', data: '/loli' },
       { label: '甜妹', data: '/甜妹视频' },
       { label: '玉足', data: '/玉足' },
 
-      { label: 'cos系列', data: '/cos系列' },
-      { label: '慢摇视频', data: '/慢摇视频' },
-      { label: '吊带系列', data: '/吊带系列' },
+      { label: '黑丝', data: '/黑丝视频' },
+      { label: '白丝', data: '/白丝视频' },
+      { label: '慢摇', data: '/慢摇视频' },
+      { label: '吊带', data: '/吊带系列' },
 
-      { label: '双倍快乐', data: '/双倍快乐' },
-      { label: '纯情女高', data: '/纯情女高' },
-      { label: '随机裙子', data: '/随机裙子' },
+      { label: '裙子', data: '/随机裙子' },
+      { label: '双倍', data: '/双倍快乐' },
+      { label: '女高', data: '/纯情女高' },
+      { label: '热舞', data: '/热舞视频' },
 
-      { label: '抖音变装', data: '/抖音变装' },
-      { label: '快手变装', data: '/快手变装' }
+      { label: '身材', data: '/完美身材' },
+      { label: '穿搭', data: '/穿搭系列' },
+      { label: '抖音', data: '/抖音变装' },
+      { label: '快手', data: '/快手变装' }
     ]
-    return toButton(list, 3)
+    return toButton(list, 4)
   }
 
   voice (e) {
