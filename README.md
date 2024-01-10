@@ -1,12 +1,18 @@
-
-# hanhan-plugin
-## 你不让我们用bot的居心何在？
-
-我们的宗旨就是摆就完事了。
+![](../../plugins//hanhan-plugin//resources//readme//readme.jpg)
 
 支持Yunzai-Bot、Miao-Yunzai和TRSS-Yunzai（部分支持）
 
+## 交流群
+
+QQ群：461601720
+
 ## 安装
+
+### Github镜像
+
+```bash:numbers
+git clone https://mirror.ghproxy.com/https://github.com/hanhan258/hanhan-plugin.git ./plugins/hanhan-plugin
+```
 
 ### Github
 ```bash:numbers
@@ -32,13 +38,9 @@ pnpm i
 
 发送`#nav`或者`#憨憨帮助`查看功能
 
-<img src="./resources/readme/help.jpg" alt="9c055127d23b558114f2621c5b90d858" style="zoom:35%;" />
-
 ## 搜一搜帮助
 
 发送`#搜一搜帮助`查看功能
-
-<img src="./resources/readme/sys.jpg" alt="9c055127d23b558114f2621c5b90d858" style="zoom:50%;" />
 
 
 ## 说明
@@ -48,7 +50,10 @@ pnpm i
 
 如果觉得本项目好玩或者对你有帮助，愿意的话可以赞助我一口快乐水：
 
-https://afdian.net/a/hanhanbeea
+| Name           | QQ        | Link                            |
+| -------------- | --------- | ------------------------------- |
+| 憨憨           | 916949904 | https://afdian.net/a/hanhanbeea |
+| 所有爱发电成员 | None      | 感谢所有爱发电成员的支持        |
 
 ## 贡献者
 
