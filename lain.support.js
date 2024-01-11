@@ -157,7 +157,7 @@ export default class Button {
 
       { label: '舔狗日记', data: '/舔狗日记' },
       { label: '新春祝福', data: '/新春祝福' },
-      { label: '随机贴吧', data: '/随机 吧' },
+      { label: '随机贴吧', data: '/随机 吧', enter: false },
 
       { label: '英雄联盟台词', data: '/英雄联盟台词' },
       { label: '网易云热评', data: '/网易云热评' }
