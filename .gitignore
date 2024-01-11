@@ -1,4 +1,5 @@
 !config/config.example.json
+!config/config.json
 resources/ls/
 # Logs
 logs

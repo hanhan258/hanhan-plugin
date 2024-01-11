@@ -15,7 +15,11 @@ export default class Button {
           fnc: 'girl'
         },
         {
-          reg: '^#?(图片类菜单|甘城|mc酱|兽猫酱|每日英语|萌宠|可爱萌宠|随机acg|集原美)$',
+          reg: '^#?随机(.*)吧',
+          fnc: 'text'
+        },
+        {
+          reg: '^#?(图片类菜单|甘城|mc酱|兽猫酱|每日英语|萌宠|可爱萌宠|随机acg|集原美|情侣头像)$',
           fnc: 'photo'
         },
         {
@@ -23,7 +27,7 @@ export default class Button {
           fnc: 'face'
         },
         {
-          reg: '^#?(文本类菜单|随机日记|新春祝福|污句子|kfc|v50|舔狗日记|网易云热评)$',
+          reg: '^#?(文本类菜单|随机日记|新春祝福|污句子|kfc|v50|舔狗日记|网易云热评|英雄联盟台词)$',
           fnc: 'text'
         },
         {
@@ -102,6 +106,8 @@ export default class Button {
       { label: 'mc酱', data: '/mc酱' },
       { label: '兽猫酱', data: '/兽猫酱' },
       { label: '集原美', data: '/集原美' },
+
+      { label: '情侣头像', data: '/情侣头像' },
       { label: '每日英语', data: '/每日英语' }
     ]
     return toButton(list, 3)
@@ -151,6 +157,9 @@ export default class Button {
 
       { label: '舔狗日记', data: '/舔狗日记' },
       { label: '新春祝福', data: '/新春祝福' },
+      { label: '随机贴吧', data: '/随机 吧' },
+
+      { label: '英雄联盟台词', data: '/英雄联盟台词' },
       { label: '网易云热评', data: '/网易云热评' }
     ]
     button.push(...toButton(list, 3))

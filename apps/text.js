@@ -59,7 +59,7 @@ export class text extends plugin {
         for (let i = 0; i < result.images.length; i++) {
           forwardMsgs.push(result.images[i])
           forwardMsgs.push(segment.image(result.images[i]))
-          console.log(i)
+          // console.log(i)
         }
         forwardMsgs.push('如果图片裂开了，请复制链接到浏览器打开')
       }

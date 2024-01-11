@@ -122,7 +122,6 @@ export class photo extends plugin {
     }
     console.log(result)
     let forwardMsgs = []
-    forwardMsgs.push('数据均来源于虎扑评分')
     forwardMsgs.push('英雄台词：' + result.data.name)
     if (result.data.content == null) {
       forwardMsgs.push('评论：没有评论')
@@ -130,8 +129,9 @@ export class photo extends plugin {
       forwardMsgs.push('评论：' + result.data.content)
     }
     forwardMsgs.push(segment.image(result.data.img))
-    forwardMsgs.push(result.data.img)
-    forwardMsgs.push('如果图片裂开了，请复制链接到浏览器打开')
+    if (e.bot.adapter != 'QQBot') {
+      forwardMsgs.push(result.data.img)
+    }
 
     let dec = '英雄联盟台词'
     return this.reply(await recallSendForwardMsg(e, forwardMsgs, false, dec))
@@ -143,6 +143,9 @@ export class photo extends plugin {
     let encode = e.msg.replace(/^#?随机/, '').trim()
     let prefix = encode.split('吧')[0] // 使用split()方法以"吧"为分隔符分割字符串，然后获取第一个元素（吧字前面的内容）
     console.log(prefix) // 输出提取的内容
+    if (!prefix && prefix.length == 0) {
+      return e.reply('你没有输入要查询的贴吧')
+    }
     let url = `https://api.yujn.cn/api/tieba.php?type=json&msg=${prefix}`
     let res = await axios.get(url) // 调用接口获取数据
     let result = await res.data
@@ -161,10 +164,11 @@ export class photo extends plugin {
       if (result.images && result.images.length > 0) {
         for (let i = 0; i < result.images.length; i++) {
           forwardMsgs.push(segment.image(result.images[i]))
-          forwardMsgs.push(result.images[i])
-          console.log(i)
+          if (e.bot.adapter != 'QQBot') {
+            forwardMsgs.push(result.images[i])
+            // console.log(i)
+          }
         }
-        forwardMsgs.push('如果图片裂开了，请复制链接到浏览器打开')
       }
       let dec = encode
       return this.reply(await recallSendForwardMsg(e, forwardMsgs, false, dec))
@@ -182,14 +186,15 @@ export class photo extends plugin {
     let forwardMsgs = []
     forwardMsgs.push(result.title)
     forwardMsgs.push(result.detail)
-    forwardMsgs.push('如果图片裂开了，请复制链接到浏览器打开')
     if (result.image_count == 0) {
       forwardMsgs.push('没有图片')
     } else {
       for (let i = 0; i < result.image_count; i++) {
-        forwardMsgs.push(result.img[i])
         forwardMsgs.push(segment.image(result.img[i]))
-        console.log(i)
+        if (e.bot.adapter != 'QQBot') {
+          forwardMsgs.push(result.img[i])
+        }
+        // console.log(i)
       }
     }
 

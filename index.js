@@ -41,6 +41,7 @@ logger.info(chalk.green.bold('▐█▙▂　　     　◢██◤'))
 logger.info(chalk.green.bold('◥██◣　　　　◢▄◤'))
 logger.info(chalk.green.bold(' 　　▀██▅▇▀'))
 logger.info(chalk.green.bold(`当前版本 v${Config.version}`))
+logger.info(chalk.green.bold('插件群：461601720'))
 logger.info(`${chalk.cyan.italic('仓库地址')} ${chalk.yellowBright.underline('https://github.com/hanhan258/hanhan-plugin')}`)
 logger.info(`${chalk.redBright.bold('********************[')}${chalk.cyan.bold('///^///')}${chalk.redBright.bold(']********************')}`)
 export { apps }
