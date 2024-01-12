@@ -1,6 +1,5 @@
 import plugin from '../../../lib/plugins/plugin.js'
 import { Config } from '../utils/config.js'
-let Whitelist_group = Config.buttonWhiteGroups || []
 
 export class manage extends plugin {
   constructor () {
@@ -106,14 +105,13 @@ export class manage extends plugin {
       this.finish('savewhitegroup')
       return
     }
-    Whitelist_group = Config.buttonWhiteGroups || []
+    const Whitelist_group = Config.buttonWhiteGroups || []
     if (Whitelist_group.includes(key)) {
       await this.reply('群号已存在', true)
       this.finish('savewhitegroup')
       return
     }
     Whitelist_group.push(key)
-    console.log(Whitelist_group)
     Config.buttonWhiteGroups = Whitelist_group
     await this.reply('按钮白名单群设置成功', true)
     this.finish('savewhitegroup')
@@ -139,7 +137,7 @@ export class manage extends plugin {
       this.finish('savedelwhitegroup')
       return
     }
-    Whitelist_group = Config.buttonWhiteGroups || []
+    const Whitelist_group = Config.buttonWhiteGroups
     if (!Whitelist_group.includes(key)) {
       await this.reply('群号不存在', true)
       this.finish('savedelwhitegroup')
@@ -150,7 +148,6 @@ export class manage extends plugin {
     if (index > -1) {
       Whitelist_group.splice(index, 1)
     }
-    console.log(Whitelist_group)
     Config.buttonWhiteGroups = Whitelist_group
     await this.reply('按钮白名单群删除成功', true)
     this.finish('savedelwhitegroup')
