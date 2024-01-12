@@ -1,5 +1,6 @@
 import fs from 'fs'
 import lodash from 'lodash'
+import chokidar from 'chokidar'
 const defaultConfig = {
   pingToken: '',
   proxyUrl: '',
@@ -62,20 +63,64 @@ config.version = defaultConfig.version
 // const latestTag = execSync(`cd ${_path}/plugins/chatgpt-plugin && git describe --tags --abbrev=0`).toString().trim()
 // config.version = latestTag
 
-export const Config = new Proxy(config, {
-  set (target, property, value) {
-    target[property] = value
-    const change = lodash.transform(target, function (result, value, key) {
-      if (!lodash.isEqual(value, defaultConfig[key])) {
-        result[key] = value
+function sleep (ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms))
+}
+
+// 初始化currentConfig引用
+let currentConfig = config;
+
+// 创建一个Chokidar实例来监视config.json
+const configWatcher = chokidar.watch(`${_path}/plugins/hanhan-plugin/config/config.json`, {
+  persistent: true,
+  ignoreInitial: true,
+});
+
+configWatcher.on('change', async (filePath) => {
+  try {
+    await sleep(1500)
+    const data = fs.readFileSync(filePath, 'utf8')
+    const updatedConfig = JSON.parse(data)
+    currentConfig = Object.assign({}, defaultConfig, updatedConfig)
+
+    Config = new Proxy(currentConfig, {
+      set (target, property, value) {
+        target[property] = value
+        const change = lodash.transform(target, function (result, value, key) {
+          if (!lodash.isEqual(value, defaultConfig[key])) {
+            result[key] = value
+          }
+        })
+        try {
+          fs.writeFileSync(`${_path}/plugins/hanhan-plugin/config/config.json`, JSON.stringify(change, null, 2), { flag: 'w' })
+        } catch (err) {
+          logger.error(err)
+          return false
+        }
+        return true
       }
     })
-    try {
-      fs.writeFileSync(`${_path}/plugins/hanhan-plugin/config/config.json`, JSON.stringify(change, null, 2), { flag: 'w' })
-    } catch (err) {
-      logger.error(err)
-      return false
-    }
-    return true
+
+    logger.info('[hanhan-Plugin]检测到config.json变更，并成功重新加载配置')
+  } catch (err) {
+    logger.error(`[hanhan-Plugin]重新加载config.json时出错：`, err)
   }
 })
+  
+  export let Config = new Proxy(currentConfig, {
+    set (target, property, value) {
+      target[property] = value
+      const change = lodash.transform(target, function (result, value, key) {
+        if (!lodash.isEqual(value, defaultConfig[key])) {
+          result[key] = value
+        }
+      })
+      try {
+        fs.writeFileSync(`${_path}/plugins/hanhan-plugin/config/config.json`, JSON.stringify(change, null, 2), { flag: 'w' })
+      } catch (err) {
+        logger.error(err)
+        return false
+      }
+      return true
+    }
+  })
