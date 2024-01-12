@@ -1,4 +1,5 @@
 import plugin from '../../../lib/plugins/plugin.js'
+import { Config } from '../utils/config.js'
 
 import fetch from 'node-fetch'
 
@@ -81,6 +82,7 @@ export class voice extends plugin {
   // 穿搭系列
   async cdxl (e) {
     try {
+      if (!Config.enableVideo) { return }
       let urls = 'http://api.yujn.cn/api/chuanda.php?type=video'
       let resp = await fetch(urls)
       console.log(resp.url)
@@ -94,6 +96,7 @@ export class voice extends plugin {
   // 热舞视频
   async rwsp (e) {
     try {
+      if (!Config.enableVideo) { return }
       let urls = 'http://api.yujn.cn/api/rewu.php?type=video'
       let resp = await fetch(urls)
       console.log(resp.url)
@@ -107,6 +110,7 @@ export class voice extends plugin {
   // 完美身材
   async wmsc (e) {
     try {
+      if (!Config.enableVideo) { return }
       let urls = 'http://api.yujn.cn/api/wmsc.php?type=video'
       let resp = await fetch(urls)
       console.log(resp.url)
@@ -120,6 +124,7 @@ export class voice extends plugin {
   // 抖音快手变装
   async dyksbz (e) {
     try {
+      if (!Config.enableVideo) { return }
       let urls
       if (e.msg.includes('抖音')) {
         urls = 'http://api.yujn.cn/api/bianzhuang.php'
@@ -137,6 +142,7 @@ export class voice extends plugin {
 
   // 随机裙子
   async sjqz (e) {
+    if (!Config.enableVideo) { return }
     try {
       let urls = 'http://api.yujn.cn/api/jksp.php?type=video'
       let resp = await fetch(urls)
@@ -151,6 +157,7 @@ export class voice extends plugin {
   // 甜妹
   async tm (e) {
     try {
+      if (!Config.enableVideo) { return }
       let urls = 'http://api.yujn.cn/api/tianmei.php?type=video'
       let resp = await fetch(urls)
       console.log(resp.url)
@@ -164,6 +171,7 @@ export class voice extends plugin {
   // 随机小姐姐
   async sjxjj (e) {
     try {
+      if (!Config.enableVideo) { return }
       // http://shanhe.kim/api/tu/sp_xjj.php
       let urls = 'http://api.yujn.cn/api/xjj.php?'
       let resp = await fetch(urls)
@@ -178,6 +186,7 @@ export class voice extends plugin {
   // 双倍快乐
   async sbkl (e) {
     try {
+      if (!Config.enableVideo) { return }
       let urls = 'http://api.yujn.cn/api/sbkl.php?type=video'
       let resp = await fetch(urls)
       console.log(resp.url)
@@ -191,6 +200,7 @@ export class voice extends plugin {
   // 萝莉
   async loli (e) {
     try {
+      if (!Config.enableVideo) { return }
       let urls = 'http://api.yujn.cn/api/luoli.php?type=video'
       let resp = await fetch(urls)
       console.log(resp.url)
@@ -204,6 +214,7 @@ export class voice extends plugin {
   // 玉足
   async yz (e) {
     try {
+      if (!Config.enableVideo) { return }
       let urls = 'http://api.yujn.cn/api/jpmt.php?type=video'
       let resp = await fetch(urls)
       console.log(resp.url)
@@ -217,6 +228,7 @@ export class voice extends plugin {
   // 黑白丝
   async hbssp (e) {
     try {
+      if (!Config.enableVideo) { return }
       let urls
       if (e.msg.includes('黑丝视频')) {
         urls = ' http://api.yujn.cn/api/heisis.php'
@@ -243,6 +255,7 @@ export class voice extends plugin {
   // 慢摇视频
   async mysp (e) {
     try {
+      if (!Config.enableVideo) { return }
       let urls = 'http://api.yujn.cn/api/manyao.php?type=video'
       let resp = await fetch(urls)
       console.log(resp.url)
@@ -256,6 +269,7 @@ export class voice extends plugin {
   // Cos系列
   async cosxl (e) {
     try {
+      if (!Config.enableVideo) { return }
       let urls = 'http://api.yujn.cn/api/COS.php?type=video'
       let resp = await fetch(urls)
       console.log(resp.url)
@@ -269,6 +283,7 @@ export class voice extends plugin {
   // 纯情女高
   async cqng (e) {
     try {
+      if (!Config.enableVideo) { return }
       let urls = 'http://api.yujn.cn/api/nvgao.php?type=video'
       let resp = await fetch(urls)
       console.log(resp.url)
@@ -282,6 +297,7 @@ export class voice extends plugin {
   // 吊带系列
   async ddxl (e) {
     try {
+      if (!Config.enableVideo) { return }
       let urls = 'http://api.yujn.cn/api/diaodai.php?type=video'
       let resp = await fetch(urls)
       console.log(resp.url)

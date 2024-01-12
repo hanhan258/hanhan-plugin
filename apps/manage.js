@@ -28,6 +28,10 @@ export class manage extends plugin {
         {
           reg: '^#(关闭|开启)按钮白名单$',
           fnc: 'enableWhiteGroup'
+        },
+        {
+          reg: '^#(关闭|开启)视频$',
+          fnc: 'enableVideo'
         }
       ]
     })
@@ -169,6 +173,27 @@ export class manage extends plugin {
       } else {
         Config.enableButton = true // 打开
         await this.reply('已打开按钮白名单', true)
+      }
+    }
+    return false
+  }
+
+  // 开启关闭视频
+  async enableVideo (e) {
+    if (!this.e.isMaster) {
+      e.reply('需要主人才能设置捏~')
+      return false
+    }
+    const reg = /(关闭|开启)/
+    const match = e.msg.match(reg)
+    if (match) {
+      const action = match[1]
+      if (action === '关闭') {
+        Config.enableVideo = false // 关闭
+        await this.reply('已关闭发送视频', true)
+      } else {
+        Config.enableVideo = true // 打开
+        await this.reply('已打开发送视频', true)
       }
     }
     return false
