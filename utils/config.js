@@ -86,6 +86,17 @@ configWatcher.on('change', async (filePath) => {
     Config = new Proxy(currentConfig, {
       set (target, property, value) {
         target[property] = value
+        const change = lodash.transform(target, function (result, value, key) {
+          if (!lodash.isEqual(value, defaultConfig[key])) {
+            result[key] = value
+          }
+        })
+        try {
+          fs.writeFileSync(`${_path}/plugins/hanhan-plugin/config/config.json`, JSON.stringify(change, null, 2), { flag: 'w' })
+        } catch (err) {
+          logger.error(err)
+          return false
+        }
         return true
       }
     })
