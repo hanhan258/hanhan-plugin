@@ -1,4 +1,5 @@
 import plugin from '../../../lib/plugins/plugin.js'
+import { Config } from '../utils/config.js'
 import fetch from 'node-fetch'
 
 export class voice extends plugin {
@@ -84,5 +85,8 @@ export class voice extends plugin {
 }
 
 async function is_MD (e) {
+  if (Config.enableButton || false) {
+    if (!(Config.buttonWhiteGroups.includes(e.group_id))) { return false }
+  }
   if (e.bot.config?.markdown) { await e.reply('语音类菜单') }
 }
