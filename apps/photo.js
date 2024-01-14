@@ -123,13 +123,11 @@ export class photo extends plugin {
     console.log(result)
     let forwardMsgs = []
     forwardMsgs.push('英雄台词：' + result.data.name)
-    if (result.data.content == null) {
-      forwardMsgs.push('评论：没有评论')
-    } else {
+    if (result.data.content) {
       forwardMsgs.push('评论：' + result.data.content)
     }
-    forwardMsgs.push(segment.image(result.data.img))
     if (e.bot.adapter != 'QQBot') {
+      forwardMsgs.push(segment.image(result.data.img))
       forwardMsgs.push(result.data.img)
     }
 

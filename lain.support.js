@@ -1,4 +1,4 @@
-import { Config } from '../hanhan-plugin/utils/config.js'
+import { Config } from './utils/config.js'
 
 let list
 let button
