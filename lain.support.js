@@ -1,4 +1,6 @@
 import { Config } from './utils/config.js'
+import fs from 'fs'
+import yaml from 'yaml'
 
 let list
 let button
@@ -61,8 +63,8 @@ export default class Button {
         {
           reg: '^#?(开启俄罗斯轮盘|开盘|开启轮盘|开启转盘|俄罗斯轮盘|结束游戏|当前子弹|开枪)$',
           fnc: 'els'
-        }
-      ]
+        },
+     ]
     }
   }
 
@@ -146,9 +148,14 @@ export default class Button {
       if (!(Config.buttonWhiteGroups.includes(e.group_id))) { return false }
     }
     button = []
+    const filePath = `./plugins/example/QQBotRelation/${e.self_id}.yaml`
+    let form = {}
+    if (fs.existsSync(filePath))
+      form = yaml.parse(fs.readFileSync(filePath, 'utf8'))
+    const nickname = form[e.user_id]?.nickname || `可爱的<@${e.sender.user_openid}>酱`
     list = [
       { label: '发癫', data: '/发癫', enter: false },
-      { label: 'at发癫', data: `/发癫 可爱的<@${e.sender.user_openid}>酱`, enter: false },
+      { label: 'at发癫', data: `/发癫 ${nickname}`, enter: false },
       { label: 'kfc', data: '/kfc' },
 
       { label: '油价', data: '/油价', enter: false },
