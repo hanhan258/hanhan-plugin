@@ -48,26 +48,30 @@ export class text extends plugin {
   // 沙雕新闻
   async sd (e) {
     let forwardMsgs = []
-    let url = 'https://api.yujn.cn/api/shadiao.php?'
-    let res = await axios.get(url) // 调用接口获取数据
-    let result = await res.data
-    console.log(result)
-    if (res.status == 200) {
-      forwardMsgs.push(result.title)
-      forwardMsgs.push(result.content)
-      if (result.images && result.images.length > 0) {
-        for (let i = 0; i < result.images.length; i++) {
-          forwardMsgs.push(result.images[i])
-          forwardMsgs.push(segment.image(result.images[i]))
-          // console.log(i)
+    try {
+      let url = 'https://api.yujn.cn/api/shadiao.php?'
+      let res = await axios.get(url) // 调用接口获取数据
+      let result = await res.data
+      console.log(result)
+      if (res.status == 200) {
+        forwardMsgs.push(result.title)
+        forwardMsgs.push(result.content)
+        if (result.images && result.images.length > 0) {
+          for (let i = 0; i < result.images.length; i++) {
+            forwardMsgs.push(result.images[i])
+            forwardMsgs.push(segment.image(result.images[i]))
+            // console.log(i)
+          }
+          forwardMsgs.push('如果图片裂开了，请复制链接到浏览器打开')
         }
-        forwardMsgs.push('如果图片裂开了，请复制链接到浏览器打开')
+        forwardMsgs.push(result.video)
+        let dec = e.msg
+        return this.reply(await recallSendForwardMsg(e, forwardMsgs, false, dec))
+      } else {
+        e.reply('查询失败,可能接口失效力~，请联系憨憨捏~')
       }
-      forwardMsgs.push(result.video)
-      let dec = e.msg
-      return this.reply(await recallSendForwardMsg(e, forwardMsgs, false, dec))
-    } else {
-      e.reply('查询失败,可能接口失效力~，请联系憨憨捏~')
+    } catch (error) {
+      e.reply('报错：' + error)
     }
   }
 
@@ -100,45 +104,61 @@ export class text extends plugin {
     }
     console.log(encode)
     let url = `https://api.qqsuu.cn/api/dm-oilprice?prov=${encode}`
-    let response = await axios.get(url) // 调用接口获取数据
-    if (response.data.code == 200) {
-      sendmsg.push('查询省份：' + response.data.data.prov, '\n')
-      sendmsg.push('0#柴油：' + response.data.data.p0, '\n')
-      sendmsg.push('89#汽油：' + response.data.data.p89, '\n')
-      sendmsg.push('92#汽油：' + response.data.data.p92, '\n')
-      sendmsg.push('95#汽油：' + response.data.data.p95, '\n')
-      sendmsg.push('98#汽油：' + response.data.data.p98, '\n')
-      sendmsg.push(response.data.data.time)
-      await this.reply(sendmsg)
-    } else {
-      await this.reply('查询失败,可能接口失效力~，请联系憨憨捏~')
+    try {
+      let response = await axios.get(url) // 调用接口获取数据
+      if (response.data.code == 200) {
+        sendmsg.push('查询省份：' + response.data.data.prov, '\n')
+        sendmsg.push('0#柴油：' + response.data.data.p0, '\n')
+        sendmsg.push('89#汽油：' + response.data.data.p89, '\n')
+        sendmsg.push('92#汽油：' + response.data.data.p92, '\n')
+        sendmsg.push('95#汽油：' + response.data.data.p95, '\n')
+        sendmsg.push('98#汽油：' + response.data.data.p98, '\n')
+        sendmsg.push(response.data.data.time)
+        await this.reply(sendmsg)
+      } else {
+        await this.reply('查询失败,可能接口失效力~，请联系憨憨捏~')
+      }
+    } catch (error) {
+      e.reply('报错：' + error)
     }
   }
 
   // 污句子
   async wjz (e) {
-    let resp = await fetch('http://api.yujn.cn/api/text_wu.php?')
-    let str = await resp.text()
-    let result = str.trim()
-    if (result.includes('http')) { return e.reply('返回内容错误') }
-    await this.reply(result)
+    try {
+      let resp = await fetch('http://api.yujn.cn/api/text_wu.php?')
+      let str = await resp.text()
+      let result = str.trim()
+      if (result.includes('http')) { return e.reply('返回内容错误') }
+      await this.reply(result)
+    } catch (error) {
+      e.reply('报错：' + error)
+    }
   }
 
   // 新春祝福
   async newyear (e) {
-    let resp = await fetch('http://api.yujn.cn/api/zhufu.php')
-    let str = await resp.text()
-    let result = str.trim()
-    if (result.includes('http')) { return e.reply('返回内容错误') }
-    await this.reply(result)
+    try {
+      let resp = await fetch('http://api.yujn.cn/api/zhufu.php')
+      let str = await resp.text()
+      let result = str.trim()
+      if (result.includes('http')) { return e.reply('返回内容错误') }
+      await this.reply(result)
+    } catch (error) {
+      e.reply('报错：' + error)
+    }
   }
 
   // 随机日记
   async sjrj (e) {
-    let resp = await fetch('http://api.yujn.cn/api/baoan.php?')
-    let result = he.decode(await resp.text()).replace(/<br>/g, '\n')
-    if (result.includes('http')) { return e.reply('返回内容错误') }
-    await this.reply(result)
+    try {
+      let resp = await fetch('http://api.yujn.cn/api/baoan.php?')
+      let result = he.decode(await resp.text()).replace(/<br>/g, '\n')
+      if (result.includes('http')) { return e.reply('返回内容错误') }
+      await this.reply(result)
+    } catch (error) {
+      e.reply('报错：' + error)
+    }
   }
 
   // 发癫

@@ -53,6 +53,10 @@ export class photo extends plugin {
         {
           reg: '^(#|/)?(萌宠|可爱萌宠)$',
           fnc: 'mengc'
+        },
+        {
+          reg: '^(#|/)?图集解析(.*)$',
+          fnc: 'jx'
         }
       ]
     })
@@ -97,6 +101,29 @@ export class photo extends plugin {
           logger.warn('机器人不在要发送的群组里。' + groupId)
         }
       }
+    }
+  }
+
+  // 解析
+  async jx (e) {
+    let key = e.msg.replace(/^#?图集解析/, '').trim()
+    try {
+      let url = `http://api.yujn.cn/api/dspjx.php?url=${key}`
+      let res = await fetch(url) // 调用接口获取数据
+      let result = await res.json()
+      if (result.code != 200) {
+        return e.reply('api寄了')
+      }
+      let forwardMsgs = []
+      console.log(result)
+      forwardMsgs.push(result.data.title)
+      for (let i = 0; i < result.data.img.length; i++) {
+        forwardMsgs.push(segment.image(result.data.img[i]))
+      }
+      let dec = '图片'
+      return this.reply(await recallSendForwardMsg(e, forwardMsgs, false, dec))
+    } catch (error) {
+      e.reply('报错：' + error)
     }
   }
 

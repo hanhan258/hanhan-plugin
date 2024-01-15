@@ -63,8 +63,8 @@ export default class Button {
         {
           reg: '^#?(开启俄罗斯轮盘|开盘|开启轮盘|开启转盘|俄罗斯轮盘|结束游戏|当前子弹|开枪)$',
           fnc: 'els'
-        },
-     ]
+        }
+      ]
     }
   }
 
@@ -150,8 +150,7 @@ export default class Button {
     button = []
     const filePath = `./plugins/example/QQBotRelation/${e.self_id}.yaml`
     let form = {}
-    if (fs.existsSync(filePath))
-      form = yaml.parse(fs.readFileSync(filePath, 'utf8'))
+    if (fs.existsSync(filePath)) { form = yaml.parse(fs.readFileSync(filePath, 'utf8')) }
     const nickname = form[e.user_id]?.nickname || `可爱的<@${e.sender.user_openid}>酱`
     list = [
       { label: '发癫', data: '/发癫', enter: false },
@@ -309,7 +308,7 @@ function toButton (list, line = 2, allow_random = true) {
       buttons: [{
         id: String(Date.now()),
         render_data: {
-          label: '交给憨憨',
+          label: '随机一个',
           style: 1
         },
         action: {

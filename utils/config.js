@@ -15,7 +15,7 @@ const defaultConfig = {
   buttonWhiteGroups: '',
   enableButton: false,
   enableVideo: true,
-  version: '1.5.5'
+  version: '1.5.6'
 }
 const _path = process.cwd()
 let config = {}

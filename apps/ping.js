@@ -1,8 +1,8 @@
 import plugin from '../../../lib/plugins/plugin.js'
 import { Config } from '../utils/config.js'
-import dns from 'dns'
 import { exec } from 'child_process'
 import pingMan from 'pingman'
+import dns from 'dns'
 import net from 'net'
 
 export class Ping extends plugin {
@@ -16,8 +16,26 @@ export class Ping extends plugin {
         {
           reg: '^#?[pP]ing ',
           fnc: 'ping'
+        },
+        {
+          reg: '^#?ns ',
+          fnc: 'resolveNs'
         }
       ]
+    })
+  }
+
+  // NS
+  async resolveNs (e) {
+    let domain = e.msg.trim().replace(/^#?ns/, '').trim()
+    console.log(domain)
+    dns.resolveNs(domain, (error, addresses) => {
+      if (error) {
+        console.error(error)
+        return
+      }
+      console.log(`Name servers for ${domain}:`)
+      e.reply(`Name servers for ${domain}:\n${addresses.join('\n')}`)
     })
   }
 
@@ -57,7 +75,7 @@ export class Ping extends plugin {
               '最大延迟：' + Math.floor(response.max) + 'ms\n' +
               '平均延迟：' + Math.floor(response.avg) + 'ms\n' +
               '发送数据包: ' + numberOfEchos + '\n' +
-              '丢失数据包: ' + (numberOfEchos - response.times.length) + '\n' +
+              '丢失数据包: ' + Math.round(numberOfEchos * (response.packetLoss / 100)) + '\n' +
               '丢包率：' + response.packetLoss + '%'
         } else {
           pingRes = `目标地址${!e.isGroup ? '(' + ipAddress + ')' : domain || ''}无法响应，请检查网络连接是否正常(是否需要代理访问？)，或该站点是否已关闭。`
