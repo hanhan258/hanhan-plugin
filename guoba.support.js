@@ -56,6 +56,12 @@ export function supportGuoba () {
           component: 'Input'
         },
         {
+          field: 'tmdb_r18',
+          label: '是否允许TMDB搜索瑟瑟的内容',
+          bottomHelpMessage: 'R18，瑟瑟哒咩！',
+          component: 'Switch'
+        },
+        {
           field: 'sysecho',
           label: '搜一搜搜索提示词',
           bottomHelpMessage: '个性化搜一搜搜索提示词',

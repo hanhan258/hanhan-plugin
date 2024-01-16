@@ -11,11 +11,12 @@ const defaultConfig = {
   sysecho0: '30000ms erorr',
   sysgqjt: 1,
   gdkey: '',
+  tmdb_r18: false,
   studyGroups: '',
   buttonWhiteGroups: '',
   enableButton: false,
   enableVideo: true,
-  version: '1.5.6'
+  version: '1.5.7'
 }
 const _path = process.cwd()
 let config = {}

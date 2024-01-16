@@ -1,6 +1,8 @@
 import plugin from '../../../lib/plugins/plugin.js'
 import { Config } from '../utils/config.js'
 
+let No_admin_prompts = '需要主人才能设置捏~'
+
 export class manage extends plugin {
   constructor () {
     super({
@@ -16,6 +18,10 @@ export class manage extends plugin {
         {
           reg: '^#憨憨设置(tmdb|TMDB) key$',
           fnc: 'settmdbkey'
+        },
+        {
+          reg: '^#(关闭|开启)(tmdb|TMDB)(R18|r18|瑟瑟)$',
+          fnc: 'enable_tmdb_r18'
         },
         {
           reg: '^#憨憨设置按钮白名单$',
@@ -40,7 +46,7 @@ export class manage extends plugin {
   // 设置PingToken
   async setPingToken (e) {
     if (!this.e.isMaster) {
-      e.reply('需要主人才能设置捏~')
+      e.reply(No_admin_prompts)
       return false
     }
     this.setContext('savePingToken')
@@ -66,7 +72,7 @@ export class manage extends plugin {
   // 设置tmdkey
   async settmdbkey (e) {
     if (!this.e.isMaster) {
-      e.reply('需要主人才能设置捏~')
+      e.reply(No_admin_prompts)
       return false
     }
     this.setContext('saveTmdbKey')
@@ -89,10 +95,31 @@ export class manage extends plugin {
     this.finish('saveTmdbKey')
   }
 
+  //关闭开启tmdb瑟瑟
+  async enable_tmdb_r18 (e) {
+    if (!this.e.isMaster) {
+      e.reply(No_admin_prompts)
+      return false
+    }
+    const reg = /(关闭|开启)/
+    const match = e.msg.match(reg)
+    if (match) {
+      const action = match[1]
+      if (action === '关闭') {
+        Config.tmdb_r18 = false // 关闭
+        await this.reply('已启动安全等级内容', true)
+      } else {
+        Config.tmdb_r18 = true // 打开
+        await this.reply('已关闭安全等级内容', true)
+      }
+    }
+    return false
+  }
+
   // 设置whitegroup
   async setwhitegroup (e) {
     if (!this.e.isMaster) {
-      e.reply('需要主人才能设置捏~')
+      e.reply(No_admin_prompts)
       return false
     }
     this.setContext('savewhitegroup')
@@ -124,7 +151,7 @@ export class manage extends plugin {
   // 删除whitegroup
   async delwhitegroup (e) {
     if (!this.e.isMaster) {
-      e.reply('需要主人才能删除捏~')
+      e.reply(No_admin_prompts)
       return false
     }
     this.setContext('savedelwhitegroup')
@@ -160,7 +187,7 @@ export class manage extends plugin {
   // 开启关闭按钮白名单
   async enableWhiteGroup (e) {
     if (!this.e.isMaster) {
-      e.reply('需要主人才能设置捏~')
+      e.reply(No_admin_prompts)
       return false
     }
     const reg = /(关闭|开启)/
@@ -181,7 +208,7 @@ export class manage extends plugin {
   // 开启关闭视频
   async enableVideo (e) {
     if (!this.e.isMaster) {
-      e.reply('需要主人才能设置捏~')
+      e.reply(No_admin_prompts)
       return false
     }
     const reg = /(关闭|开启)/
