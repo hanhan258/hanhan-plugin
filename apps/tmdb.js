@@ -4,7 +4,7 @@ import HttpsProxyAgent from 'https-proxy-agent'
 import { Config } from '../utils/config.js'
 import fetch from 'node-fetch'
 
-let dec = '电影信息'
+let dec = '查询结果'
 let No_proxy = '未检测到代理！没有代理憨憨做不到啊'
 let No_key = '未检测到key！请前往 https://developer.themoviedb.org/docs 注册账号，使用 #憨憨设置tmdb key= 命令进行设置'
 
@@ -95,7 +95,7 @@ async Searchoperas (e) {
         return;
       }
       await this.reply(`共找到${results.length}信息，资源下寨中`, true)
-
+      let forwardMsgs = []      
       for (let i = 0; i < results.length; i++) {
         let show = results[i]
         let coverUrl = `https://image.tmdb.org/t/p/w500${show.poster_path}`
@@ -149,7 +149,7 @@ async Futuremovies (e) {
         return;
       }
       await this.reply(`共找到${results.length}电影`, true)
-
+      let forwardMsgs = []      
       for (let i = 0; i < results.length; i++) {
         let movie = results[i]
         console.log(`[进度${i + 1}/${results.length}]`)
@@ -202,7 +202,7 @@ async trending_movies (e) {
         return;
       }
       await this.reply(`共找到${results.length}电影，资源下寨中，排名由第一部依次向下`, true)
-
+      let forwardMsgs = []      
       for (let i = 0; i < results.length; i++) {
         let movie = results[i]
         let coverUrl = `https://image.tmdb.org/t/p/w500${movie.poster_path}`
@@ -257,7 +257,7 @@ async trending_tv (e) {
       }
       await this.reply(`共找到${results.length}电影，资源下寨中，排名由第一部依次向下`, true)
 
-      let forwardMsgs = []
+      let forwardMsgs = []      
       for (let i = 0; i < results.length; i++) {
         let movie = results[i]
         let coverUrl = `https://image.tmdb.org/t/p/w500${movie.poster_path}`
@@ -312,7 +312,7 @@ async now_movies (e) {
       }
       await this.reply(`共找到${results.length}电影，资源下寨中`, true)
 
-      let forwardMsgs = []
+      let forwardMsgs = []      
       for (let i = 0; i < results.length; i++) {
         let movie = results[i]
         let coverUrl = `https://image.tmdb.org/t/p/w500${movie.poster_path}`
@@ -370,7 +370,7 @@ async Searchmovies (e) {
       }
       await this.reply(`共找到${results.length}信息，资源下寨中`, true)
 
-      let forwardMsgs = []
+      let forwardMsgs = []      
       for (let i = 0; i < results.length; i++) {
         let show = results[i]
         let coverUrl = `https://image.tmdb.org/t/p/w500${show.poster_path}`
@@ -428,7 +428,7 @@ async person (e) {
         return;
       }
       await this.reply(`共找到${results.length}个导演信息，资源下寨中`, true)
-
+      let forwardMsgs = []
       for (let i = 0; i < results.length; i++) {
         let director = results[i]
         let coverUrl = `https://image.tmdb.org/t/p/w500${director.profile_path}`
