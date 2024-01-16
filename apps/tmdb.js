@@ -103,7 +103,7 @@ async Searchoperas (e) {
 
         let msg = [
           segment.image(coverUrl),
-          `-----第${1 + i}部-------\n中文名:${show.name}\n原著名称: ${show.original_name}\n发行地区: ${show.origin_country}\n发行日期: ${show.first_air_date}\n使用语言: ${show.original_language} \n评分: ${show.vote_average}\n剧情简介: \n${show.overview}\n---------------------------\n`
+          `-----第${1 + i}部-------\n中文名:${show.name}\n原著名称: ${show.original_name}\n发行地区: ${show.origin_country}\n是否R-18: ${show.adult}\n发行日期: ${show.first_air_date}\n使用语言: ${show.original_language} \n评分: ${show.vote_average}\n剧情简介: \n${show.overview}\n---------------------------\n`
         ]
         forwardMsgs.push(...msg)
       }
