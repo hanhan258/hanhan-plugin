@@ -74,16 +74,88 @@ export class voice extends plugin {
         {
           reg: '^#?穿搭系列$',
           fnc: 'cdxl'
+        },
+        {
+          reg: '^#?学姐系列$',
+          fnc: 'xjxl'
+        },
+        {
+          reg: '^#?卡哇伊$',
+          fnc: 'kwy'
+        },
+        {
+          reg: '^#?清纯系列$',
+          fnc: 'qcxl'
+        },
+        {
+          reg: '^#?汉服系列$',
+          fnc: 'hfxl'
         }
       ]
     })
+  }
+
+  // 汉服系列
+  async hfxl (e) {
+    try {
+      if (!Config.enableVideo) { return }
+      let urls = 'http://api.hanhanz.gq:4006?category=hanfu'
+      let resp = await fetch(urls)
+      console.log(resp.url)
+      await e.reply(segment.video(resp.url))
+      await is_MD(e)
+    } catch (error) {
+      e.reply('报错：' + error)
+    }
+  }
+
+  // 清纯系列
+  async qcxl (e) {
+    try {
+      if (!Config.enableVideo) { return }
+      let urls = 'http://api.hanhanz.gq:4006?category=qingchun'
+      let resp = await fetch(urls)
+      console.log(resp.url)
+      await e.reply(segment.video(resp.url))
+      await is_MD(e)
+    } catch (error) {
+      e.reply('报错：' + error)
+    }
+  }
+
+  // 卡哇伊
+  async kwy (e) {
+    try {
+      if (!Config.enableVideo) { return }
+      let urls = 'http://api.hanhanz.gq:4006?category=kawayi'
+      let resp = await fetch(urls)
+      console.log(resp.url)
+      await e.reply(segment.video(resp.url))
+      await is_MD(e)
+    } catch (error) {
+      e.reply('报错：' + error)
+    }
+  }
+
+  // 学姐系列
+  async xjxl (e) {
+    try {
+      if (!Config.enableVideo) { return }
+      let urls = 'http://api.hanhanz.gq:4006?category=xuejie'
+      let resp = await fetch(urls)
+      console.log(resp.url)
+      await e.reply(segment.video(resp.url))
+      await is_MD(e)
+    } catch (error) {
+      e.reply('报错：' + error)
+    }
   }
 
   // 穿搭系列
   async cdxl (e) {
     try {
       if (!Config.enableVideo) { return }
-      let urls = 'http://api.yujn.cn/api/chuanda.php?type=video'
+      let urls = 'http://api.hanhanz.gq:4006?category=chuanda'
       let resp = await fetch(urls)
       console.log(resp.url)
       await e.reply(segment.video(resp.url))
@@ -97,7 +169,7 @@ export class voice extends plugin {
   async rwsp (e) {
     try {
       if (!Config.enableVideo) { return }
-      let urls = 'http://api.yujn.cn/api/rewu.php?type=video'
+      let urls = 'http://api.hanhanz.gq:4006?category=rewu'
       let resp = await fetch(urls)
       console.log(resp.url)
       await e.reply(segment.video(resp.url))
@@ -111,7 +183,7 @@ export class voice extends plugin {
   async wmsc (e) {
     try {
       if (!Config.enableVideo) { return }
-      let urls = 'http://api.yujn.cn/api/wmsc.php?type=video'
+      let urls = 'http://api.hanhanz.gq:4006?category=shencai'
       let resp = await fetch(urls)
       console.log(resp.url)
       await e.reply(segment.video(resp.url))
@@ -127,9 +199,9 @@ export class voice extends plugin {
       if (!Config.enableVideo) { return }
       let urls
       if (e.msg.includes('抖音')) {
-        urls = 'http://api.yujn.cn/api/bianzhuang.php'
+        urls = 'http://api.hanhanz.gq:4006?category=dybianzhuang'
       } else if (e.msg.includes('快手')) {
-        urls = 'http://api.yujn.cn/api/ksbianzhuang.php?type=video'
+        urls = 'http://api.hanhanz.gq:4006?category=ksbianzhuang'
       }
       let resp = await fetch(urls)
       console.log(resp.url)
@@ -144,7 +216,7 @@ export class voice extends plugin {
   async sjqz (e) {
     if (!Config.enableVideo) { return }
     try {
-      let urls = 'http://api.yujn.cn/api/jksp.php?type=video'
+      let urls = 'http://api.hanhanz.gq:4006?category=qunzi'
       let resp = await fetch(urls)
       console.log(resp.url)
       await e.reply(segment.video(resp.url))
@@ -158,7 +230,7 @@ export class voice extends plugin {
   async tm (e) {
     try {
       if (!Config.enableVideo) { return }
-      let urls = 'http://api.yujn.cn/api/tianmei.php?type=video'
+      let urls = 'http://api.hanhanz.gq:4006?category=tianmei'
       let resp = await fetch(urls)
       console.log(resp.url)
       await e.reply(segment.video(resp.url))
@@ -173,7 +245,7 @@ export class voice extends plugin {
     try {
       if (!Config.enableVideo) { return }
       // http://shanhe.kim/api/tu/sp_xjj.php
-      let urls = 'http://api.yujn.cn/api/xjj.php?'
+      let urls = 'http://api.hanhanz.gq:4006?category=yzxjj'
       let resp = await fetch(urls)
       console.log(resp.url)
       await e.reply(segment.video(resp.url))
@@ -187,7 +259,7 @@ export class voice extends plugin {
   async sbkl (e) {
     try {
       if (!Config.enableVideo) { return }
-      let urls = 'http://api.yujn.cn/api/sbkl.php?type=video'
+      let urls = 'http://api.hanhanz.gq:4006?category=shuangbei'
       let resp = await fetch(urls)
       console.log(resp.url)
       await e.reply(segment.video(resp.url))
@@ -201,7 +273,7 @@ export class voice extends plugin {
   async loli (e) {
     try {
       if (!Config.enableVideo) { return }
-      let urls = 'http://api.yujn.cn/api/luoli.php?type=video'
+      let urls = 'http://api.hanhanz.gq:4006?category=loli'
       let resp = await fetch(urls)
       console.log(resp.url)
       await e.reply(segment.video(resp.url))
@@ -215,7 +287,7 @@ export class voice extends plugin {
   async yz (e) {
     try {
       if (!Config.enableVideo) { return }
-      let urls = 'http://api.yujn.cn/api/jpmt.php?type=video'
+      let urls = 'http://api.hanhanz.gq:4006?category=yuzu'
       let resp = await fetch(urls)
       console.log(resp.url)
       await e.reply(segment.video(resp.url))
@@ -231,9 +303,9 @@ export class voice extends plugin {
       if (!Config.enableVideo) { return }
       let urls
       if (e.msg.includes('黑丝视频')) {
-        urls = ' http://api.yujn.cn/api/heisis.php'
+        urls = 'http://api.hanhanz.gq:4006?category=heisi'
       } else if (e.msg.includes('白丝视频')) {
-        urls = ' http://api.yujn.cn/api/baisis.php'
+        urls = 'http://api.hanhanz.gq:4006?category=baisi'
       }
       let resp = await fetch(urls)
       console.log(resp.url)
@@ -256,7 +328,7 @@ export class voice extends plugin {
   async mysp (e) {
     try {
       if (!Config.enableVideo) { return }
-      let urls = 'http://api.yujn.cn/api/manyao.php?type=video'
+      let urls = 'http://api.hanhanz.gq:4006?category=manyao'
       let resp = await fetch(urls)
       console.log(resp.url)
       await e.reply(segment.video(resp.url))
@@ -270,7 +342,7 @@ export class voice extends plugin {
   async cosxl (e) {
     try {
       if (!Config.enableVideo) { return }
-      let urls = 'http://api.yujn.cn/api/COS.php?type=video'
+      let urls = 'http://api.hanhanz.gq:4006?category=cos'
       let resp = await fetch(urls)
       console.log(resp.url)
       await e.reply(segment.video(resp.url))
@@ -284,7 +356,7 @@ export class voice extends plugin {
   async cqng (e) {
     try {
       if (!Config.enableVideo) { return }
-      let urls = 'http://api.yujn.cn/api/nvgao.php?type=video'
+      let urls = 'http://api.hanhanz.gq:4006?category=nvgao'
       let resp = await fetch(urls)
       console.log(resp.url)
       await e.reply(segment.video(resp.url))
@@ -298,7 +370,7 @@ export class voice extends plugin {
   async ddxl (e) {
     try {
       if (!Config.enableVideo) { return }
-      let urls = 'http://api.yujn.cn/api/diaodai.php?type=video'
+      let urls = 'http://api.hanhanz.gq:4006?category=diaodai'
       let resp = await fetch(urls)
       console.log(resp.url)
       await e.reply(segment.video(resp.url))

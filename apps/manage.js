@@ -95,7 +95,7 @@ export class manage extends plugin {
     this.finish('saveTmdbKey')
   }
 
-  //关闭开启tmdb瑟瑟
+  // 关闭开启tmdb瑟瑟
   async enable_tmdb_r18 (e) {
     if (!this.e.isMaster) {
       e.reply(No_admin_prompts)
