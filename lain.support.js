@@ -41,7 +41,7 @@ export default class Button {
           fnc: 'text'
         },
         {
-          reg: '^#?(视频类菜单|(抖音|快手)变装|随机裙子|甜妹视频|随机小姐姐|sjxjj|双倍快乐|萝莉|loli|玉足|(黑|白)丝视频|慢摇视频|cos系列|纯情女高|吊带系列|完美身材|穿搭系列|热舞视频)$',
+          reg: '^#?(视频类菜单|卡哇伊|学姐系列|汉服系列|清纯系列|(抖音|快手)变装|随机裙子|甜妹视频|随机小姐姐|sjxjj|双倍快乐|萝莉|loli|玉足|(黑|白)丝视频|慢摇视频|cos系列|纯情女高|吊带系列|完美身材|穿搭系列|热舞视频)$',
           fnc: 'video'
         },
         {
@@ -181,23 +181,27 @@ export default class Button {
       { label: 'loli', data: '/loli' },
       { label: '甜妹', data: '/甜妹视频' },
       { label: '玉足', data: '/玉足' },
+      { label: '慢摇', data: '/慢摇视频' },
 
       { label: '黑丝', data: '/黑丝视频' },
       { label: '白丝', data: '/白丝视频' },
-      { label: '慢摇', data: '/慢摇视频' },
       { label: '吊带', data: '/吊带系列' },
-
       { label: '裙子', data: '/随机裙子' },
-      { label: '双倍', data: '/双倍快乐' },
-      { label: '女高', data: '/纯情女高' },
-      { label: '热舞', data: '/热舞视频' },
+      { label: '汉服', data: '/汉服系列' },
 
+      { label: '女高', data: '/纯情女高' },
+      { label: '双倍', data: '/双倍快乐' },
+      { label: '热舞', data: '/热舞视频' },
       { label: '身材', data: '/完美身材' },
       { label: '穿搭', data: '/穿搭系列' },
+
+      { label: '学姐', data: '/学姐系列' },
+      { label: '清纯', data: '/清纯系列' },
+      { label: '卡哇', data: '/卡哇伊' },
       { label: '抖音', data: '/抖音变装' },
       { label: '快手', data: '/快手变装' }
     ]
-    return toButton(list, 4)
+    return toButton(list, 5)
   }
 
   voice (e) {

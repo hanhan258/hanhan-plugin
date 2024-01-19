@@ -103,7 +103,7 @@ export class voice extends plugin {
       let resp = await fetch(urls)
       console.log(resp.url)
       await e.reply(segment.video(resp.url))
-      // await is_MD(e)
+      await is_MD(e)
     } catch (error) {
       e.reply('报错：' + error)
     }
@@ -117,7 +117,7 @@ export class voice extends plugin {
       let resp = await fetch(urls)
       console.log(resp.url)
       await e.reply(segment.video(resp.url))
-      // await is_MD(e)
+      await is_MD(e)
     } catch (error) {
       e.reply('报错：' + error)
     }
@@ -131,7 +131,7 @@ export class voice extends plugin {
       let resp = await fetch(urls)
       console.log(resp.url)
       await e.reply(segment.video(resp.url))
-      // await is_MD(e)
+      await is_MD(e)
     } catch (error) {
       e.reply('报错：' + error)
     }
@@ -145,7 +145,7 @@ export class voice extends plugin {
       let resp = await fetch(urls)
       console.log(resp.url)
       await e.reply(segment.video(resp.url))
-      // await is_MD(e)
+      await is_MD(e)
     } catch (error) {
       e.reply('报错：' + error)
     }
