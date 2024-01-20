@@ -11,7 +11,7 @@ export class diaotu extends plugin {
       priority: 6,
       rule: [
         {
-          reg: '^#?百度热搜$',
+          reg: '^#?bd热搜$',
           fnc: 'baiduhot'
         }
       ]
@@ -21,6 +21,7 @@ export class diaotu extends plugin {
   async baiduhot (e) {
     let url = 'https://top.baidu.com/board?tab=homepage'
     let msg = []
+    let result
     await fetch(url)
       .then(response => response.text())
       .then(html => {
@@ -33,11 +34,16 @@ export class diaotu extends plugin {
         content.forEach(item => {
           if (!item.isTop) { // 判断是否包含指定的属性值
             // 在这里可以对元素进行操作
-            let result = (item.index + 1) + '：' + item.query + '\n' + item.desc
+            console.log(!item.desc)
+            if (item.desc) {
+              result = (item.index + 1) + '：' + item.query + '\n' + item.desc + `\n热度指数：${item.hotScore}\n`
+            } else {
+              result = (item.index + 1) + '：' + item.query + `\n热度指数：${item.hotScore}\n`
+            }
             if (e.bot.adapter != 'QQBot') {
               result += item.appUrl
+              msg.push(segment.image(item.img), result)
             }
-            msg.push(segment.image(item.img), result)
           }
         })
         let dec = e.msg

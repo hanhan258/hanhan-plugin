@@ -3,8 +3,10 @@ import { sleep, recallSendForwardMsg } from '../utils/common.js'
 import plugin from '../../../lib/plugins/plugin.js'
 import { Config } from '../utils/config.js'
 import fetch from 'node-fetch'
-
 import axios from 'axios'
+
+const originalValues = ['集原美', 'mc酱', '兽猫酱', '甘城', '萌宠', '可爱萌宠']
+const correspondingValues = ['jiyuanmei', 'mcjiang', 'shoumao', 'maoyuna', 'mengc', 'mengc']
 
 export class photo extends plugin {
   constructor () {
@@ -15,20 +17,8 @@ export class photo extends plugin {
       priority: 6,
       rule: [
         {
-          reg: '^(#|/)?集原美$',
-          fnc: 'jiyuanmei'
-        },
-        {
-          reg: '^(#|/)?mc酱$',
-          fnc: 'mc'
-        },
-        {
-          reg: '^(#|/)?兽猫酱$',
-          fnc: 'shoumao'
-        },
-        {
-          reg: '^(#|/)?甘城$',
-          fnc: 'gc'
+          reg: `^#?(${originalValues.join('|')})$`,
+          fnc: 'jh'
         },
         {
           reg: '^(#|/)?每日英语$',
@@ -49,10 +39,6 @@ export class photo extends plugin {
         {
           reg: '^(#|/)?英雄联盟台词$',
           fnc: 'yxlm'
-        },
-        {
-          reg: '^(#|/)?(萌宠|可爱萌宠)$',
-          fnc: 'mengc'
         },
         {
           reg: '^(#|/)?图集解析(.*)$',
@@ -127,16 +113,11 @@ export class photo extends plugin {
     }
   }
 
-  // 甘城
-  async gc (e) {
-    await this.reply(segment.image('http://hanhan.avocado.wiki?maoyuna'))
+  // 聚合
+  async jh (e) {
+    let name = correspondingValues[originalValues.indexOf(e.msg)]
+    await this.reply(segment.image(`http://hanhan.avocado.wiki?${name}`))
     return true // 返回true 阻挡消息不再往下
-  }
-
-  // 萌宠
-  async mengc (e) {
-    await e.reply(segment.image('http://hanhan.avocado.wiki?mengc'))
-    return true
   }
 
   // 英雄联盟台词
@@ -254,24 +235,5 @@ export class photo extends plugin {
       await this.reply(segment.image(`${apiList[apiNumber - 1]}`))
       return true
     }
-  }
-
-  // 集原美
-  async jiyuanmei (e) {
-    // 发送消息
-    await this.reply(segment.image('http://hanhan.avocado.wiki?jiyuanmei'))
-    return true
-  }
-
-  // mc酱
-  async mc (e) {
-    await this.reply(segment.image('http://hanhan.avocado.wiki?mcjiang'))
-    return true // 返回true 阻挡消息不再往下
-  }
-
-  // 兽猫酱
-  async shoumao (e) {
-    await this.reply(segment.image('http://hanhan.avocado.wiki?shoumao'))
-    return true // 返回true 阻挡消息不再往下
   }
 }

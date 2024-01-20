@@ -1,9 +1,12 @@
 import { recallSendForwardMsg, getRandomLineFromFile } from '../utils/common.js'
 import plugin from '../../../lib/plugins/plugin.js'
-import fetch from 'node-fetch'
 import axios from 'axios'
 import he from 'he'
+
 const RootPath = process.cwd() + '/plugins/hanhan-plugin/'
+
+const originalValues = ['kfc', 'v50', '网易云热评', '舔狗日记', '污污', '污句子', '随机日记', '新春祝福']
+const correspondingValues = ['kfc', 'kfc', 'wyy', 'tg', 'saohua', 'saohua', 'riji', 'newyear']
 
 export class text extends plugin {
   constructor () {
@@ -14,18 +17,6 @@ export class text extends plugin {
       priority: 6,
       rule: [
         {
-          reg: '^(#|/)?随机日记$',
-          fnc: 'sjrj'
-        },
-        {
-          reg: '^(#|/)?新春祝福$',
-          fnc: 'newyear'
-        },
-        {
-          reg: '^(#|/)?(污污|污句子)$',
-          fnc: 'wjz'
-        },
-        {
           reg: '^#?油价',
           fnc: 'yjcx'
         },
@@ -34,7 +25,7 @@ export class text extends plugin {
           fnc: 'fd'
         },
         {
-          reg: '^(#|/)?(kfc|v50|网易云热评|舔狗日记)$',
+          reg: `^#?(${originalValues.join('|')})$`,
           fnc: 'jh'
         },
         {
@@ -78,15 +69,13 @@ export class text extends plugin {
   // 聚合
   async jh (e) {
     let message = e.msg
-    let path = RootPath + '/resources/json/kfc.json'
-    if (message.includes('舔狗日记')) {
-      path = RootPath + '/resources/json/tg.json'
-    } else if (message.includes('网易云热评')) {
-      path = RootPath + '/resources/json/wyy.json'
-    }
+    console.log(message)
+    let name = correspondingValues[originalValues.indexOf(message)]
+    let path = RootPath + `/resources/json/${name}.json`
     let result = await getRandomLineFromFile(path)
     console.log(result)
-    await this.reply(result)
+    result = he.decode(await result.replace(/<br>/g, '\n'))
+    e.reply(result)
   }
 
   // 油价查询
@@ -118,44 +107,6 @@ export class text extends plugin {
       } else {
         await this.reply('查询失败,可能接口失效力~，请联系憨憨捏~')
       }
-    } catch (error) {
-      e.reply('报错：' + error)
-    }
-  }
-
-  // 污句子
-  async wjz (e) {
-    try {
-      let resp = await fetch('http://api.yujn.cn/api/text_wu.php?')
-      let str = await resp.text()
-      let result = str.trim()
-      if (result.includes('http')) { return e.reply('返回内容错误') }
-      await this.reply(result)
-    } catch (error) {
-      e.reply('报错：' + error)
-    }
-  }
-
-  // 新春祝福
-  async newyear (e) {
-    try {
-      let resp = await fetch('http://api.yujn.cn/api/zhufu.php')
-      let str = await resp.text()
-      let result = str.trim()
-      if (result.includes('http')) { return e.reply('返回内容错误') }
-      await this.reply(result)
-    } catch (error) {
-      e.reply('报错：' + error)
-    }
-  }
-
-  // 随机日记
-  async sjrj (e) {
-    try {
-      let resp = await fetch('http://api.yujn.cn/api/baoan.php?')
-      let result = he.decode(await resp.text()).replace(/<br>/g, '\n')
-      if (result.includes('http')) { return e.reply('返回内容错误') }
-      await this.reply(result)
     } catch (error) {
       e.reply('报错：' + error)
     }

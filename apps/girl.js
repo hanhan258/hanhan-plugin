@@ -1,6 +1,13 @@
 import plugin from '../../../lib/plugins/plugin.js'
 import { recallSendForwardMsg } from '../utils/common.js'
 
+const originalValues = [
+  'jk', 'JK', 'ak', 'cos', '国风', '汉服', '黑丝', 'hs', '白丝', 'bs', '小姐姐', 'xjj', '买家秀',
+  '小性感', '夏日女友', '诱惑图', 'yht', 'mt', '随机ai', '随机AI']
+const correspondingValues = [
+  'jk', 'jk', 'ak', 'cos', 'guofeng', 'hanfu', 'heisi', 'heisi', 'baisi', 'baisi', 'xiaojiejie', 'xiaojiejie', 'taobao',
+  'xiaoxinggan', 'girlfriend', 'youhuotu', 'youhuotu', 'meitui', 'ai', 'ai']
+
 export class girl extends plugin {
   constructor () {
     super({
@@ -10,64 +17,12 @@ export class girl extends plugin {
       priority: 6,
       rule: [
         {
-          reg: '^(#|/)?(jk|JK)$',
-          fnc: 'jk'
-        },
-        {
-          reg: '^(#|/)?ak$',
-          fnc: 'ak'
-        },
-        {
-          reg: '^(#|/)?cos$',
-          fnc: 'cos'
-        },
-        {
-          reg: '^(#|/)?国风$',
-          fnc: 'guofeng'
-        },
-        {
-          reg: '^(#|/)?汉服$',
-          fnc: 'hanfu'
-        },
-        {
-          reg: '^(#|/)?(黑丝|hs)$',
-          fnc: 'hs'
-        },
-        {
-          reg: '^(#|/)?(白丝|bs)$',
-          fnc: 'bs'
-        },
-        {
-          reg: '^(#|/)?(小姐姐|xjj)$',
-          fnc: 'xjj'
+          reg: `^#?(${originalValues.join('|')})$`,
+          fnc: 'jh'
         },
         {
           reg: '^(#|/)?waifu$',
           fnc: 'waifu'
-        },
-        {
-          reg: '^(#|/)?买家秀$',
-          fnc: 'buyerShow'
-        },
-        {
-          reg: '^(#|/)?小性感$',
-          fnc: 'xiaoxinggan'
-        },
-        {
-          reg: '^(#|/)?夏日女友$',
-          fnc: 'girlfriend'
-        },
-        {
-          reg: '^(#|/)?(诱惑图|yht)$',
-          fnc: 'yht'
-        },
-        {
-          reg: '^(#|/)?mt$',
-          fnc: 'mt'
-        },
-        {
-          reg: '^(#|/)?随机(ai|AI)$',
-          fnc: 'sjai'
         },
         {
           reg: '^(#|/)?微博美女$',
@@ -77,45 +32,11 @@ export class girl extends plugin {
     })
   }
 
-  // 小性感
-  async xiaoxinggan (e) {
-    // 发送消息
-    await this.reply(segment.image('http://hanhan.avocado.wiki?xiaoxinggan'))
-    return true // 返回true 阻挡消息不再往下
-  }
-
-  // 汉服
-  async hanfu (e) {
-    // 发送消息
-    await this.reply(segment.image('http://hanhan.avocado.wiki?hanfu'))
-    return true // 返回true 阻挡消息不再往下
-  }
-
-  // 国风
-  async guofeng (e) {
-    // 发送消息
-    await this.reply(segment.image('http://hanhan.avocado.wiki?guofeng'))
-    return true // 返回true 阻挡消息不再往下
-  }
-
-  // 夏日女友
-  async girlfriend (e) {
-    // 发送消息
-    await this.reply(segment.image('http://hanhan.avocado.wiki?girlfriend'))
-    return true // 返回true 阻挡消息不再往下
-  }
-
-  // cos
-  async cos (e) {
-    // 发送消息
-    await this.reply(segment.image('http://hanhan.avocado.wiki?cos'))
-    return true // 返回true 阻挡消息不再往下
-  }
-
-  // ak
-  async ak (e) {
-    // 发送消息
-    await this.reply(segment.image('http://hanhan.avocado.wiki?ak'))
+  // 聚合
+  async jh (e) {
+    console.log(e.msg)
+    let name = correspondingValues[originalValues.indexOf(e.msg)]
+    await this.reply(segment.image(`http://hanhan.avocado.wiki?${name}`))
     return true // 返回true 阻挡消息不再往下
   }
 
@@ -141,103 +62,5 @@ export class girl extends plugin {
 
     let dec = '微博美女'
     return this.reply(await recallSendForwardMsg(e, forwardMsgs, false, dec))
-  }
-
-  // 随机ai
-  async sjai (e) {
-    // 发送消息
-    await this.reply(segment.image('http://hanhan.avocado.wiki?ai'))
-    return true // 返回true 阻挡消息不再往下
-  }
-
-  // 美腿
-  async mt (e) {
-    await this.reply(segment.image('http://hanhan.avocado.wiki?meitui'))
-    return true // 返回true 阻挡消息不再往下
-  }
-
-  // 诱惑图
-  async yht (e) {
-    // 发送消息
-    await this.reply(segment.image('http://hanhan.avocado.wiki?youhuotu'))
-    return true // 返回true 阻挡消息不再往下
-  }
-
-  // 买家秀
-  async buyerShow (e) {
-    // 发送消息
-    await this.reply(segment.image('http://hanhan.avocado.wiki?taobao'))
-    return true // 返回true 阻挡消息不再往下
-  }
-
-  // waifu
-  async waifu (e) {
-    const apiUrl = 'https://api.waifu.im/search' // Replace with the actual API endpoint URL
-    let sendmsg = []
-    const params = {
-      included_tags: 'waifu',
-      height: '>=2000'
-    }
-
-    const queryParams = new URLSearchParams(params)
-    const requestUrl = `${apiUrl}?${queryParams}`
-
-    await fetch(requestUrl)
-      .then(response => {
-        if (response.ok) {
-          return response.json()
-        } else {
-          throw new Error('接口出错哩')
-        }
-      })
-      .then(data => {
-        // Process the response data as needed
-        console.log(data)
-        console.log(data.images[0].url)
-        // 发送消息
-        try {
-          // sendmsg.push(data.images[0].url)
-          sendmsg.push(segment.image(data.images[0].url))
-          e.reply(sendmsg)
-        } catch (err) {
-          console.log(err)
-          e.reply(err)
-        }
-      })
-      .catch(error => {
-        e.reply(error.message)
-        console.error('An error occurred:', error.message)
-      })
-    return true // 返回true 阻挡消息不再往下
-  }
-
-  // 小姐姐
-  async xjj (e) {
-    // 发送消息
-    await this.reply(segment.image('http://hanhan.avocado.wiki?xiaojiejie'))
-    return true // 返回true 阻挡消息不再往下
-  }
-
-  // JK
-  async jk (e) {
-    // 发送消息
-    await this.reply(segment.image('http://hanhan.avocado.wiki?jk'))
-    return true // 返回true 阻挡消息不再往下
-  }
-
-  // 黑丝
-  async hs (e) {
-    // 发送消息
-    // http://api.tombk.cn/API/hs/hs.php
-    await this.reply(segment.image('http://hanhan.avocado.wiki?heisi'))
-    return true // 返回true 阻挡消息不再往下
-  }
-
-  // 白丝
-  async bs (e) {
-    // 发送消息
-    // http://api.tombk.cn/API/bs/bs.php
-    await this.reply(segment.image('http://hanhan.avocado.wiki?baisi'))
-    return true // 返回true 阻挡消息不再往下
   }
 }
