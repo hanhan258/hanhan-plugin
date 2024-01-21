@@ -68,9 +68,7 @@ export class text extends plugin {
 
   // 聚合
   async jh (e) {
-    let message = e.msg
-    console.log(message)
-    let name = correspondingValues[originalValues.indexOf(message)]
+    let name = correspondingValues[originalValues.indexOf(e.msg.replace('#', ''))]
     let path = RootPath + `/resources/json/${name}.json`
     let result = await getRandomLineFromFile(path)
     console.log(result)

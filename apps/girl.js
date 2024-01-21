@@ -35,7 +35,7 @@ export class girl extends plugin {
   // 聚合
   async jh (e) {
     console.log(e.msg)
-    let name = correspondingValues[originalValues.indexOf(e.msg)]
+    let name = correspondingValues[originalValues.indexOf(e.msg.replace('#', ''))]
     await this.reply(segment.image(`http://hanhan.avocado.wiki?${name}`))
     return true // 返回true 阻挡消息不再往下
   }

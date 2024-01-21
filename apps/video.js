@@ -33,7 +33,7 @@ export class voice extends plugin {
   // 聚合
   async jh (e) {
     try {
-      let name = correspondingValues[originalValues.indexOf(e.msg)]
+      let name = correspondingValues[originalValues.indexOf(e.msg.replace('#', ''))]
       if (!Config.enableVideo) { return }
       let urls = `http://api.hanhanz.gq:4006?category=${name}`
       let resp = await fetch(urls)
