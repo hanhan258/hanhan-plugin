@@ -293,17 +293,17 @@ function toButton (list, line = 2, allow_random = true) {
   }
   if ( random_callback.length > 0 ) { // 处理随机
     random_callback = random_callback[ Math.floor( Math.random() * random_callback.length ) ]
-    if ( arr != [] && button.length >= 4 )  // 说明有五行，随机应追加在第五行末尾以节约空间
+    if ( arr.length > 0 && button.length >= 4 )  // 说明有五行，随机应追加在第五行末尾以节约空间
       arr.push ( { label: '随机', callback: `${ random_callback }` } )
     else {
-      if( arr != [] ){  // 如果有剩下尾巴，处理尾巴
+      if( arr.length > 0 ){  // 如果有剩下尾巴，处理尾巴
         button.push ( arr )
         arr = []
       }
       button.push ( [ { label: '随机一个', callback: `${ random_callback }` } ] )  // 添加一行随机
     }
   }
-  if( arr != [] ){  // 如果有剩下尾巴，处理尾巴
+  if( arr.length > 0 ){  // 如果有剩下尾巴，处理尾巴
     button.push ( arr )
     arr = []
   }
