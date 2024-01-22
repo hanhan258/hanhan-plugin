@@ -73,25 +73,25 @@ export default class Button {
       if (!(Config.buttonWhiteGroups.includes(e.group_id))) { return false }
     }
     list = [
-      { label: 'hs', data: '/hs' },
-      { label: 'bs', data: '/bs' },
-      { label: 'mt', data: '/mt' },
+      { label: 'hs', callback: '/hs' },
+      { label: 'bs', callback: '/bs' },
+      { label: 'mt', callback: '/mt' },
 
-      { label: 'ai', data: '/随机ai' },
-      { label: 'ak', data: '/ak' },
-      { label: 'jk', data: '/jk' },
+      { label: 'ai', callback: '/随机ai' },
+      { label: 'ak', callback: '/ak' },
+      { label: 'jk', callback: '/jk' },
 
-      { label: 'cos', data: '/cos' },
-      { label: 'xjj', data: '/xjj' },
-      { label: 'yht', data: '/yht' },
+      { label: 'cos', callback: '/cos' },
+      { label: 'xjj', callback: '/xjj' },
+      { label: 'yht', callback: '/yht' },
 
-      { label: '汉服', data: '/汉服' },
-      { label: '国风', data: '/国风' },
-      { label: 'waifu', data: '/waifu' },
+      { label: '汉服', callback: '/汉服' },
+      { label: '国风', callback: '/国风' },
+      { label: 'waifu', callback: '/waifu' },
 
-      { label: '小性感', data: '/小性感' },
-      { label: '夏日女友', data: '/夏日女友' },
-      { label: '买家秀', data: '/买家秀' }
+      { label: '小性感', callback: '/小性感' },
+      { label: '夏日女友', callback: '/夏日女友' },
+      { label: '买家秀', callback: '/买家秀' }
     ]
     return toButton(list, 4)
   }
@@ -101,16 +101,16 @@ export default class Button {
       if (!(Config.buttonWhiteGroups.includes(e.group_id))) { return false }
     }
     list = [
-      { label: 'acg', data: '/随机acg' },
-      { label: '甘城', data: '/甘城' },
-      { label: '萌宠', data: '/萌宠' },
+      { label: 'acg', callback: '/随机acg' },
+      { label: '甘城', callback: '/甘城' },
+      { label: '萌宠', callback: '/萌宠' },
 
-      { label: 'mc酱', data: '/mc酱' },
-      { label: '兽猫酱', data: '/兽猫酱' },
-      { label: '集原美', data: '/集原美' },
+      { label: 'mc酱', callback: '/mc酱' },
+      { label: '兽猫酱', callback: '/兽猫酱' },
+      { label: '集原美', callback: '/集原美' },
 
-      { label: '情侣头像', data: '/情侣头像' },
-      { label: '每日英语', data: '/每日英语' }
+      { label: '情侣头像', callback: '/情侣头像' },
+      { label: '每日英语', callback: '/每日英语' }
     ]
     return toButton(list, 3)
   }
@@ -120,25 +120,25 @@ export default class Button {
       if (!(Config.buttonWhiteGroups.includes(e.group_id))) { return false }
     }
     list = [
-      { label: '狐狐', data: '/狐狐' },
-      { label: '咖波', data: '/咖波' },
-      { label: '龙图', data: '/龙图' },
-      { label: '豆泥', data: '/小豆泥' },
+      { label: '狐狐', callback: '/狐狐' },
+      { label: '咖波', callback: '/咖波' },
+      { label: '龙图', callback: '/龙图' },
+      { label: '豆泥', callback: '/小豆泥' },
 
-      { label: 'A梦', data: '/哆啦A梦' },
-      { label: '柴郡', data: '/随机柴郡' },
-      { label: '布布', data: '/一二布布' },
-      { label: '废柴', data: '/废柴' },
+      { label: 'A梦', callback: '/哆啦A梦' },
+      { label: '柴郡', callback: '/随机柴郡' },
+      { label: '布布', callback: '/一二布布' },
+      { label: '废柴', callback: '/废柴' },
 
-      { label: '小恐龙', data: '/小恐龙' },
-      { label: '库洛米', data: '/库洛米' },
-      { label: '派大星', data: '/派大星' },
-      { label: '小灰灰', data: '/小灰灰' },
+      { label: '小恐龙', callback: '/小恐龙' },
+      { label: '库洛米', callback: '/库洛米' },
+      { label: '派大星', callback: '/派大星' },
+      { label: '小灰灰', callback: '/小灰灰' },
 
-      { label: '小黄鸡', data: '/小黄鸡' },
-      { label: '小黑子', data: '/小黑子' },
-      { label: '蘑菇头', data: '/蘑菇头' },
-      { label: '熊猫头', data: '/熊猫头' }
+      { label: '小黄鸡', callback: '/小黄鸡' },
+      { label: '小黑子', callback: '/小黑子' },
+      { label: '蘑菇头', callback: '/蘑菇头' },
+      { label: '熊猫头', callback: '/熊猫头' }
     ]
     return toButton(list, 4)
   }
@@ -148,25 +148,22 @@ export default class Button {
       if (!(Config.buttonWhiteGroups.includes(e.group_id))) { return false }
     }
     button = []
-    const filePath = `./plugins/example/QQBotRelation/${e.self_id}.yaml`
-    let form = {}
-    if (fs.existsSync(filePath)) { form = yaml.parse(fs.readFileSync(filePath, 'utf8')) }
-    const nickname = form[e.user_id]?.nickname || `可爱的<@${e.sender.user_openid}>酱`
+    const nickname = ( e.user_id == e.sender.card ) ? `可爱的<@${e.sender.user_openid}>酱` : e.sender.card
     list = [
-      { label: '发癫', data: '/发癫', enter: false },
-      { label: 'at发癫', data: `/发癫 ${nickname}`, enter: false },
-      { label: 'kfc', data: '/kfc' },
+      { label: '发癫', data: '/发癫' },
+      { label: 'at发癫', data: `/发癫 ${nickname}` },
+      { label: 'kfc', callback: '/kfc' },
 
-      { label: '油价', data: '/油价', enter: false },
-      { label: '污句子', data: '/污句子' },
-      { label: '随机日记', data: '/随机日记' },
+      { label: '油价', data: '/油价' },
+      { label: '污句子', callback: '/污句子' },
+      { label: '随机日记', callback: '/随机日记' },
 
-      { label: '舔狗日记', data: '/舔狗日记' },
-      { label: '新春祝福', data: '/新春祝福' },
-      { label: '随机贴吧', data: '/随机 吧', enter: false },
+      { label: '舔狗日记', callback: '/舔狗日记' },
+      { label: '新春祝福', callback: '/新春祝福' },
+      { label: '随机贴吧', data: '/随机 吧' },
 
-      { label: '英雄联盟台词', data: '/英雄联盟台词' },
-      { label: '网易云热评', data: '/网易云热评' }
+      { label: '英雄联盟台词', callback: '/英雄联盟台词' },
+      { label: '网易云热评', callback: '/网易云热评' }
     ]
     button.push(...toButton(list, 3))
     return button
@@ -177,29 +174,29 @@ export default class Button {
       if (!(Config.buttonWhiteGroups.includes(e.group_id))) { return false }
     }
     list = [
-      { label: 'cos', data: '/cos系列' },
-      { label: 'loli', data: '/loli' },
-      { label: '甜妹', data: '/甜妹视频' },
-      { label: '玉足', data: '/玉足' },
-      { label: '慢摇', data: '/慢摇视频' },
+      { label: 'cos', callback: '/cos系列' },
+      { label: 'loli', callback: '/loli' },
+      { label: '甜妹', callback: '/甜妹视频' },
+      { label: '玉足', callback: '/玉足' },
+      { label: '慢摇', callback: '/慢摇视频' },
 
-      { label: '黑丝', data: '/黑丝视频' },
-      { label: '白丝', data: '/白丝视频' },
-      { label: '吊带', data: '/吊带系列' },
-      { label: '裙子', data: '/随机裙子' },
-      { label: '汉服', data: '/汉服系列' },
+      { label: '黑丝', callback: '/黑丝视频' },
+      { label: '白丝', callback: '/白丝视频' },
+      { label: '吊带', callback: '/吊带系列' },
+      { label: '裙子', callback: '/随机裙子' },
+      { label: '汉服', callback: '/汉服系列' },
 
-      { label: '女高', data: '/纯情女高' },
-      { label: '双倍', data: '/双倍快乐' },
-      { label: '热舞', data: '/热舞视频' },
-      { label: '身材', data: '/完美身材' },
-      { label: '穿搭', data: '/穿搭系列' },
+      { label: '女高', callback: '/纯情女高' },
+      { label: '双倍', callback: '/双倍快乐' },
+      { label: '热舞', callback: '/热舞视频' },
+      { label: '身材', callback: '/完美身材' },
+      { label: '穿搭', callback: '/穿搭系列' },
 
-      { label: '学姐', data: '/学姐系列' },
-      { label: '清纯', data: '/清纯系列' },
-      { label: '卡哇', data: '/卡哇伊' },
-      { label: '抖音', data: '/抖音变装' },
-      { label: '快手', data: '/快手变装' }
+      { label: '学姐', callback: '/学姐系列' },
+      { label: '清纯', callback: '/清纯系列' },
+      { label: '卡哇', callback: '/卡哇伊' },
+      { label: '抖音', callback: '/抖音变装' },
+      { label: '快手', callback: '/快手变装' },
     ]
     return toButton(list, 5)
   }
@@ -209,13 +206,13 @@ export default class Button {
       if (!(Config.buttonWhiteGroups.includes(e.group_id))) { return false }
     }
     list = [
-      { label: '骂我', data: '/骂我' },
-      { label: '绿茶', data: '/随机绿茶' },
+      { label: '骂我', callback: '/骂我' },
+      { label: '绿茶', callback: '/随机绿茶' },
 
-      { label: '随机唱鸭', data: '/随机唱鸭' },
-      { label: '随机坤坤', data: '/随机坤坤' },
+      { label: '随机唱鸭', callback: '/随机唱鸭' },
+      { label: '随机坤坤', callback: '/随机坤坤' },
 
-      { label: '随机网易云', data: '/随机网易云' }
+      { label: '随机网易云', callback: '/随机网易云' }
     ]
     return toButton(list, 2)
   }
@@ -239,11 +236,11 @@ export default class Button {
       if (!(Config.buttonWhiteGroups.includes(e.group_id))) { return false }
     }
     list = [
-      { label: '5670', data: '/5670' },
-      { label: '50033', data: '/50033' },
+      { label: '5670', callback: '/5670' },
+      { label: '50033', callback: '/50033' },
 
-      { label: '36518', data: '/36518' },
-      { label: '75946', data: '/75946' }
+      { label: '36518', callback: '/36518' },
+      { label: '75946', callback: '/75946' }
     ]
     return toButton(list, 2)
   }
@@ -253,17 +250,17 @@ export default class Button {
       if (!(Config.buttonWhiteGroups.includes(e.group_id))) { return false }
     }
     list = [
-      { label: '文本类', data: '/文本类菜单' },
-      { label: '图片类', data: '/图片类菜单' },
+      { label: '文本类', callback: '/文本类菜单' },
+      { label: '图片类', callback: '/图片类菜单' },
 
-      { label: '表情包', data: '/表情包菜单' },
-      { label: '美女类', data: '/美女类菜单' },
+      { label: '表情包', callback: '/表情包菜单' },
+      { label: '美女类', callback: '/美女类菜单' },
 
-      { label: '视频类', data: '/视频类菜单' },
-      { label: '语音类', data: '/语音类菜单' },
+      { label: '视频类', callback: '/视频类菜单' },
+      { label: '语音类', callback: '/语音类菜单' },
 
-      { label: '管理类', data: '/管理类菜单' },
-      { label: '憨憨帮助', data: '/憨憨帮助' }
+      { label: '管理类', callback: '/管理类菜单' },
+      { label: '憨憨帮助', callback: '/憨憨帮助' }
     ]
     return toButton(list, 2, false)
   }
@@ -273,7 +270,7 @@ export default class Button {
       if (!(Config.buttonWhiteGroups.includes(e.group_id))) { return false }
     }
     list = [
-      { label: '轮到我了吗', data: '/开枪' }
+      { label: '轮到我了吗', callback: '/开枪' }
     ]
     return toButton(list, 2, false)
   }
@@ -281,49 +278,34 @@ export default class Button {
 function toButton (list, line = 2, allow_random = true) {
   let button = []
   let arr = []
-  let index = 1
+  let index = 0
+  let random_callback = []
   for (const i of list) {
-    arr.push({
-      id: String(Date.now()),
-      render_data: {
-        label: i.label,
-        style: 1
-      },
-      action: {
-        type: 2,
-        permission: { type: 2 },
-        data: i.data,
-        enter: i.enter !== undefined ? i.enter : true,
-        unsupport_tips: 'code: 45'
-      }
-    })
-    if (index % line == 0 || index == list.length) {
-      button.push({
-        type: 'button',
-        buttons: arr
-      })
+    arr.push ( i )
+    index ++
+    if ( index == line ) {  // 转化为二维数组
+      index = 0
+      button.push ( arr )
       arr = []
     }
-    index++
+    if ( allow_random && i.callback )
+      random_callback.push ( i.callback )  // 仅添加enter: true的
   }
-  if (allow_random) {
-    button.push({
-      type: 'button',
-      buttons: [{
-        id: String(Date.now()),
-        render_data: {
-          label: '随机一个',
-          style: 1
-        },
-        action: {
-          type: 2,
-          permission: { type: 2 },
-          data: list[Math.floor(Math.random() * list.length)].data,
-          enter: true,
-          unsupport_tips: 'code: 45'
-        }
-      }]
-    })
+  if ( random_callback.length > 0 ) { // 处理随机
+    random_callback = random_callback[ Math.floor( Math.random() * random_callback.length ) ]
+    if ( arr != [] && button.length >= 4 )  // 说明有五行，随机应追加在第五行末尾以节约空间
+      arr.push ( { label: '随机', callback: `${ random_callback }` } )
+    else {
+      if( arr != [] ){  // 如果有剩下尾巴，处理尾巴
+        button.push ( arr )
+        arr = []
+      }
+      button.push ( [ { label: '随机一个', callback: `${ random_callback }` } ] )  // 添加一行随机
+    }
   }
-  return button
+  if( arr != [] ){  // 如果有剩下尾巴，处理尾巴
+    button.push ( arr )
+    arr = []
+  }
+  return Bot.Button ( button )
 }
