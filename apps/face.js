@@ -24,7 +24,7 @@ export class diaotu extends plugin {
           fnc: 'jh'
         },
         {
-          reg: '^(#|/)?随机柴郡$',
+          reg: '^(#|/)?(柴郡|随机柴郡)$',
           fnc: 'cj'
         }
       ]

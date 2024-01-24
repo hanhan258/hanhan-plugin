@@ -63,4 +63,45 @@ export class girl extends plugin {
     let dec = '微博美女'
     return this.reply(await recallSendForwardMsg(e, forwardMsgs, false, dec))
   }
+
+  // waifu
+  async waifu (e) {
+    const apiUrl = 'https://api.waifu.im/search' // Replace with the actual API endpoint URL
+    let sendmsg = []
+    const params = {
+      included_tags: 'waifu',
+      height: '>=2000'
+    }
+
+    const queryParams = new URLSearchParams(params)
+    const requestUrl = `${apiUrl}?${queryParams}`
+
+    await fetch(requestUrl)
+      .then(response => {
+        if (response.ok) {
+          return response.json()
+        } else {
+          throw new Error('接口出错哩')
+        }
+      })
+      .then(data => {
+        // Process the response data as needed
+        // console.log(data)
+        console.log(data.images[0].url)
+        // 发送消息
+        try {
+          // sendmsg.push(data.images[0].url)
+          sendmsg.push(segment.image(data.images[0].url))
+          e.reply(sendmsg)
+        } catch (err) {
+          console.log(err)
+          e.reply(err)
+        }
+      })
+      .catch(error => {
+        e.reply(error.message)
+        console.error('An error occurred:', error.message)
+      })
+    return true // 返回true 阻挡消息不再往下
+  }
 }
