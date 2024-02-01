@@ -46,7 +46,7 @@ export class Ping extends plugin {
       return false
     }
 
-    let msg = e.msg.trim().replace(/^#?[pP]ing\s/, '').replace(/https?:\/\//, '')
+    let msg = e.msg.trim().replace(/^#?[pP]ing\s/, '').replace(/https?:\/\//, '').trim()
     await this.reply('在ping了、在ping了。。。', true, { recallMsg: 3 })
     let ipInfo; let pingRes; let domain; let ipAddress = msg; let isShowIP = false; const numberOfEchos = 6
     if (e.msg.trim().includes('#Ping')) isShowIP = true
