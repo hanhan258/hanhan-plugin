@@ -34,7 +34,7 @@ export class urlAndBase extends plugin {
         {
           reg: '^#发图片',
           fnc: 'tp',
-          permission: "master"
+          permission: 'master'
         },
         {
           reg: '^#?图链.*$',
@@ -43,12 +43,12 @@ export class urlAndBase extends plugin {
         {
           reg: '^#发视频',
           fnc: 'sp',
-          permission: "master"
+          permission: 'master'
         },
         {
           reg: '^#发语音',
           fnc: 'yy',
-          permission: "master"
+          permission: 'master'
         }
       ]
     })

@@ -1,6 +1,4 @@
 import { Config } from './utils/config.js'
-import fs from 'fs'
-import yaml from 'yaml'
 
 let list
 let button
@@ -13,7 +11,7 @@ export default class Button {
       priority: 100,
       rule: [
         {
-          reg: '^#?(美女类菜单|cos|黑丝|hs|白丝|bs|JK|jk|ak|国风|汉服|夏日女友|小性感|小姐姐|xjj|waifu|yht|买家秀|mt|随机ai)$',
+          reg: '^#?(美女类菜单|cos|黑丝|hs|白丝|bs|JK|jk|ak|国风|汉服|夏日女友|小性感|小姐姐|xjj|waifu|yht|买家秀|mt|ai)$',
           fnc: 'girl'
         },
         {
@@ -21,15 +19,15 @@ export default class Button {
           fnc: 'text'
         },
         {
-          reg: '^#?(图片类菜单|甘城|mc酱|兽猫酱|每日英语|萌宠|可爱萌宠|随机acg|集原美|情侣头像)$',
+          reg: '^#?(图片类菜单|甘城|mc酱|兽猫酱|每日英语|萌宠|可爱萌宠|acg|集原美|情侣头像)$',
           fnc: 'photo'
         },
         {
-          reg: '^#?(表情包菜单|废柴|狐狐|咖波|龙图|库洛米|小恐龙|蘑菇头|派大星|熊猫头|小黄鸡|小灰灰|小豆泥|小黑子|哆啦A梦|一二布布|随机柴郡)$',
+          reg: '^#?(表情包菜单|废柴|狐狐|咖波|龙图|库洛米|小恐龙|蘑菇头|派大星|熊猫头|小黄鸡|小灰灰|小豆泥|小黑子|哆啦A梦|一二布布|柴郡)$',
           fnc: 'face'
         },
         {
-          reg: '^#?(文本类菜单|随机日记|新春祝福|污句子|kfc|v50|舔狗日记|网易云热评|英雄联盟台词)$',
+          reg: '^#?(文本类菜单|日记|新春祝福|污句子|kfc|v50|舔狗日记|网易云热评|英雄联盟台词)$',
           fnc: 'text'
         },
         {
@@ -41,11 +39,11 @@ export default class Button {
           fnc: 'text'
         },
         {
-          reg: '^#?(视频类菜单|卡哇伊|学姐系列|汉服系列|清纯系列|(抖音|快手)变装|随机裙子|甜妹视频|随机小姐姐|sjxjj|双倍快乐|萝莉|loli|玉足|(黑|白)丝视频|慢摇视频|cos系列|纯情女高|吊带系列|完美身材|穿搭系列|热舞视频)$',
+          reg: '^#?(视频类菜单|卡哇伊|学姐系列|汉服系列|清纯系列|(抖音|快手)变装|裙子|甜妹视频|小姐姐视频|sjxjj|双倍快乐|萝莉|loli|玉足|(黑|白)丝视频|慢摇视频|cos系列|纯情女高|吊带系列|完美身材|穿搭系列|热舞视频)$',
           fnc: 'video'
         },
         {
-          reg: '^#?(语音类菜单|随机唱鸭|随机坤坤|随机网易云|随机绿茶|骂我)$',
+          reg: '^#?(语音类菜单|唱鸭|坤坤语音|网易云|绿茶|骂我)$',
           fnc: 'voice'
         },
         {
@@ -77,7 +75,7 @@ export default class Button {
       { label: 'bs', callback: '/bs' },
       { label: 'mt', callback: '/mt' },
 
-      { label: 'ai', callback: '/随机ai' },
+      { label: 'ai', callback: '/ai' },
       { label: 'ak', callback: '/ak' },
       { label: 'jk', callback: '/jk' },
 
@@ -101,7 +99,7 @@ export default class Button {
       if (!(Config.buttonWhiteGroups.includes(e.group_id))) { return false }
     }
     list = [
-      { label: 'acg', callback: '/随机acg' },
+      { label: 'acg', callback: '/acg' },
       { label: '甘城', callback: '/甘城' },
       { label: '萌宠', callback: '/萌宠' },
 
@@ -126,7 +124,7 @@ export default class Button {
       { label: '豆泥', callback: '/小豆泥' },
 
       { label: 'A梦', callback: '/哆啦A梦' },
-      { label: '柴郡', callback: '/随机柴郡' },
+      { label: '柴郡', callback: '/柴郡' },
       { label: '布布', callback: '/一二布布' },
       { label: '废柴', callback: '/废柴' },
 
@@ -148,7 +146,7 @@ export default class Button {
       if (!(Config.buttonWhiteGroups.includes(e.group_id))) { return false }
     }
     button = []
-    const nickname = ( e.user_id == e.sender.card ) ? `可爱的<@${e.sender.user_openid}>酱` : e.sender.card
+    const nickname = (e.user_id == e.sender.card) ? `可爱的<@${e.sender.user_openid}>酱` : e.sender.card
     list = [
       { label: '发癫', data: '/发癫' },
       { label: 'at发癫', data: `/发癫 ${nickname}` },
@@ -156,7 +154,7 @@ export default class Button {
 
       { label: '油价', data: '/油价' },
       { label: '污句子', callback: '/污句子' },
-      { label: '随机日记', callback: '/随机日记' },
+      { label: '随机日记', callback: '/日记' },
 
       { label: '舔狗日记', callback: '/舔狗日记' },
       { label: '新春祝福', callback: '/新春祝福' },
@@ -183,7 +181,7 @@ export default class Button {
       { label: '黑丝', callback: '/黑丝视频' },
       { label: '白丝', callback: '/白丝视频' },
       { label: '吊带', callback: '/吊带系列' },
-      { label: '裙子', callback: '/随机裙子' },
+      { label: '裙子', callback: '/裙子' },
       { label: '汉服', callback: '/汉服系列' },
 
       { label: '女高', callback: '/纯情女高' },
@@ -196,7 +194,7 @@ export default class Button {
       { label: '清纯', callback: '/清纯系列' },
       { label: '卡哇', callback: '/卡哇伊' },
       { label: '抖音', callback: '/抖音变装' },
-      { label: '快手', callback: '/快手变装' },
+      { label: '快手', callback: '/快手变装' }
     ]
     return toButton(list, 5)
   }
@@ -207,12 +205,12 @@ export default class Button {
     }
     list = [
       { label: '骂我', callback: '/骂我' },
-      { label: '绿茶', callback: '/随机绿茶' },
+      { label: '绿茶', callback: '/绿茶' },
 
-      { label: '随机唱鸭', callback: '/随机唱鸭' },
-      { label: '随机坤坤', callback: '/随机坤坤' },
+      { label: '随机唱鸭', callback: '/唱鸭' },
+      { label: '随机坤坤', callback: '/坤坤语音' },
 
-      { label: '随机网易云', callback: '/随机网易云' }
+      { label: '随机网易云', callback: '/网易云' }
     ]
     return toButton(list, 2)
   }
@@ -281,31 +279,31 @@ function toButton (list, line = 2, allow_random = true) {
   let index = 0
   let random_callback = []
   for (const i of list) {
-    arr.push ( i )
-    index ++
-    if ( index == line ) {  // 转化为二维数组
+    arr.push(i)
+    index++
+    if (index == line) { // 转化为二维数组
       index = 0
-      button.push ( arr )
+      button.push(arr)
       arr = []
     }
-    if ( allow_random && i.callback )
-      random_callback.push ( i.callback )  // 仅添加enter: true的
+    if (allow_random && i.callback) { random_callback.push(i.callback) } // 仅添加enter: true的
   }
-  if ( random_callback.length > 0 ) { // 处理随机
-    random_callback = random_callback[ Math.floor( Math.random() * random_callback.length ) ]
-    if ( arr.length > 0 && button.length >= 4 )  // 说明有五行，随机应追加在第五行末尾以节约空间
-      arr.push ( { label: '随机', callback: `${ random_callback }` } )
-    else {
-      if( arr.length > 0 ){  // 如果有剩下尾巴，处理尾巴
-        button.push ( arr )
+  if (random_callback.length > 0) { // 处理随机
+    random_callback = random_callback[Math.floor(Math.random() * random_callback.length)]
+    // 说明有五行，随机应追加在第五行末尾以节约空间
+    if (arr.length > 0 && button.length >= 4) {
+      arr.push({ label: '随机', callback: `${random_callback}` })
+    } else {
+      if (arr.length > 0) { // 如果有剩下尾巴，处理尾巴
+        button.push(arr)
         arr = []
       }
-      button.push ( [ { label: '随机一个', callback: `${ random_callback }` } ] )  // 添加一行随机
+      button.push([{ label: '随机一个', callback: `${random_callback}` }]) // 添加一行随机
     }
   }
-  if( arr.length > 0 ){  // 如果有剩下尾巴，处理尾巴
-    button.push ( arr )
+  if (arr.length > 0) { // 如果有剩下尾巴，处理尾巴
+    button.push(arr)
     arr = []
   }
-  return Bot.Button ( button )
+  return Bot.Button(button)
 }

@@ -3,12 +3,12 @@ import { Config } from '../utils/config.js'
 import fetch from 'node-fetch'
 
 const originalValues = [
-  '抖音变装', '快手变装', '随机裙子', '甜妹视频', '随机小姐姐', '双倍快乐', 'loli', '玉足',
+  '抖音变装', '快手变装', '裙子', '随机裙子', '甜妹视频', '小姐姐视频', '随机小姐姐', '双倍快乐', 'loli', '玉足',
   '黑丝视频', '白丝视频', '慢摇视频', 'cos系列', '纯情女高', '吊带系列', '完美身材',
   '热舞视频', '穿搭系列', '学姐系列', '卡哇伊', '清纯系列', '汉服系列'
 ]
 const correspondingValues = [
-  'dybianzhuang', 'ksbianzhuang', 'qunzi', 'tianmei', 'yzxjj', 'shuangbei', 'loli', 'yuzu',
+  'dybianzhuang', 'ksbianzhuang', 'qunzi', 'qunzi', 'tianmei', 'yzxjj', 'yzxjj', 'shuangbei', 'loli', 'yuzu',
   'heisi', 'baisi', 'manyao', 'cos', 'nvgao', 'diaodai', 'shencai',
   'rewu', 'chuanda', 'xuejie', 'kawayi', 'qingchun', 'hanfu'
 

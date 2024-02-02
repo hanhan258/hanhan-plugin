@@ -5,8 +5,8 @@ import he from 'he'
 
 const RootPath = process.cwd() + '/plugins/hanhan-plugin/'
 
-const originalValues = ['kfc', 'v50', '网易云热评', '舔狗日记', '污污', '污句子', '随机日记', '新春祝福']
-const correspondingValues = ['kfc', 'kfc', 'wyy', 'tg', 'saohua', 'saohua', 'riji', 'newyear']
+const originalValues = ['kfc', 'v50', '网易云热评', '舔狗日记', '污污', '污句子', '日记', '随机日记', '新春祝福']
+const correspondingValues = ['kfc', 'kfc', 'wyy', 'tg', 'saohua', 'saohua', 'riji', 'riji', 'newyear']
 
 export class text extends plugin {
   constructor () {

@@ -11,15 +11,15 @@ export class voice extends plugin {
       priority: 6,
       rule: [
         {
-          reg: '^#?随机唱鸭$',
+          reg: '^#?(唱鸭|随机唱鸭)$',
           fnc: 'sjcy'
         },
         {
-          reg: '^#?随机坤坤$',
+          reg: '^#?(坤坤语音|随机坤坤)$',
           fnc: 'sjkk'
         },
         {
-          reg: '^#?随机网易云$',
+          reg: '^#?(网易云|随机网易云)$',
           fnc: 'sjwyy'
         },
         {
@@ -27,7 +27,7 @@ export class voice extends plugin {
           fnc: 'maren'
         },
         {
-          reg: '^#?随机绿茶$',
+          reg: '^#?(绿茶|随机绿茶)$',
           fnc: 'lvcha'
         }
       ]

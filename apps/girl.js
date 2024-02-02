@@ -3,10 +3,10 @@ import { recallSendForwardMsg } from '../utils/common.js'
 
 const originalValues = [
   'jk', 'JK', 'ak', 'cos', '国风', '汉服', '黑丝', 'hs', '白丝', 'bs', '小姐姐', 'xjj', '买家秀',
-  '小性感', '夏日女友', '诱惑图', 'yht', 'mt', '随机ai', '随机AI']
+  '小性感', '夏日女友', '诱惑图', 'yht', 'mt', '随机ai', '随机AI', 'ai', 'AI']
 const correspondingValues = [
   'jk', 'jk', 'ak', 'cos', 'guofeng', 'hanfu', 'heisi', 'heisi', 'baisi', 'baisi', 'xiaojiejie', 'xiaojiejie', 'taobao',
-  'xiaoxinggan', 'girlfriend', 'youhuotu', 'youhuotu', 'meitui', 'ai', 'ai']
+  'xiaoxinggan', 'girlfriend', 'youhuotu', 'youhuotu', 'meitui', 'ai', 'ai', 'ai', 'ai']
 
 export class girl extends plugin {
   constructor () {

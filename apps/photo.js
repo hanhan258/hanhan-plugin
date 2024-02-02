@@ -25,7 +25,7 @@ export class photo extends plugin {
           fnc: 'mryy'
         },
         {
-          reg: '^(#|/)?随机acg$',
+          reg: '^(#|/)?(acg|随机acg)$',
           fnc: 'random_acg'
         },
         {
