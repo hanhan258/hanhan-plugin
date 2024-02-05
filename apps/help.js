@@ -32,6 +32,7 @@ export class help extends plugin {
   }
 
   async help (e) {
+    if (e.bot.config?.markdown) { return await e.reply('按钮菜单') }
     let custom = {}
     let help = {}
     let { diyCfg, sysCfg } = await Data.importCfg('help')

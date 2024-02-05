@@ -25,6 +25,10 @@ export class voice extends plugin {
         {
           reg: `^#?(${originalValues.join('|')})$`,
           fnc: 'jh'
+        },
+        {
+          reg: '^(#|/)?视频解析(.*)$',
+          fnc: 'jx'
         }
       ]
     })
@@ -40,6 +44,23 @@ export class voice extends plugin {
       console.log(resp.url)
       await e.reply(segment.video(resp.url))
       await is_MD(e)
+    } catch (error) {
+      e.reply('报错：' + error)
+    }
+  }
+
+  // 解析
+  async jx (e) {
+    let key = e.msg.replace(/^#?视频解析/, '').trim()
+    try {
+      let url = `http://api.yujn.cn/api/dspjx.php?url=${key}`
+      let res = await fetch(url) // 调用接口获取数据
+      let result = await res.json()
+      if (result.code != 200) {
+        return e.reply('api寄了')
+      }
+      e.reply(result.title)
+      await e.reply(segment.video(result.video))
     } catch (error) {
       e.reply('报错：' + error)
     }
