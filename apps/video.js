@@ -56,11 +56,12 @@ export class voice extends plugin {
       let url = `http://api.yujn.cn/api/dspjx.php?url=${key}`
       let res = await fetch(url) // 调用接口获取数据
       let result = await res.json()
+      console.log(result)
       if (result.code != 200) {
         return e.reply('api寄了')
       }
-      e.reply(result.title)
-      await e.reply(segment.video(result.video))
+      e.reply(result.data.title)
+      await e.reply(segment.video(result.data.video))
     } catch (error) {
       e.reply('报错：' + error)
     }
