@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>延迟检测结果</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            width: 700px;
+
+        }
+
+        .container {
+            /*max-width: 800px;*/
+            /*margin: 50px auto;*/
+            text-align: center;
+            background-image: url('v2-6db7c738ceabe9394de95060fc5f828f_720w.webp');
+            background-size: cover;
+            font-family: "tttgbnumber", "汉仪文黑-65W", YS, sans-serif;
+        }
+
+        .title {
+            font-weight: bold;
+            font-family: "tttgbnumber", "汉仪文黑-65W", YS, sans-serif;
+            padding-top: 20px;
+            font-size: 32px;
+            color: whitesmoke;
+            /*margin-bottom: 20px;*/
+        }
+
+        .subtitle {
+            font-family: "tttgbnumber", "汉仪文黑-65W", YS, sans-serif;
+            margin-top: 5px;
+            font-size: 14px;
+            color: whitesmoke;
+            /*margin-top: 30px;*/
+        }
+
+        @font-face {
+            font-family: "tttgbnumber";
+            src: url("../../../genshin/resources/font/tttgbnumber.ttf");
+            font-weight: normal;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: "YS";
+            src: url("../../../genshin/resources/font/HYWenHei-55W.ttf");
+            font-weight: normal;
+            font-style: normal;
+        }
+        .content {
+
+            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.4);
+            width: 90%;
+            margin-top: 15px;
+            margin-left: 28px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            border-radius: 8px;
+        }
+
+        table {
+            margin: auto;
+            /*padding-top: 20px;*/
+            border-collapse: collapse;
+            /*margin-top: 20px;*/
+            /*background-color: #fff;*/
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            /*background-color: #9a9a9a;*/
+            font-weight: bold;
+        }
+
+        .progress-bar {
+
+            margin-left: 10px;
+            width: 80px;
+            height: 20px;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-bar-inner {
+            border-radius: 3px;
+            margin: 2px 1px;
+            height: 16px;
+            background-color: #55d055; /* 修改这里的颜色来改变进度条的颜色 */
+        }
+
+        footer {
+            margin-top: 50px;
+            font-size: 12px;
+            padding-bottom: 3px;
+            color: whitesmoke;
+
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="title">多地延迟检测结果</div>
+
+    <div class="subtitle">测试时间：2024年2月10日 22:20 测试发起人：憨憨</div>
+    <div class="subtitle">测试目标：www.baidu.com</div>
+    <div class="content">
+        <table>
+            <thead>
+            <tr>
+                <th>测试点</th>
+                <th>类型</th>
+                <th>目标IP</th>
+                <th>目标IP所属地</th>
+                <th>延迟</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- 表格数据 -->
+            <tr>
+                <td>新疆乌鲁木齐</td>
+                <td>电信</td>
+                <td>110.242.68.66</td>
+                <td>中国/北京/移动</td>
+                <td >
+                    <div style="display: flex">
+                        100ms
+                        <div class="progress-bar">
+                            <div class="progress-bar-inner" style="width: 60%; background-color: blue;"></div>
+                        </div>
+                    </div>
+
+                </td>
+            </tr>
+            <tr>
+                <td>测试点2</td>
+                <td>联通</td>
+                <td>192.168.0.2</td>
+                <td>上海</td>
+                <td>
+                    <div style="display: flex">
+                        120ms
+                        <div class="progress-bar">
+                            <div class="progress-bar-inner" style="width: 80%; background-color: blue;"></div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <!-- 其他行 -->
+            </tbody>
+        </table>
+    </div>
+
+
+    <footer>
+        <p>数据来源于 itdog.cn | Created By Hanhan-Plugin</p>
+    </footer>
+</div>
+</body>
+</html>

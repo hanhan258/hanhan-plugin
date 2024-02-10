@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>延迟检测结果</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            width: 800px;
+
+        }
+
+        .container {
+            /*max-width: 800px;*/
+            /*margin: 50px auto;*/
+            text-align: center;
+            background-image: url('{{pluResPath}}ping/v2-6db7c738ceabe9394de95060fc5f828f_720w.webp');
+            background-size: contain;
+            background-repeat: repeat-y;
+            font-family: "tttgbnumber", "汉仪文黑-65W", YS, sans-serif;
+        }
+
+        .title {
+            font-weight: bold;
+            padding-top: 20px;
+            font-size: 32px;
+            color: whitesmoke;
+            /*margin-bottom: 20px;*/
+        }
+
+        .subtitle {
+            margin-top: 5px;
+            font-size: 14px;
+            color: whitesmoke;
+            /*margin-top: 30px;*/
+        }
+
+        @font-face {
+            font-family: "tttgbnumber";
+            src: url("{{pluResPath}}../../genshin/resources/font/tttgbnumber.ttf");
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: "YS";
+            src: url("{{pluResPath}}../../genshin/resources/font/HYWenHei-55W.ttf");
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        .content {
+            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.4);
+            width: 95%;
+            margin-top: 15px;
+            margin-left: 20px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            border-radius: 8px;
+        }
+
+        table {
+            margin: auto;
+            /*padding-top: 20px;*/
+            border-collapse: collapse;
+            /*margin-top: 20px;*/
+            /*background-color: #fff;*/
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            /*background-color: #9a9a9a;*/
+            font-weight: bold;
+        }
+
+        .progress-bar {
+            margin-left: 10px;
+            width: 80px;
+            height: 20px;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-bar-inner {
+            border-radius: 3px;
+            margin: 2px 1px;
+            height: 16px;
+            background-color: #55d055; /* 修改这里的颜色来改变进度条的颜色 */
+        }
+
+        .latency {
+            width: 35%;
+        }
+        footer {
+            margin-top: 10px;
+            font-size: 16px;
+            padding-bottom: 3px;
+            color: whitesmoke;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="title">多地延迟检测结果</div>
+
+    <div class="subtitle">测试时间：{{time}} 测试发起人：{{tester}}</div>
+    <div class="subtitle">测试目标：{{target}}</div>
+    <div class="content">
+        <table>
+            <thead>
+            <tr>
+                <th>测试点</th>
+                <th>类型</th>
+                <th>目标IP</th>
+                <th>目标IP所属地</th>
+                <th>延迟</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- 表格数据 -->
+            {{each results data}}
+            <tr>
+                <td>{{data.location}}</td>
+                <td>{{data.isp}}</td>
+                <td>{{data.ip}}</td>
+                <td>{{data.ipLoc}}</td>
+                <td>
+                    <div style="display: flex">
+                        <div class="latency">
+                            {{data.latency}}ms
+                        </div>
+
+                        <div class="progress-bar">
+                            <div class="progress-bar-inner" style="width: {{data.progressBarWidth}}%; background-color: {{data.progressBarColor}};"></div>
+                        </div>
+                    </div>
+
+                </td>
+            </tr>
+           {{/each}}
+            <!-- 其他行 -->
+            </tbody>
+        </table>
+    </div>
+
+
+    <footer>
+        <p>数据来源于 itdog.cn | Created By Hanhan-Plugin</p>
+    </footer>
+</div>
+</body>
+</html>

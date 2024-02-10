@@ -281,6 +281,9 @@ export const helpList = [
         title: '#Ping ip(域名)',
         desc: 'Ping(显示ip)'
       }, {
+        title: '#多地pingip(域名)',
+        desc: '多地ping'
+      }, {
         title: '#url编(解)码+内容',
         desc: 'url编解码'
       }, {
