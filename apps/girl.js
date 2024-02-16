@@ -1,5 +1,6 @@
 import plugin from '../../../lib/plugins/plugin.js'
 import { recallSendForwardMsg } from '../utils/common.js'
+import { getImage } from '../utils/hanhan.js'
 
 const originalValues = [
   'jk', 'JK', 'ak', 'cos', '国风', '汉服', '黑丝', 'hs', '白丝', 'bs', '小姐姐', 'xjj', '买家秀',
@@ -36,7 +37,7 @@ export class girl extends plugin {
   async jh (e) {
     console.log(e.msg)
     let name = correspondingValues[originalValues.indexOf(e.msg.replace('#', ''))]
-    await this.reply(segment.image(`http://hanhan.avocado.wiki?${name}`))
+    await this.reply(segment.image(await getImage(name)))
     return true // 返回true 阻挡消息不再往下
   }
 

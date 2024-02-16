@@ -4,6 +4,7 @@ import plugin from '../../../lib/plugins/plugin.js'
 import { Config } from '../utils/config.js'
 import fetch from 'node-fetch'
 import axios from 'axios'
+import { getImage } from '../utils/hanhan.js'
 
 const originalValues = ['集原美', 'mc酱', '兽猫酱', '甘城', '萌宠', '可爱萌宠']
 const correspondingValues = ['jiyuanmei', 'mcjiang', 'shoumao', 'maoyuna', 'mengc', 'mengc']
@@ -116,7 +117,7 @@ export class photo extends plugin {
   // 聚合
   async jh (e) {
     let name = correspondingValues[originalValues.indexOf(e.msg.replace('#', ''))]
-    await this.reply(segment.image(`http://hanhan.avocado.wiki?${name}`))
+    await this.reply(segment.image(await getImage(name)))
     return true // 返回true 阻挡消息不再往下
   }
 
