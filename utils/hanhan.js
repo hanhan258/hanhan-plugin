@@ -54,7 +54,7 @@ export async function downloadImageAndConvert2Base64 (url, headers) {
     }).then(res => {
       let source = res.headers.get('Hanhan')
       logger.info(source)
-      return res.buffer()
+      return res.arrayBuffer()
     }).then(buffer => {
       resolve(`base64://${buffer.toString('base64')}`)
     }).catch(err => {
