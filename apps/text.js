@@ -31,9 +31,17 @@ export class text extends plugin {
         {
           reg: '^(#|/)?沙雕新闻$',
           fnc: 'sd'
+        },
+        {
+          reg: '^#?文本类菜单$',
+          fnc: 'helps'
         }
       ]
     })
+  }
+
+  async helps (e) {
+    if (e.bot.config?.markdown) { return await e.reply('按钮菜单') }
   }
 
   // 沙雕新闻

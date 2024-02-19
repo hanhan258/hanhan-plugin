@@ -18,17 +18,9 @@ export class help extends plugin {
         {
           reg: '^#?搜一搜帮助$',
           fnc: 'so_help'
-        },
-        {
-          reg: '^#?(视频类|美女类|语音类|文本类|图片类|表情包|管理类|数字类)菜单$',
-          fnc: 'helps'
         }
       ]
     })
-  }
-
-  async helps (e) {
-    if (e.bot.config?.markdown) { return await e.reply('按钮菜单') }
   }
 
   async help (e) {

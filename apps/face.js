@@ -26,9 +26,17 @@ export class diaotu extends plugin {
         {
           reg: '^(#|/)?(柴郡|随机柴郡)$',
           fnc: 'cj'
+        },
+        {
+          reg: '^#?表情包菜单$',
+          fnc: 'helps'
         }
       ]
     })
+  }
+
+  async helps (e) {
+    if (e.bot.config?.markdown) { return await e.reply('按钮菜单') }
   }
 
   // 聚合

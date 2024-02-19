@@ -43,6 +43,10 @@ export class photo extends plugin {
         {
           reg: '^(#|/)?图集解析(.*)$',
           fnc: 'jx'
+        },
+        {
+          reg: '^#?图片类菜单$',
+          fnc: 'helps'
         }
       ]
     })
@@ -54,6 +58,10 @@ export class photo extends plugin {
         fnc: this.englishTimeIsUp
       }
     ]
+  }
+
+  async helps (e) {
+    if (e.bot.config?.markdown) { return await e.reply('按钮菜单') }
   }
 
   async englishTimeIsUp () {
