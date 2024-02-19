@@ -27,9 +27,17 @@ export class girl extends plugin {
         {
           reg: '^(#|/)?微博美女$',
           fnc: 'weibo'
+        },
+        {
+          reg: '^#?美女类菜单$',
+          fnc: 'helps'
         }
       ]
     })
+  }
+
+  async helps (e) {
+    if (e.bot.config?.markdown) { return await e.reply('按钮菜单') }
   }
 
   // 聚合

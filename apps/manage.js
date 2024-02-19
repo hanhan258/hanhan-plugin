@@ -38,9 +38,17 @@ export class manage extends plugin {
         {
           reg: '^#(关闭|开启)视频$',
           fnc: 'enableVideo'
+        },
+        {
+          reg: '^#?管理类菜单$',
+          fnc: 'helps'
         }
       ]
     })
+  }
+
+  async helps (e) {
+    if (e.bot.config?.markdown) { return await e.reply('按钮菜单') }
   }
 
   // 设置PingToken

@@ -21,9 +21,17 @@ export class morse extends plugin {
         {
           reg: '^#?(75946|36518)$',
           fnc: '25508'
+        },
+        {
+          reg: '^#?数字类菜单$',
+          fnc: 'helps'
         }
       ]
     })
+  }
+
+  async helps (e) {
+    if (e.bot.config?.markdown) { return await e.reply('按钮菜单') }
   }
 
   async 50033 (e) {

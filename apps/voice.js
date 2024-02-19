@@ -29,9 +29,17 @@ export class voice extends plugin {
         {
           reg: '^#?(绿茶|随机绿茶)$',
           fnc: 'lvcha'
+        },
+        {
+          reg: '^#?语音类菜单$',
+          fnc: 'helps'
         }
       ]
     })
+  }
+
+  async helps (e) {
+    if (e.bot.config?.markdown) { return await e.reply('按钮菜单') }
   }
 
   // 随机网易云

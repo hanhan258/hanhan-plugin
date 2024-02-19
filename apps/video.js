@@ -29,9 +29,17 @@ export class voice extends plugin {
         {
           reg: '^(#|/)?视频解析(.*)$',
           fnc: 'jx'
+        },
+        {
+          reg: '^#?视频类菜单$',
+          fnc: 'helps'
         }
       ]
     })
+  }
+
+  async helps (e) {
+    if (e.bot.config?.markdown) { return await e.reply('按钮菜单') }
   }
 
   // 聚合
