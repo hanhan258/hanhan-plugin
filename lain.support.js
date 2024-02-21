@@ -43,7 +43,7 @@ export default class Button {
           fnc: 'video'
         },
         {
-          reg: '^#?(语音类菜单|唱鸭|坤坤语音|网易云|绿茶|骂我)$',
+          reg: '^#?(语音类菜单|(随机)?唱鸭|坤坤语音|网易云|绿茶|骂我)$',
           fnc: 'voice'
         },
         {
