@@ -177,10 +177,12 @@ export class photo extends plugin {
       }
       if (result.images && result.images.length > 0) {
         for (let i = 0; i < result.images.length; i++) {
-          forwardMsgs.push(segment.image(result.images[i]))
-          if (e.bot.adapter != 'QQBot') {
-            forwardMsgs.push(result.images[i])
-            // console.log(i)
+          if (result.images[i] != 'null') {
+            forwardMsgs.push(segment.image(result.images[i]))
+            if (e.bot.adapter != 'QQBot') {
+              forwardMsgs.push(result.images[i])
+              // console.log(i)
+            }
           }
         }
       }
