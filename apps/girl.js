@@ -1,12 +1,30 @@
 import plugin from '../../../lib/plugins/plugin.js'
 import { recallSendForwardMsg } from '../utils/common.js'
 
-const originalValues = [
-  'jk', 'JK', 'ak', 'cos', '国风', '汉服', '黑丝', 'hs', '白丝', 'bs', '小姐姐', 'xjj', '买家秀',
-  '小性感', '夏日女友', '诱惑图', 'yht', 'mt', '随机ai', '随机AI', 'ai', 'AI']
-const correspondingValues = [
-  'jk', 'jk', 'ak', 'cos', 'guofeng', 'hanfu', 'heisi', 'heisi', 'baisi', 'baisi', 'xiaojiejie', 'xiaojiejie', 'taobao',
-  'xiaoxinggan', 'girlfriend', 'youhuotu', 'youhuotu', 'meitui', 'ai', 'ai', 'ai', 'ai']
+const valueMap = {
+  jk: 'jk',
+  JK: 'jk',
+  ak: 'ak',
+  cos: 'cos',
+  国风: 'guofeng',
+  汉服: 'hanfu',
+  黑丝: 'heisi',
+  hs: 'heisi',
+  白丝: 'baisi',
+  bs: 'baisi',
+  小姐姐: 'xiaojiejie',
+  xjj: 'xiaojiejie',
+  买家秀: 'taobao',
+  小性感: 'xiaoxinggan',
+  夏日女友: 'girlfriend',
+  诱惑图: 'youhuotu',
+  yht: 'youhuotu',
+  mt: 'meitui',
+  随机ai: 'ai',
+  随机AI: 'ai',
+  ai: 'ai',
+  AI: 'ai'
+}
 
 export class girl extends plugin {
   constructor () {
@@ -17,7 +35,7 @@ export class girl extends plugin {
       priority: 6,
       rule: [
         {
-          reg: `^#?(${originalValues.join('|')})$`,
+          reg: `^#?(${Object.keys(valueMap).join('|')})$`,
           fnc: 'jh'
         },
         {
@@ -42,8 +60,8 @@ export class girl extends plugin {
 
   // 聚合
   async jh (e) {
-    console.log(e.msg)
-    let name = correspondingValues[originalValues.indexOf(e.msg.replace('#', ''))]
+    // console.log(e.msg)
+    let name = valueMap[e.msg.replace('#', '')]
     await this.reply(segment.image(`http://hanhan.avocado.wiki?${name}`))
     return true // 返回true 阻挡消息不再往下
   }

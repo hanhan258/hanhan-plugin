@@ -5,9 +5,14 @@ import { Config } from '../utils/config.js'
 import fetch from 'node-fetch'
 import axios from 'axios'
 
-const originalValues = ['集原美', 'mc酱', '兽猫酱', '甘城', '萌宠', '可爱萌宠']
-const correspondingValues = ['jiyuanmei', 'mcjiang', 'shoumao', 'maoyuna', 'mengc', 'mengc']
-
+const valueMap = {
+  集原美: 'jiyuanmei',
+  mc酱: 'mcjiang',
+  兽猫酱: 'shoumao',
+  甘城: 'maoyuna',
+  萌宠: 'mengc',
+  可爱萌宠: 'mengc'
+}
 export class photo extends plugin {
   constructor () {
     super({
@@ -17,7 +22,7 @@ export class photo extends plugin {
       priority: 6,
       rule: [
         {
-          reg: `^#?(${originalValues.join('|')})$`,
+          reg: `^#?(${Object.keys(valueMap).join('|')})$`,
           fnc: 'jh'
         },
         {
@@ -41,7 +46,7 @@ export class photo extends plugin {
           fnc: 'yxlm'
         },
         {
-          reg: '^(#|/)?图集解析(.*)$',
+          reg: '^#图集解析(.*)$',
           fnc: 'jx'
         },
         {
@@ -100,14 +105,11 @@ export class photo extends plugin {
 
   // 解析
   async jx (e) {
-    let key = e.msg.replace(/^#?图集解析/, '').trim()
+    let key = e.msg.replace(/^#图集解析/, '').trim()
     try {
       let url = `http://api.yujn.cn/api/dspjx.php?url=${key}`
       let res = await fetch(url) // 调用接口获取数据
       let result = await res.json()
-      if (result.code != 200) {
-        return e.reply('api寄了')
-      }
       let forwardMsgs = []
       console.log(result)
       forwardMsgs.push(result.data.title)
@@ -123,7 +125,7 @@ export class photo extends plugin {
 
   // 聚合
   async jh (e) {
-    let name = correspondingValues[originalValues.indexOf(e.msg.replace('#', ''))]
+    let name = valueMap[e.msg.replace('#', '')]
     await this.reply(segment.image(`http://hanhan.avocado.wiki?${name}`))
     return true // 返回true 阻挡消息不再往下
   }

@@ -1,16 +1,44 @@
 import plugin from '../../../lib/plugins/plugin.js'
 
-const originalValues = [
-  '坤坤', '小黑子', '鸡', 'cxk', '鸡脚', '鸽鸽', '哥哥', '一二布布', '废柴', '小恐龙', '哆啦A梦', '哆啦a梦', 'A梦', 'a梦', '阿蒙',
-  '狐狐', '随机狐狐', '狐狸', 'kabo', '咖波', 'kapo', '猫虫', '库洛米', 'kuluomi', '龙图', '随机龙图', '蘑菇头', '随机蘑菇头',
-  '派大星', '随机派大星', '熊猫头', '随机熊猫头', '小黄鸡', '随机小黄鸡', '小灰灰', '随机小灰灰', '小豆泥'
-]
-const correspondingValues = [
-  'cxk', 'cxk', 'cxk', 'cxk', 'cxk', 'cxk', 'cxk', 'bubu', 'cheems', 'xiaokonglong', 'ameng', 'ameng', 'ameng', 'ameng', 'ameng',
-  'fox', 'fox', 'fox', 'kabo', 'kabo', 'kabo', 'kabo', 'kuluomi', 'kuluomi', 'longtu', 'longtu', 'mogutou', 'mogutou',
-  'paidaxing', 'paidaxing', 'panda', 'panda', 'xiaohuangji', 'xiaohuangji', 'xiaohuihui', 'xiaohuihui', 'xiaodouni'
-]
-
+const valueMap = {
+  坤坤: 'cxk',
+  小黑子: 'cxk',
+  鸡: 'cxk',
+  cxk: 'cxk',
+  鸡脚: 'cxk',
+  鸽鸽: 'cxk',
+  哥哥: 'cxk',
+  一二布布: 'bubu',
+  废柴: 'cheems',
+  小恐龙: 'xiaokonglong',
+  哆啦A梦: 'ameng',
+  哆啦a梦: 'ameng',
+  A梦: 'ameng',
+  a梦: 'ameng',
+  阿蒙: 'ameng',
+  狐狐: 'fox',
+  随机狐狐: 'fox',
+  狐狸: 'fox',
+  kabo: 'kabo',
+  咖波: 'kabo',
+  kapo: 'kabo',
+  猫虫: 'kabo',
+  库洛米: 'kuluomi',
+  kuluomi: 'kuluomi',
+  龙图: 'longtu',
+  随机龙图: 'longtu',
+  蘑菇头: 'mogutou',
+  随机蘑菇头: 'mogutou',
+  派大星: 'paidaxing',
+  随机派大星: 'paidaxing',
+  熊猫头: 'panda',
+  随机熊猫头: 'panda',
+  小黄鸡: 'xiaohuangji',
+  随机小黄鸡: 'xiaohuangji',
+  小灰灰: 'xiaohuihui',
+  随机小灰灰: 'xiaohuihui',
+  小豆泥: 'xiaodouni'
+}
 export class diaotu extends plugin {
   constructor () {
     super({
@@ -20,7 +48,7 @@ export class diaotu extends plugin {
       priority: 6,
       rule: [
         {
-          reg: `^#?(${originalValues.join('|')})$`,
+          reg: `^#?(${Object.keys(valueMap).join('|')})$`,
           fnc: 'jh'
         },
         {
@@ -41,7 +69,7 @@ export class diaotu extends plugin {
 
   // 聚合
   async jh (e) {
-    let name = correspondingValues[originalValues.indexOf(e.msg.replace('#', ''))]
+    let name = valueMap[e.msg.replace('#', '')]
     console.log(name)
     await this.reply(segment.image(`http://hanhan.avocado.wiki/?${name}`))
     return true // 返回true 阻挡消息不再往下
