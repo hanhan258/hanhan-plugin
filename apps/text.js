@@ -129,7 +129,7 @@ export class text extends plugin {
     }
     // 判断是否含有发癫对象，没有则默认对憨憨发癫
     if (!msg || msg.length === 0) {
-      msg = '憨憨'
+      msg = e.sender.card || e.sender.nickname
     }
     let path = RootPath + '/resources/json/psycho.json'
     let result = await getRandomLineFromFile(path)

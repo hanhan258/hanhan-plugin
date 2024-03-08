@@ -144,7 +144,7 @@ export class photo extends plugin {
     if (result.data.content) {
       forwardMsgs.push('评论：' + result.data.content)
     }
-    if (e.bot.adapter != 'QQBot') {
+    if (e.bot?.adapter != 'QQBot') {
       forwardMsgs.push(segment.image(result.data.img))
       forwardMsgs.push(result.data.img)
     }
@@ -181,7 +181,7 @@ export class photo extends plugin {
         for (let i = 0; i < result.images.length; i++) {
           if (result.images[i] != 'null') {
             forwardMsgs.push(segment.image(result.images[i]))
-            if (e.bot.adapter != 'QQBot') {
+            if (e.bot?.adapter != 'QQBot') {
               forwardMsgs.push(result.images[i])
               // console.log(i)
             }
@@ -209,7 +209,7 @@ export class photo extends plugin {
     } else {
       for (let i = 0; i < result.image_count; i++) {
         forwardMsgs.push(segment.image(result.img[i]))
-        if (e.bot.adapter != 'QQBot') {
+        if (e.bot?.adapter != 'QQBot') {
           forwardMsgs.push(result.img[i])
         }
         // console.log(i)
