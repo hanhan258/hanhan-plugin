@@ -37,7 +37,11 @@ const valueMap = {
   随机小黄鸡: 'xiaohuangji',
   小灰灰: 'xiaohuihui',
   随机小灰灰: 'xiaohuihui',
-  小豆泥: 'xiaodouni'
+  小豆泥: 'xiaodouni',
+  疾旋鼬: 'jixuanyou',
+  兄弟兄弟: 'jixuanyou',
+  兄弟你好香: 'jixuanyou'
+
 }
 export class diaotu extends plugin {
   constructor () {

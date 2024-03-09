@@ -23,7 +23,7 @@ export default class Button {
           fnc: 'photo'
         },
         {
-          reg: '^#?(表情包菜单|废柴|狐狐|咖波|龙图|库洛米|小恐龙|蘑菇头|派大星|熊猫头|小黄鸡|小灰灰|小豆泥|小黑子|哆啦A梦|一二布布|柴郡|随机柴郡)$',
+          reg: '^#?(表情包菜单|兄弟你好香|兄弟兄弟|疾旋鼬|废柴|狐狐|咖波|龙图|库洛米|小恐龙|蘑菇头|派大星|熊猫头|小黄鸡|小灰灰|小豆泥|小黑子|哆啦A梦|一二布布|柴郡|随机柴郡)$',
           fnc: 'face'
         },
         {
@@ -137,7 +137,9 @@ export default class Button {
       { label: '小黄鸡', callback: '小黄鸡' },
       { label: '小黑子', callback: '小黑子' },
       { label: '蘑菇头', callback: '蘑菇头' },
-      { label: '熊猫头', callback: '熊猫头' }
+      { label: '熊猫头', callback: '熊猫头' },
+
+      { label: '疾旋鼬', callback: '疾旋鼬' }
     ]
     return toButton(list, 4)
   }
