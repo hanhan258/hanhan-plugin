@@ -3,6 +3,8 @@
 import fs from 'fs'
 import _ from 'lodash'
 import path from 'path'
+import yaml from 'yaml'
+
 export function getRandomLineFromFile(filePath) {
   return new Promise((resolve, reject) => {
     fs.readFile(filePath, 'utf8', (err, data) => {
@@ -172,12 +174,22 @@ export async function getforwardMsg(e, message, {
 
 // 获取 ffmpeg 路径
 export function getFfmpegPath() {
-  if (process.platform === 'win32') {
-    // Windows 路径
-    const ffmpegDir = path.join(process.cwd(), './plugins/hanhan-plugin/utils/ffmpeg')
-    return path.join(ffmpegDir, 'bin/ffmpeg.exe')
-  } else {
-    // Linux/Mac 使用系统 ffmpeg
-    return 'ffmpeg'
+  try {
+    // 从 bot.yaml 获取配置
+    const configPath = path.join(process.cwd(), 'config/config/bot.yaml')
+    if (fs.existsSync(configPath)) {
+      const fileContent = fs.readFileSync(configPath, 'utf8')
+      const config = yaml.parse(fileContent)
+
+      // 如果配置了 ffmpeg_path 且不为空，则使用配置的路径
+      if (config && config.ffmpeg_path) {
+        return config.ffmpeg_path
+      }
+    }
+  } catch (error) {
+    console.error('Failed to read ffmpeg path from config:', error)
   }
+
+  // 配置为空或读取失败时使用环境变量
+  return 'ffmpeg'
 }
