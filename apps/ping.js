@@ -131,6 +131,11 @@ export class Ping extends plugin {
       return e.reply('请指定要 ping 的主机名或 IP 地址。')
     }
 
+    // 验证主机名或 IP 地址的有效性
+    if (!this.isValidHost(host)) {
+      return e.reply('无效的主机名或 IP 地址。')
+    }
+
     await this.reply('正在执行系统 ping 命令...', true, { recallMsg: 3 })
 
     let command = ''
@@ -140,7 +145,7 @@ export class Ping extends plugin {
       command = `ping -c 3 -W 5 ${host}` // Linux/macOS: -c 次数, -W 超时(秒)
     }
 
-    exec(command, { timeout: 10000, encoding: 'buffer' }, (error, stdout, stderr) => { // 设置 encoding 为 buffer
+    exec(command, { timeout: 10000, encoding: 'buffer' }, (error, stdout, stderr) => {
       if (error) {
         if (error.killed) {
           e.reply('系统 ping 命令超时。')
@@ -153,11 +158,28 @@ export class Ping extends plugin {
 
       let result = stdout
       if (process.platform === 'win32') {
-        result = iconv.decode(stdout, 'gbk') // 将 GBK 编码转换为 UTF-8 编码
+        result = iconv.decode(stdout, 'gbk')
       }
 
       e.reply(`系统 ping 命令结果:\n${result}`)
     })
+  }
+
+  // 验证主机名或 IP 地址的有效性
+  isValidHost(host) {
+    // 使用正则表达式验证 IP 地址
+    const ipRegex = /^(\d{1,3}\.){3}\d{1,3}$/
+    if (ipRegex.test(host)) {
+      return true
+    }
+
+    // 使用正则表达式验证主机名
+    const hostnameRegex = /^([a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}$/
+    if (hostnameRegex.test(host)) {
+      return true
+    }
+
+    return false
   }
 }
 
