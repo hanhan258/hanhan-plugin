@@ -4,6 +4,7 @@ import { exec } from 'child_process'
 import pingMan from 'pingman'
 import dns from 'dns'
 import net from 'net'
+import iconv from 'iconv-lite' // 添加 iconv-lite 库
 
 export class Ping extends plugin {
   constructor() {
@@ -139,7 +140,7 @@ export class Ping extends plugin {
       command = `ping -c 3 -W 5 ${host}` // Linux/macOS: -c 次数, -W 超时(秒)
     }
 
-    exec(command, { timeout: 10000 }, (error, stdout, stderr) => { // 10秒超时
+    exec(command, { timeout: 10000, encoding: 'buffer' }, (error, stdout, stderr) => { // 设置 encoding 为 buffer
       if (error) {
         if (error.killed) {
           e.reply('系统 ping 命令超时。')
@@ -149,7 +150,13 @@ export class Ping extends plugin {
         }
         return
       }
-      e.reply(`系统 ping 命令结果:\n${stdout}`)
+
+      let result = stdout
+      if (process.platform === 'win32') {
+        result = iconv.decode(stdout, 'gbk') // 将 GBK 编码转换为 UTF-8 编码
+      }
+
+      e.reply(`系统 ping 命令结果:\n${result}`)
     })
   }
 }

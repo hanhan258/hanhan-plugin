@@ -40,7 +40,7 @@ export class voice extends plugin {
 
   async helps(e) {
     if (e.bot.config?.markdown?.type) { 
-      return await this.reply('按钮菜单') 
+      return await this.sendReply('按钮菜单') 
     }
   }
 
@@ -56,15 +56,15 @@ export class voice extends plugin {
         let result = await response.json()
 
         if (result.code != 200) {
-          return this.reply('api寄了')
+          return this.sendReply('api寄了')
         }
 
         if (result.id) {
-          await this.reply(segment.image(result.img))
-          await this.reply(segment.record(result.url))
+          await this.sendReply(segment.image(result.img))
+          await this.sendReply(segment.record(result.url))
           return true
         } else {
-          await this.reply('随机到vip歌曲了，已自动随机下一首')
+          await this.sendReply('随机到vip歌曲了，已自动随机下一首')
           attempts++
         }
       } catch (error) {
@@ -72,13 +72,12 @@ export class voice extends plugin {
       }
     }
 
-    return this.reply('已达到最大重试次数，无法获取歌曲。')
+    return this.sendReply('已达到最大重试次数，无法获取歌曲。')
   }
 
   // 处理简单音频请求
   async handleAudio(url) {
-    this.e.reply = this.reply.bind(this)
-    await this.reply(segment.record(url))
+    await this.sendReply(segment.record(url))
     await this.is_MD(this.e)
     return true
   }
@@ -103,7 +102,8 @@ export class voice extends plugin {
     return this.handleAudio('https://api.yujn.cn/api/lvcha.php?')
   }
 
-  async reply(message) {
+  // 重命名为sendReply避免与原始reply冲突
+  async sendReply(message) {
     return await this.e.reply(message, false, { recallMsg: Config.recall_s })
   }
 
@@ -114,7 +114,7 @@ export class voice extends plugin {
       }
     }
     if (e.bot.config?.markdown?.type) { 
-      return await this.reply('语音类菜单') 
+      return await this.sendReply('语音类菜单') 
     }
   }
 }
