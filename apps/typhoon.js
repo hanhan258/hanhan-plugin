@@ -17,7 +17,7 @@ export class TFLJ extends plugin {
             event: 'message',
             priority: 6,
             rule: [
-                { reg: '^#?台风路径$', fnc: 'Tflj'},
+                { reg: '^#?台风路径$', fnc: 'Tflj' },
             ]
         })
     }
@@ -49,15 +49,16 @@ async function captureGif(url, maxDuration, fps, elementSelector) {
     await page.setViewport({ width: 1080, height: 800 });
 
     logger.info(`打开 URL: ${url}`);
-    await page.goto(url, { waitUntil: 'networkidle0'});
+    await page.goto(url, { waitUntil: 'networkidle0' });
 
     logger.info('删除指定的 HTML 元素');
     await page.evaluate(() => {
-        document.querySelector('#header > div.top > div')?.remove();
-        document.querySelector('#mapTypeSelect')?.remove();
-        document.querySelector('#map > div.leaflet-control-container')?.remove();
-        document.querySelector('#legend_img')?.remove();
-        document.querySelector('#form1 > div.lishi')?.remove();
+        document.querySelector('#app > header > div.top-operations')?.remove();
+        document.querySelector("#app > div.content > div > div.sidebar.sidebar-web")?.remove();
+        document.querySelector("#app > div.content > div > div.map-btns")?.remove();
+        document.querySelector("#map > div.leaflet-control-container")?.remove();
+        document.querySelector("#app > div.content > div > div.legend-box")?.remove();
+        document.querySelector("#app > div.content > div > div.history-web")?.remove();
     });
 
     logger.info('开始截屏');
@@ -68,7 +69,7 @@ async function captureGif(url, maxDuration, fps, elementSelector) {
     const maxUnchangedTime = 1 * fps;
 
     for (let i = 0; i < totalFrames; i++) {
-        const screenshot = await page.screenshot({ encoding: 'base64'});
+        const screenshot = await page.screenshot({ encoding: 'base64' });
         frames.push(Buffer.from(screenshot, 'base64'));
 
         await page.evaluate(ms => new Promise(resolve => setTimeout(resolve, ms)), 1000 / fps);
