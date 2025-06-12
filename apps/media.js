@@ -60,7 +60,7 @@ export class media extends plugin {
                 },
                 // 分类随机获取 - 图片
                 {
-                    reg: '^#?憨憨?随机(表情包|图片|壁纸|二次元|三次元|基础分类)$',
+                    reg: '^#?憨憨?随机(表情包|图片|壁纸|二次元|三次元|基础分类|叼图)$',
                     fnc: 'getRandomByCategory'
                 },
                 // 分类随机获取 - 视频
@@ -333,7 +333,8 @@ export class media extends plugin {
                 '壁纸': ['wallpaper'],
                 '二次元': 'pictureCategories.二次元',
                 '三次元': 'pictureCategories.三次元',
-                '基础分类': 'pictureCategories.基础分类'
+                '基础分类': 'pictureCategories.基础分类',
+                '叼图': 'pictureCategories.叼图'
             }
             
             const categoryPath = categoryMap[categoryName]
