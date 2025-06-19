@@ -125,14 +125,12 @@ export class PicEval extends plugin {
             font-display: swap;
         }
 
-        /* Reset & 基础 ----------------------------------------------------------------- */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        /* 主要卡片 --------------------------------------------------------------------- */
         body {
             font-family: 'loliti', sans-serif;
             font-size: 24px;
@@ -152,7 +150,6 @@ export class PicEval extends plugin {
                 0 0 0 2px rgba(255, 255, 255, .03) inset;
         }
 
-        /* 图片 ------------------------------------------------------------------------- */
         .in_img {
             display: block;
             width: 100%;
@@ -166,7 +163,6 @@ export class PicEval extends plugin {
             box-shadow: 0 14px 28px rgba(0, 0, 0, .45);
         }
 
-        /* 标题 ------------------------------------------------------------------------- */
         .title {
             font-size: 34px;
             font-weight: 700;
@@ -175,7 +171,6 @@ export class PicEval extends plugin {
             text-shadow: 0 2px 4px rgba(0, 0, 0, .45);
         }
 
-        /* 判定 & 评分 ------------------------------------------------------------------- */
         .verdict,
         .rating {
             font-size: 26px;
@@ -191,7 +186,6 @@ export class PicEval extends plugin {
             text-shadow: 0 0 6px rgba(255, 216, 96, .35);
         }
 
-        /* 说明 ------------------------------------------------------------------------- */
         .exp {
             margin-top: 20px;
             padding: 22px 26px;
