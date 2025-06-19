@@ -4,6 +4,7 @@ import puppeteer from 'puppeteer'
 import Jimp from 'jimp'
 
 const API_URL = 'https://api.websim.com/api/v1/inference/run_chat_completion'
+let base64Img
 
 export class PicEval extends plugin {
     constructor() {
@@ -97,7 +98,7 @@ export class PicEval extends plugin {
             }
 
             let json = await res.json();
-            logger.log('[PicEval] API返回:', json);
+            logger.info('[PicEval] API返回:', json);
             let content = json.content || '';
             let match = content.match(/```json\s*([\s\S]*?)\s*```/);
             let obj;
