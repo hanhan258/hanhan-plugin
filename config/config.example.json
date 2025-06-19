@@ -15,5 +15,6 @@
     "123456-ABCDEF123"
   ],
   "enableButton": false,
-  "enableVideo": true
+  "enableVideo": true,
+  "stop_PicEval": false
 }

@@ -1,5 +1,6 @@
 import plugin from '../../../lib/plugins/plugin.js'
 import fetch from 'node-fetch'
+import { Config } from '../utils/config.js'
 import puppeteer from 'puppeteer'
 import Jimp from 'jimp'
 
@@ -23,6 +24,7 @@ export class PicEval extends plugin {
     }
 
     async evalPicWithReply(e) {
+        if (Config.stop_PicEval) return logger.info('[PicEval] 色吗功能已关闭')
         if (e.at && !e.source) {
             e.img = [`https://q1.qlogo.cn/g?b=qq&s=0&nk=${e.at}`]
         }
@@ -94,7 +96,7 @@ export class PicEval extends plugin {
             })
 
             if (!res.ok) {
-                return await e.reply('API请求失败！')
+                return await e.reply('API请求失败了哦，状态码：' + res.status + '，请稍后再试。')
             }
 
             let json = await res.json();

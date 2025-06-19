@@ -1,7 +1,7 @@
 import { Config } from './utils/config.js'
 import path from 'path'
 
-export function supportGuoba () {
+export function supportGuoba() {
   return {
     // 插件信息，将会显示在前端页面
     // 如果你的插件没有在插件库里，那么需要填上补充信息
@@ -44,6 +44,12 @@ export function supportGuoba () {
           component: 'Input'
         },
         {
+          field: 'stop_PicEval',
+          label: '关闭色吗功能',
+          bottomHelpMessage: '关闭色吗功能，呜呜呜',
+          component: 'Switch'
+        },
+        {
           field: 'tmdbkey',
           label: 'tmdb key',
           bottomHelpMessage: 'tmdb官网获取的key，请前往https://developer.themoviedb.org/docs 注册账号并将获取到的key配置到这里',
@@ -82,11 +88,11 @@ export function supportGuoba () {
 
       ],
       // 获取配置数据方法（用于前端填充显示数据）
-      getConfigData () {
+      getConfigData() {
         return Config
       },
       // 设置配置的方法（前端点确定后调用的方法）
-      setConfigData (data, { Result }) {
+      setConfigData(data, { Result }) {
         for (let [keyPath, value] of Object.entries(data)) {
           if (keyPath === 'studyGroups') { value = value.toString().split(/[,，;；|]/) }
           if (Config[keyPath] !== value) { Config[keyPath] = value }
