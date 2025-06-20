@@ -1,4 +1,5 @@
 import plugin from '../../../lib/plugins/plugin.js'
+import HttpsProxyAgent from 'https-proxy-agent'
 import fetch from 'node-fetch'
 import { Config } from '../utils/config.js'
 import puppeteer from 'puppeteer'
@@ -25,6 +26,7 @@ export class PicEval extends plugin {
 
     async evalPicWithReply(e) {
         if (Config.stop_PicEval) return logger.info('[PicEval] 色吗功能已关闭')
+        await e.reply('让我看看！')
         if (e.at && !e.source) {
             e.img = [`https://q1.qlogo.cn/g?b=qq&s=0&nk=${e.at}`]
         }
@@ -88,13 +90,22 @@ export class PicEval extends plugin {
             'Content-Type': 'application/json',
         }
 
-        try {
-            let res = await fetch(API_URL, {
-                method: 'POST',
-                headers: headers,
-                body: JSON.stringify(body)
-            })
+        let fetchOptions = {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify(body)
+        }
 
+        // 代理
+        if (Config.proxyUrl && (Config.PicEvalProxy ?? true)) {
+            fetchOptions.agent = new HttpsProxyAgent(Config.proxyUrl)
+            logger.info(`[PicEval] 使用代理访问API: ${Config.proxyUrl}`)
+        } else {
+            logger.info(`[PicEval] 未配置代理，或禁用代理，直接访问API`)
+        }
+
+        try {
+            let res = await fetch(API_URL, fetchOptions);
             if (!res.ok) {
                 return await e.reply('API请求失败了哦，状态码：' + res.status + '，请稍后再试。')
             }
@@ -103,17 +114,15 @@ export class PicEval extends plugin {
             logger.info('[PicEval] API返回:', json);
             let content = json.content || '';
             let match = content.match(/```json\s*([\s\S]*?)\s*```/);
-            let obj;
-
             if (match) content = match[1];
 
+            let obj;
             try {
                 obj = JSON.parse(content);
             } catch (err) {
                 logger.error('PicEval JSON parse error:', err, content);
-                return false
+                return await e.reply('无法解析API返回结果，可能接口格式出错了。');
             }
-
 
             let html = `
 <!DOCTYPE html>
@@ -222,7 +231,8 @@ export class PicEval extends plugin {
             await e.reply(segment.image(`base64://${noisyBase64}`), true, { recallMsg: obj.rating > 4 ? 40 : 0 });
 
         } catch (err) {
-            await e.reply('接口出错：' + String(err))
+            logger.error('接口执行过程异常:', err);
+            await e.reply('接口出错了哦：' + String(err))
         }
     }
 
