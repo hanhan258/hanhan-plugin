@@ -16,5 +16,6 @@
   ],
   "enableButton": false,
   "enableVideo": true,
-  "stop_PicEval": false
+  "stop_PicEval": false,
+  "PicEvalProxy": true
 }
