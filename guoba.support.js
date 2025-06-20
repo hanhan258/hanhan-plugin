@@ -50,6 +50,12 @@ export function supportGuoba() {
           component: 'Switch'
         },
         {
+          field: 'PicEvalProxy',
+          label: '启用色吗功能代理',
+          bottomHelpMessage: '国内无法链接，需要启动代理',
+          component: 'Switch'
+        },
+        {
           field: 'tmdbkey',
           label: 'tmdb key',
           bottomHelpMessage: 'tmdb官网获取的key，请前往https://developer.themoviedb.org/docs 注册账号并将获取到的key配置到这里',
