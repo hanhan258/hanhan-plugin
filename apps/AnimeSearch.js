@@ -89,7 +89,8 @@ export class AnimeSearch extends plugin {
             rule: [
                 {
                     reg: '.*?#?(搜番剧|识番)|^#?(搜番剧|识番)',
-                    fnc: 'searchAnime'
+                    fnc: 'searchAnime',
+                    dsc: '搜番剧/识番'
                 }
             ]
         })

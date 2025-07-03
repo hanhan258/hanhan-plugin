@@ -17,7 +17,7 @@ export class TFLJ extends plugin {
             event: 'message',
             priority: 6,
             rule: [
-                { reg: '^#?台风路径$', fnc: 'Tflj' },
+                { reg: '^#?台风路径$', fnc: 'typhoon', dsc: '台风路径' }
             ]
         })
     }

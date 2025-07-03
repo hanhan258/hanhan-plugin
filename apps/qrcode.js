@@ -6,26 +6,20 @@ import puppeteer from 'puppeteer'
 const chromeF = Config.chromeF
 
 export class qrcode extends plugin {
-  constructor () {
+  constructor() {
     super({
       name: '憨憨转二维码',
       dsc: '憨憨转二维码',
       event: 'message',
       priority: 6,
       rule: [
-        {
-          reg: '^#?转二维码(.*)$',
-          fnc: 'ewm'
-        },
-        {
-          reg: '^#?转两层二维码(.*)$',
-          fnc: 'ewm2'
-        }
+        { reg: '^#?转二维码(.*)$', fnc: 'qrcode', dsc: '转二维码' },
+        { reg: '^#?转两层二维码(.*)$', fnc: 'qrcode2', dsc: '转两层二维码' }
       ]
     })
   }
 
-  async ewm (e) {
+  async ewm(e) {
     logger.info('[用户命令]', e.msg)
     let msg = e.msg.replace('#转二维码', '').trim()
     msg = msg.split(' ')
@@ -45,7 +39,7 @@ export class qrcode extends plugin {
     await this.reply(QCmsg, true /* { recallMsg: e.isGroup ? 50 : 0 } */)
   }
 
-  async ewm2 (e) {
+  async ewm2(e) {
     logger.info('[用户命令]', e.msg)
     let msg = e.msg.replace('#转两层二维码', '').trim()
     msg = msg.split(' ')

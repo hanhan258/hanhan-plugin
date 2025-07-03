@@ -14,16 +14,13 @@ let uping = false
  * 处理插件更新
  */
 export class Update extends plugin {
-  constructor () {
+  constructor() {
     super({
       name: '憨憨更新插件',
       event: 'message',
       priority: 1000,
       rule: [
-        {
-          reg: '^#?(憨憨|hanhan)(插件)?(强制)?更新$',
-          fnc: 'update'
-        }
+        { reg: '^#?(憨憨|hanhan)(插件)?(强制)?更新$', fnc: 'update', dsc: '更新憨憨插件' }
       ]
     })
   }
@@ -32,7 +29,7 @@ export class Update extends plugin {
    * rule - 更新憨憨插件
    * @returns
    */
-  async update (e) {
+  async update(e) {
     if (!this.e.isMaster) {
       e.reply('憨憨还是认主人的捏~')
       return false
@@ -59,7 +56,7 @@ export class Update extends plugin {
     }
   }
 
-  restart () {
+  restart() {
     new Restart(this.e).restart()
   }
 
@@ -68,7 +65,7 @@ export class Update extends plugin {
    * @param {boolean} isForce 是否为强制更新
    * @returns
    */
-  async runUpdate (isForce) {
+  async runUpdate(isForce) {
     let command = 'git -C ./plugins/hanhan-plugin/ pull --no-rebase'
     if (isForce) {
       command = `git -C ./plugins/hanhan-plugin/ checkout . && ${command}`
@@ -111,7 +108,7 @@ export class Update extends plugin {
    * @param {string} plugin 插件名称
    * @returns
    */
-  async getLog (plugin = '') {
+  async getLog(plugin = '') {
     let cm = `cd ./plugins/${plugin}/ && git log  -20 --oneline --pretty=format:"%h||[%cd]  %s" --date=format:"%m-%d %H:%M"`
 
     let logAll
@@ -142,7 +139,7 @@ export class Update extends plugin {
     end =
       '更多详细信息，请前往Github查看\nhttps://github.com/hanhan258/hanhan-plugin'
     let forwardMsg = [
-        `hanhan-plugin更新日志，共${line}条`, log, end
+      `hanhan-plugin更新日志，共${line}条`, log, end
     ]
     log = await getforwardMsg(this.e, forwardMsg, {
       shouldSendMsg: false
@@ -155,7 +152,7 @@ export class Update extends plugin {
    * @param {string} plugin 插件名称
    * @returns
    */
-  async getcommitId (plugin = '') {
+  async getcommitId(plugin = '') {
     let cm = `git -C ./plugins/${plugin}/ rev-parse --short HEAD`
 
     let commitId = await execSync(cm, { encoding: 'utf-8' })
@@ -169,7 +166,7 @@ export class Update extends plugin {
    * @param {string} plugin 插件名称
    * @returns
    */
-  async getTime (plugin = '') {
+  async getTime(plugin = '') {
     let cm = `cd ./plugins/${plugin}/ && git log -1 --oneline --pretty=format:"%cd" --date=format:"%m-%d %H:%M"`
 
     let time = ''
@@ -189,7 +186,7 @@ export class Update extends plugin {
    * @param {string} stdout
    * @returns
    */
-  async gitErr (err, stdout) {
+  async gitErr(err, stdout) {
     let msg = '憨憨失败啦！qwq'
     let errMsg = err.toString()
     stdout = stdout.toString()
@@ -233,7 +230,7 @@ export class Update extends plugin {
    * @param {string} cmd git命令
    * @returns
    */
-  async execSync (cmd) {
+  async execSync(cmd) {
     return new Promise((resolve, reject) => {
       exec(cmd, { windowsHide: true }, (error, stdout, stderr) => {
         resolve({ error, stdout, stderr })
@@ -245,7 +242,7 @@ export class Update extends plugin {
    * 检查git是否安装
    * @returns
    */
-  async checkGit () {
+  async checkGit() {
     let ret = await execSync('git --version', { encoding: 'utf-8' })
     if (!ret || !ret.includes('git version')) {
       await this.reply('啊？你怎么连git都没装捏...憨憨链接不到大脑啦~')

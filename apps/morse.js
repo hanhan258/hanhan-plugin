@@ -2,27 +2,21 @@ import plugin from '../../../lib/plugins/plugin.js'
 import xmorse from 'xmorse'
 
 export class morse extends plugin {
-  constructor () {
+  constructor() {
     super({
       name: '憨憨摩斯',
       dsc: '憨憨摩斯',
       event: 'message',
       priority: 6,
       rule: [
-        {
-          reg: '^#?(摩斯|莫斯)加密',
-          fnc: 'morseEn'
-        },
-        {
-          reg: '^#?(摩斯|莫斯)解密',
-          fnc: 'morseDe'
-        }
+        { reg: '^#?(摩斯|莫斯)加密', fnc: 'morseEncode', dsc: '摩斯加密' },
+        { reg: '^#?(摩斯|莫斯)解密', fnc: 'morseDecode', dsc: '摩斯解密' }
       ]
     })
   }
 
   // 莫斯加密
-  async morseEn (e) {
+  async morseEn(e) {
     let encode = e.msg.replace(/^#?(莫斯|摩斯)加密/, '').trim()
     if (!encode) return e.reply('输入不能为空', true)
     // standart morse
@@ -31,7 +25,7 @@ export class morse extends plugin {
   }
 
   // 莫斯解密
-  async morseDe (e) {
+  async morseDe(e) {
     let encode = e.msg.replace(/^#?(莫斯|摩斯)解密/, '').trim()
     if (!encode) return e.reply('输入不能为空', true)
     // standart morse

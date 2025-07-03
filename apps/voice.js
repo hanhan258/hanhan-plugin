@@ -10,37 +10,19 @@ export class voice extends plugin {
       event: 'message',
       priority: 6,
       rule: [
-        {
-          reg: '^#?(唱鸭|随机唱鸭)$',
-          fnc: 'sjcy'
-        },
-        {
-          reg: '^#?(坤坤语音|随机坤坤)$',
-          fnc: 'sjkk'
-        },
-        {
-          reg: '^#?(网易云|随机网易云)$',
-          fnc: 'sjwyy'
-        },
-        {
-          reg: '^#?骂我$',
-          fnc: 'maren'
-        },
-        {
-          reg: '^#?(绿茶|随机绿茶)$',
-          fnc: 'lvcha'
-        },
-        {
-          reg: '^#?语音类菜单$',
-          fnc: 'helps'
-        }
+        { reg: '^#?(唱鸭|随机唱鸭)$', fnc: 'changya', dsc: '唱鸭' },
+        { reg: '^#?(坤坤语音|随机坤坤)$', fnc: 'kunkun', dsc: '坤坤语音' },
+        { reg: '^#?(网易云|随机网易云)$', fnc: 'wyy', dsc: '随机网易云' },
+        { reg: '^#?骂我$', fnc: 'mawo', dsc: '骂我' },
+        { reg: '^#?(绿茶|随机绿茶)$', fnc: 'lvcha', dsc: '绿茶语音' },
+        { reg: '^#?语音类菜单$', fnc: 'voiceMenu', dsc: '语音类菜单' }
       ]
     })
   }
 
   async helps(e) {
-    if (e.bot.config?.markdown?.type) { 
-      return await this.sendReply('按钮菜单') 
+    if (e.bot.config?.markdown?.type) {
+      return await this.sendReply('按钮菜单')
     }
   }
 
@@ -109,12 +91,12 @@ export class voice extends plugin {
 
   async is_MD(e) {
     if (Config.enableButton || false) {
-      if (!(Config.buttonWhiteGroups.includes(e.group_id))) { 
-        return false 
+      if (!(Config.buttonWhiteGroups.includes(e.group_id))) {
+        return false
       }
     }
-    if (e.bot.config?.markdown?.type) { 
-      return await this.sendReply('语音类菜单') 
+    if (e.bot.config?.markdown?.type) {
+      return await this.sendReply('语音类菜单')
     }
   }
 }

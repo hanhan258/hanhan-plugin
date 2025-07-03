@@ -29,13 +29,13 @@ export class TMDBApi extends plugin {
       event: 'message',
       priority: 6,
       rule: [
-        { reg: '^#?搜(番|tv|TV|电视剧|电视)(.*)$', fnc: 'searchTV' },
-        { reg: '^#?电影未来视$', fnc: 'upcomingMovies' },
-        { reg: '^#?搜电影(.*)$', fnc: 'searchMovies' },
-        { reg: '^#?搜(导演|编导|演员)(.*)$', fnc: 'searchPerson' },
-        { reg: '^#?正在放映的电影$', fnc: 'nowPlayingMovies' },
-        { reg: '^#?本周电影排行$', fnc: 'trendingMovies' },
-        { reg: '^#?本周tv排行$', fnc: 'trendingTV' }
+        { reg: '^#?搜(番|tv|TV|电视剧|电视)(.*)$', fnc: 'soTv', dsc: '搜剧' },
+        { reg: '^#?电影未来视$', fnc: 'futureMovie', dsc: '电影未来视' },
+        { reg: '^#?搜电影(.*)$', fnc: 'soMovie', dsc: '搜电影' },
+        { reg: '^#?搜(导演|编导|演员)(.*)$', fnc: 'soPerson', dsc: '搜影人' },
+        { reg: '^#?正在放映的电影$', fnc: 'nowPlaying', dsc: '正在放映' },
+        { reg: '^#?本周电影排行$', fnc: 'movieRank', dsc: '本周电影排行' },
+        { reg: '^#?本周tv排行$', fnc: 'tvRank', dsc: '本周TV排行' }
       ]
     })
     this.initConfig()

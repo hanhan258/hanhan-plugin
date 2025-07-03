@@ -5,7 +5,7 @@ import puppeteer from 'puppeteer'
 import { Config } from '../utils/config.js'
 
 export class example extends plugin {
-  constructor () {
+  constructor() {
     super({
       name: '高德地图搜索',
       dsc: '使用高德地图API进行地点搜索',
@@ -14,18 +14,20 @@ export class example extends plugin {
       rule: [
         {
           reg: '^#?搜地点=(.*)$',
-          fnc: 'handleSearchLocation'
+          fnc: 'searchAddress',
+          dsc: '搜地点'
         },
         {
           reg: '^#?高德搜ip=(.*)$',
-          fnc: 'gdip'
+          fnc: 'searchIp',
+          dsc: '高德搜IP'
         }
       ]
     })
     this.apiKey = Config.gdkey // 请替换为你的高德地图API密钥
   }
 
-  async handleSearchLocation (e) {
+  async handleSearchLocation(e) {
     const match = e.msg.match(/^#?搜地点=(.*)$/)
     if (!match || !match[1]) {
       await e.reply('请输入有效的搜索地点。')
@@ -45,16 +47,16 @@ export class example extends plugin {
     }
   }
 
-  async searchLocation (location) {
+  async searchLocation(location) {
     const url = `https://restapi.amap.com/v3/place/text?key=${this.apiKey}&extensions=all&keywords=${encodeURIComponent(
-            location
-        )}`
+      location
+    )}`
     const response = await axios.get(url)
 
     return response.data
   }
 
-  async buildReplyMessage (searchResult) {
+  async buildReplyMessage(searchResult) {
     let filePath = ''
 
     if (searchResult.status === '1' && searchResult.count > 0) {
@@ -69,7 +71,7 @@ export class example extends plugin {
 
       let msg = [
         segment.image(`file:///${filePath}`),
-                `搜索结果：\n名称：${result.name}\n地址：${result.address}\n经纬度：${result.location}\n分类：${result.type}\n邮政编号：${result.postcode}\n所在城市：${result.cityname}\n所在区域：${result.adname}\n特色内容：${result.tag}`
+        `搜索结果：\n名称：${result.name}\n地址：${result.address}\n经纬度：${result.location}\n分类：${result.type}\n邮政编号：${result.postcode}\n所在城市：${result.cityname}\n所在区域：${result.adname}\n特色内容：${result.tag}`
       ]
 
       await this.reply(msg, true /* { recallMsg: e.isGroup ? 50 : 0 } */)
@@ -78,7 +80,7 @@ export class example extends plugin {
     }
   }
 
-  async downloadImage (coverUrl) {
+  async downloadImage(coverUrl) {
     const browser = await puppeteer.launch({ headless: true })
     const page = await browser.newPage()
     await page.goto(coverUrl, { waitUntil: 'networkidle0' })
@@ -94,7 +96,7 @@ export class example extends plugin {
     return filePath
   }
 
-  async gdip (e) {
+  async gdip(e) {
     console.log('[用户命令]', e.msg)
     let msg = e.msg.replace(/^#?高德搜ip=/, '').trim()
     msg = msg.split(' ').join('+')
@@ -103,7 +105,7 @@ export class example extends plugin {
 
     const { province, rectangle, city } = response.data
     let msg0 = [
-            `搜索结果：\n地址：${province}\n经纬度：${rectangle}\n所在城市：${city}`
+      `搜索结果：\n地址：${province}\n经纬度：${rectangle}\n所在城市：${city}`
     ]
 
     await this.reply(msg0, true /* { recallMsg: e.isGroup ? 50 : 0 } */)

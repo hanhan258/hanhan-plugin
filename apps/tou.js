@@ -4,22 +4,19 @@ import common from '../../../lib/common/common.js'
 let gailv = 0.4 // 初始概率
 
 export class example extends plugin {
-  constructor () {
+  constructor() {
     super({
       name: '憨憨-透',
       dsc: '憨憨-透',
       event: 'message',
       priority: 40,
       rule: [
-        {
-          reg: '^#?透$',
-          fnc: 'c'
-        }
+        { reg: '^#?透$', fnc: 'tou', dsc: '透' }
       ]
     })
   }
 
-  async c (e) {
+  async c(e) {
     let randomType = Math.random()
     let at = e.message[1].qq
     let name

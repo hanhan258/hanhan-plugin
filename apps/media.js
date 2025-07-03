@@ -30,14 +30,14 @@ export class media extends plugin {
             event: 'message',
             priority: 6,
             rule: [
-                { reg: '^#?表情包(帮助|菜单)$', fnc: 'showExpressionHelp' },
-                { reg: '^#?憨憨图片(帮助|菜单)$', fnc: 'showPictureHelp' },
-                { reg: '^#?小姐姐(帮助|菜单)$', fnc: 'showGirlHelp' },
-                { reg: '^#?视频(帮助|菜单)$', fnc: 'showVideoHelp' },
-                { reg: '^#?美女视频(帮助|菜单)$', fnc: 'showBeautyVideoHelp' },
-                { reg: '^#?憨憨?更新(表情包|图片|视频)?API列表$', fnc: 'updateApiList' },
-                { reg: '^#?憨憨?随机(表情包|图片|壁纸|二次元|三次元|基础分类|叼图)$', fnc: 'getRandomByCategory' },
-                { reg: '^#?憨憨?随机(美女视频|舞蹈视频|其他视频|视频)$', fnc: 'getRandomVideoByCategory' }
+                { reg: '^#?表情包(帮助|菜单)$', fnc: 'bqbHelp', dsc: '表情包菜单' },
+                { reg: '^#?憨憨图片(帮助|菜单)$', fnc: 'picHelp', dsc: '图片菜单' },
+                { reg: '^#?小姐姐(帮助|菜单)$', fnc: 'xjjHelp', dsc: '小姐姐菜单' },
+                { reg: '^#?视频(帮助|菜单)$', fnc: 'videoHelp', dsc: '视频菜单' },
+                { reg: '^#?美女视频(帮助|菜单)$', fnc: 'beautyVideoHelp', dsc: '美女视频菜单' },
+                { reg: '^#?憨憨?更新(表情包|图片|视频)?API列表$', fnc: 'updateApi', dsc: '更新API列表' },
+                { reg: '^#?憨憨?随机(表情包|图片|壁纸|二次元|三次元|基础分类|叼图)$', fnc: 'suiji', dsc: '随机媒体' },
+                { reg: '^#?憨憨?随机(美女视频|舞蹈视频|其他视频|视频)$', fnc: 'suijivideo', dsc: '随机视频' }
             ]
         })
 

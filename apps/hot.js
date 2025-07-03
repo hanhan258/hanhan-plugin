@@ -3,7 +3,7 @@ import { recallSendForwardMsg } from '../utils/common.js'
 import fetch from 'node-fetch'
 
 export class diaotu extends plugin {
-  constructor () {
+  constructor() {
     super({
       name: '憨憨热搜',
       dsc: '憨憨热搜',
@@ -12,13 +12,14 @@ export class diaotu extends plugin {
       rule: [
         {
           reg: '^#?bd热搜$',
-          fnc: 'baiduhot'
+          fnc: 'baiduhot',
+          dsc: '百度热搜'
         }
       ]
     })
   }
 
-  async baiduhot (e) {
+  async baiduhot(e) {
     let url = 'https://top.baidu.com/board?tab=homepage'
     let msg = []
     let result

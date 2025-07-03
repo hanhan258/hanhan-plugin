@@ -15,12 +15,8 @@ export class whatslink_Api extends plugin {
             event: 'message',
             priority: 100,
             rule: [
-                {
-                    reg: '^#?(看|查看)(?:磁力|BT|bt|ed2k|Ed2k|torrent|Torrent)内容\\s*(.+)$',
-                    fnc: 'whatslink'
-                }
+                { reg: '^#?(看|查看)(?:磁力|BT|bt|ed2k|Ed2k|torrent|Torrent)内容\\s*(.+)$', fnc: 'torrent', dsc: '查看磁力/种子' }
             ]
-
         })
         this.initConfig()
     }
