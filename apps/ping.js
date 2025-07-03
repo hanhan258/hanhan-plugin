@@ -14,19 +14,10 @@ export class Ping extends plugin {
       event: 'message',
       priority: 6,
       rule: [
-        {
-          reg: '^#?[pP]ing\\s',
-          fnc: 'ping',
-        },
-        {
-          reg: '^#?ns\\s',
-          fnc: 'resolveNs',
-        },
-        {
-          reg: '^#?系统ping\\s', // 新增规则：直接调用系统 ping 命令
-          fnc: 'systemPing',
-        },
-      ],
+        { reg: '^#?[pP]ing\\s', fnc: 'ping', dsc: 'Ping' },
+        { reg: '^#?ns\\s', fnc: 'nslookup', dsc: 'Nslookup' },
+        { reg: '^#?系统ping\\s', fnc: 'sysping', dsc: '系统ping' }
+      ]
     })
   }
 

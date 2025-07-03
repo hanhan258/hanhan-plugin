@@ -4,58 +4,28 @@ import { recallSendForwardMsg } from '../utils/common.js'
 import axios from 'axios'
 
 export class urlAndBase extends plugin {
-  constructor () {
+  constructor() {
     super({
       name: '憨憨编码和接口访问',
       dsc: '憨憨编码和接口访问',
       event: 'message',
       priority: 6,
       rule: [
-        {
-          reg: '^#?(url|URL)编码',
-          fnc: 'urlEn'
-        },
-        {
-          reg: '^#?(url|URL)解码',
-          fnc: 'urlDe'
-        },
-        {
-          reg: '^#?(base64|Base64)编码',
-          fnc: 'baseEn'
-        },
-        {
-          reg: '^#?(base64|Base64)解码',
-          fnc: 'baseDe'
-        },
-        {
-          reg: '^#?访问',
-          fnc: 'fw'
-        },
-        {
-          reg: '^#发图片',
-          fnc: 'tp',
-          permission: 'master'
-        },
-        {
-          reg: '^#?图链.*$',
-          fnc: 'tl'
-        },
-        {
-          reg: '^#发视频',
-          fnc: 'sp',
-          permission: 'master'
-        },
-        {
-          reg: '^#发语音',
-          fnc: 'yy',
-          permission: 'master'
-        }
+        { reg: '^#?(url|URL)编码', fnc: 'urlEncode', dsc: 'URL编码' },
+        { reg: '^#?(url|URL)解码', fnc: 'urlDecode', dsc: 'URL解码' },
+        { reg: '^#?(base64|Base64)编码', fnc: 'base64Encode', dsc: 'Base64编码' },
+        { reg: '^#?(base64|Base64)解码', fnc: 'base64Decode', dsc: 'Base64解码' },
+        { reg: '^#?访问', fnc: 'visit', dsc: '访问链接' },
+        { reg: '^#发图片', fnc: 'sendImage', dsc: '发送图片' },
+        { reg: '^#?图链.*$', fnc: 'imgLink', dsc: '图片链接' },
+        { reg: '^#发视频', fnc: 'sendVideo', dsc: '发送视频' },
+        { reg: '^#发语音', fnc: 'sendRecord', dsc: '发送语音' }
       ]
     })
   }
 
   // 访问语音接口
-  async yy (e) {
+  async yy(e) {
     let url = e.msg.replace(/^#发语音/, '').trim()
     if (!url) return e.reply('你的语音接口呢，你想无中生有？', true)
     if (url.startsWith('http')) {
@@ -64,7 +34,7 @@ export class urlAndBase extends plugin {
   }
 
   // 访问视频接口
-  async sp (e) {
+  async sp(e) {
     let url = e.msg.replace(/^#发视频/, '').trim()
     if (!url) return e.reply('你的视频接口呢，你想无中生有？', true)
     if (url.startsWith('http')) {
@@ -74,7 +44,7 @@ export class urlAndBase extends plugin {
 
   // 获取图片直链
   // Extracted from Coconut Yenai-Plugin 侵删
-  async tl (e) {
+  async tl(e) {
     let img = []
     if (e.source) {
       let source
@@ -106,7 +76,7 @@ export class urlAndBase extends plugin {
   }
 
   // 访问图片接口
-  async tp (e) {
+  async tp(e) {
     let url = e.msg.replace(/^#发图片/, '').trim()
     if (!url) return e.reply('你的图片接口呢，你想无中生有？', true)
     if (url.startsWith('http')) {
@@ -115,7 +85,7 @@ export class urlAndBase extends plugin {
   }
 
   // 访问文字接口
-  async fw (e) {
+  async fw(e) {
     let url = e.msg.replace(/^#?访问/, '').trim()
     if (!url) return e.reply('你的接口呢，你想无中生有？', true)
     if (url.startsWith('http')) {
@@ -125,10 +95,10 @@ export class urlAndBase extends plugin {
           if (contentType && contentType.includes('application/json')) {
             e.reply(JSON.stringify(response.data, null, 4))
           } else if (contentType && contentType.includes('text/')) {
-          // 响应数据是文本类型
+            // 响应数据是文本类型
             e.reply(JSON.stringify(response.data, null, 4))
           } else {
-          // 未知类型或错误
+            // 未知类型或错误
             e.reply('未知类型接口，请确认接口返回类型是json或text')
           }
         })
@@ -139,7 +109,7 @@ export class urlAndBase extends plugin {
   }
 
   // url编码
-  async urlEn (e) {
+  async urlEn(e) {
     let encode = e.msg.replace(/^#?(url|URL)编码/, '').trim()
     if (!encode) return e.reply('输入不能为空', true)
     let result = encodeURI(encode)
@@ -147,7 +117,7 @@ export class urlAndBase extends plugin {
   }
 
   // url解码
-  async urlDe (e) {
+  async urlDe(e) {
     let encode = e.msg.replace(/^#?(url|URL)解码/, '').trim()
     if (!encode) return e.reply('输入不能为空', true)
     let result = decodeURI(encode)
@@ -155,7 +125,7 @@ export class urlAndBase extends plugin {
   }
 
   // base64编码
-  async baseEn (e) {
+  async baseEn(e) {
     let encode = e.msg.replace(/^#?(base64|Base64)编码/, '').trim()
     if (!encode) return e.reply('输入不能为空', true)
     let result = Buffer.from(encode).toString('base64')
@@ -163,7 +133,7 @@ export class urlAndBase extends plugin {
   }
 
   // base64解码
-  async baseDe (e) {
+  async baseDe(e) {
     let encode = e.msg.replace(/^#?(base64|Base64)解码/, '').trim()
     if (!encode) return e.reply('输入不能为空', true)
     let result = Buffer.from(encode, 'base64').toString()

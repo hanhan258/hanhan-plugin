@@ -15,7 +15,8 @@ export class multiLocationPing extends plugin {
           /** 命令正则匹配 */
           reg: '^#?(全国|多地)ping',
           /** 执行方法 */
-          fnc: 'itdog'
+          fnc: 'itdog',
+          dsc: '全国多地ping'
         }
       ]
     })

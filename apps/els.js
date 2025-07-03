@@ -1,7 +1,7 @@
 import plugin from '../../../lib/plugins/plugin.js'
 
 export class RussiaRoundPlatePlugin extends plugin {
-  constructor () {
+  constructor() {
     super({
       name: '憨憨小游戏-俄罗斯轮盘',
       dsc: '憨憨小游戏-俄罗斯轮盘',
@@ -10,24 +10,29 @@ export class RussiaRoundPlatePlugin extends plugin {
       rule: [
         {
           reg: '^#?(开启俄罗斯轮盘|开盘|开启轮盘|开启转盘|俄罗斯轮盘)$',
-          fnc: 'startELSGame'
+          fnc: 'start',
+          dsc: '开启俄罗斯轮盘'
         },
         {
           reg: '^#?开枪$',
-          fnc: 'shoot'
+          fnc: 'shot',
+          dsc: '开枪'
         },
         {
           reg: '^#?结束游戏$',
-          fnc: 'stopELSGame'
-        }, {
+          fnc: 'stop',
+          dsc: '结束游戏'
+        },
+        {
           reg: '^#?当前子弹$',
-          fnc: 'nowBullet'
+          fnc: 'showzidan',
+          dsc: '查看当前子弹'
         }
       ]
     })
   }
 
-  async startELSGame (e) {
+  async startELSGame(e) {
     if (!e.isGroup) {
       e.reply('当前不在群聊里')
       return false
@@ -50,7 +55,7 @@ export class RussiaRoundPlatePlugin extends plugin {
     e.reply(`当前群俄罗斯轮盘已开启！\n弹夹有【${length}】发子弹。\n请发送#开枪 参与游戏`)
   }
 
-  async shoot (e) {
+  async shoot(e) {
     if (!e.isGroup) {
       e.reply('当前不在群聊里')
       return false
@@ -93,7 +98,7 @@ export class RussiaRoundPlatePlugin extends plugin {
     }
   }
 
-  async stopELSGame (e) {
+  async stopELSGame(e) {
     if (!e.isGroup) {
       e.reply('当前不在群聊里')
       return false
@@ -108,7 +113,7 @@ export class RussiaRoundPlatePlugin extends plugin {
     }
   }
 
-  async nowBullet (e) {
+  async nowBullet(e) {
     if (!e.isGroup) {
       e.reply('当前不在群聊里')
       return false

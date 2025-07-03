@@ -18,7 +18,8 @@ export class PicEval extends plugin {
             rule: [
                 {
                     reg: '^#(评价图片)|(设|色|涩|瑟)吗$',
-                    fnc: 'evalPicWithReply'
+                    fnc: 'evalPicWithReply',
+                    dsc: ' 看看图片涩不涩'
                 }
             ]
         })

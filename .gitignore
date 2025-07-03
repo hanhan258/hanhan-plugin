@@ -2,6 +2,8 @@
 config/config.json
 .vscode/
 resources/ls/
+data/
+
 # Logs
 logs
 *.log

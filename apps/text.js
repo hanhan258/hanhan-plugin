@@ -10,43 +10,28 @@ const originalValues = ['kfc', 'v50', '网易云热评', '舔狗日记', '污污
 const correspondingValues = ['kfc', 'kfc', 'wyy', 'tg', 'saohua', 'saohua', 'riji', 'riji', 'newyear']
 
 export class text extends plugin {
-  constructor () {
+  constructor() {
     super({
       name: '憨憨文本类',
       dsc: '憨憨文本类',
       event: 'message',
       priority: 6,
       rule: [
-        {
-          reg: '^#?油价',
-          fnc: 'yjcx'
-        },
-        {
-          reg: '^#?发癫(.*)',
-          fnc: 'fd'
-        },
-        {
-          reg: `^#?(${originalValues.join('|')})$`,
-          fnc: 'jh'
-        },
-        {
-          reg: '^(#|/)?沙雕新闻$',
-          fnc: 'sd'
-        },
-        {
-          reg: '^#?文本类菜单$',
-          fnc: 'helps'
-        }
+        { reg: '^#?油价', fnc: 'oil', dsc: '今日油价' },
+        { reg: '^#?发癫(.*)', fnc: 'fadian', dsc: '发癫' },
+        { reg: '^#?(kfc|v50|网易云热评|舔狗日记|污污|污句子|日记|随机日记|新春祝福)$', fnc: 'text', dsc: '疯狂星期四/舔狗日记等' },
+        { reg: '^(#|/)?沙雕新闻$', fnc: 'sdxw', dsc: '沙雕新闻' },
+        { reg: '^#?文本类菜单$', fnc: 'textMenu', dsc: '文本类菜单' }
       ]
     })
   }
 
-  async helps (e) {
+  async helps(e) {
     if (e.bot.config?.markdown?.type) { return await this.reply('按钮菜单') }
   }
 
   // 沙雕新闻
-  async sd (e) {
+  async sd(e) {
     let forwardMsgs = []
     try {
       let url = 'https://api.yujn.cn/api/shadiao.php?'
@@ -76,7 +61,7 @@ export class text extends plugin {
   }
 
   // 聚合
-  async jh (e) {
+  async jh(e) {
     let name = correspondingValues[originalValues.indexOf(e.msg.replace('#', ''))]
     let path = RootPath + `/resources/json/${name}.json`
     let result = await getRandomLineFromFile(path)
@@ -86,7 +71,7 @@ export class text extends plugin {
   }
 
   // 油价查询
-  async yjcx (e) {
+  async yjcx(e) {
     let sendmsg = []
     let encode = e.msg.replace(/^#?油价/, '').trim()
     if (!encode) return this.reply('你没有输入要查询的省份')
@@ -120,7 +105,7 @@ export class text extends plugin {
   }
 
   // 发癫
-  async fd (e) {
+  async fd(e) {
     let msg = e.msg.replace(/^#?发癫/, '').trim()
     // 判断是否是艾特
     if (e.message.filter(m => m.type === 'at').length > 0) {
@@ -140,7 +125,7 @@ export class text extends plugin {
     await this.reply(result)
   }
 
-  async reply (message) {
+  async reply(message) {
     return await this.e.reply(message, false, { recallMsg: Config.recall_s })
   }
 }

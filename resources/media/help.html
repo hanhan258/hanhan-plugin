@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>憨憨富媒体帮助</title>
+    <style>
+        /* 原有字体 */
+        @font-face {
+            font-family: 'tttgb';
+            src: url('../../resources/font/tttgb.ttf');
+        }
+
+        /* 【新增】loliti 字体 */
+        @font-face {
+            font-family: 'loliti';
+            src: url('https://ai.ycxom.top:8888/d/F%E7%9B%98/loliti.ttf?sign=08pbXN_9r9nm8vZ6_IVCXljXDtbLg3yEDI-XCJzdgGM=:0') format('truetype');
+        }
+
+        body {
+            /* 【修改】应用新字体 */
+            font-family: 'loliti', 'tttgb', sans-serif;
+            background: #f0f2f5;
+            color: #333;
+            padding: 20px;
+            box-sizing: border-box;
+            width: 800px;
+        }
+
+        .container {
+            /* 【修改】为背景图做准备 */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 0;
+            /* 移除内边距，交由遮罩层处理 */
+        }
+
+        /* 【新增】半透明遮罩层，保证文字可读性 */
+        .overlay {
+            background: rgba(255, 255, 255, 0.88);
+            /* 半透明白色背景 */
+            border-radius: 12px;
+            padding: 25px 30px;
+        }
+
+        .header {
+            border-bottom: 2px solid #e8e8e8;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            margin: 0;
+            color: #1a73e8;
+            font-weight: bold;
+        }
+
+        .usage-section {
+            background: rgba(249, 249, 249, 0.7);
+            /* 适配背景图，调低不透明度 */
+            border: 1px dashed #d9d9d9;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 25px;
+        }
+
+        .usage-section h2 {
+            font-size: 20px;
+            margin: 0 0 10px 0;
+            color: #555;
+            font-weight: bold;
+        }
+
+        .usage-section p {
+            font-size: 16px;
+            margin: 5px 0;
+            line-height: 1.6;
+        }
+
+        .group {
+            margin-bottom: 20px;
+        }
+
+        .group-name {
+            font-size: 22px;
+            font-weight: bold;
+            color: #3c4043;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #eee;
+            margin-bottom: 15px;
+        }
+
+        .item-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 12px;
+            padding-left: 0;
+            list-style: none;
+        }
+
+        .item {
+            background: rgba(248, 249, 250, 0.75);
+            /* 适配背景图，调低不透明度 */
+            border-radius: 6px;
+            padding: 10px 12px;
+            font-size: 15px;
+            text-align: center;
+            border: 1px solid #e9ecef;
+            overflow-wrap: break-word;
+        }
+
+        .footer {
+            margin-top: 25px;
+            text-align: right;
+            font-size: 13px;
+            color: #888;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="overlay">
+            <div class="header">
+                <h1>{{ title }}</h1>
+            </div>
+
+            <div class="usage-section">
+            </div>
+
+            <div class="group">
+                <h2 class="group-name"></h2>
+                <ul class="item-list">
+                </ul>
+            </div>
+
+            <div class="footer">
+                <span>API数据更新于：{{ updateTime }}</span>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
