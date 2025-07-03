@@ -1,19 +1,22 @@
 import plugin from '../../../lib/plugins/plugin.js'
 import { Config } from '../utils/config.js'
 import fs from 'fs'
+import fetch from 'node-fetch'
+import puppeteer from 'puppeteer'
 import path from 'path'
-import fetch from 'node-fetch' // 确保你已安装node-fetch
 
-let mediaInstance = null
+let isInitialized = false
+let cachedApiData = null
+let cachedReversedAliasMaps = null
 
-// API配置
+// --- 配置常量 ---
 const API_CONFIG = {
     BASE_URL: 'https://ai.ycxom.top:3002',
     LIST_API: 'https://ai.ycxom.top:3002/api/v1/info/lists',
-    TIMEOUT: 15000 // 15秒超时
+    RANDOM_IMG_API: 'https://ai.ycxom.top:3002/api/v1/wallpaper/by-ratio/square',
+    TIMEOUT: 15000
 }
 
-// 文件路径配置
 const FILE_CONFIG = {
     DATA_DIR: './data/hanhan-pics',
     API_DATA_FILE: './data/hanhan-pics/api-data.json',
@@ -22,74 +25,60 @@ const FILE_CONFIG = {
 
 export class media extends plugin {
     constructor() {
-        if (mediaInstance) return mediaInstance
-
         super({
             name: '憨憨富媒体',
             dsc: '憨憨富媒体插件，支持多种表情包、随机图片和视频',
             event: 'message',
             priority: 6,
             rule: [
-                { reg: '^#?表情包(帮助|菜单)$', fnc: 'bqbHelp', dsc: '表情包菜单' },
-                { reg: '^#?憨憨图片(帮助|菜单)$', fnc: 'picHelp', dsc: '图片菜单' },
-                { reg: '^#?小姐姐(帮助|菜单)$', fnc: 'xjjHelp', dsc: '小姐姐菜单' },
-                { reg: '^#?视频(帮助|菜单)$', fnc: 'videoHelp', dsc: '视频菜单' },
-                { reg: '^#?美女视频(帮助|菜单)$', fnc: 'beautyVideoHelp', dsc: '美女视频菜单' },
-                { reg: '^#?憨憨?更新(表情包|图片|视频)?API列表$', fnc: 'updateApi', dsc: '更新API列表' },
-                { reg: '^#?憨憨?随机(表情包|图片|壁纸|二次元|三次元|基础分类|叼图)$', fnc: 'suiji', dsc: '随机媒体' },
-                { reg: '^#?憨憨?随机(美女视频|舞蹈视频|其他视频|视频)$', fnc: 'suijivideo', dsc: '随机视频' }
+                { reg: '^#?表情包(帮助|菜单)$', fnc: 'showExpressionHelp', dsc: '#表情包帮助' },
+                { reg: '^#?憨憨图片(帮助|菜单)$', fnc: 'showPictureHelp', dsc: '#憨憨图片帮助' },
+                { reg: '^#?小姐姐(帮助|菜单)$', fnc: 'showGirlHelp', dsc: '#小姐姐帮助' },
+                { reg: '^#?视频(帮助|菜单)$', fnc: 'showVideoHelp', dsc: '#视频帮助' },
+                { reg: '^#?美女视频(帮助|菜单)$', fnc: 'showBeautyVideoHelp', dsc: '#美女视频帮助' },
+                { reg: '^#?憨憨?更新(表情包|图片|视频)?API列表$', fnc: 'updateApiList', dsc: '#憨憨更新API列表' },
+                { reg: '^#?憨憨?随机(表情包|图片|壁纸|二次元|三次元|基础分类|叼图)$', fnc: 'getRandomByCategory', dsc: '#憨憨随机图片' },
+                { reg: '^#?憨憨?随机(美女视频|舞蹈视频|其他视频|视频)$', fnc: 'getRandomVideoByCategory', dsc: '#憨憨随机视频' }
             ]
         })
 
         this.apiData = null
-        this.reversedAliasMaps = { picture: {}, video: {} }; // 用于存储反向别名
-        this.init()
-        mediaInstance = this
+        this.reversedAliasMaps = { picture: {}, video: {} }
+        this.initPromise = this.init()
     }
 
-    /**
-     * 插件初始化
-     */
     async init() {
+        if (isInitialized) {
+            this.apiData = cachedApiData
+            this.reversedAliasMaps = cachedReversedAliasMaps
+            this.registerDynamicRules()
+            return
+        }
+
         try {
             this.ensureDataDir()
             await this.loadApiData()
             this.registerDynamicRules()
-            logger.info('[憨憨富媒体] 插件初始化成功')
+
+            // 将首次加载的数据缓存到全局变量中
+            cachedApiData = this.apiData
+            cachedReversedAliasMaps = this.reversedAliasMaps
+
+            // 设置初始化完成标志
+            isInitialized = true
+            logger.info('[憨憨富媒体] 插件首次初始化成功，后续将不再打印此日志。')
+
         } catch (error) {
             logger.error('[憨憨富媒体] 插件初始化失败:', error)
         }
     }
 
-    /**
-     * 创建反向别名映射，方便查找
-     */
-    _createReversedAliasMaps() {
-        const reversedPicture = {};
-        const reversedVideo = {};
-
-        for (const [alias, original] of Object.entries(this.apiData?.pictureDirAliases || {})) {
-            if (!reversedPicture[original]) reversedPicture[original] = [];
-            reversedPicture[original].push(alias);
-        }
-
-        for (const [alias, original] of Object.entries(this.apiData?.videoDirAliases || {})) {
-            if (!reversedVideo[original]) reversedVideo[original] = [];
-            reversedVideo[original].push(alias);
-        }
-
-        this.reversedAliasMaps = { picture: reversedPicture, video: reversedVideo };
-    }
-
-    /**
-     * 加载API数据
-     */
     async loadApiData() {
         try {
             if (this.isApiDataValid()) {
                 const data = fs.readFileSync(FILE_CONFIG.API_DATA_FILE, 'utf8')
                 this.apiData = JSON.parse(data)
-                this._createReversedAliasMaps(); // 加载后创建反向别名
+                this._createReversedAliasMaps()
                 logger.info('[憨憨富媒体] 从缓存加载API数据')
                 return
             }
@@ -100,30 +89,26 @@ export class media extends plugin {
                 try {
                     const data = fs.readFileSync(FILE_CONFIG.API_DATA_FILE, 'utf8')
                     this.apiData = JSON.parse(data)
-                    this._createReversedAliasMaps(); // 加载后创建反向别名
-                    logger.warn('[憨憨富媒体] 使用过期缓存数据')
+                    this._createReversedAliasMaps()
+                    logger.warn('[憨憨富媒体] API更新失败，使用过期缓存数据')
                 } catch (cacheError) {
                     logger.error('[憨憨富媒体] 缓存数据也无法使用:', cacheError)
+                    this.apiData = null
                 }
             }
         }
     }
 
-    /**
-     * 获取并保存API数据
-     */
     async fetchAndSaveApiData() {
         try {
             logger.info('[憨憨富媒体] 开始获取API数据...')
             const response = await this.fetchWithTimeout(API_CONFIG.LIST_API)
             if (!response.ok) throw new Error(`API请求失败: ${response.status}`)
-
             const apiData = await response.json()
             apiData.lastUpdate = Date.now()
-
             fs.writeFileSync(FILE_CONFIG.API_DATA_FILE, JSON.stringify(apiData, null, 2), 'utf8')
             this.apiData = apiData
-            this._createReversedAliasMaps(); // 获取后创建反向别名
+            this._createReversedAliasMaps()
             logger.info('[憨憨富媒体] API数据获取并保存成功')
             return apiData
         } catch (error) {
@@ -132,146 +117,254 @@ export class media extends plugin {
         }
     }
 
-    /**
-     * 格式化带别名的列表项
-     */
-    formatItemsWithAliases(items, aliasMap) {
-        if (!items || items.length === 0) return [];
-        return items.map(item => {
-            const aliases = aliasMap[item];
-            if (aliases && aliases.length > 0) {
-                return `${item} (${aliases.join('、')})`;
-            }
-            return item;
-        });
-    }
-
-    // --- 帮助菜单 (已全部更新) ---
-
     async showExpressionHelp(e) {
-        if (!this.apiData) return this.reply('❌ API数据未加载，请尝试 #憨憨更新API列表')
-        const expressionList = this.apiData.pictureCategories?.['表情包'] || []
-        const formattedList = this.formatItemsWithAliases(expressionList, this.reversedAliasMaps.picture);
-
-        const helpText = [
-            '=== 📦 表情包菜单 ===',
-            '🎯 使用方法：',
-            '• 直接发送表情包名称 (如: #小黑猫)',
-            '• #憨憨随机表情包',
-            '',
-            `📝 可用表情包 (${formattedList.length}种)：`,
-            ...this.formatList(formattedList),
-        ].join('\n')
-        return await this.reply(helpText)
+        await this.initPromise;
+        if (!this.checkApiData(e)) return;
+        const items = this.apiData.pictureCategories?.['表情包'] || [];
+        const groups = [{ groupName: `📝 可用表情包 (${items.length}种)：`, items: this.formatItemsWithAliases(items, 'picture') }];
+        return this.renderHelp({ title: '📦 表情包菜单', usage: ['• 直接发送表情包名称 (如: #小黑猫)', '• #憨憨随机表情包'], groups });
     }
-
     async showPictureHelp(e) {
-        if (!this.apiData) return this.reply('❌ API数据未加载，请尝试 #憨憨更新API列表')
-        const categories = this.apiData.pictureCategories || {}
-        let helpText = ['=== 🖼️ 憨憨图片菜单 ===']
-
-        for (const [categoryName, items] of Object.entries(categories)) {
-            const formattedItems = this.formatItemsWithAliases(items, this.reversedAliasMaps.picture);
-            helpText.push(`\n📁 ${categoryName} (${formattedItems.length}个):`)
-            helpText.push(...this.formatList(formattedItems, '  '))
-        }
-
-        helpText.push('\n🎯 使用方法：')
-        helpText.push('• 直接发送图片名称或别名 (如: #bs)')
-        helpText.push('• #憨憨随机+分类名 (如: #憨憨随机二次元)')
-
-        return await this.reply(helpText.join('\n'))
+        await this.initPromise;
+        if (!this.checkApiData(e)) return;
+        const categories = this.apiData.pictureCategories || {};
+        const groups = Object.entries(categories).reduce((acc, [categoryName, items]) => {
+            const formattedItems = this.formatItemsWithAliases(items, 'picture');
+            if (formattedItems.length > 0) {
+                acc.push({ groupName: `📁 ${categoryName} (${items.length}个):`, items: formattedItems });
+            } return acc;
+        }, []);
+        return this.renderHelp({ title: '🖼️ 憨憨图片菜单', usage: ['• 直接发送图片名称或别名 (如: #bs)', '• #憨憨随机+分类名 (如: #憨憨随机二次元)'], groups });
     }
-
     async showGirlHelp(e) {
-        if (!this.apiData) return this.reply('❌ API数据未加载，请尝试 #憨憨更新API列表')
-        const girlList = this.apiData.pictureCategories?.['三次元'] || []
-        const formattedList = this.formatItemsWithAliases(girlList, this.reversedAliasMaps.picture);
-
-        const helpText = [
-            '=== 👧 小姐姐菜单 ===',
-            '🎯 使用方法：',
-            '• 直接发送类型名称或别名 (如: #JK)',
-            '• #憨憨随机三次元',
-            '',
-            `💕 可用类型 (${formattedList.length}种)：`,
-            ...this.formatList(formattedList),
-        ].join('\n')
-        return await this.reply(helpText)
+        await this.initPromise;
+        if (!this.checkApiData(e)) return;
+        const items = this.apiData.pictureCategories?.['三次元'] || [];
+        const groups = [{ groupName: `💕 可用类型 (${items.length}种)：`, items: this.formatItemsWithAliases(items, 'picture') }];
+        return this.renderHelp({ title: '👧 小姐姐菜单', usage: ['• 直接发送类型名称或别名 (如: #JK)', '• #憨憨随机三次元'], groups });
+    }
+    async showVideoHelp(e) {
+        await this.initPromise;
+        if (!this.checkApiData(e)) return;
+        const categories = this.apiData.videoCategories || {};
+        const groups = Object.entries(categories).reduce((acc, [categoryName, items]) => {
+            const formattedItems = this.formatItemsWithAliases(items, 'video');
+            if (formattedItems.length > 0) {
+                acc.push({ groupName: `📁 ${categoryName} (${items.length}个):`, items: formattedItems });
+            } return acc;
+        }, []);
+        return this.renderHelp({ title: '🎬 视频菜单', usage: ['• 发送 目录名/别名+视频 (如: #白丝视频)', '• #憨憨随机+分类名 (如: #憨憨随机舞蹈视频)'], groups });
+    }
+    async showBeautyVideoHelp(e) {
+        await this.initPromise;
+        if (!this.checkApiData(e)) return;
+        const items = this.apiData.videoCategories?.['美女视频'] || [];
+        const groups = [{ groupName: `💕 可用类型 (${items.length}种)：`, items: this.formatItemsWithAliases(items, 'video') }];
+        return this.renderHelp({ title: '💃 美女视频菜单', usage: ['• 发送 类型名/别名+视频 (如: #汉服视频)', '• #憨憨随机美女视频'], groups });
     }
 
-    async showVideoHelp(e) {
-        if (!this.apiData) return this.reply('❌ API数据未加载，请尝试 #憨憨更新API列表')
-        const categories = this.apiData.videoCategories || {}
-        let helpText = ['=== 🎬 视频菜单 ===']
-
-        for (const [categoryName, items] of Object.entries(categories)) {
-            const formattedItems = this.formatItemsWithAliases(items, this.reversedAliasMaps.video);
-            helpText.push(`\n📁 ${categoryName} (${formattedItems.length}个):`)
-            helpText.push(...this.formatList(formattedItems, '  '))
+    async renderHelp(data = {}) {
+        await this.initPromise
+        if (!data.groups || !Array.isArray(data.groups)) {
+            logger.error('[憨憨富媒体] 渲染失败：groups 数据结构不正确。', data.groups)
+            return this.reply('❌ 菜单渲染失败：内部数据结构错误。')
         }
 
-        helpText.push('\n🎯 使用方法：')
-        helpText.push('• 发送 目录名/别名+视频 (如: #白丝视频)')
-        helpText.push('• #憨憨随机+分类名 (如: #憨憨随机舞蹈视频)')
+        const tplPath = './plugins/hanhan-plugin/resources/media/help.html'
+        if (!fs.existsSync(tplPath)) {
+            logger.error(`[憨憨富媒体] 渲染失败：帮助模板文件未找到，路径: ${tplPath}`)
+            return this.reply('❌ 菜单渲染失败：帮助模板文件丢失。')
+        }
 
-        return await this.reply(helpText.join('\n'))
-    }
+        let browser
+        let tempFilePath = null
 
-    async showBeautyVideoHelp(e) {
-        if (!this.apiData) return this.reply('❌ API数据未加载，请尝试 #憨憨更新API列表')
-        const beautyVideoList = this.apiData.videoCategories?.['美女视频'] || []
-        const formattedList = this.formatItemsWithAliases(beautyVideoList, this.reversedAliasMaps.video);
-
-        const helpText = [
-            '=== 💃 美女视频菜单 ===',
-            '🎯 使用方法：',
-            '• 发送 类型名/别名+视频 (如: #汉服视频)',
-            '• #憨憨随机美女视频',
-            '',
-            `💕 可用类型 (${formattedList.length}种)：`,
-            ...this.formatList(formattedList),
-        ].join('\n')
-        return await this.reply(helpText)
-    }
-
-    // --- 以下是未修改的函数，保持原样 ---
-
-    ensureDataDir() { if (!fs.existsSync(FILE_CONFIG.DATA_DIR)) fs.mkdirSync(FILE_CONFIG.DATA_DIR, { recursive: true }) }
-    isApiDataValid() { if (!fs.existsSync(FILE_CONFIG.API_DATA_FILE)) return false; const s = fs.statSync(FILE_CONFIG.API_DATA_FILE); return (Date.now() - s.mtime.getTime()) < FILE_CONFIG.UPDATE_INTERVAL }
-    registerDynamicRules() {
-        if (!this.apiData) { logger.warn('[憨憨富媒体] API数据为空，跳过动态规则注册'); return }
         try {
-            const allPicDirs = [...(this.apiData.pictureDirs || []), ...Object.keys(this.apiData.pictureDirAliases || {})];
-            const allVideoDirs = [...(this.apiData.videoDirs || []), ...Object.keys(this.apiData.videoDirAliases || {})];
-            if (allPicDirs.length > 0) {
-                const picDirsRegex = allPicDirs.map(d => this.escapeRegExp(d)).join('|');
-                this.rule.push({ reg: new RegExp(`^#?(${picDirsRegex})$`), fnc: 'getPictureByDirName' });
+            let bgImageDataUri = ''
+            try {
+                const bgResponse = await this.fetchWithTimeout(API_CONFIG.RANDOM_IMG_API)
+                if (bgResponse.ok) {
+                    const imageBuffer = await bgResponse.arrayBuffer()
+                    const base64 = Buffer.from(imageBuffer).toString('base64')
+                    const mimeType = bgResponse.headers.get('content-type') || 'image/jpeg'
+                    bgImageDataUri = `data:${mimeType};base64,${base64}`
+                } else {
+                    logger.warn(`[憨憨富媒体] 获取随机背景图API响应失败: ${bgResponse.status}`)
+                }
+            } catch (bgError) {
+                logger.warn('[憨憨富媒体] 获取随机背景图片时发生网络错误:', bgError)
             }
-            if (allVideoDirs.length > 0) {
-                const videoDirsRegex = allVideoDirs.map(d => this.escapeRegExp(d)).join('|');
-                this.rule.push({ reg: new RegExp(`^#?(${videoDirsRegex})视频$`), fnc: 'getVideoByDirName' });
+
+            const renderData = { ...data, updateTime: this.getUpdateTime() }
+            let tpl = fs.readFileSync(tplPath, 'utf8')
+
+            const containerStyle = bgImageDataUri ? `style="background-image: url('${bgImageDataUri}');"` : ''
+            tpl = tpl.replace('<div class="container">', `<div class="container" ${containerStyle}>`)
+            tpl = tpl.replace('<h1>{{ title }}</h1>', `<h1>${renderData.title || '憨憨富媒体帮助'}</h1>`)
+            tpl = tpl.replace('<span>API数据更新于：{{ updateTime }}</span>', `<span>API数据更新于：${renderData.updateTime}</span>`)
+
+            const usageHtml = renderData.usage && renderData.usage.length > 0
+                ? `<h2>🎯 使用方法</h2>${renderData.usage.map(line => `<p>${line}</p>`).join('')}`
+                : ''
+            tpl = tpl.replace(/<div class="usage-section">.*?<\/div>/s, `<div class="usage-section">${usageHtml}</div>`)
+
+            const groupsHtml = renderData.groups.map(group => `
+                <div class="group">
+                    <h2 class="group-name">${group.groupName}</h2>
+                    <ul class="item-list">${group.items.map(item => `<li class="item">${item}</li>`).join('')}</ul>
+                </div>`).join('')
+            tpl = tpl.replace(/<div class="group">.*?<\/div>/s, groupsHtml)
+
+            browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox', '--disable-setuid-sandbox'] })
+            const page = await browser.newPage()
+            await page.setViewport({ width: 800, height: 100 })
+            await page.setContent(tpl, { waitUntil: 'networkidle0' })
+            const bodyElement = await page.$('.container')
+            if (!bodyElement) throw new Error('在页面中找不到 .container 元素')
+            const imageBuffer = await bodyElement.screenshot({ type: 'png' })
+
+            const tempDir = path.join(FILE_CONFIG.DATA_DIR, 'temp')
+            if (!fs.existsSync(tempDir)) {
+                fs.mkdirSync(tempDir, { recursive: true })
             }
-            logger.info(`[憨憨富媒体] 动态注册 ${allPicDirs.length} 个图片命令，${allVideoDirs.length} 个视频命令`);
+            tempFilePath = path.join(tempDir, `${Date.now()}.png`)
+            fs.writeFileSync(tempFilePath, imageBuffer)
+
+            await this.reply(segment.image(tempFilePath))
+
+        } catch (error) {
+            logger.error('[憨憨富媒体] Puppeteer 渲染帮助图片失败:', error)
+            return this.reply('❌ 生成帮助菜单图片时遇到严重错误，请查看后台日志。')
+        } finally {
+            if (browser) {
+                await browser.close()
+            }
+            if (tempFilePath && fs.existsSync(tempFilePath)) {
+                try {
+                    fs.unlinkSync(tempFilePath)
+                } catch (unlinkErr) {
+                    logger.error(`[憨憨富媒体] 删除临时文件失败: ${tempFilePath}`, unlinkErr)
+                }
+            }
+        }
+    }
+
+    async updateApiList(e) {
+        await this.initPromise;
+        try {
+            await this.reply('正在更新API列表，请稍候...');
+            isInitialized = false;
+            await this.init();
+            const totalPicDirs = new Set([...(this.apiData?.pictureDirs || []),
+            ...Object.keys(this.apiData?.pictureDirAliases || {})]).size;
+            const totalVideoDirs = new Set([...(this.apiData?.videoDirs || []),
+            ...Object.keys(this.apiData?.videoDirAliases || {})]).size;
+            const msg = `✅ API列表更新成功！\n📅 更新时间: ${this.getUpdateTime()}\n📁 图片命令: ${totalPicDirs} 个\n🎬 视频命令: ${totalVideoDirs} 个`;
+            return await this.reply(msg);
+        } catch (error) {
+            logger.error('[更新API列表] 失败:', error);
+            return await this.reply('❌ API列表更新失败，请检查后台日志。');
+        }
+    }
+    async getPictureByDirName(e) {
+        await this.initPromise;
+        try {
+            const d = e.msg.replace(/^#/, '').trim();
+            const u = `${API_CONFIG.BASE_URL}/api/v1/media/picture/by-dir/${encodeURIComponent(d)}`;
+            await this.reply(segment.image(u));
+            return true
+        } catch (err) { return this.reply('❌ 图片获取失败') }
+    }
+    async getVideoByDirName(e) {
+        await this.initPromise;
+        if (!Config.video) return await this.reply('视频功能已关闭');
+        try {
+            const d = e.msg.replace(/^#/, '').replace(/视频$/, '').trim();
+            const u = `${API_CONFIG.BASE_URL}/api/v1/media/video/by-dir/${encodeURIComponent(d)}`;
+            await this.reply(segment.video(u));
+            return true
+        } catch (err) { return this.reply('❌ 视频获取失败') }
+    }
+    async getRandomByCategory(e) {
+        await this.initPromise;
+        try {
+            const c = e.msg.replace(/^#?憨憨?随机/, '').trim();
+            const u = c === '图片' ? `${API_CONFIG.BASE_URL}/api/v1/media/picture/random` : `${API_CONFIG.BASE_URL}/api/v1/media/picture/by-category/${encodeURIComponent(c)}`;
+            await this.reply(segment.image(u));
+            return true
+        } catch (err) { return this.reply('❌ 随机图片获取失败') }
+    }
+    async getRandomVideoByCategory(e) {
+        await this.initPromise;
+        if (!Config.video) return await this.reply('视频功能已关闭');
+        try {
+            const c = e.msg.replace(/^#?憨憨?随机/, '').trim();
+            const u = c === '视频' ? `${API_CONFIG.BASE_URL}/api/v1/media/video/random` : `${API_CONFIG.BASE_URL}/api/v1/media/video/by-category/${encodeURIComponent(c)}`;
+            await this.reply(segment.video(u));
+            return true
+        } catch (err) { return this.reply('❌ 随机视频获取失败') }
+    }
+    ensureDataDir() { if (!fs.existsSync(FILE_CONFIG.DATA_DIR)) fs.mkdirSync(FILE_CONFIG.DATA_DIR, { recursive: true }) }
+    isApiDataValid() {
+        if (!fs.existsSync(FILE_CONFIG.API_DATA_FILE)) return false;
+        const s = fs.statSync(FILE_CONFIG.API_DATA_FILE);
+        return (Date.now() - s.mtime.getTime()) < FILE_CONFIG.UPDATE_INTERVAL
+    }
+    getUpdateTime() { return this.apiData?.lastUpdate ? new Date(this.apiData.lastUpdate).toLocaleString() : '未知' }
+    checkApiData(e) {
+        if (this.apiData) return true;
+        e.reply('❌ API数据为空，无法生成菜单。\n请先发送 #憨憨更新API列表 来获取数据。');
+        return false;
+    }
+    _createReversedAliasMaps() {
+        this.reversedAliasMaps.picture = Object.entries(this.apiData?.pictureDirAliases || {}).reduce((acc, [alias, original]) => {
+            if (!acc[original]) acc[original] = [];
+            acc[original].push(alias);
+            return acc;
+        }, {});
+        this.reversedAliasMaps.video = Object.entries(this.apiData?.videoDirAliases || {}).reduce((acc, [alias, original]) => {
+            if (!acc[original]) acc[original] = [];
+            acc[original].push(alias);
+            return acc;
+        }, {});
+    }
+    registerDynamicRules() {
+        if (!this.apiData) {
+            logger.warn('[憨憨富媒体] API数据为空，无法注册动态规则');
+            return;
+        } try {
+            const allPicDirs = [...new Set([...(this.apiData.pictureDirs || []), ...Object.keys(this.apiData.pictureDirAliases || {})])];
+            const allVideoDirs = [...new Set([...(this.apiData.videoDirs || []), ...Object.keys(this.apiData.videoDirAliases || {})])];
+            if (allPicDirs.length > 0) this.rule.push({ reg: new RegExp(`^#?(${allPicDirs.map(d => this.escapeRegExp(d)).join('|')})$`), fnc: 'getPictureByDirName', dsc: '#[图片名]' });
+            if (allVideoDirs.length > 0) this.rule.push({ reg: new RegExp(`^#?(${allVideoDirs.map(d => this.escapeRegExp(d)).join('|')})视频$`), fnc: 'getVideoByDirName', dsc: '#[视频名]视频' });
         } catch (error) { logger.error('[憨憨富媒体] 动态规则注册失败:', error) }
     }
-    escapeRegExp(string) { return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') }
-    async updateApiList(e) {
-        try {
-            await this.reply('正在更新API列表，请稍候...'); await this.fetchAndSaveApiData();
-            this.rule = this.rule.filter(r => r.fnc !== 'getPictureByDirName' && r.fnc !== 'getVideoByDirName'); this.registerDynamicRules();
-            const totalPicDirs = (this.apiData?.pictureDirs?.length || 0) + Object.keys(this.apiData?.pictureDirAliases || {}).length;
-            const totalVideoDirs = (this.apiData?.videoDirs?.length || 0) + Object.keys(this.apiData?.videoDirAliases || {}).length;
-            const msg = `✅ API列表更新成功！\n📅 更新时间: ${new Date().toLocaleString()}\n📁 可用图片目录/别名: ${totalPicDirs} 个\n🎬 可用视频目录/别名: ${totalVideoDirs} 个`;
-            return await this.reply(msg);
-        } catch (error) { logger.error('[更新API列表] 失败:', error); return await this.reply('❌ API列表更新失败') }
+    formatItemsWithAliases(items, type) {
+        if (!items || items.length === 0) return [];
+        const aliasMap = this.reversedAliasMaps[type] || {};
+        return items.map(item => {
+            const aliases = aliasMap[item];
+            return aliases && aliases.length > 0 ? `${item}(${aliases.join('/')})` : item;
+        });
     }
-    async getPictureByDirName(e) { try { const d = e.msg.replace(/^#/, '').trim(); const u = `${API_CONFIG.BASE_URL}/api/v1/media/picture/by-dir/${encodeURIComponent(d)}`; await this.reply(segment.image(u)); return true } catch (err) { return this.reply('❌ 图片获取失败') } }
-    async getVideoByDirName(e) { try { const d = e.msg.replace(/^#/, '').replace(/视频$/, '').trim(); const u = `${API_CONFIG.BASE_URL}/api/v1/media/video/by-dir/${encodeURIComponent(d)}`; await this.reply(segment.video(u)); return true } catch (err) { return this.reply('❌ 视频获取失败') } }
-    async getRandomByCategory(e) { try { const c = e.msg.replace(/^#?憨憨?随机/, '').trim(); const u = c === '图片' ? `${API_CONFIG.BASE_URL}/api/v1/media/picture/random` : `${API_CONFIG.BASE_URL}/api/v1/media/picture/by-category/${encodeURIComponent(c)}`; await this.reply(segment.image(u)); return true } catch (err) { return this.reply('❌ 随机图片获取失败') } }
-    async getRandomVideoByCategory(e) { try { const c = e.msg.replace(/^#?憨憨?随机/, '').trim(); const u = c === '视频' ? `${API_CONFIG.BASE_URL}/api/v1/media/video/random` : `${API_CONFIG.BASE_URL}/api/v1/media/video/by-category/${encodeURIComponent(c)}`; await this.reply(segment.video(u)); return true } catch (err) { return this.reply('❌ 随机视频获取失败') } }
-    formatList(items, prefix = '• ') { const r = []; for (let i = 0; i < items.length; i += 3) r.push(items.slice(i, i + 3).map(item => `${prefix}${item}`).join('  ')); return r }
-    getUpdateTime() { return this.apiData?.lastUpdate ? new Date(this.apiData.lastUpdate).toLocaleString() : '未知' }
-    async fetchWithTimeout(url, options = {}) { const c = new AbortController(); const t = setTimeout(() => c.abort(), API_CONFIG.TIMEOUT); try { const r = await fetch(url, { ...options, signal: c.signal, headers: { 'User-Agent': 'yunzai/hanhan-plugin', ...options.headers } }); clearTimeout(t); return r } catch (e) { clearTimeout(t); if (e.name === 'AbortError') throw new Error('请求超时'); throw e } }
-    async reply(message) { try { return await this.e.reply(message, false, { recallMsg: Config.recall_s || 0 }) } catch (e) { logger.error('[憨憨富媒体] 回复消息失败:', e); return false } }
+    escapeRegExp(string) { return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') }
+    async fetchWithTimeout(url, options = {}) {
+        const c = new AbortController();
+        const t = setTimeout(() => c.abort(), API_CONFIG.TIMEOUT);
+        try {
+            const r = await fetch(url, { ...options, signal: c.signal, headers: { 'User-agent': 'yunzai/hanhan-plugin', ...options.headers } });
+            clearTimeout(t);
+            return r
+        } catch (e) {
+            clearTimeout(t);
+            if (e.name === 'AbortError') throw new Error('请求超时');
+            throw e
+        }
+    }
+    async reply(message, quote = false) {
+        try { return await this.e.reply(message, quote, { recallMsg: Config.recall_s || 0 }) } catch (e) {
+            logger.error('[憨憨富媒体] 回复消息失败:', e);
+            return false
+        }
+    }
 }
