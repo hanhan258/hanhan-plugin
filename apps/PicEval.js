@@ -5,7 +5,6 @@ import { Config } from '../utils/config.js'
 import puppeteer from 'puppeteer'
 import Jimp from 'jimp'
 
-const API_URL = `https://${Config.PicEvalReverseProxy || 'api.websim.com' }/api/v1/inference/run_chat_completion`
 let base64Img
 
 export class PicEval extends plugin {
@@ -24,7 +23,7 @@ export class PicEval extends plugin {
             ]
         })
     }
-
+    
     async evalPicWithReply(e) {
         if (Config.stop_PicEval) return logger.info('[PicEval] 色吗功能已关闭')
         await e.reply('让我看看！')
@@ -106,7 +105,7 @@ export class PicEval extends plugin {
         }
 
         try {
-            let res = await fetch(API_URL, fetchOptions);
+            let res = await fetch(`https://${Config.PicEvalReverseProxy || 'api.websim.com' }/api/v1/inference/run_chat_completion`, fetchOptions);
             if (!res.ok) {
                 return await e.reply('API请求失败了哦，状态码：' + res.status + '，请稍后再试。')
             }
