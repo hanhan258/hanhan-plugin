@@ -56,6 +56,12 @@ export function supportGuoba() {
           component: 'Switch'
         },
         {
+          field: 'PicEvalReverseProxy',
+          label: '色吗反向代理',
+          bottomHelpMessage: '填写api.websim.com的反向代理地址',
+          component: 'Input'
+        },
+        {
           field: 'tmdbkey',
           label: 'tmdb key',
           bottomHelpMessage: 'tmdb官网获取的key，请前往https://developer.themoviedb.org/docs 注册账号并将获取到的key配置到这里',

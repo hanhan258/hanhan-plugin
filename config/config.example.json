@@ -17,5 +17,6 @@
   "enableButton": false,
   "enableVideo": true,
   "stop_PicEval": false,
-  "PicEvalProxy": true
+  "PicEvalProxy": true,
+  "PicEvalReverseProxy": "api.websim.com"
 }
