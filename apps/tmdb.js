@@ -223,34 +223,34 @@ export class TMDBApi extends plugin {
   }
 
   // 各个功能实现
-  async searchTV(e) {
+  async soTv(e) {
     const query = e.msg.replace(/^#?搜(番|tv|TV|电视剧|电视)/, '').trim()
     return this.execSearch(e, API_ENDPOINTS.TV_SEARCH, { query }, 'tv')
   }
 
-  async searchMovies(e) {
+  async soMovie(e) {
     const query = e.msg.replace(/^#?搜电影/, '').trim()
     return this.execSearch(e, API_ENDPOINTS.MOVIE_SEARCH, { query }, 'movie')
   }
 
-  async searchPerson(e) {
+  async soPerson(e) {
     const query = e.msg.replace(/^#?搜(导演|编导|演员)/, '').trim()
     return this.execSearch(e, API_ENDPOINTS.PERSON_SEARCH, { query }, 'person')
   }
 
-  async upcomingMovies(e) {
+  async futureMovie(e) {
     return this.execSearch(e, API_ENDPOINTS.UPCOMING_MOVIES, { region: 'CN' }, 'movie')
   }
 
-  async nowPlayingMovies(e) {
+  async nowPlaying(e) {
     return this.execSearch(e, API_ENDPOINTS.NOW_PLAYING, { region: 'CN' }, 'movie')
   }
 
-  async trendingMovies(e) {
+  async movieRank(e) {
     return this.execSearch(e, API_ENDPOINTS.TRENDING_MOVIE, {}, 'movie')
   }
 
-  async trendingTV(e) {
+  async tvRank(e) {
     return this.execSearch(e, API_ENDPOINTS.TRENDING_TV, {}, 'tv')
   }
 }
