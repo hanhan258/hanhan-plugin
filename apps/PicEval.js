@@ -27,12 +27,23 @@ export class PicEval extends plugin {
 
     async evalPicWithReply(e) {
         if (Config.stop_PicEval) return logger.info('[PicEval] 色吗功能已关闭')
+        const imageUrl = await getSourceImage(e);
+
+        // 2. Check if the URL is null or empty
+        if (!imageUrl) {
+            await e.reply('没有找到可以评价的图片哦，请在消息中发送图片或回复一张图片。');
+            return; // Stop execution if no image is found
+        }
         await e.reply('让我看看！')
-        const imageUrl = getSourceImage(e);
-        let base64 = await PicEval.getBase64FromUrl(imageUrl)
-        base64Img = base64
-        logger.info(`[PicEval] 图片base64长度: ${base64.length}`)
-        return await this.doEval(e, base64)
+        try {
+            let base64 = await PicEval.getBase64FromUrl(imageUrl);
+            base64Img = base64;
+            logger.info(`[PicEval] 图片base64长度: ${base64.length}`);
+            return await this.doEval(e, base64);
+        } catch (err) {
+            logger.error('获取图片或执行评价时出错:', err);
+            await e.reply('处理图片时出错啦，请稍后再试。');
+        }
     }
 
     /**
