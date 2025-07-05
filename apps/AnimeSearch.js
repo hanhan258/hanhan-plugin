@@ -1,11 +1,12 @@
-import plugin from '../../../lib/plugins/plugin.js'
+import axios from 'axios'
+import { join } from 'path'
+import { promisify } from 'util'
+import { exec } from 'child_process'
 import common from '../../../lib/common/common.js'
 import { getFfmpegPath } from '../utils/common.js'
-import axios from 'axios'
-import { exec } from 'child_process'
+import plugin from '../../../lib/plugins/plugin.js'
 import { createWriteStream, existsSync, mkdirSync } from 'fs'
-import { promisify } from 'util'
-import { join } from 'path'
+import { getSourceImage } from '../common/image-source-handler.js';
 
 const execPromise = promisify(exec)
 
@@ -174,20 +175,20 @@ export class AnimeSearch extends plugin {
 
     async searchAnime(e) {
         try {
-            const img = await this.getSourceImage(e) || e.img
+            const img = await getSourceImage(e) || e.img
             if (!img?.length) {
                 throw new APIError('请发送要搜索的动画截图或回复包含图片的消息')
             }
 
             await e.reply('正在搜索中，请稍候...')
 
-            const cacheKey = img[0]
+            const cacheKey = img
             const cachedResult = this.cache.get(cacheKey)
             if (cachedResult) {
                 return this.sendResult(e, cachedResult)
             }
 
-            const result = await this.searchTraceMode(img[0])
+            const result = await this.searchTraceMode(img)
             this.cache.set(cacheKey, result)
             await this.sendResult(e, result)
         } catch (error) {
@@ -334,44 +335,6 @@ export class AnimeSearch extends plugin {
             console.error('发送结果失败:', error)
             await e.reply('发送结果失败，请稍后重试')
         }
-    }
-
-    async getSourceImage(e) {
-        // 获取回复消息或引用消息中的图片
-        let source = ''
-        let imgArr = []
-
-        // 先检查是否有直接图片
-        if (e.img?.length > 0) {
-            return e.img
-        }
-
-        // 检查回复或引用的消息
-        if (e.getReply) {
-            source = await e.getReply()
-        } else if (e.source) {
-            if (e.group?.getChatHistory) {
-                source = (await e.group.getChatHistory(e.source.seq, 1)).pop()
-            } else if (e.friend?.getChatHistory) {
-                source = (await e.friend.getChatHistory(e.source.time, 1)).pop()
-            }
-        }
-
-        // 从source中获取图片
-        if (source?.message) {
-            for (let i of source.message) {
-                if (i.type === 'image') {
-                    imgArr.push(i.url)
-                }
-            }
-        }
-
-        // 如果没有找到图片但有at，使用被at用户的头像
-        if (imgArr.length === 0 && e.at) {
-            imgArr.push(`https://q1.qlogo.cn/g?b=qq&s=0&nk=${e.at}`)
-        }
-
-        return imgArr.length > 0 ? imgArr : false
     }
 
     // 视频转GIF

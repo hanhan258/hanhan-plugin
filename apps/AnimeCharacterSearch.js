@@ -6,7 +6,6 @@ import { fileURLToPath } from 'url';
 import path from 'path';
 import { debuglog } from '../common/log.js';
 import puppeteer from 'puppeteer';
-import { segment } from 'icqq';
 import sharp from 'sharp';
 import { getSourceImage } from '../common/image-source-handler.js';
 
