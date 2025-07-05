@@ -4,14 +4,15 @@
   "version": "1.0.0",
   "dependencies": {
     "axios": "^1.4.0",
+    "form-data": "^4.0.2",
     "he": "^1.2.0",
     "https-proxy-agent": "^5.0.0",
     "iconv-lite": "^0.6.3",
+    "jimp": "^0.22.12",
     "node-fetch": "^3.3.1",
     "pingman": "^2.0.0",
     "proxy-chain": "^2.3.0",
     "user-agents": "^1.1.413",
-    "xmorse": "1.0.0",
-    "jimp": "^0.22.12"
+    "xmorse": "1.0.0"
   }
 }

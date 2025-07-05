@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>动漫人物识别结果</title>
+    <style>
+        @font-face {
+            font-family: 'loliti';
+            src: url('https://ai.ycxom.top:8888/d/F%E7%9B%98/loliti.ttf?sign=08pbXN_9r9nm8vZ6_IVCXljXDtbLg3yEDI-XCJzdgGM=:0') format('truetype');
+            font-display: swap;
+        }
+
+        body {
+            font-family: 'loliti', sans-serif;
+            font-size: 24px;
+            margin: 0;
+            padding: 0;
+            background-image: url('{{BACKGROUND_URL}}');
+            background-size: cover;
+            background-position: center;
+            /* 使用可爱风字体 */
+        }
+
+        .main-container {
+            display: flex;
+            align-items: flex-start;
+            /* 顶部对齐 */
+            padding: 20px;
+            gap: 20px;
+            /* 左右面板间距 */
+            background-color: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            /* border-radius: 20px; */
+            width: fit-content;
+        }
+
+        .image-panel {
+            flex-shrink: 0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .image-panel img {
+            display: block;
+            max-width: 450px;
+            /* 限制左侧图片最大宽度 */
+            max-height: 600px;
+            /* 限制左侧图片最大高度 */
+            height: auto;
+            width: auto;
+        }
+
+        .info-panel {
+            width: 450px;
+            /* 固定右侧信息面板宽度 */
+            flex-shrink: 0;
+        }
+
+        .results-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .result-item {
+            display: flex;
+            align-items: flex-start;
+            /* background: #fff; */
+            background-color: rgba(255, 255, 255, 0.686);
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            padding: 12px 15px;
+        }
+
+        .item-index {
+            width: 35px;
+            height: 35px;
+            line-height: 35px;
+            text-align: center;
+            border-radius: 50%;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            margin-right: 15px;
+            margin-top: 8px;
+            flex-shrink: 0;
+        }
+
+        .item-content {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .match-pair {
+            padding-bottom: 8px;
+            border-bottom: 1px dashed #e0e0e0;
+            /* background-color: rgba(255, 255, 255, 0.3); */
+
+        }
+
+        .match-pair:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .character-name {
+            font-size: 19px;
+            color: #343a40;
+            margin: 0 0 3px 0;
+        }
+
+        .work-title {
+            font-size: 15px;
+            color: #6c757d;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main-container">
+        <div class="image-panel">
+            <img src="{{MARKED_IMAGE_SRC}}" alt="Marked Image">
+        </div>
+        <div class="info-panel">
+            <ul class="results-list">
+                {{RESULTS_PLACEHOLDER}}
+            </ul>
+        </div>
+    </div>
+</body>
+
+</html>
