@@ -22,7 +22,7 @@ export class TFLJ extends plugin {
         })
     }
 
-    async Tflj(e) {
+    async typhoon(e) {
         try {
             await e.reply('收到指令，正在录制GIF');
             const gifBuffer = await captureGif(URL_TEMPLATE, TIME_MAP, FPS, ELEMENT_SELECTOR);
