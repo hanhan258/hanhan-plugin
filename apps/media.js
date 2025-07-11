@@ -18,8 +18,8 @@ const API_CONFIG = {
 }
 
 const FILE_CONFIG = {
-    DATA_DIR: './data/hanhan-pics',
-    API_DATA_FILE: './data/hanhan-pics/api-data.json',
+    DATA_DIR: './plugins/hanhan-plugin/data/hanhan-pics',
+    API_DATA_FILE: './plugins/hanhan-plugin/data/hanhan-pics/api-data.json',
     UPDATE_INTERVAL: 5 * 24 * 60 * 60 * 1000 // 5天
 }
 
@@ -36,7 +36,7 @@ export class media extends plugin {
                 { reg: '^#?小姐姐(帮助|菜单)$', fnc: 'showGirlHelp', dsc: '#小姐姐帮助' },
                 { reg: '^#?视频(帮助|菜单)$', fnc: 'showVideoHelp', dsc: '#视频帮助' },
                 { reg: '^#?美女视频(帮助|菜单)$', fnc: 'showBeautyVideoHelp', dsc: '#美女视频帮助' },
-                { reg: '^#?憨憨?更新(表情包|图片|视频)?API列表$', fnc: 'updateApiList', dsc: '#憨憨更新API列表' },
+                { reg: '^#?憨憨?更新(表情包|图片|视频)?(API|api)列表$', fnc: 'updateApiList', dsc: '#憨憨更新API列表' },
                 { reg: '^#?憨憨?随机(表情包|图片|壁纸|二次元|三次元|基础分类|叼图)$', fnc: 'getRandomByCategory', dsc: '#憨憨随机图片' },
                 { reg: '^#?憨憨?随机(美女视频|舞蹈视频|其他视频|视频)$', fnc: 'getRandomVideoByCategory', dsc: '#憨憨随机视频' }
             ]
@@ -250,15 +250,14 @@ export class media extends plugin {
     }
 
     async updateApiList(e) {
-        await this.initPromise;
         try {
             await this.reply('正在更新API列表，请稍候...');
-            isInitialized = false;
-            await this.init();
-            const totalPicDirs = new Set([...(this.apiData?.pictureDirs || []),
-            ...Object.keys(this.apiData?.pictureDirAliases || {})]).size;
-            const totalVideoDirs = new Set([...(this.apiData?.videoDirs || []),
-            ...Object.keys(this.apiData?.videoDirAliases || {})]).size;
+            await this.fetchAndSaveApiData();
+            cachedApiData = this.apiData;
+            cachedReversedAliasMaps = this.reversedAliasMaps;
+            this.registerDynamicRules();
+            const totalPicDirs = new Set([...(this.apiData?.pictureDirs || []), ...Object.keys(this.apiData?.pictureDirAliases || {})]).size;
+            const totalVideoDirs = new Set([...(this.apiData?.videoDirs || []), ...Object.keys(this.apiData?.videoDirAliases || {})]).size;
             const msg = `✅ API列表更新成功！\n📅 更新时间: ${this.getUpdateTime()}\n📁 图片命令: ${totalPicDirs} 个\n🎬 视频命令: ${totalVideoDirs} 个`;
             return await this.reply(msg);
         } catch (error) {
@@ -332,12 +331,16 @@ export class media extends plugin {
         if (!this.apiData) {
             logger.warn('[憨憨富媒体] API数据为空，无法注册动态规则');
             return;
-        } try {
+        }
+        this.rule = this.rule.filter(r => !r.isDynamic);
+        try {
             const allPicDirs = [...new Set([...(this.apiData.pictureDirs || []), ...Object.keys(this.apiData.pictureDirAliases || {})])];
             const allVideoDirs = [...new Set([...(this.apiData.videoDirs || []), ...Object.keys(this.apiData.videoDirAliases || {})])];
-            if (allPicDirs.length > 0) this.rule.push({ reg: new RegExp(`^#?(${allPicDirs.map(d => this.escapeRegExp(d)).join('|')})$`), fnc: 'getPictureByDirName', dsc: '#[图片名]' });
-            if (allVideoDirs.length > 0) this.rule.push({ reg: new RegExp(`^#?(${allVideoDirs.map(d => this.escapeRegExp(d)).join('|')})视频$`), fnc: 'getVideoByDirName', dsc: '#[视频名]视频' });
-        } catch (error) { logger.error('[憨憨富媒体] 动态规则注册失败:', error) }
+            if (allPicDirs.length > 0) this.rule.push({ reg: new RegExp(`^#?(${allPicDirs.map(d => this.escapeRegExp(d)).join('|')})$`), fnc: 'getPictureByDirName', dsc: '#[图片名]', isDynamic: true });
+            if (allVideoDirs.length > 0) this.rule.push({ reg: new RegExp(`^#?(${allVideoDirs.map(d => this.escapeRegExp(d)).join('|')})视频$`), fnc: 'getVideoByDirName', dsc: '#[视频名]视频', isDynamic: true });
+        } catch (error) {
+            logger.error('[憨憨富媒体] 动态规则注册失败:', error)
+        }
     }
     formatItemsWithAliases(items, type) {
         if (!items || items.length === 0) return [];
