@@ -16,7 +16,7 @@ export class multiLocationPing extends plugin {
           reg: '^#?(全国|多地)ping',
           /** 执行方法 */
           fnc: 'itdog',
-          dsc: '全国多地ping'
+          dsc: '全国多地ping #多地ping <ip>'
         }
       ]
     })

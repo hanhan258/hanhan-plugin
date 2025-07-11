@@ -4,7 +4,7 @@ import { exec } from 'child_process'
 import pingMan from 'pingman'
 import dns from 'dns'
 import net from 'net'
-import iconv from 'iconv-lite' // 添加 iconv-lite 库
+import iconv from 'iconv-lite'
 
 export class Ping extends plugin {
   constructor() {
@@ -14,16 +14,20 @@ export class Ping extends plugin {
       event: 'message',
       priority: 6,
       rule: [
-        { reg: '^#?[pP]ing\\s', fnc: 'ping', dsc: 'Ping' },
-        { reg: '^#?ns\\s', fnc: 'nslookup', dsc: 'Nslookup' },
-        { reg: '^#?系统ping\\s', fnc: 'sysping', dsc: '系统ping' }
+        { reg: '^#?[pP]ing', fnc: 'ping', dsc: 'Ping' },
+        { reg: '^#?ns', fnc: 'nslookup', dsc: 'Nslookup' },
+        { reg: '^#?系统ping', fnc: 'sysping', dsc: '系统ping' }
       ]
     })
   }
 
   // NS
-  async resolveNs(e) {
-    let domain = e.msg.trim().replace(/^#?ns/, '').trim()
+  async nslookup(e) {
+    let domain = e.msg.trim().replace(/^#?ns\s*/, '').trim()
+    if (!domain) {
+      return e.reply('请输入要查询的域名，例如：#ns google.com');
+    }
+
     console.log(domain)
     dns.resolveNs(domain, (error, addresses) => {
       if (error) {
@@ -38,7 +42,11 @@ export class Ping extends plugin {
 
   // ping网站或ip
   async ping(e) {
-    let msg = e.msg.trim().replace(/^#?[pP]ing\s/, '').replace(/https?:\/\//, '').trim()
+    let msg = e.msg.trim().replace(/^#?[pP]ing\s*/, '').replace(/https?:\/\//, '').trim()
+    if (!msg) {
+      return e.reply('请输入要 Ping 的域名或 IP 地址，例如：#ping google.com');
+    }
+
     await this.reply('在ping了、在ping了。。。', true, { recallMsg: 3 })
     let ipInfo, pingRes, domain, ipAddress = msg, isShowIP = false, numberOfEchos = 6
     if (e.msg.trim().includes('#Ping')) isShowIP = true
@@ -83,14 +91,10 @@ export class Ping extends plugin {
 
     if (Config.pingToken) {
       try {
-        // 通过ipinfo.io获取ip地址相关信息
         ipInfo = await new Promise((resolve, reject) => {
           exec(`curl https://ipinfo.io/${msg === 'me' ? '' : ipAddress}?token=${Config.pingToken}`, async (error, stdout, stderr) => {
-            if (error) {
-              reject(error)
-            } else {
-              resolve(stdout)
-            }
+            if (error) reject(error)
+            else resolve(stdout)
           })
         })
         ipInfo = JSON.parse(ipInfo.trim())
@@ -116,13 +120,12 @@ export class Ping extends plugin {
   }
 
   // 系统 ping 命令
-  async systemPing(e) {
-    let host = e.msg.trim().replace(/^#?系统ping\s/, '').trim()
+  async sysping(e) {
+    let host = e.msg.trim().replace(/^#?系统ping\s*/, '').trim()
     if (!host) {
-      return e.reply('请指定要 ping 的主机名或 IP 地址。')
+      return e.reply('请指定要 ping 的主机名或 IP 地址，例如：#系统ping baidu.com')
     }
 
-    // 验证主机名或 IP 地址的有效性
     if (!this.isValidHost(host)) {
       return e.reply('无效的主机名或 IP 地址。')
     }
@@ -131,9 +134,9 @@ export class Ping extends plugin {
 
     let command = ''
     if (process.platform === 'win32') {
-      command = `ping -n 3 -w 5000 ${host}` // Windows: -n 次数, -w 超时(毫秒)
+      command = `ping -n 3 -w 5000 ${host}`
     } else {
-      command = `ping -c 3 -W 5 ${host}` // Linux/macOS: -c 次数, -W 超时(秒)
+      command = `ping -c 3 -W 5 ${host}`
     }
 
     exec(command, { timeout: 10000, encoding: 'buffer' }, (error, stdout, stderr) => {
@@ -150,45 +153,42 @@ export class Ping extends plugin {
       let result = stdout
       if (process.platform === 'win32') {
         result = iconv.decode(stdout, 'gbk')
+      } else {
+        result = stdout.toString()
       }
 
       e.reply(`系统 ping 命令结果:\n${result}`)
     })
   }
 
-  // 验证主机名或 IP 地址的有效性
   isValidHost(host) {
-    // 使用正则表达式验证 IP 地址
-    const ipRegex = /^(\d{1,3}\.){3}\d{1,3}$/
-    if (ipRegex.test(host)) {
-      return true
+    if (net.isIP(host)) {
+      return true;
     }
-
-    // 使用正则表达式验证主机名
-    const hostnameRegex = /^([a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}$/
+    const labelPart = '(?:[a-zA-Z0-9\u4e00-\u9fa5](?:[a-zA-Z0-9\u4e00-\u9fa5-]{0,61}[a-zA-Z0-9\u4e00-\u9fa5])?)';
+    const tldPart = '(?:[a-zA-Z\u4e00-\u9fa5]{2,}|xn--[a-zA-Z0-9]+)';
+    const hostnameRegex = new RegExp(`^${labelPart}(\\.${labelPart})*\\.${tldPart}$`);
     if (hostnameRegex.test(host)) {
-      return true
+      return true;
     }
-
-    return false
+    return false;
   }
 }
 
 function getDomain(url) {
-  const domainRegex = /((?:[\u4e00-\u9fa5a-zA-Z0-9-]+\.)+[\u4e00-\u9fa5a-zA-Z]{2,})/
-  const match = url.match(domainRegex)
-  return match ? match[1] : false
+  const labelPart = '(?:[a-zA-Z0-9\u4e00-\u9fa5](?:[a-zA-Z0-9\u4e00-\u9fa5-]{0,61}[a-zA-Z0-9\u4e00-\u9fa5])?)';
+  const tldPart = '(?:[a-zA-Z\u4e00-\u9fa5]{2,}|xn--[a-zA-Z0-9]+)';
+  const domainRegex = new RegExp(`(${labelPart}\\.)+${tldPart}`);
+  const match = url.match(domainRegex);
+  return match ? match[0] : false;
 }
 
 async function getIPAddress(host) {
   try {
     return await new Promise((resolve, reject) => {
       dns.lookup(host, (err, address) => {
-        if (err) {
-          reject(err)
-        } else {
-          resolve(address)
-        }
+        if (err) reject(err)
+        else resolve(address)
       })
     })
   } catch (error) {

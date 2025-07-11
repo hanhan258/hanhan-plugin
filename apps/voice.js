@@ -27,7 +27,7 @@ export class voice extends plugin {
   }
 
   // 随机网易云
-  async sjwyy(e) {
+  async wyy(e) {
     const maxAttempts = 3 // 最大重试次数
     let attempts = 0 // 当前尝试次数
     let url = 'https://api.yujn.cn/api/sjwyy.php?type=json'
@@ -65,17 +65,17 @@ export class voice extends plugin {
   }
 
   // 随机唱鸭
-  async sjcy() {
+  async changya() {
     return this.handleAudio('http://api.yujn.cn/api/changya.php?type=mp3')
   }
 
   // 随机坤坤
-  async sjkk() {
+  async kunkun() {
     return this.handleAudio('http://api.yujn.cn/api/sjkunkun.php?')
   }
 
   // 随机语音骂人
-  async maren() {
+  async mawo() {
     return this.handleAudio('http://api.yujn.cn/api/maren.php?')
   }
 
@@ -89,7 +89,7 @@ export class voice extends plugin {
     return await this.e.reply(message, false, { recallMsg: Config.recall_s })
   }
 
-  async is_MD(e) {
+  async voiceMenu(e) {
     if (Config.enableButton || false) {
       if (!(Config.buttonWhiteGroups.includes(e.group_id))) {
         return false

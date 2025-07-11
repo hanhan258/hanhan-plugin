@@ -51,10 +51,6 @@ export default class Button {
           fnc: 'manage'
         },
         {
-          reg: '^#?(数字类菜单|408|50033|75946|36518|5670)$',
-          fnc: 'number'
-        },
-        {
           reg: '^#?(nav|憨憨帮助)$',
           fnc: 'help'
         },
@@ -230,20 +226,6 @@ export default class Button {
       { label: '强制更新', data: '#憨憨强制更新' }
     ]
     return toButton(list, 2, false)
-  }
-
-  number (e) {
-    if (this.enableButton && e.bot.config?.markdown.type) {
-      if (!(Config.buttonWhiteGroups.includes(e.group_id))) { return false }
-    }
-    list = [
-      { label: '5670', callback: '5670' },
-      { label: '50033', callback: '50033' },
-
-      { label: '36518', callback: '36518' },
-      { label: '75946', callback: '75946' }
-    ]
-    return toButton(list, 2)
   }
 
   help (e) {
