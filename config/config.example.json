@@ -20,5 +20,6 @@
   "PicEvalProxy": true,
   "PicEvalReverseProxy": "api.websim.com",
   "RandomPictureAPI": "https://ai.ycxom.top:3002/api/v1/wallpaper/by-ratio/standard",
+  "video": true,
   "debug": false
 }

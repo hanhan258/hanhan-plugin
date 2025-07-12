@@ -86,6 +86,18 @@ export function supportGuoba() {
           component: 'Input'
         },
         {
+          field: 'video',
+          label: '是否开启视频功能',
+          bottomHelpMessage: '允许发送视频',
+          component: 'Switch'
+        },
+        {
+          field: 'RandomPictureAPI',
+          label: '随机壁纸api',
+          bottomHelpMessage: '菜单等随机壁纸api',
+          component: 'Input'
+        },
+        {
           field: 'studyGroups',
           label: '每日英语分享群组',
           bottomHelpMessage: '填入后将向所填群每天早上自动分享每日英语,群号请使用 , 或 : 分隔开',
