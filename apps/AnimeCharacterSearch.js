@@ -8,6 +8,7 @@ import { debuglog } from '../common/log.js';
 import puppeteer from 'puppeteer';
 import sharp from 'sharp';
 import { getSourceImage } from '../common/image-source-handler.js';
+import { Config } from '../utils/config.js'
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -47,7 +48,7 @@ export class AnimeCharacterSearch extends plugin {
         for (const [aliases, modelInfo] of this.modelMap.entries()) {
             if (aliases.includes('默认')) { this.defaultModel = modelInfo; break; }
         }
-        this.backgrounds = ["https://ai.ycxom.top:3002/api/v1/wallpaper/by-ratio/standard"];
+        this.backgrounds = Config.RandomPictureAPI;
     }
 
     getModel(userInput) {

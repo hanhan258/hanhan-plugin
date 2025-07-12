@@ -1,5 +1,7 @@
 import setting from '../utils/setting.js'
 import Version from '../components/Version.js'
+import { getRandomBgImage } from '../utils/background.js'
+
 const decimalAdjust = (type, value, exp = 0) => {
   type = String(type)
   if (!['round', 'floor', 'ceil'].includes(type)) {
@@ -31,7 +33,8 @@ const MathPro = {
     return decimalAdjust('round', value, exp)
   }
 }
-export default function runtimeRender (e, path, renderData = {}, cfg = {}) {
+
+export default async function runtimeRender(e, path, renderData = {}, cfg = {}) {
   if (!e.runtime) {
     console.log('未找到e.runtime，请升级至最新版Yunzai')
   }
@@ -41,12 +44,16 @@ export default function runtimeRender (e, path, renderData = {}, cfg = {}) {
   const pct = `style='transform:scale(${scale})'`
   const layoutPath =
     process.cwd() + '/plugins/hanhan-plugin/resources/common/layout/'
+
+  const bgImageDataUri = await getRandomBgImage();
+
   return e.runtime.render('hanhan-plugin', path, renderData, {
     ...cfg,
-    beforeRender ({ data }) {
+    beforeRender({ data }) {
       let resPath = data.pluResPath
       return {
         ...data,
+        bgImageDataUri,
         _res_path: resPath,
         _layout_path: layoutPath,
         defaultLayout: layoutPath + 'default.html',

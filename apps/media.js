@@ -1,3 +1,4 @@
+import { getRandomBgImage } from '../utils/background.js';
 import plugin from '../../../lib/plugins/plugin.js'
 import { Config } from '../utils/config.js'
 import fs from 'fs'
@@ -13,7 +14,6 @@ let cachedReversedAliasMaps = null
 const API_CONFIG = {
     BASE_URL: 'https://ai.ycxom.top:3002',
     LIST_API: 'https://ai.ycxom.top:3002/api/v1/info/lists',
-    RANDOM_IMG_API: 'https://ai.ycxom.top:3002/api/v1/wallpaper/by-ratio/square',
     TIMEOUT: 15000
 }
 
@@ -180,21 +180,7 @@ export class media extends plugin {
         let tempFilePath = null
 
         try {
-            let bgImageDataUri = ''
-            try {
-                const bgResponse = await this.fetchWithTimeout(API_CONFIG.RANDOM_IMG_API)
-                if (bgResponse.ok) {
-                    const imageBuffer = await bgResponse.arrayBuffer()
-                    const base64 = Buffer.from(imageBuffer).toString('base64')
-                    const mimeType = bgResponse.headers.get('content-type') || 'image/jpeg'
-                    bgImageDataUri = `data:${mimeType};base64,${base64}`
-                } else {
-                    logger.warn(`[憨憨富媒体] 获取随机背景图API响应失败: ${bgResponse.status}`)
-                }
-            } catch (bgError) {
-                logger.warn('[憨憨富媒体] 获取随机背景图片时发生网络错误:', bgError)
-            }
-
+            const bgImageDataUri = await getRandomBgImage();
             const renderData = { ...data, updateTime: this.getUpdateTime() }
             let tpl = fs.readFileSync(tplPath, 'utf8')
 
