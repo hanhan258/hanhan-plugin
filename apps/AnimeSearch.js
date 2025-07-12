@@ -89,9 +89,9 @@ export class AnimeSearch extends plugin {
             priority: 5,
             rule: [
                 {
-                    reg: '.*?#?(搜番剧|识番)|^#?(搜番剧|识番)',
+                    reg: '^#?(以图搜番|识番)',
                     fnc: 'searchAnime',
-                    dsc: '搜番剧/识番'
+                    dsc: '回复或包含图片完成识番'
                 }
             ]
         })

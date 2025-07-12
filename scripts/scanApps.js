@@ -1,14 +1,11 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import chalk from 'chalk';
-import { fileURLToPath } from 'url';
+import {
+    fileURLToPath
+} from 'url';
 import crypto from 'crypto';
-
-const log = {
-    info: (msg) => (global.logger ? global.logger.info(msg) : console.log(msg)),
-    warn: (msg) => (global.logger ? global.logger.warn(msg) : console.warn(msg)),
-    error: (msg) => (global.logger ? global.logger.error(msg) : console.error(msg)),
-};
+import { debuglog } from '../common/log.js';
 
 const pluginRoot = './plugins/hanhan-plugin';
 const appsDir = path.join(pluginRoot, 'apps');
@@ -17,46 +14,46 @@ const helpOutputFile = path.join(dataDir, 'help.json');
 const md5OutputFile = path.join(dataDir, 'md5.json');
 
 /**
- * 解析正则表达式规则，生成对应的标题
- * @param {RegExp} reg 正则表达式规则
- * @returns {string} 解析后的标题字符串
+ * [FINAL FULL-FEATURED VERSION] Parses a regular expression to generate a clean, complete, and informative command.
+ * This version handles complex separators and content placeholders robustly.
+ * @param {RegExp} reg The regular expression rule.
+ * @returns {string} The parsed title string.
  */
 function parseRuleToTitle(reg) {
-    let rawStr = reg.toString().replace(/^\/|\/\w*$/g, '');
-    const tempPlaceholder = '@@PIPE@@';
-    let tempStr = rawStr.replace(/\((.*?)\)/g, (match, group1) => `(${group1.replace(/\|/g, tempPlaceholder)})`);
-    const patterns = tempStr.split('|').map(p => p.replace(new RegExp(tempPlaceholder, 'g'), '|'));
-    const allCommands = new Set();
+    let title = reg.toString().replace(/^\/|\/[a-z]*$/g, '');
 
-    for (const pattern of patterns) {
-        let current = pattern;
-        const aliasMatch = current.match(/^(.*?)(\([^|)]+\|[^)]+\))(.*)$/);
-        let expanded = [];
-        if (aliasMatch) {
-            const prefix = aliasMatch[1];
-            const aliases = aliasMatch[2].replace(/[()]/g, '').split('|');
-            const suffix = aliasMatch[3];
-            expanded = aliases.map(alias => `${prefix}${alias}${suffix}`);
-        } else {
-            expanded = [current];
-        }
+    // 1. A new, robust rule to replace various separators and content placeholders with '<内容>'.
+    // This handles separators like \s*, [ =]?, etc., and content placeholders like (.*), ([\s\S]+), etc.
+    title = title.replace(/(?:\\s\*|\[\s*=\s*\]\??)?\s*\((?:\.|\[\\s\\S\])[\*\+]\)\s*\$?$/, ' <内容>');
 
-        for (let command of expanded) {
-            command = command.replace(/(\(\?:|\?#|\\)/g, '');
-            command = command.replace(/(\.\*|\.\+)\??|\[\\s\\S\]\*|\\s\*|[\^\$\*\.\[\]\{\}\(\)]/g, '');
-            command = command.replace(/[?]/g, '');
-            command = command.trim();
-            if (command.startsWith('#')) command = command.substring(1);
-            if (command) allCommands.add(`#${command}`);
-        }
+    // 2. Remove anchors (^, $).
+    title = title.replace(/[\^$]/g, '');
+
+    // 3. Simplify character classes, e.g., [pP] -> p.
+    title = title.replace(/\[([a-zA-Z0-9])([^\]]*)\]/g, '$1');
+
+    // 4. Handle alternations: format them as 'option1/option2' to show all possibilities.
+    title = title.replace(/\|/g, '/');
+
+    // 5. Clean up remaining unnecessary regex syntax.
+    title = title.replace(/[?\\]/g, '');
+
+    // 6. Final formatting: consolidate whitespace and ensure a single leading '#'.
+    title = title.trim().replace(/\s+/g, ' ');
+    if (!title.startsWith('#')) {
+        title = '#' + title;
     }
-    return Array.from(allCommands).join(' | ');
+    // Handle cases like '#?' where the '#' itself is optional.
+    title = '#' + title.replace(/#/g, '');
+
+    return title;
 }
 
+
 /**
- * 计算文件的MD5哈希值
- * @param {string} filePath 文件路径
- * @returns {string} MD5哈希值
+ * Calculates the MD5 hash of a file.
+ * @param {string} filePath The path to the file.
+ * @returns {string} The MD5 hash.
  */
 function calculateFileMd5(filePath) {
     const buffer = fs.readFileSync(filePath);
@@ -64,49 +61,53 @@ function calculateFileMd5(filePath) {
 }
 
 /**
- * 核心扫描与生成函数
- * @returns {Promise<'UPDATED' | 'NO_CHANGE' | 'ERROR'>} 操作状态
+ * The core function to scan apps and generate help files.
+ * @returns {Promise<'UPDATED' | 'NO_CHANGE' | 'ERROR'>} The operation status.
  */
 export async function scanAndGenerateHelp() {
-    log.info(chalk.cyanBright.bold('[hanhan-plugin] 正在检查菜单更新...'));
+    debuglog('[hanhan-plugin] 正在检查菜单更新...');
 
-    // 1. MD5校验，判断是否需要更新
+    // 1. MD5 check.
     if (fs.existsSync(helpOutputFile) && fs.existsSync(md5OutputFile)) {
         const oldMd5s = JSON.parse(fs.readFileSync(md5OutputFile, 'utf-8'));
-        const currentFiles = fs.readdirSync(appsDir).filter(f => f.endsWith('.js'));
-        const oldFiles = Object.keys(oldMd5s);
+        try {
+            const currentFiles = fs.readdirSync(appsDir).filter(f => f.endsWith('.js'));
+            const oldFiles = Object.keys(oldMd5s);
 
-        if (currentFiles.length === oldFiles.length) {
-            let hasChanged = false;
-            for (const file of currentFiles) {
-                const filePath = path.join(appsDir, file);
-                if (!oldMd5s[file] || calculateFileMd5(filePath) !== oldMd5s[file]) {
-                    hasChanged = true;
-                    break;
+            if (currentFiles.length === oldFiles.length) {
+                let hasChanged = false;
+                for (const file of currentFiles) {
+                    const filePath = path.join(appsDir, file);
+                    if (!oldMd5s[file] || calculateFileMd5(filePath) !== oldMd5s[file]) {
+                        hasChanged = true;
+                        break;
+                    }
+                }
+                if (!hasChanged) {
+                    debuglog('[hanhan-plugin] 插件无变化，跳过菜单生成。');
+                    return 'NO_CHANGE';
                 }
             }
-            if (!hasChanged) {
-                log.info('[hanhan-plugin] 插件无变化，跳过菜单生成。');
-                return 'NO_CHANGE';
-            }
+        } catch (error) {
+            debuglog('[hanhan-plugin] ⚠ 警告：读取apps目录失败，将强制更新菜单。');
         }
     }
 
-    log.info(chalk.cyanBright.bold('[hanhan-plugin] 检测到插件变动，开始执行菜单扫描...'));
+    debuglog('[hanhan-plugin] 检测到插件变动，开始执行菜单扫描...');
 
     try {
         const jsFiles = fs.readdirSync(appsDir).filter(file => file.endsWith('.js'));
         const newMd5s = {};
 
         if (jsFiles.length === 0) {
-            log.warn(chalk.yellow('[hanhan-plugin] ⚠ 警告：apps目录为空，生成空菜单。'));
+            debuglog('[hanhan-plugin] ⚠ 警告：apps目录为空，生成空菜单。');
             if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
             fs.writeFileSync(helpOutputFile, JSON.stringify([], null, 2), 'utf-8');
             fs.writeFileSync(md5OutputFile, JSON.stringify({}, null, 2), 'utf-8');
             return 'UPDATED';
         }
 
-        log.info(`[hanhan-plugin] 发现 ${jsFiles.length} 个 .js 文件，正在处理...`);
+        debuglog(`[hanhan-plugin] 发现 ${jsFiles.length} 个 .js 文件，正在处理...`);
 
         const helpList = [];
         for (const file of jsFiles) {
@@ -117,7 +118,7 @@ export async function scanAndGenerateHelp() {
             try {
                 pluginModule = await import(`file://${filePath}?t=${Date.now()}`);
             } catch (error) {
-                log.error(chalk.red(`[hanhan-plugin] ✗ 导入模块失败: ${file}`), error);
+                debuglog(`[hanhan-plugin] ✗ 导入模块失败: ${file}`, error);
                 continue;
             }
             const pluginKey = Object.keys(pluginModule).find(k => k !== 'default');
@@ -129,12 +130,14 @@ export async function scanAndGenerateHelp() {
             const groupName = pluginInstance.name || fileName;
             if (!rules || !Array.isArray(rules) || rules.length === 0) continue;
             const group = { group: groupName, list: [] };
+
             rules.forEach(rule => {
-                if (rule.dsc) {
+                if (rule.dsc && rule.reg) {
                     const title = parseRuleToTitle(rule.reg);
                     if (title) group.list.push({ title: title, desc: rule.dsc });
                 }
             });
+
             if (group.list.length > 0) helpList.push(group);
         }
 
@@ -143,19 +146,20 @@ export async function scanAndGenerateHelp() {
         fs.writeFileSync(helpOutputFile, JSON.stringify(helpList, null, 2), 'utf-8');
         fs.writeFileSync(md5OutputFile, JSON.stringify(newMd5s, null, 2), 'utf-8');
 
-        log.info(chalk.green.bold(`\n[hanhan-plugin] 🎉 菜单及MD5校验文件已成功更新！`));
+        debuglog(chalk.green.bold(`\n[hanhan-plugin] 🎉 菜单及MD5校验文件已成功更新！`));
         return 'UPDATED';
 
     } catch (error) {
-        log.error(chalk.red.bold('[hanhan-plugin] 扫描过程中发生严重错误:'), error);
+        debuglog('[hanhan-plugin] 扫描过程中发生严重错误:', error);
         return 'ERROR';
     }
 }
 
+// Allow running the script directly.
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
     (async () => {
-        const success = await scanAndGenerateHelp();
-        if (success !== 'ERROR') {
+        const status = await scanAndGenerateHelp();
+        if (status !== 'ERROR') {
             console.log(chalk.bgGreen.black('\n 手动操作完成 '));
         } else {
             console.log(chalk.bgRed.white('\n 手动操作失败，请检查上面的错误日志。 '));

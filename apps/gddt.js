@@ -1,113 +1,146 @@
 import plugin from '../../../lib/plugins/plugin.js'
 import axios from 'axios'
-import fs from 'fs'
-import puppeteer from 'puppeteer'
 import { Config } from '../utils/config.js'
+
 
 export class example extends plugin {
   constructor() {
     super({
       name: '高德地图搜索',
-      dsc: '使用高德地图API进行地点搜索',
+      dsc: '使用高德地图API进行地点和IP搜索',
       event: 'message',
       priority: 1,
       rule: [
         {
-          reg: '^#?搜地点=(.*)$',
+          reg: '^#?搜地点[ =]?(.*)$',
           fnc: 'searchAddress',
-          dsc: '搜地点'
+          dsc: '搜地点 + <内容>'
         },
         {
-          reg: '^#?高德搜ip=(.*)$',
+          reg: '^#?高德搜ip[ =]?(.*)$',
           fnc: 'searchIp',
-          dsc: '高德搜IP'
+          dsc: '高德搜IP + <内容>'
         }
       ]
     })
-    this.apiKey = Config.gdkey // 请替换为你的高德地图API密钥
+
+    this.apiKey = Config.gdkey
   }
 
-  async handleSearchLocation(e) {
-    const match = e.msg.match(/^#?搜地点=(.*)$/)
-    if (!match || !match[1]) {
-      await e.reply('请输入有效的搜索地点。')
-      return
+  /**
+   * 搜索地点的主函数
+   */
+  async searchAddress(e) {
+    if (!this.apiKey) return e.reply('功能未启用：缺少高德API Key。')
+    
+    const keyword = e.msg.match(this.rule[0].reg)[1].trim()
+    if (!keyword) {
+      return e.reply('请输入要搜索的地点，例如：#搜地点 台北101')
     }
-
-    const location = match[1].trim()
-
+    
     try {
-      const searchResult = await this.searchLocation(location)
-      const replyMessage = this.buildReplyMessage(searchResult)
-
+      const apiResult = await this.fetchLocationData(keyword)
+      const replyMessage = await this.buildLocationReply(apiResult)
       await e.reply(replyMessage)
     } catch (error) {
-      console.error('搜索地点出错:', error)
-      await e.reply('搜索地点出错，请稍后再试。')
+      logger.error(`[高德地图搜索] 搜索地点时出错: ${error}`)
+      await e.reply('搜索地点时发生意外错误，请稍后再试或联系管理员。')
+    }
+  }
+  
+  /**
+   * 搜索IP地址的主函数
+   */
+  async searchIp(e) {
+    if (!this.apiKey) return e.reply('功能未启用：缺少高德API Key。')
+
+    const ip = e.msg.match(this.rule[1].reg)[1].trim()
+    
+    try {
+      const url = `https://restapi.amap.com/v3/ip?key=${this.apiKey}&ip=${ip}`
+      const response = await axios.get(url)
+      
+      if (response.data.status !== '1') {
+        return e.reply(`IP查询失败：${response.data.info}`)
+      }
+      
+      const { province, rectangle, city } = response.data
+      const msg = `[高德IP查询结果]\n` +
+                  `省份：${province || '未知'}\n` +
+                  `城市：${city || '未知'}\n` +
+                  `经纬度范围：${rectangle || '未知'}`
+      
+      await e.reply(msg)
+      
+    } catch (error) {
+      logger.error(`[高德地图搜索] 查询IP时出错: ${error}`)
+      await e.reply('查询IP时发生意外错误，请稍后再试或联系管理员。')
     }
   }
 
-  async searchLocation(location) {
-    const url = `https://restapi.amap.com/v3/place/text?key=${this.apiKey}&extensions=all&keywords=${encodeURIComponent(
-      location
-    )}`
+  /**
+   * 从高德API获取地点数据
+   */
+  async fetchLocationData(keyword) {
+    const url = `https://restapi.amap.com/v3/place/text?key=${this.apiKey}&extensions=all&keywords=${encodeURIComponent(keyword)}`
     const response = await axios.get(url)
-
     return response.data
   }
 
-  async buildReplyMessage(searchResult) {
-    let filePath = ''
-
-    if (searchResult.status === '1' && searchResult.count > 0) {
-      const result = searchResult.pois[0]
-      const photos = result.photos
-
-      if (photos && photos.length > 0) {
-        const photo = photos[0]
-        let coverUrl = photo.url
-        filePath = await this.downloadImage(coverUrl)
-      }
-
-      let msg = [
-        segment.image(`file:///${filePath}`),
-        `搜索结果：\n名称：${result.name}\n地址：${result.address}\n经纬度：${result.location}\n分类：${result.type}\n邮政编号：${result.postcode}\n所在城市：${result.cityname}\n所在区域：${result.adname}\n特色内容：${result.tag}`
-      ]
-
-      await this.reply(msg, true /* { recallMsg: e.isGroup ? 50 : 0 } */)
-    } else {
+  /**
+   * 构建地点搜索的回复消息
+   */
+  async buildLocationReply(apiResult) {
+    if (apiResult.status !== '1' || apiResult.count === '0') {
       return '未找到匹配的地点。'
     }
+    
+    const poi = apiResult.pois[0]
+    let imageSegment = null
+    
+    if (poi.photos && poi.photos.length > 0) {
+      const photoUrl = poi.photos[0].url
+      try {
+        const imageBase64 = await this.fetchImageAsBase64(photoUrl)
+        imageSegment = segment.image(`base64://${imageBase64}`)
+      } catch (error) {
+        logger.error(`[高德地图搜索] 获取图片Base64失败: ${error}`)
+      }
+    }
+    
+    const messageParts = []
+    if (imageSegment) {
+      messageParts.push(imageSegment)
+    }
+    
+    const textInfo = [
+      `[${poi.name}]`,
+      `地址：${poi.address || '暂无'}`,
+      `分类：${poi.type || '暂无'}`,
+      `城市：${poi.cityname || '暂无'}`,
+      `区域：${poi.adname || '暂无'}`,
+      poi.tel && `电话：${poi.tel}`,
+      poi.biz_ext.rating && `评分：${poi.biz_ext.rating}`,
+    ].filter(Boolean).join('\n')
+    
+    messageParts.push(textInfo)
+    
+    return messageParts
   }
 
-  async downloadImage(coverUrl) {
-    const browser = await puppeteer.launch({ headless: true })
-    const page = await browser.newPage()
-    await page.goto(coverUrl, { waitUntil: 'networkidle0' })
-    const imageSrc = await page.$eval('img', img => img.src)
-    const viewSource = await page.goto(imageSrc)
-    const buffer = await viewSource.buffer()
-    const folderPath = './plugins/hanhan-plugin/resources/ls/' // 替换为你想要保存图片的文件夹路径
-    const filePath = `${folderPath}/image_gd.png` // 修改文件路径
-    await fs.promises.writeFile(filePath, buffer)
-    console.log('----图片下载完成----')
-    await page.close()
-    await browser.close()
-    return filePath
-  }
-
-  async gdip(e) {
-    console.log('[用户命令]', e.msg)
-    let msg = e.msg.replace(/^#?高德搜ip=/, '').trim()
-    msg = msg.split(' ').join('+')
-    const url = `https://restapi.amap.com/v3/ip?key=${this.apiKey}&ip=${msg}`
-    const response = await axios.get(url)
-
-    const { province, rectangle, city } = response.data
-    let msg0 = [
-      `搜索结果：\n地址：${province}\n经纬度：${rectangle}\n所在城市：${city}`
-    ]
-
-    await this.reply(msg0, true /* { recallMsg: e.isGroup ? 50 : 0 } */)
+  /**
+   * 获取图片的Base64编码
+   * @param {string} url 图片URL
+   * @returns {string} 图片的Base64编码字符串
+   */
+  async fetchImageAsBase64(url) {
+    const response = await axios({
+      method: 'get',
+      url: url,
+      responseType: 'arraybuffer' // 获取二进制数据
+    })
+    
+    // 将二进制Buffer转换为Base64字符串
+    return Buffer.from(response.data).toString('base64')
   }
 }

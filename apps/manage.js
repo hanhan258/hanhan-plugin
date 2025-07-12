@@ -11,10 +11,10 @@ export class manage extends plugin {
       event: 'message',
       priority: 6,
       rule: [
-        { reg: '^#憨憨设置(Ping|ping)(Token|token)$', fnc: 'setPingToken', dsc: '设置PingToken' },
+        { reg: '^#憨憨设置(Ping|ping)token$', fnc: 'setPingToken', dsc: '设置PingToken' },
         { reg: '^#憨憨设置(tmdb|TMDB) key$', fnc: 'setTmdbKey', dsc: '设置TMDB Key' },
         { reg: '^#(关闭|开启)(tmdb|TMDB)(R18|r18|瑟瑟)$', fnc: 'setTmdbR18', dsc: '开关TMDB R18' },
-        { reg: '^#(关闭|开启)((查看|检索)(bt|BT|种子|磁力)|(bt|BT|种子|磁力)(查看|检索))$', fnc: 'setBt', dsc: '开关BT检索' },
+        { reg: '^#(关闭|开启)(查看|检索)(bt|BT|种子|磁力)$', fnc: 'setBt', dsc: '开关BT检索' },
         { reg: '^#憨憨设置按钮白名单$', fnc: 'setButtonWhiteGroup', dsc: '设置按钮白名单' },
         { reg: '^#憨憨删除按钮白名单$', fnc: 'delButtonWhiteGroup', dsc: '删除按钮白名单' },
         { reg: '^#(关闭|开启)按钮白名单$', fnc: 'setButton', dsc: '开关按钮白名单' },
