@@ -16,11 +16,11 @@ export class urlAndBase extends plugin {
         { reg: '^#?(url|URL)解码', fnc: 'urlDecode', dsc: 'URL解码' },
         { reg: '^#?(base64|Base64)编码', fnc: 'base64Encode', dsc: 'Base64编码' },
         { reg: '^#?(base64|Base64)解码', fnc: 'base64Decode', dsc: 'Base64解码' },
-        { reg: '^#?访问', fnc: 'visit', dsc: '访问链接' },
-        { reg: '^#发图片', fnc: 'sendImage', dsc: '发送图片' },
-        { reg: '^#?取?图链', fnc: 'imgLink', dsc: '图片链接' },
-        { reg: '^#发视频', fnc: 'sendVideo', dsc: '发送视频' },
-        { reg: '^#发语音', fnc: 'sendRecord', dsc: '发送语音' }
+        { reg: '^#?访问', fnc: 'visit', dsc: '访问链接' , permission: "master" },
+        { reg: '^#发图片', fnc: 'sendImage', dsc: '发送图片' , permission: "master" },
+        { reg: '^#?取?图链', fnc: 'imgLink', dsc: '图片链接' , permission: "master" },
+        { reg: '^#发视频', fnc: 'sendVideo', dsc: '发送视频' , permission: "master" },
+        { reg: '^#发语音', fnc: 'sendRecord', dsc: '发送语音' , permission: "master" }
       ]
     })
   }
@@ -184,4 +184,5 @@ export class urlAndBase extends plugin {
       await e.reply('解码失败，请输入有效的Base64字符串。', true)
     }
   }
+
 }
