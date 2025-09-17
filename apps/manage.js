@@ -253,4 +253,3 @@ export class manage extends plugin {
     return await this.e.reply(message, quote)
   }
 }
-

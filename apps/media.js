@@ -262,7 +262,7 @@ export class media extends plugin {
     }
     async getVideoByDirName(e) {
         await this.initPromise;
-        if (!Config.video) return await this.reply('视频功能已关闭');
+        if (!Config.enableVideo) return await this.reply('视频功能已关闭');
         try {
             const d = e.msg.replace(/^#/, '').replace(/视频$/, '').trim();
             const u = `${API_CONFIG.BASE_URL}/api/v1/media/video/by-dir/${encodeURIComponent(d)}`;
@@ -281,7 +281,7 @@ export class media extends plugin {
     }
     async getRandomVideoByCategory(e) {
         await this.initPromise;
-        if (!Config.video) return await this.reply('视频功能已关闭');
+        if (!Config.enableVideo) return await this.reply('视频功能已关闭');
         try {
             const c = e.msg.replace(/^#?憨憨?随机/, '').trim();
             const u = c === '视频' ? `${API_CONFIG.BASE_URL}/api/v1/media/video/random` : `${API_CONFIG.BASE_URL}/api/v1/media/video/by-category/${encodeURIComponent(c)}`;
