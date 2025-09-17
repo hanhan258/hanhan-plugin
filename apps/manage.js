@@ -219,6 +219,24 @@ export class manage extends plugin {
       this.finish('savedelwhitegroup')
     }
   }
+  async setVideo(e) {
+    return this.toggleFeature(e);
+  }
+  async setBt(e) {
+    return this.toggleFeature(e);
+  }
+  async setButton(e) {
+    return this.toggleFeature(e);
+  }
+  async setTmdbR18(e) {
+    return this.toggleFeature(e);
+  }
+  async setButtonWhiteGroup(e) {
+    return this.setwhitegroup(e);
+  }
+  async delButtonWhiteGroup(e) {
+    return this.delwhitegroup(e);
+  }
 
   // 保存白名单群号
   async savewhitegroup() {
@@ -235,3 +253,4 @@ export class manage extends plugin {
     return await this.e.reply(message, quote)
   }
 }
+
