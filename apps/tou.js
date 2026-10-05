@@ -16,15 +16,27 @@ export class example extends plugin {
     })
   }
 
-  async c(e) {
-    let randomType = Math.random()
-    let at = e.message[1].qq
-    let name
-    if (e.message[1].name) {
-      name = e.message[1].name.replace('@', '')
-    } else if (e.message[1].text) {
-      name = e.message[1].text.replace('@', '')
+    async c (e) {
+    // 1. 从消息段里找到被 @ 的人
+    const atSegment = e.message.find(item => item.type === 'at')
+    if (!atSegment) {
+      return e.reply('请 @ 一个人再透哦~')
     }
+    const at = atSegment.qq  // 被 @ 的 QQ 号
+
+    // 2. 获取群昵称：优先群名片，其次 QQ 昵称，最后才用 QQ 号
+    let name = at
+    if (e.group) {
+      const member = e.group.pickMember(at)
+      if (member) {
+        name = member.card || member.nickname || at
+      }
+    } else if (atSegment.text) {
+      // 私聊没有群成员信息，只能从 @ 文本里拿
+      name = atSegment.text.replace('@', '')
+    }
+
+    let randomType = Math.random()
     let name2 = e.sender.nickname
     let url2 = `https://q1.qlogo.cn/g?b=qq&s=0&nk=${at}`
     let url3 = `https://q1.qlogo.cn/g?b=qq&s=0&nk=${e.user_id}`
@@ -32,6 +44,7 @@ export class example extends plugin {
     let image2 = segment.image(url3)
     let cao = `你与${name}发起pk，你长枪一挺，精准一枪洞穿${name}。。。${name}飞出几十米远撞在远处的崖壁上，晕了1分钟在晕的60秒内整整被你透了60次，${name}卒。`
     let cao2 = `你刚想透${name}的时候，被${name}猛然一个转身擒拿住了，对你使用疯狂乱透将你反杀，皮燕子都被${name}橄榄了。之后，${name}提上枪潇洒离去，你躺在地上足足有1分钟动弹不得，${name2}卒。`
+
     if (randomType < gailv) {
       e.reply(cao2)
       await common.sleep(3000)
